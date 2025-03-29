@@ -5,11 +5,17 @@ import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.model.*;
 import com.dinosaur.dinosaurexploder.utils.GameData;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
+import com.dinosaur.dinosaurexploder.view.LanguageManager;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static javafx.util.Duration.seconds;
 /**
@@ -18,6 +24,7 @@ import static javafx.util.Duration.seconds;
  */
 
 public class DinosaurController {
+    LanguageManager languageManager = LanguageManager.getInstance();
     private Entity player;
     private Entity score;
     private Entity life;
@@ -126,12 +133,32 @@ public class DinosaurController {
      *      To detect whether the player lives are empty or not
      */
     public void gameOver() {
-        getDialogService().showConfirmationBox(getLocalizationService().getLocalizedString("Game.2"), yes -> {
+        Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
+        btnYes.setPrefWidth(200);
+        btnYes.defaultButtonProperty();
+        // action event for the yes Button
+        EventHandler<ActionEvent> startNewGameEvent = e -> getGameController().startNewGame();
+
+        // when button is pressed
+        btnYes.setOnAction(startNewGameEvent);
+
+        Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
+        btnNo.setPrefWidth(200);
+
+        // action event for the no Button
+        EventHandler<ActionEvent> backToMenuEvent = e -> getGameController().gotoMainMenu();;
+
+        // when button is pressed
+        btnNo.setOnAction(backToMenuEvent);
+
+        getDialogService().showBox(languageManager.getTranslation("new_game"), new VBox(), btnYes, btnNo);
+    }
+
+        /*getDialogService().showConfirmationBox(getLocalizationService().getLocalizedString("Game.2"), yes -> {
             if (yes) {
                 getGameController().startNewGame();
             } else {
                 getGameController().gotoMainMenu();
             }
-        });
-    }
+        });*/
 }

@@ -2,6 +2,8 @@
   "start": "Iniciar juego",
   "quit": "Salir",
   "score": "Puntaje",
+  "language_label" : "Select Language:",
+  "select_ship": "Select your Ship",
   "game_over": "Juego terminado.",
   "score_label": "Puntaje",
   "high_score": "Highscore",
@@ -13,8 +15,11 @@
   "move_down": "Mover abajo",
   "move_right": "Mover derecha",
   "move_left": "Mover izquierda",
-  "pause_game": "Pausa",
-  "shoot": "Disparar",
+  "pause_game": "ESC: Pausa",
+  "new_game": "Juego Terminado. Â¿Jugar de nuevo?",
+  "shoot": "ESPACIO: Disparar",
   "bomb": "Bomba",
-  "bombs_left": "Bombas restantes"
+  "bombs_left": "Bombas restantes",
+  "yes": "Sí",
+  "no": "No"
 }

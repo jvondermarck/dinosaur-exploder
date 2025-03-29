@@ -2,6 +2,8 @@
   "start": "ゲームを開始します",
   "quit": "やめる",
   "score": "スコア",
+  "language_label" : "言語を選択:",
+  "select_ship": "船を選択してください",
   "game_over": "ゲームオーバー。",
   "score_label": "スコア",
   "high_score": "ハイスコ​​ア",
@@ -13,8 +15,11 @@
   "move_down": "宇宙船を下に移動します",
   "move_right": "宇宙船を右に移動します",
   "move_left": "宇宙船を左に移動します",
-  "pause_game": "ゲームを一時停止します",
-  "shoot": "シュート",
+  "pause_game": "ECS: ゲームを一時停止します",
+  "new_game": "ゲームオーバー。もう一度プレイしますか?",
+  "shoot": "スペースバー: シュート",
   "bomb": "爆弾",
-  "bombs_left": "爆弾が残った"
+  "bombs_left": "爆弾が残った",
+  "yes": "はい",
+  "no": "いいえ"
 }

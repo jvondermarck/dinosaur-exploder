@@ -29,6 +29,7 @@ import java.util.Objects;
 
 public class ShipSelectionMenu extends FXGLMenu {
     private MediaPlayer mainMenuSound;
+    LanguageManager languageManager = LanguageManager.getInstance();
 
     public ShipSelectionMenu() {
         super(MenuType.MAIN_MENU);
@@ -60,7 +61,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         translateTransition.play();
 
         // Title
-        var title = FXGL.getUIFactoryService().newText("Select Your Ship", Color.LIME, FontType.MONO, 35);
+        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_ship"), Color.LIME, FontType.MONO, 35);
 
         // GridPane for ships
         GridPane shipGrid = new GridPane();
@@ -108,7 +109,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         }
 
         // Back button
-        var backButton = new Button("Back");
+        var backButton = new Button(languageManager.getTranslation("back"));
         backButton.getStylesheets()
                 .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         backButton.setMinSize(140, 60);

@@ -2,6 +2,8 @@
   "start": "Start Game",
   "quit": "Quit",
   "score": "Score",
+  "language_label" : "Select Language:",
+  "select_ship": "Select your Ship",
   "game_over": "Game Over. Play Again?",
   "score_label": "Score",
   "high_score": "HighScore",
@@ -13,8 +15,11 @@
   "move_down": "Move spaceship down",
   "move_right": "Move spaceship right",
   "move_left": "Move spaceship left",
-  "pause_game": "Pause the game",
-  "shoot": "Shoot",
+  "pause_game": "ESC: Pause the game",
+  "new_game": "Game Over. Play again?",
+  "shoot": "SPACE: Shoot",
   "bomb": "Bomb",
-  "bombs_left": "Bombs Left"
+  "bombs_left": "Bombs Left",
+  "yes": "Yes",
+  "no": "No"
 }

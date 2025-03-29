@@ -6,6 +6,8 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.localization.Language;
 import com.almasb.fxgl.ui.FontType;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
@@ -13,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
@@ -32,8 +35,8 @@ public class PauseMenu extends FXGLMenu {
     OptionsButton btnMoveDown = new OptionsButton("↓ / S : " + languageManager.getTranslation("move_down"));
     OptionsButton btnMoveRight = new OptionsButton("→ / D : " + languageManager.getTranslation("move_right"));
     OptionsButton btnMoveLeft = new OptionsButton("← / A : " + languageManager.getTranslation("move_left"));
-    OptionsButton btnPauseGame = new OptionsButton("ESC: " + languageManager.getTranslation("pause_game"));
-    OptionsButton btnShoot = new OptionsButton("SPACE: " + languageManager.getTranslation("shoot"));
+    OptionsButton btnPauseGame = new OptionsButton(languageManager.getTranslation("pause_game"));
+    OptionsButton btnShoot = new OptionsButton(languageManager.getTranslation("shoot"));
     OptionsButton btnBomb = new OptionsButton("B: " + languageManager.getTranslation("bomb"));
 
     public PauseMenu() {
@@ -244,19 +247,30 @@ public class PauseMenu extends FXGLMenu {
         btnMoveDown.setText("↓ / S : " + languageManager.getTranslation("move_down"));
         btnMoveRight.setText("→ / D : " + languageManager.getTranslation("move_right"));
         btnMoveLeft.setText("← / A : " + languageManager.getTranslation("move_left"));
-        btnPauseGame.setText("ESC: " + languageManager.getTranslation("pause_game"));
-        btnShoot.setText("SPACE: " + languageManager.getTranslation("shoot"));
+        btnPauseGame.setText(languageManager.getTranslation("pause_game"));
+        btnShoot.setText(languageManager.getTranslation("shoot"));
         btnBomb.setText("B: " + languageManager.getTranslation("bomb"));
     }
 
     public void exit() {
-        getDialogService().showConfirmationBox(languageManager.getTranslation("quit_game"), yes -> {
-            if (yes) {
-                getGameController().gotoMainMenu();
-            } else {
-                getGameController().resumeEngine();
-                ;
-            }
-        });
+        Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
+        btnYes.setPrefWidth(200);
+        btnYes.defaultButtonProperty();
+        // action event for the yes Button
+        EventHandler<ActionEvent> backToHomeEvent = e -> getGameController().gotoMainMenu();
+
+        // when button is pressed
+        btnYes.setOnAction(backToHomeEvent);
+
+        Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
+        btnNo.setPrefWidth(200);
+
+        // action event for the no Button
+        EventHandler<ActionEvent> resumeEvent = e -> getGameController().resumeEngine();
+
+        // when button is pressed
+        btnNo.setOnAction(resumeEvent);
+
+        getDialogService().showBox(languageManager.getTranslation("quit_game"), new VBox(), btnYes, btnNo);
     }
 }

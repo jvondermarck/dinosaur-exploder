@@ -2,6 +2,8 @@
   "start": "Jeu de départ",
   "quit": "Quitter",
   "score": "Score",
+  "language_label" : "Sélectionnez la langue :",
+  "select_ship": "Sélectionnez votre navire",
   "game_over": "Jeu terminé. ",
   "score_label": "Score",
   "high_score": "Haut niveau",
@@ -13,8 +15,11 @@
   "move_down": "Déplacer le vaisseau spatial",
   "move_right": "Déplacer le vaisseau spatial à droite",
   "move_left": "Déplacer le vaisseau spatial à gauche",
-  "pause_game": "Pause du jeu",
-  "shoot": "Tirer",
+  "pause_game": "ESC: Pause du jeu",
+  "new_game": "Game Over. Rejouer?",
+  "shoot": "ESPACE: Tirer",
   "bomb": "Bombe",
-  "bombs_left": "Bombes à gauche"
+  "bombs_left": "Bombes à gauche",
+  "yes": "Oui",
+  "no": "Non"
 }

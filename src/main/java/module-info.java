@@ -10,11 +10,9 @@ module com.dinosaur.dinosaurexploder {
 
     requires com.fasterxml.jackson.databind;
 
-
     opens assets.textures;
     opens assets.sounds;
     opens assets.ui.fonts;
 
     opens com.dinosaur.dinosaurexploder.model to com.almasb.fxgl.core;
-    // opens com.dinosaur.dinosaurexploder.controller to com.almasb.fxgl.core;
 }

@@ -27,7 +27,8 @@
 
 # 🧑‍💻 Installation
 
-> Be aware to download the latest version of [Java](https://www.java.com/download/ie_manual.jsp) and the [Open JDK 17](https://jdk.java.net/17/) before installing.
+> Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing.
+> Run the commannd `java --version` to make sure it is installed.
 
 ## 🛠 Installation on Windows / Linux
 
@@ -40,7 +41,7 @@ $> java -jar dinosaur-exploder.jar
 
 ## 🛠 Installation Locally
 
-> You need to make sure that [Java FX](https://openjfx.io/openjfx-docs/#introduction) and [JUnit](https://junit.org/junit5/) are installed on your local computer before installing the project.
+> You should not need to download [Java FX](https://openjfx.io/openjfx-docs/#introduction) and FXGL on your local computer because it should be downloaded when syncing the Maven project.
 
 - To install our project locally, `fork` our repository, and in an empty directory,
   type the following command to `clone` your fork :

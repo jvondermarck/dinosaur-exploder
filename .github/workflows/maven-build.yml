@@ -21,10 +21,10 @@ jobs:
         uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Step 2 - Set up JDK 17
+      - name: Step 2 - Set up JDK 21
         uses: actions/setup-java@v1
         with:
-          java-version: 17
+          java-version: 21
 
       - name: Step 3 - Have GitHub Actions Build Maven Project
         run: mvn -B package --file pom.xml

@@ -52,6 +52,7 @@ public class DinosaurMenu extends FXGLMenu {
     LanguageManager languageManager = LanguageManager.getInstance();
     private final Button startButton = new Button("Start Game");
     private final Button quitButton = new Button("Quit");
+    private final Label languageLabel = new Label("Select Language:");
 
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
@@ -83,7 +84,7 @@ public class DinosaurMenu extends FXGLMenu {
         languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
         languageComboBox.setValue("English"); // Default language
 
-        Label languageLabel = new Label("Select Language:");
+        //Label languageLabel = new Label("Select Language:");
         languageLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: #61C181; -fx-font-weight: bold;");
         languageLabel.setTranslateY(5);
 
@@ -252,6 +253,7 @@ public class DinosaurMenu extends FXGLMenu {
     private void updateTexts() {
         startButton.setText(languageManager.getTranslation("start"));
         quitButton.setText(languageManager.getTranslation("quit"));
+        languageLabel.setText(languageManager.getTranslation("language_label"));
     }
 
     public void setLanguage(Language language) {

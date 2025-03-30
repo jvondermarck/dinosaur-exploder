@@ -28,7 +28,7 @@
 # 🧑‍💻 Installation
 
 > Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing.
-> Run the commannd `java --version` to make sure it is installed.
+> Run the command `java --version` to make sure it is installed.
 
 ## 🛠 Installation on Windows / Linux
 

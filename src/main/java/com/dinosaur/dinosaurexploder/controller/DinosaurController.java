@@ -3,7 +3,6 @@ package com.dinosaur.dinosaurexploder.controller;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.model.*;
-import com.dinosaur.dinosaurexploder.utils.GameData;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.view.LanguageManager;
 import javafx.event.ActionEvent;
@@ -18,18 +17,17 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static javafx.util.Duration.seconds;
+
 /**
  * Summary :
  *      The Factory handles the Dinosaur , player controls and collision detection of all entities in the game
  */
-
 public class DinosaurController {
     LanguageManager languageManager = LanguageManager.getInstance();
     private Entity player;
     private Entity score;
     private Entity life;
     private Entity bomb;
-    private int lives = 3;
 
     /**
      * Summary :
@@ -37,7 +35,7 @@ public class DinosaurController {
      */
 
     public void damagePlayer() {
-        lives = life.getComponent(LifeComponent.class).decreaseLife(1);
+        int lives = life.getComponent(LifeComponent.class).decreaseLife(1);
         var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));
         getGameScene().addUINode(flash);
         runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
@@ -146,19 +144,11 @@ public class DinosaurController {
         btnNo.setPrefWidth(200);
 
         // action event for the no Button
-        EventHandler<ActionEvent> backToMenuEvent = e -> getGameController().gotoMainMenu();;
+        EventHandler<ActionEvent> backToMenuEvent = e -> getGameController().gotoMainMenu();
 
         // when button is pressed
         btnNo.setOnAction(backToMenuEvent);
 
         getDialogService().showBox(languageManager.getTranslation("new_game"), new VBox(), btnYes, btnNo);
     }
-
-        /*getDialogService().showConfirmationBox(getLocalizationService().getLocalizedString("Game.2"), yes -> {
-            if (yes) {
-                getGameController().startNewGame();
-            } else {
-                getGameController().gotoMainMenu();
-            }
-        });*/
 }

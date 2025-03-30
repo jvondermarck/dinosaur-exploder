@@ -2,19 +2,10 @@ package com.dinosaur.dinosaurexploder;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.localization.Language;
 import com.dinosaur.dinosaurexploder.controller.DinosaurController;
-import com.dinosaur.dinosaurexploder.model.EntityType;
-import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
-import com.dinosaur.dinosaurexploder.model.PlayerComponent;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import com.dinosaur.dinosaurexploder.view.LanguageManager;
-import javafx.scene.input.KeyCode;
-
 import static com.almasb.fxgl.dsl.FXGL.*;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -79,7 +70,6 @@ public class DinosaurApp extends GameApplication {
      */
     public static void main(String[] args) {
         launch(args);
-
     }
 
     @Override

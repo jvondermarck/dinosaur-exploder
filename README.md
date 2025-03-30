@@ -5,12 +5,12 @@
 
 <div align="center">
   <img align="center" src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/forks/dylan-power/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/contributors/dylan-power/dinosaur-exploder?style=for-the-badge">
+  <img align="center" src="https://img.shields.io/github/forks/jvondermarck/dinosaur-exploder?style=for-the-badge">
+  <img align="center" src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder?style=for-the-badge">
   <br><p></p>
-  <img align="center" src="https://img.shields.io/github/issues/dylan-power/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/license/dylan-power/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/actions/workflow/status/dylan-power/dinosaur-exploder/maven-build.yml?label=BUILD&style=for-the-badge">
+  <img align="center" src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge">
+  <img align="center" src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder?style=for-the-badge">
+  <img align="center" src="https://img.shields.io/github/actions/workflow/status/jvondermarck/dinosaur-exploder/maven-build.yml?label=BUILD&style=for-the-badge">
  <img >
 </div>
 
@@ -32,7 +32,7 @@
 
 ## 🛠 Installation on Windows / Linux
 
-- Click [here](https://github.com/dylan-power/dinosaur-exploder/tags) and look at the last release you will found, to download the `dinosaur-exploder.jar` executable.
+- Click [here](https://github.com/jvondermarck/dinosaur-exploder/tags) and look at the last release you will found, to download the `dinosaur-exploder.jar` executable.
 - Then in a console, type the following command:
 
 ```console
@@ -68,13 +68,13 @@ https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 
 # 🙏Contributing
 
-> We are very much open to contributions - please read our [code of conduct](https://github.com/dylan-power/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/dylan-power/dinosaur-exploder/blob/main/CONTRIBUTING.md) first.
+> We are very much open to contributions - please read our [code of conduct](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CONTRIBUTING.md) first.
 
 # 🌍 Support
 
 **Any question ? 🦖 Feel free to write us something :**
 
-- You can ask any question on [GitHub Discussion](https://github.com/dylan-power/dinosaur-exploder/discussions).
+- You can ask any question on [GitHub Discussion](https://github.com/jvondermarck/dinosaur-exploder/discussions).
 - To be updated of everything, follow us on [Twitter](https://twitter.com/DinosaurExplod1).
 - You can post an article on our [Website blog](https://dinosaur-exploder.freecluster.eu/forum).
 - For quick communication, feel free to join our [Discord server](https://discord.com/invite/nkmCRnXbWm).
@@ -82,21 +82,17 @@ https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 
 # ✍️ Licence
 
-> This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/dylan-power/dinosaur-exploder/blob/main/LICENSE) file for details.
+> This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/jvondermarck/dinosaur-exploder/blob/main/LICENSE) file for details.
 
 # 👨 Creators
 
-<p align="center"> We are a group of three creators.</p>
+<p align="center"> We are a group of three creators, but since 2023, Julien is taking care of everything.
 
 <table align="center">
   <tr>
-    <th><img src="https://avatars.githubusercontent.com/u/69395248?v=4?size=115" width="115"><br><strong>@dylan-power</strong></th>
     <th><img  src="https://avatars.githubusercontent.com/u/62793491?v=4?size=115" width="115"><br><strong>@jvondermarck</strong></th>
-    <th><img  src="https://avatars.githubusercontent.com/u/52742597?v=4?size=115" width="115"><br><strong>@NoahAldahan</strong></th>
   </tr>
   <tr align="center">
-    <td><b>@dylan-power</b> is handling project management and documentation.</td>
-    <td><b>@jvondermarck</b> is responsible for web development and help <b>@NoahAldahan</b> with the game programming.</td>
-    <td><b>@NoahAldahan</b> is responsible for the game programming.</td>
+    <td><b>@jvondermarck</b> I am responsible for all aspects of the project, including project management, documentation, web development, and game programming.</td>
   </tr>
 </table>

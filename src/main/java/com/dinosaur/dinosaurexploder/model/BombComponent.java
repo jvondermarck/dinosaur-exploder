@@ -1,12 +1,10 @@
 package com.dinosaur.dinosaurexploder.model;
 
 import com.almasb.fxgl.core.math.Vec2;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.utils.GameData;
-import com.dinosaur.dinosaurexploder.view.LanguageManager;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -17,9 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.util.List;
-
-import static com.almasb.fxgl.dsl.FXGL.getLocalizationService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 public class BombComponent extends Component implements Bomb {

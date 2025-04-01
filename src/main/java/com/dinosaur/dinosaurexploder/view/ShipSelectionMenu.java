@@ -5,6 +5,7 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 
+import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;

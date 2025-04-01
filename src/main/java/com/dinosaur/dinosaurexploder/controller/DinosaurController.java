@@ -4,7 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.model.*;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import com.dinosaur.dinosaurexploder.view.LanguageManager;
+import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

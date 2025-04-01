@@ -1,9 +1,6 @@
 package com.dinosaur.dinosaurexploder.model;
 
-import static com.almasb.fxgl.dsl.FXGL.getLocalizationService;
-
 import com.almasb.fxgl.entity.component.Component;
-import com.dinosaur.dinosaurexploder.view.LanguageManager;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

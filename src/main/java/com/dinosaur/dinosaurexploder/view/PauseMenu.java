@@ -3,8 +3,8 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.localization.Language;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,10 +19,7 @@ import javafx.scene.control.Button;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
-import com.dinosaur.dinosaurexploder.DinosaurApp;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
-
-import java.util.Map;
 
 public class PauseMenu extends FXGLMenu {
     LanguageManager languageManager = LanguageManager.getInstance();

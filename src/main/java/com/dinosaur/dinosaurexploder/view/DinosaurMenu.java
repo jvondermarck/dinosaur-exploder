@@ -6,9 +6,9 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.DinosaurApp;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
 
+import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -31,20 +31,13 @@ import javafx.scene.shape.Rectangle;
 
 import javafx.util.Duration;
 import java.io.InputStream;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.BorderPane;
+
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javafx.scene.layout.StackPane;
+
 import static com.almasb.fxgl.dsl.FXGL.getLocalizationService;
 
 public class DinosaurMenu extends FXGLMenu {

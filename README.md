@@ -14,57 +14,80 @@
  <img >
 </div>
 
-# 📃 Table of content
+## 📃 Table of content
 
 - [🚀 Goal of the project](#-goal-of-the-project)
 - [🧑‍💻 Installation](#-installation)
   - [🛠 Installation on Windows / Linux](#-installation-on-windows--linux)
-  - [🛠 Installation Locally](#-installation-locally)
+  - [💻 Installation Locally](#-installation-locally)
 - [🎮 How to Play](#-how-to-play)
+- [🎥 Gameplay](#-gameplay)
 - [🙏Contributing](#contributing)
 - [🌍 Support](#-support)
-- [✍️ Licence](#️-licence)
-- [👨 Creators](#-creators)
+- [✍️ Licence](#-licence)
+- [👨 Creators](#-author)
 
-# 🚀 Goal of the project
+## 🚀 Goal of the project
 
 > [!NOTE]
 > I initially developed a very basic game in 2022 and created multiple issues to encourage contributions from the community. The main goal of this repository is not just to build a game, but to provide an open-source project where everyone can contribute step by step.
 
-# 🧑‍💻 Installation
+## 🧑‍💻 Installation
 
 > [!IMPORTANT]
 > Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing. I bet you can download any JDK you want, it just needs to be version 21.
 > Run the command `java --version` to make sure Java 21 is installed.
 
-## 🛠 Installation on Windows / Linux
+### 🛠 Installation on Windows / Linux / Mac
 
-- Click [here](https://github.com/jvondermarck/dinosaur-exploder/tags) and look at the last release you will found, to download the `dinosaur-exploder.jar` executable.
-- Then in a console, type the following command:
+🚀 **Quick Start**:
+1. **Download the latest release** ➡️ [Click here](https://github.com/jvondermarck/dinosaur-exploder/tags) and grab the latest `dinosaur-exploder.jar`.
+2. **Run the game** by executing the following command in your terminal:
+   ```console
+   $ java -jar dinosaur-exploder.jar
+   ```
 
-```console
-$> java -jar dinosaur-exploder.jar
-```
+### 💻 Installation Locally
 
-## 🛠 Installation Locally
+💡 **No need to install** [JavaFX](https://openjfx.io/openjfx-docs/#introduction) or FXGL manually—Maven will handle dependencies automatically!
 
-> You should not need to download [Java FX](https://openjfx.io/openjfx-docs/#introduction) and FXGL on your local computer because it should be downloaded when syncing the Maven project.
+#### 📥 Clone the repository
+1. **Fork** the repository ➡️ [`Click here`](https://github.com/jvondermarck/dinosaur-exploder/fork).
+2. In your terminal, run:
+   ```console
+   $ git clone git@github.com:<your-username>/dinosaur-exploder.git
+   ```
 
-- To install the project locally, [`fork` our repository](https://github.com/jvondermarck/dinosaur-exploder/fork), and in an empty directory,
-  type the following command to `clone` your fork :
+#### 🏗️ Build & Run
 
-```console
-$> git clone git@github.com: <user>/dinosaur-exploder.git
-```
+➡️ **Using an IDE (Recommended)**
+- Open the project in **IntelliJ IDEA** (or any Java IDE).
+- Sync the Maven project.
+- Run the main class:
+  - Locate `com.dinosaur.dinosaurexploder.DinosaurApp`.
+  - Hit **Run** ▶️
 
-- Make sure to sync the Maven project in your IDE (you could use IntelliJ IDEA)
+➡️ **Using the Command Line**
+- **Generate the JAR**:
+  ```console
+  $ mvn package
+  ```  
+- **Run the game**:
+  ```console
+  $ java -jar target/dinosaur-exploder-1.0.jar
+  ```  
 
-- Run the game :
-  - On your IDE : hit play on your IDE and select the `com.dinosaur.dinosaurexploder.DinosaurApp` target where it contains the main.
-  - With an executable : generate a `jar` file with the command `mvn package` and then `java -jar target/dinosaur-exploder-1.0.jar`
-  - On the web : run the command `mvn jpro:run` and the game should be available at `http://localhost:8080/`
+➡️ **Run in the Browser**
+- Start a local web server:
+  ```console
+  $ mvn jpro:run
+  ```  
+- Open **http://localhost:8080/** 🌐
 
-# 🎮 How to Play
+> 📖 **Need more details?**  
+> Check out our **[installation guide](https://github.com/jvondermarck/dinosaur-exploder/wiki/Documentation#dinosaur-exploder-documentation)** for in-depth instructions!
+
+## 🎮 How to Play
 
 Play the game with these controls:
 
@@ -76,16 +99,16 @@ Play the game with these controls:
 - 🔫 <kbd>Space</kbd>: shoot.
 - 💥 <kbd>B</kbd>: eliminate all the dinosaurs on the screen using a bomb.
 
-# Gameplay
+## 🎥 Gameplay
 
 https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 
-# 🙏Contributing
+## 🙏 Contributing
 
 > [!TIP]
 > I am very much open to contributions - please read our [code of conduct](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CONTRIBUTING.md) first.
 
-# 🌍 Support
+## 🌍 Support
 
 **Any question ? 🦖 Feel free to write us something :**
 
@@ -94,13 +117,13 @@ https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 - You can post an article on our [Website blog](https://dinosaur-exploder.freecluster.eu/forum).
 - For quick communication, feel free to join our [Discord server](https://discord.com/invite/nkmCRnXbWm).
 
-# ✍️ Licence
+## ✍️ Licence
 
 > This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/jvondermarck/dinosaur-exploder/blob/main/LICENSE) file for details.
 
-# 👨 Author
+## 👨 Author
 
-<p align="center"> At first we are a group of three creators (Dylan, Maxime and I), but since 2023, I am taking care of everything.
+- Initially, the project was a collaboration between three creators : Dylan, Maxime, and myself—as part of a school project at the University of Cork in 2022. However, after the semester ended, I took over full responsibility for the project, while my teammates moved on to other endeavors."
 
 <table align="center">
   <tr>

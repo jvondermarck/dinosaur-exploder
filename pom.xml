@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.dinosaur</groupId>
     <artifactId>dinosaur-exploder</artifactId>
     <version>1.0</version>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <source.version>11</source.version>
-
-        <!-- plugins -->
         <maven.compiler.version>3.8.0</maven.compiler.version>
         <maven.shade.version>3.0.0</maven.shade.version>
         <jfx.maven.plugin.version>0.0.6</jfx.maven.plugin.version>
-
+        <jpro.version>2025.1.0</jpro.version>
         <fxgl.version>21</fxgl.version>
         <junit.version>5.12.1</junit.version>
-
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
+        <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.github.almasb</groupId>
@@ -41,63 +37,85 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>one.jpro</groupId>
+            <artifactId>jpro-webapi</artifactId>
+            <version>${jpro.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
-
     <repositories>
         <repository>
             <id>oss.sonatype.org-snapshot</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+        <repository>
+            <id>jpro - sandec repository</id>
+            <url>https://sandec.jfrog.io/artifactory/repo</url>
+        </repository>
     </repositories>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jpro - sandec repository</id>
+            <url>https://sandec.jfrog.io/artifactory/repo</url>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
         <plugins>
-        <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>${maven.compiler.version}</version>
-            <configuration>
-                <release>${source.version}</release>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-maven-plugin</artifactId>
-            <version>${jfx.maven.plugin.version}</version>
-            <configuration>
-                <stripDebug>true</stripDebug>
-                <compress>2</compress>
-                <noHeaderFiles>true</noHeaderFiles>
-                <noManPages>true</noManPages>
-                <launcher>Start-game</launcher>
-                <jlinkImageName>game</jlinkImageName>
-                <jlinkZipName>fxgl-game</jlinkZipName>
-                <mainClass>${mainClassName}</mainClass>
-            </configuration>
-        </plugin>
-
-        <!-- Maven Shade Plugin for creating a fat JAR -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>${maven.shade.version}</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <createDependencyReducedPom>false</createDependencyReducedPom>
-                        <transformers>
-                            <!-- Add Main-Class to the manifest -->
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>${mainClassName}</mainClass>
-                            </transformer>
-                        </transformers>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <release>${source.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${jfx.maven.plugin.version}</version>
+                <configuration>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <launcher>Start-game</launcher>
+                    <jlinkImageName>game</jlinkImageName>
+                    <jlinkZipName>fxgl-game</jlinkZipName>
+                    <mainClass>${mainClassName}</mainClass>
+                </configuration>
+            </plugin>
+            <!-- Maven Shade Plugin for creating a fat JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven.shade.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <!-- Add Main-Class to the manifest -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${mainClassName}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- JPro to run game on the browser -->
+            <plugin>
+                <groupId>one.jpro</groupId>
+                <artifactId>jpro-maven-plugin</artifactId>
+                <version>${jpro.version}</version>
+                <configuration>
+                    <mainClassName>${mainClassJProName}</mainClassName>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

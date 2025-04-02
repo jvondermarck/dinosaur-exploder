@@ -7,6 +7,11 @@
       <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="jpro - sandec repository" />
+      <option name="name" value="jpro - sandec repository" />
+      <option name="url" value="https://sandec.jfrog.io/artifactory/repo" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />

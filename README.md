@@ -16,6 +16,7 @@
 
 # 📃 Table of content
 
+- [🚀 Goal of the project](#-goal-of-the-project)
 - [🧑‍💻 Installation](#-installation)
   - [🛠 Installation on Windows / Linux](#-installation-on-windows--linux)
   - [🛠 Installation Locally](#-installation-locally)
@@ -25,10 +26,16 @@
 - [✍️ Licence](#️-licence)
 - [👨 Creators](#-creators)
 
+# 🚀 Goal of the project
+
+> [!NOTE]
+> I initially developed a very basic game in 2022 and created multiple issues to encourage contributions from the community. The main goal of this repository is not just to build a game, but to provide an open-source project where everyone can contribute step by step.
+
 # 🧑‍💻 Installation
 
-> Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing.
-> Run the command `java --version` to make sure it is installed.
+[!IMPORTANT]
+> Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing. I bet you can download any JDK you want, it just needs to be version 21.
+> Run the command `java --version` to make sure Java 21 is installed.
 
 ## 🛠 Installation on Windows / Linux
 
@@ -43,12 +50,19 @@ $> java -jar dinosaur-exploder.jar
 
 > You should not need to download [Java FX](https://openjfx.io/openjfx-docs/#introduction) and FXGL on your local computer because it should be downloaded when syncing the Maven project.
 
-- To install our project locally, `fork` our repository, and in an empty directory,
+- To install the project locally, [`fork` our repository](https://github.com/jvondermarck/dinosaur-exploder/fork), and in an empty directory,
   type the following command to `clone` your fork :
 
 ```console
 $> git clone git@github.com: <user>/dinosaur-exploder.git
 ```
+
+- Make sure to sync the Maven project in your IDE (you could use IntelliJ IDEA)
+
+- Run the game :
+  - On your IDE : hit play on your IDE and select the `com.dinosaur.dinosaurexploder.DinosaurApp` target where it contains the main.
+  - With an executable : generate a `jar` file with the command `mvn package` and then `java -jar target/dinosaur-exploder-1.0.jar`
+  - On the web : run the command `mvn jpro:run` and the game should be available at `http://localhost:8080/`
 
 # 🎮 How to Play
 
@@ -68,7 +82,8 @@ https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 
 # 🙏Contributing
 
-> We are very much open to contributions - please read our [code of conduct](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CONTRIBUTING.md) first.
+> [!TIP]
+> I am very much open to contributions - please read our [code of conduct](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CONTRIBUTING.md) first.
 
 # 🌍 Support
 
@@ -78,21 +93,20 @@ https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 - To be updated of everything, follow us on [Twitter](https://twitter.com/DinosaurExplod1).
 - You can post an article on our [Website blog](https://dinosaur-exploder.freecluster.eu/forum).
 - For quick communication, feel free to join our [Discord server](https://discord.com/invite/nkmCRnXbWm).
-- For any issues relating to harassment, please contact us on our [Mail](dinosaurexploder.conduct@gmail.com).
 
 # ✍️ Licence
 
 > This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/jvondermarck/dinosaur-exploder/blob/main/LICENSE) file for details.
 
-# 👨 Creators
+# 👨 Author
 
-<p align="center"> We are a group of three creators, but since 2023, Julien is taking care of everything.
+<p align="center"> At first we are a group of three creators (Dylan, Maxime and I), but since 2023, I am taking care of everything.
 
 <table align="center">
   <tr>
-    <th><img  src="https://avatars.githubusercontent.com/u/62793491?v=4?size=115" width="115"><br><strong>@jvondermarck</strong></th>
+    <th><img src="https://avatars.githubusercontent.com/u/62793491?v=4?size=115" width="115"><br><strong>@jvondermarck</strong></th>
   </tr>
   <tr align="center">
-    <td><b>@jvondermarck</b> I am responsible for all aspects of the project, including project management, documentation, web development, and game programming.</td>
+    <td>I am responsible for all aspects of the project, including project management, documentation, web development, and game programming.</td>
   </tr>
 </table>

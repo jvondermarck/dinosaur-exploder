@@ -33,7 +33,7 @@
 
 # 🧑‍💻 Installation
 
-[!IMPORTANT]
+> [!IMPORTANT]
 > Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing. I bet you can download any JDK you want, it just needs to be version 21.
 > Run the command `java --version` to make sure Java 21 is installed.
 

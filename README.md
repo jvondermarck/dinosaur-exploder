@@ -123,7 +123,7 @@ https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
 
 ## 👨 Author
 
-- Initially, the project was a collaboration between three creators : Dylan, Maxime, and myself—as part of a school project at the University of Cork in 2022. However, after the semester ended, I took over full responsibility for the project, while my teammates moved on to other endeavors."
+Initially, the project was a collaboration between three creators : Dylan, Maxime, and myself—as part of a school project at the University of Cork in 2022. However, after the semester ended, I took over full responsibility for the project, while my teammates moved on to other endeavors.
 
 <table align="center">
   <tr>

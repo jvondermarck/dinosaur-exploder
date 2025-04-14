@@ -28,6 +28,8 @@ public class DinosaurController {
     private Entity score;
     private Entity life;
     private Entity bomb;
+    private Entity coin;
+    private CoinComponent coinComponent;
 
     /**
      * Summary :
@@ -72,12 +74,12 @@ public class DinosaurController {
 
     public void initGame() {
         getGameWorld().addEntityFactory(new GameEntityFactory());
-        spawn("background", 0, 0);  
-    
+        spawn("background", 0, 0);
+
         player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
-    
+
         FXGL.play(GameConstants.BACKGROUND_SOUND);
-    
+
         /*
          * At each second that passes, we have 2 out of 3 chances of spawning a green
          * dinosaur
@@ -87,16 +89,35 @@ public class DinosaurController {
             if (random(0, 2) < 2)
                 spawn("greenDino", random(0, getAppWidth() - 80), -50);
         }, seconds(0.75));
-    
-        
+
+        /*
+         *
+         *
+         *
+         *
+         */
+
+        run(() -> {
+            if (random(0, 100) < 20) {
+                double x = random(0, getAppWidth() - 80);
+                System.out.println("Spawning coin at x=" + x + ", y = 0");
+                spawn("coin", x, 0);
+            }
+        }, seconds(1.0));
+
+
         score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 320);
         life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() - 250);
         bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 180);
-        
+        coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 120);
+        System.out.println("Coins at : " + coin.getPosition());
+        coinComponent = coin.getComponent(CoinComponent.class);
+
+
         bomb.addComponent(new BombComponent());
     }
-    
-    
+
+
     /**
      * Summary :
      *      Detect the collision between the game elements.
@@ -123,6 +144,12 @@ public class DinosaurController {
             greendino.removeFromWorld();
             System.out.println("You touched a dino !");
             damagePlayer();
+        });
+        onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
+            FXGL.play(GameConstants.COIN_GAIN);
+            coin.removeFromWorld();
+            System.out.println("You touched a coin!");
+            coinComponent.incrementCoin();
         });
     }
 

@@ -10,7 +10,7 @@ public class GameData {
     }
 
     public static void setSelectedShip(int shipNumber) {
-        ShipUnlockChecker rentalService = new ShipUnlockChecker();
-        selectedShip = rentalService.check(shipNumber);
+        ShipUnlockChecker unlockChecker = new ShipUnlockChecker();
+        selectedShip = unlockChecker.check(shipNumber);
     }
 }

@@ -75,9 +75,7 @@ public class DinosaurController {
     public void initGame() {
         getGameWorld().addEntityFactory(new GameEntityFactory());
         spawn("background", 0, 0);
-
         player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
-
         FXGL.play(GameConstants.BACKGROUND_SOUND);
 
         /*
@@ -91,20 +89,14 @@ public class DinosaurController {
         }, seconds(0.75));
 
         /*
-         *
-         *
-         *
-         *
+         * every 1 sec there is 10% change to span a coin
          */
-
         run(() -> {
-            if (random(0, 100) < 20) {
+            if (random(0, 100) < 10) {
                 double x = random(0, getAppWidth() - 80);
-                System.out.println("Spawning coin at x=" + x + ", y = 0");
                 spawn("coin", x, 0);
             }
         }, seconds(1.0));
-
 
         score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 320);
         life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() - 250);
@@ -116,20 +108,26 @@ public class DinosaurController {
 
         bomb.addComponent(new BombComponent());
     }
-
-
     /**
      * Summary :
      *      Detect the collision between the game elements.
      */
 
     public void initPhysics() {
+        /**
+         * After collision of projectile and greenDino there hava explosion animation
+         * and there have 50% change to spawn a coin
+         */
         onCollisionBegin(EntityType.PROJECTILE, EntityType.GREENDINO, (projectile, greendino) -> {
             spawn("explosion", greendino.getX() - 25, greendino.getY() - 30);
+            if (random(0, 100) < 50) {
+                spawn("coin", greendino.getX(), greendino.getY());
+            }
             FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
             projectile.removeFromWorld();
             greendino.removeFromWorld();
             score.getComponent(ScoreComponent.class).incrementScore(1);
+
         });
 
         onCollisionBegin(EntityType.ENEMYPROJECTILE, EntityType.PLAYER, (projectile, player) -> {

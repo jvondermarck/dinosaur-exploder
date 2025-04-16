@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 
 public class CoinComponent extends Component {
     Integer coin = 0;
-    private final Integer COIN_VALUE = 10;
+    private final Integer COIN_VALUE = 1;
 
 
     private final LanguageManager languageManager = LanguageManager.getInstance();
@@ -58,7 +58,7 @@ public class CoinComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
 //        update coin UI text
-        coinText.setText("coins: " + coin);
+        coinText.setText("coins:\t" + coin);
     }
 
 

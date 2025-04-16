@@ -43,7 +43,7 @@ public class CoinComponent extends Component {
 
 
     private void updateText(){
-        coinText.setText("Coin: "+coin);
+        coinText.setText(languageManager.getTranslation("coin")+"\t"+coin);
     }
 
     private Node createCoinUI(){
@@ -58,7 +58,7 @@ public class CoinComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
 //        update coin UI text
-        coinText.setText("coins:\t" + coin);
+        updateText();
     }
 
 

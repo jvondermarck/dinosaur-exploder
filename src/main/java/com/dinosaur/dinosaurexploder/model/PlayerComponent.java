@@ -19,6 +19,22 @@ public class PlayerComponent extends Component implements Player {
     private int selectedShip = GameData.getSelectedShip();
     String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
     int movementSpeed = 8;
+    private boolean isInvincible = false;
+
+
+    
+    public void setInvencible(boolean invincible){
+        this.isInvincible = invincible;
+        if(invincible){
+            entity.getViewComponent().setOpacity(0.5);
+        } else {
+            entity.getViewComponent().setOpacity(1.0);
+        }
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
 
     // entity is not initialized anywhere because it is linked in the factory
     /**

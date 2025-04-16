@@ -16,6 +16,18 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 public class GreenDinoComponent extends Component implements Dinosaur{
     double verticalSpeed = 1.5;
     private LocalTimer timer = FXGL.newLocalTimer();
+    private boolean isPaused = false;
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
+    }
+
+    @Override
+    public void onAdded(){
+        //Get the current enemy speed form the level manager
+        LevelManager levelManager = FXGL.<LevelManager>geto("levelManager");
+        verticalSpeed = levelManager.getEnemySpeed();
+    }
     /**
      * Summary :
      *      This method runs for every frame like a continues flow , without any stop until we put stop to it.
@@ -24,6 +36,8 @@ public class GreenDinoComponent extends Component implements Dinosaur{
      */
     @Override
     public void onUpdate(double ptf) {
+        if(isPaused) return;
+
         entity.translateY(verticalSpeed);
 
         //The dinosaur shoots every 2 seconds

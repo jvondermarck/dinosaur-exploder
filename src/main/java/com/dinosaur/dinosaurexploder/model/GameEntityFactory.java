@@ -132,6 +132,21 @@ public class GameEntityFactory implements EntityFactory {
     }
 
     /**
+     * spawn random coin on the window
+     */
+
+    @Spawns("coin")
+    public Entity newCoin(SpawnData data) {
+        System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGEFILE);
+        return entityBuilderBase(data, EntityType.COIN)
+                .with(new OffscreenCleanComponent())
+                .view(texture(GameConstants.COIN_IMAGEFILE, 40, 40))
+                .bbox(new HitBox(BoundingShape.box(40, 40)))
+                .collidable()
+                .with(new Coin())
+                .build();
+    }
+    /**
      * Summary :
      * Setting up the Score will be handled in below Entity
      */
@@ -167,6 +182,19 @@ public class GameEntityFactory implements EntityFactory {
                 .from(data)
                 .view(bombText)
                 .with(new BombComponent())
+                .with(new OffscreenCleanComponent()).build();
+    }
+
+    /**
+     * spawn total earned coin view on the window
+     */
+    @Spawns("Coins")
+    public Entity newCoins(SpawnData data) {
+        Text coinText = new Text("Coins: 0");
+        return entityBuilderBase(data, EntityType.COIN)
+                .from(data)
+                .view(coinText)
+                .with(new CoinComponent())
                 .with(new OffscreenCleanComponent()).build();
     }
 

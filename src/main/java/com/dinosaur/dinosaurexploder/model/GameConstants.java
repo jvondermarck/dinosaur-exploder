@@ -19,6 +19,8 @@ public class GameConstants {
     public static final String ENEMY_PROJECTILE_IMAGEFILE = "enemyProjectile.png";
     public static final String GREENDINO_IMAGEPATH = "assets/textures/greenDino.png";
     public static final String GREENDINO_IMAGEFILE = "greenDino.png";
+    public static final String COIN_IMAGEPATH = "assets/textures/coin.png";
+    public static final String COIN_IMAGEFILE = "coin.png";
     public static final String HEART_IMAGEPATH = "assets/textures/life.png";
     public static final String BOMB_IMAGEPATH = "assets/textures/bomb.png";
     /*
@@ -34,6 +36,7 @@ public class GameConstants {
     public static final String BACKGROUND_SOUND ="gameBackground.wav";
     public static final String ENEMY_EXPLODE_SOUND = "enemyExplode.wav";
     public static final String PLAYER_HIT_SOUND = "playerHit.wav";
+    public static final String COIN_GAIN = "coinHit.wav";
     
     public static final String GAME_NAME = "Dinosaur Exploder";
     

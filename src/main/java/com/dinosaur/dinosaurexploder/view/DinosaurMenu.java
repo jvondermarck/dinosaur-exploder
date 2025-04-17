@@ -6,9 +6,11 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.controller.SettingsController;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
 
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.model.Settings;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -46,6 +48,8 @@ public class DinosaurMenu extends FXGLMenu {
     private final Button startButton = new Button("Start Game");
     private final Button quitButton = new Button("Quit");
     private final Label languageLabel = new Label("Select Language:");
+
+    private final Settings settings = SettingsController.loadSettings();
 
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
@@ -101,17 +105,20 @@ public class DinosaurMenu extends FXGLMenu {
         // Assuming 'root' is the layout for the menu
 
         Slider volumeSlider = new Slider(0, 1, 1);
+        volumeSlider.adjustValue(settings.getVolume());
         volumeSlider.setBlockIncrement(0.01);
 
         volumeSlider.getStylesheets()
                 .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
 
         // Sets the volume label
-        Label volumeLabel = new Label("100%");
+        Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 mainMenuSound.setVolume(newValue.doubleValue());
+                settings.setVolume(newValue.doubleValue());
+                SettingsController.saveSettings(settings);
                 volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
             }
         });
@@ -243,6 +250,7 @@ public class DinosaurMenu extends FXGLMenu {
             System.out.println("File not found" + e.getMessage());
         }
     }
+
     private void updateTexts() {
         startButton.setText(languageManager.getTranslation("start"));
         quitButton.setText(languageManager.getTranslation("quit"));

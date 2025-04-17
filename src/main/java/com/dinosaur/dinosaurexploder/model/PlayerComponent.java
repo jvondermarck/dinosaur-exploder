@@ -23,7 +23,7 @@ public class PlayerComponent extends Component implements Player {
 
 
     
-    public void setInvencible(boolean invincible){
+    public void setInvincible(boolean invincible){
         this.isInvincible = invincible;
         if(invincible){
             entity.getViewComponent().setOpacity(0.5);

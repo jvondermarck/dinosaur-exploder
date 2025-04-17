@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.controller;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.model.*;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
@@ -12,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -30,6 +32,10 @@ public class DinosaurController {
     private Entity bomb;
     private Entity coin;
     private CoinComponent coinComponent;
+    private LevelManager levelManager;
+    private Entity levelDisplay;
+    private TimerAction enemySpawnTimer;
+    private boolean isSpawningPaused = false;
 
     /**
      * Summary :
@@ -37,6 +43,9 @@ public class DinosaurController {
      */
 
     public void damagePlayer() {
+        if(player.getComponent(PlayerComponent.class).isInvincible()){
+            return; 
+        }
         int lives = life.getComponent(LifeComponent.class).decreaseLife(1);
         var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));
         getGameScene().addUINode(flash);
@@ -73,41 +82,147 @@ public class DinosaurController {
     }
 
     public void initGame() {
-        getGameWorld().addEntityFactory(new GameEntityFactory());
+        levelManager = new LevelManager();
         spawn("background", 0, 0);
         player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
         FXGL.play(GameConstants.BACKGROUND_SOUND);
 
-        /*
-         * At each second that passes, we have 2 out of 3 chances of spawning a green
-         * dinosaur
-         * This spawns dinosaurs randomly
-         */
-        run(() -> {
-            if (random(0, 2) < 2)
-                spawn("greenDino", random(0, getAppWidth() - 80), -50);
-        }, seconds(0.75));
-
-        /*
-         * every 1 sec there is 10% change to span a coin
-         */
-        run(() -> {
-            if (random(0, 100) < 10) {
-                double x = random(0, getAppWidth() - 80);
-                spawn("coin", x, 0);
-            }
-        }, seconds(1.0));
-
+        levelDisplay = spawn("Level", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
+        levelDisplay.setZIndex(100);
         score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 320);
         life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() - 250);
         bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 180);
         coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 120);
         System.out.println("Coins at : " + coin.getPosition());
         coinComponent = coin.getComponent(CoinComponent.class);
-
-
+        
         bomb.addComponent(new BombComponent());
+        updateLevelDisplay();
+        spawnEnemies();
+        /*
+        * every 1 sec there is 10% change to span a coin
+        */
+        run(() -> {
+            if (random(0, 100) < 10) {
+                double x = random(0, getAppWidth() - 80);
+                spawn("coin", x, 0);
+            }
+        }, seconds(1.0));
     }
+
+    /**
+     * Summary :
+     *      This method is used to spawn the enemies
+     *      and set the spawn rate of the enemies
+     */
+
+    private void spawnEnemies(){
+        if(enemySpawnTimer != null){
+            enemySpawnTimer.expire();
+        }
+
+        /*
+        * At each second that passes, we have 2 out of 3 chances of spawning a green
+        * dinosaur
+        * This spawns dinosaurs randomly
+        */
+
+        enemySpawnTimer = run(() -> {
+            if (!isSpawningPaused && random(0, 2) < 2)
+            spawn("greenDino", random(0, getAppWidth() - 80), -50);
+        }, seconds(levelManager.getEnemySpawnRate()));
+    }
+
+    /**
+     * Summary :
+     *      This method is used to pause the enemy spawning
+     */
+    private void pauseEnemySpawning(){
+        isSpawningPaused = true;
+        if(enemySpawnTimer != null){
+            enemySpawnTimer.pause();
+        }
+    }
+
+    /**
+     * Summary :
+     *      This method is used to resume the enemy spawning
+     */
+
+    private void resumeEnemySpawning(){
+        isSpawningPaused = false;
+        if(enemySpawnTimer != null){
+            enemySpawnTimer.resume();
+        } else{
+            spawnEnemies();
+        }
+    }
+    /**
+     * Summary :
+     *      This method is used to update the level display
+     */
+
+    private void updateLevelDisplay(){
+        Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
+        levelText.setText("Level: " + levelManager.getCurrentLevel());
+    }
+    /**
+     * Summary :
+     *      Handles level progression when enemies are defeated
+     *      and shows a message when the level is changed
+     */
+
+    private void showLevelMessage(){
+        //Pause game elements during level transition
+        FXGL.getGameWorld().getEntitiesByType(EntityType.GREENDINO).forEach(e -> {
+            if(e.hasComponent(GreenDinoComponent.class)) {
+                e.getComponent(GreenDinoComponent.class).setPaused(true);
+            }
+        });
+
+        pauseEnemySpawning();
+
+        //Display centered level notification
+        Text levelText = getUIFactoryService().newText("Level" + levelManager.getCurrentLevel(), Color.WHITE, 24);
+        levelText.setStroke(Color.BLACK);
+        levelText.setStrokeWidth(1.5);
+        centerText(levelText);
+        getGameScene().addUINode(levelText);
+
+        
+        // Resume gameplay after a delay
+        runOnce(() -> {
+            getGameScene().removeUINode(levelText);
+            updateLevelDisplay();
+
+            FXGL.getGameWorld().getEntitiesByType(EntityType.GREENDINO).forEach(e -> {
+                if(e.hasComponent(GreenDinoComponent.class)){
+                    e.getComponent(GreenDinoComponent.class).setPaused(false);
+                }
+            });
+
+            resumeEnemySpawning();
+
+            player.getComponent(PlayerComponent.class).setInvincible(true);
+            runOnce(() -> {
+                if(player != null && player.isActive()){
+                    player.getComponent(PlayerComponent.class).setInvincible(false);
+                }
+            }, seconds(3));
+        }, seconds(2));
+    }
+
+    /**
+     * Summary :
+     *      Center the text on the screen
+     */
+
+    private void centerText(Text text){
+        text.setX((getAppWidth() - text.getLayoutBounds().getWidth()) /2);
+        text.setY(getAppHeight() /2);
+    }
+
+
     /**
      * Summary :
      *      Detect the collision between the game elements.
@@ -127,6 +242,12 @@ public class DinosaurController {
             projectile.removeFromWorld();
             greendino.removeFromWorld();
             score.getComponent(ScoreComponent.class).incrementScore(1);
+            levelManager.incrementDefeatedEnemies();
+            if(levelManager.shouldAdvanceLevel()){
+                levelManager.nextLevel();
+                showLevelMessage();
+                System.out.println("Level up!");
+            }
 
         });
 

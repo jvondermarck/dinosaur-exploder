@@ -2,8 +2,11 @@ package com.dinosaur.dinosaurexploder;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.localization.Language;
 import com.dinosaur.dinosaurexploder.controller.DinosaurController;
+import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
+import com.dinosaur.dinosaurexploder.model.LevelManager;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import java.util.Locale;
@@ -49,6 +52,8 @@ public class DinosaurApp extends GameApplication {
      */
     @Override
     protected void initGame() {
+        FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
+        FXGL.set("levelManager", new LevelManager());
         controller.initGame();
     }
 

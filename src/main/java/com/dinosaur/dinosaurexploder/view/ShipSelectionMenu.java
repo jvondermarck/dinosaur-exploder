@@ -4,8 +4,10 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
-
+import com.dinosaur.dinosaurexploder.exception.LockedShipException;
+import com.dinosaur.dinosaurexploder.model.GameConstants;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.GameData;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
@@ -22,11 +24,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import com.dinosaur.dinosaurexploder.model.GameConstants;
-import com.dinosaur.dinosaurexploder.utils.GameData;
-
 import java.io.InputStream;
 import java.util.Objects;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class ShipSelectionMenu extends FXGLMenu {
     private MediaPlayer mainMenuSound;
@@ -75,39 +77,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         int columns = 4;
         double imageSize = getAppWidth() * 0.15; // 15% of the screen width
 
-        // button for each ship
-        for (int i = 1; i <= 8; i++) {
-            Image shipImage = new Image(
-                    Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/spaceship" + i + ".png")));
-            ImageView shipView = new ImageView(shipImage);
-            shipView.setFitHeight(imageSize);
-            shipView.setFitWidth(imageSize);
-
-            Button shipButton = new Button();
-            shipButton.setGraphic(shipView);
-            int finalI = i;
-            shipButton.setOnAction(event -> selectShip(finalI));
-            shipButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-
-            DropShadow hoverEffect = new DropShadow(10, Color.rgb(0, 255, 0));
-            shipButton.setOnMouseEntered(event -> {
-                shipButton.setEffect(hoverEffect); // Shadow effect
-                shipButton
-                        .setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-            });
-
-            // Delete shadow effect when mouse exits
-            shipButton.setOnMouseExited(event -> {
-                shipButton.setEffect(null); // Remove shadow effect
-                shipButton
-                        .setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-            });
-            shipButton.setMaxWidth(Double.MAX_VALUE);
-
-            int row = (i - 1) / columns;
-            int col = (i - 1) % columns;
-            shipGrid.add(shipButton, col, row);
-        }
+        showSelectionButton(imageSize, columns, shipGrid);
 
         // Back button
         var backButton = new Button(languageManager.getTranslation("back"));
@@ -138,6 +108,50 @@ public class ShipSelectionMenu extends FXGLMenu {
 
         getContentRoot().getChildren().add(imageViewB);
         getContentRoot().getChildren().add(layout);
+    }
+
+    private void showSelectionButton(double imageSize, int columns, GridPane shipGrid) {
+        // button for each ship
+        for (int i = 1; i <= 8; i++) {
+            Image shipImage = new Image(
+                    Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/spaceship" + i + ".png")));
+            ImageView shipView = new ImageView(shipImage);
+            shipView.setFitHeight(imageSize);
+            shipView.setFitWidth(imageSize);
+
+            Button shipButton = new Button();
+            shipButton.setGraphic(shipView);
+            int finalI = i;
+            shipButton.setOnAction(event -> {
+                try {
+                    selectShip(finalI);
+                } catch (LockedShipException exception) {
+                    Button btn = getUIFactoryService().newButton(languageManager.getTranslation("ok"));
+                    btn.setOnAction(event1 -> showSelectionButton(imageSize, columns, shipGrid));
+                    getDialogService().showBox(languageManager.getTranslation(exception.getMessage()), new VBox(), btn);
+                }
+            });
+            shipButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+
+            DropShadow hoverEffect = new DropShadow(10, Color.rgb(0, 255, 0));
+            shipButton.setOnMouseEntered(event -> {
+                shipButton.setEffect(hoverEffect); // Shadow effect
+                shipButton
+                        .setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+            });
+
+            // Delete shadow effect when mouse exits
+            shipButton.setOnMouseExited(event -> {
+                shipButton.setEffect(null); // Remove shadow effect
+                shipButton
+                        .setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+            });
+            shipButton.setMaxWidth(Double.MAX_VALUE);
+
+            int row = (i - 1) / columns;
+            int col = (i - 1) % columns;
+            shipGrid.add(shipButton, col, row);
+        }
     }
 
     private void selectShip(int shipNumber) {

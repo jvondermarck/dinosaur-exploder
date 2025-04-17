@@ -203,10 +203,10 @@ public class DinosaurController {
 
             resumeEnemySpawning();
 
-            player.getComponent(PlayerComponent.class).setInvencible(true);
+            player.getComponent(PlayerComponent.class).setInvincible(true);
             runOnce(() -> {
                 if(player != null && player.isActive()){
-                    player.getComponent(PlayerComponent.class).setInvencible(false);
+                    player.getComponent(PlayerComponent.class).setInvincible(false);
                 }
             }, seconds(3));
         }, seconds(2));

@@ -258,3 +258,4 @@ target/classes
 .idea/*
 
 highScore.ser
+settings.properties

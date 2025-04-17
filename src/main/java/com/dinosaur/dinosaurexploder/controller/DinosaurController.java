@@ -133,7 +133,8 @@ public class DinosaurController {
 
         enemySpawnTimer = run(() -> {
             if (!isSpawningPaused && random(0, 2) < 2) {
-                spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                greenDino.getComponent(GreenDinoComponent.class).setMuted(settings.isMuted());
             }
         }, seconds(levelManager.getEnemySpawnRate()));
     }

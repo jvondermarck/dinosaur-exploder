@@ -10,14 +10,14 @@ import java.util.Map;
 
 public class ShipUnlockChecker {
     private static final Map<Integer, Integer> scoreMap = Map.of(   //key: shipNumber, value: lower limit score
-            1, 200,
-            2, 400,
-            3, 600,
-            4, 800,
-            5, 0,
-            6, 0,
-            7, 400,
-            8, 600
+            1, 0,
+            2, 0,
+            3, 100,
+            4, 200,
+            5, 300,
+            6, 400,
+            7, 600,
+            8, 700
     );
     private HighScore highScore = new HighScore();
 

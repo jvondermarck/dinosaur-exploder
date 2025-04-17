@@ -4,9 +4,11 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.controller.SettingsController;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.GameData;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -33,6 +35,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 public class ShipSelectionMenu extends FXGLMenu {
     private MediaPlayer mainMenuSound;
     LanguageManager languageManager = LanguageManager.getInstance();
+    private final Settings settings = SettingsController.loadSettings();
 
     public ShipSelectionMenu() {
         super(MenuType.MAIN_MENU);
@@ -40,6 +43,8 @@ public class ShipSelectionMenu extends FXGLMenu {
         // Background music
         Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
+        mainMenuSound.setVolume(SettingsController.loadSettings().getVolume());
+        mainMenuSound.setMute(settings.isMuted());
         mainMenuSound.play();
         mainMenuSound.setCycleCount(MediaPlayer.INDEFINITE);
 
@@ -85,7 +90,10 @@ public class ShipSelectionMenu extends FXGLMenu {
                 .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         backButton.setMinSize(140, 60);
         backButton.setStyle("-fx-font-size: 20px;");
-        backButton.setOnAction(event -> fireResume());
+        backButton.setOnAction(event -> {
+            mainMenuSound.stop();
+            fireResume();
+        });
 
         // Invisible spacer to push the title and ships to the top
         Rectangle spacer = new Rectangle();

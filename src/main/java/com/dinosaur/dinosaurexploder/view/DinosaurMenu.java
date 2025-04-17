@@ -61,7 +61,9 @@ public class DinosaurMenu extends FXGLMenu {
 
         Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
+        mainMenuSound.setVolume(settings.getVolume());
         mainMenuSound.play();
+        mainMenuSound.setMute(settings.isMuted());
         mainMenuSound.setCycleCount(MediaPlayer.INDEFINITE);
 
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.BLACK);
@@ -178,7 +180,7 @@ public class DinosaurMenu extends FXGLMenu {
             Image mute = new Image(muteButton);
 
             Image audioOn = new Image(soundButton);
-            ImageView imageViewPlaying = new ImageView(audioOn);
+            ImageView imageViewPlaying = new ImageView(settings.isMuted() ? mute : audioOn);
             imageViewPlaying.setFitHeight(50);
             imageViewPlaying.setFitWidth(60);
             imageViewPlaying.setX(470);
@@ -229,11 +231,14 @@ public class DinosaurMenu extends FXGLMenu {
             imageViewPlaying.setOnMouseClicked(mouseEvent -> {
                 if (mainMenuSound.isMute()) {
                     mainMenuSound.setMute(false); // False later
+                    settings.setMuted(false);
                     imageViewPlaying.setImage(audioOn);
                 } else {
                     mainMenuSound.setMute(true);
+                    settings.setMuted(true);
                     imageViewPlaying.setImage(mute);
                 }
+                SettingsController.saveSettings(settings);
             });
 
             quitButton.setOnAction(event -> fireExit());
@@ -266,6 +271,7 @@ public class DinosaurMenu extends FXGLMenu {
         super.onEnteredFrom(prevState);
         FXGL.getAudioPlayer().stopAllSounds();
         mainMenuSound.play();
+        mainMenuSound.setMute(settings.isMuted());
     }
 
 }

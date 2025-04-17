@@ -37,6 +37,8 @@ public class DinosaurController {
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
 
+    private final Settings settings = SettingsController.loadSettings();
+
     /**
      * Summary :
      *      Detecting the player damage to decrease the lives and checking if the game is over
@@ -71,7 +73,7 @@ public class DinosaurController {
         onKey(KeyCode.LEFT, () -> player.getComponent(PlayerComponent.class).moveLeft());
         onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
 
-        onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
+        onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot(settings.isMuted()));
 
         onKey(KeyCode.W, () -> player.getComponent(PlayerComponent.class).moveUp());
         onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
@@ -85,7 +87,9 @@ public class DinosaurController {
         levelManager = new LevelManager();
         spawn("background", 0, 0);
         player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
-        FXGL.play(GameConstants.BACKGROUND_SOUND);
+        if(!settings.isMuted()) {
+            FXGL.play(GameConstants.BACKGROUND_SOUND);
+        }
 
         levelDisplay = spawn("Level", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
         levelDisplay.setZIndex(100);
@@ -128,8 +132,9 @@ public class DinosaurController {
         */
 
         enemySpawnTimer = run(() -> {
-            if (!isSpawningPaused && random(0, 2) < 2)
-            spawn("greenDino", random(0, getAppWidth() - 80), -50);
+            if (!isSpawningPaused && random(0, 2) < 2) {
+                spawn("greenDino", random(0, getAppWidth() - 80), -50);
+            }
         }, seconds(levelManager.getEnemySpawnRate()));
     }
 
@@ -238,7 +243,9 @@ public class DinosaurController {
             if (random(0, 100) < 50) {
                 spawn("coin", greendino.getX(), greendino.getY());
             }
-            FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
+            }
             projectile.removeFromWorld();
             greendino.removeFromWorld();
             score.getComponent(ScoreComponent.class).incrementScore(1);
@@ -252,20 +259,26 @@ public class DinosaurController {
         });
 
         onCollisionBegin(EntityType.ENEMYPROJECTILE, EntityType.PLAYER, (projectile, player) -> {
-            FXGL.play(GameConstants.PLAYER_HIT_SOUND);
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.PLAYER_HIT_SOUND);
+            }
             projectile.removeFromWorld();
             System.out.println("You got hit !\n");
             damagePlayer();
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.GREENDINO, (player, greendino) -> {
-            FXGL.play(GameConstants.PLAYER_HIT_SOUND);
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.PLAYER_HIT_SOUND);
+            }
             greendino.removeFromWorld();
             System.out.println("You touched a dino !");
             damagePlayer();
         });
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
-            FXGL.play(GameConstants.COIN_GAIN);
+            if(!settings.isMuted()){
+                FXGL.play(GameConstants.COIN_GAIN);
+            }
             coin.removeFromWorld();
             System.out.println("You touched a coin!");
             coinComponent.incrementCoin();

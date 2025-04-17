@@ -39,7 +39,7 @@ public class ShipUnlockChecker {
     private void checkScore(int shipNumber) {
         int lowerLimit = scoreMap.getOrDefault(shipNumber, 0);
         if (lowerLimit <= highScore.getHigh()) return;
-        throw new LockedShipException("locked spaceship! \n" +
-                "You must have a high score of " + lowerLimit + " or more.");
+        throw new LockedShipException("This ship is locked.\n" +
+                "Reach a high score of " + lowerLimit + " to unlock it.");
     }
 }

@@ -1,0 +1,33 @@
+name: Build & Release JAR
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Build project with Maven
+        run: mvn clean package
+
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: DinosaurExploder-JAR
+          path: target/dinosaur-exploder-1.0.jar
+      - name: Publish JAR to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/*.jar

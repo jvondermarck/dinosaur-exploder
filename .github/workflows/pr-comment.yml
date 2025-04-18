@@ -11,20 +11,14 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Set up GitHub CLI
-        uses: actions/setup-gh@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Retrieve artifact URL
+      - name: Get Artifact URL
         id: get_artifact
         run: |
-          gh api \
+          ARTIFACT_URL=$(gh api \
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/actions/artifacts \
-            | jq -r '.artifacts[] | select(.workflow_run.id == ${{ github.event.workflow_run.id }}) | .archive_download_url' \
-            > artifact_url.txt
-          echo "ARTIFACT_URL=$(cat artifact_url.txt)" >> $GITHUB_ENV
+            --jq ".artifacts[] | select(.name == \"dinosaur-exploder-${{ github.event.workflow_run.pull_requests[0].number }}.jar\") | .archive_download_url")
+          echo "ARTIFACT_URL=$ARTIFACT_URL" >> $GITHUB_ENV
 
       - name: Post comment to PR
         uses: peter-evans/create-or-update-comment@v4
@@ -34,8 +28,7 @@ jobs:
           body: |
             ## 🦕 New JAR Build Available!
             A new JAR file has been built for this pull request:
-
             - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_URL }})
-            - 📄 **Workflow Run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
-
-            ⏳ Artifacts will be retained for 90 days.
+            - 📄 **Workflow run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
+            ⏳ Artifacts will be deleted automatically in ~90 days.
+            Happy testing! 🚀

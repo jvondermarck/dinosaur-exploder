@@ -6,7 +6,7 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.controller.SettingsController;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
 
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
@@ -49,7 +49,7 @@ public class DinosaurMenu extends FXGLMenu {
     private final Button quitButton = new Button("Quit");
     private final Label languageLabel = new Label("Select Language:");
 
-    private final Settings settings = SettingsController.loadSettings();
+    private final Settings settings = SettingsProvider.loadSettings();
 
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
@@ -120,7 +120,7 @@ public class DinosaurMenu extends FXGLMenu {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 mainMenuSound.setVolume(newValue.doubleValue());
                 settings.setVolume(newValue.doubleValue());
-                SettingsController.saveSettings(settings);
+                SettingsProvider.saveSettings(settings);
                 volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
             }
         });
@@ -238,7 +238,7 @@ public class DinosaurMenu extends FXGLMenu {
                     settings.setMuted(true);
                     imageViewPlaying.setImage(mute);
                 }
-                SettingsController.saveSettings(settings);
+                SettingsProvider.saveSettings(settings);
             });
 
             quitButton.setOnAction(event -> fireExit());

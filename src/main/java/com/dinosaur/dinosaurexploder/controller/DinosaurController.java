@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.model.*;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import javafx.event.ActionEvent;
@@ -37,7 +38,7 @@ public class DinosaurController {
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
 
-    private final Settings settings = SettingsController.loadSettings();
+    private final Settings settings = SettingsProvider.loadSettings();
 
     /**
      * Summary :

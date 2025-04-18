@@ -4,21 +4,23 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.GameData;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -123,12 +125,19 @@ public class ShipSelectionMenu extends FXGLMenu {
         for (int i = 1; i <= 8; i++) {
             Image shipImage = new Image(
                     Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/spaceship" + i + ".png")));
+            boolean isLocked = !GameData.checkUnlockedShip(i);
+
             ImageView shipView = new ImageView(shipImage);
             shipView.setFitHeight(imageSize);
             shipView.setFitWidth(imageSize);
+            applyDarkFilterIfLocked(isLocked, shipView);
+
+            ImageView lockIcon = new ImageView(new Image(getClass().getResourceAsStream("/assets/textures/lock.png")));
+            setLockProperties(lockIcon, isLocked);
 
             Button shipButton = new Button();
             shipButton.setGraphic(shipView);
+
             int finalI = i;
             shipButton.setOnAction(event -> {
                 try {
@@ -158,8 +167,26 @@ public class ShipSelectionMenu extends FXGLMenu {
 
             int row = (i - 1) / columns;
             int col = (i - 1) % columns;
-            shipGrid.add(shipButton, col, row);
+            StackPane shipContainer = new StackPane(shipButton, lockIcon);
+            StackPane.setAlignment(lockIcon, Pos.TOP_RIGHT);
+            shipGrid.add(shipContainer, col, row);
         }
+    }
+
+    private void applyDarkFilterIfLocked(boolean isLocked, ImageView shipView) {
+        if (isLocked) {
+            ColorAdjust grayscale = new ColorAdjust();
+            grayscale.setBrightness(-0.5);
+            shipView.setEffect(grayscale);
+        }
+    }
+
+    private void setLockProperties(ImageView lockIcon, boolean isLocked) {
+        lockIcon.setFitWidth(30);
+        lockIcon.setFitHeight(30);
+        lockIcon.setMouseTransparent(true);
+        lockIcon.setOpacity(0.6);
+        lockIcon.setVisible(isLocked);
     }
 
     private void selectShip(int shipNumber) {

@@ -22,5 +22,9 @@
   "bombs_left": "Bombs Left",
   "yes": "Yes",
   "no": "No",
-  "coin": "Coin"
+  "coin": "Coin",
+  "level": "Level",
+  "ship_locked": "The spaceship is locked.",
+  "unlock_highScore": "reach a high score of ## to unlock it.",
+  "ok": "ok"
 }

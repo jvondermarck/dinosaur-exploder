@@ -171,7 +171,7 @@ public class DinosaurController {
 
     private void updateLevelDisplay(){
         Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
-        levelText.setText("Level: " + levelManager.getCurrentLevel());
+        levelText.setText(languageManager.getTranslation("level") + ": " + levelManager.getCurrentLevel());
     }
     /**
      * Summary :
@@ -190,7 +190,7 @@ public class DinosaurController {
         pauseEnemySpawning();
 
         //Display centered level notification
-        Text levelText = getUIFactoryService().newText("Level" + levelManager.getCurrentLevel(), Color.WHITE, 24);
+        Text levelText = getUIFactoryService().newText(languageManager.getTranslation("level") + levelManager.getCurrentLevel(), Color.WHITE, 24);
         levelText.setStroke(Color.BLACK);
         levelText.setStrokeWidth(1.5);
         centerText(levelText);

@@ -61,17 +61,20 @@ jobs:
         with:
           issue-number: ${{ env.PR_NUMBER }}
           body: |-
-              ## 🚀 Build Preview
+              ## 🦖 New Dinosaur build preview 🚀
               [![badge]](${{ env.JOB_PATH }})
-            
-              You can find files attached to the Workflow Run linked below.
-            
-              ⚠️ Files only stay for around 90 days!
-            
-              | Name      | Link
-              |-----------|-----
-              | Commit    | `${{ env.HEAD_SHA }}`
-              | Logs      | [View Logs](${{ env.JOB_PATH }})
-              | Jar Files | [Download Jar](${{ env.ARTIFACT_HUMAN_URL }})
+                
+              Thanks for your contribution! A new build has been generated for this pull request:
+
+              - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_HUMAN_URL }})
+              - 🧪 **Workflow Run**: [View Logs](${{ env.JOB_PATH }})
+              - 🔖 **Commit**: `${{ env.HEAD_SHA }}`
+
+              > This JAR lets you test the latest version of the game from this PR.
+
+              ⏳ **Note**: Artifacts auto-expire after ~90 days.
+
+              Happy testing & exploring the prehistoric world!  
+              – _The DinoBot Team_ 🦖
             
               [badge]: https://img.shields.io/badge/Build-Success!-3fb950?logo=github&style=for-the-badge

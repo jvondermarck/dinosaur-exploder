@@ -61,18 +61,17 @@ jobs:
         with:
           issue-number: ${{ env.PR_NUMBER }}
           body: |-
-            ## 🚀 Build Preview
-
-            [![badge]]($JOB_PATH)
-
-            You can find files attached to the Workflow Run linked below.
-
-            ⚠️ Files only stay for around 90 days!
-
-            | Name      | Link
-            |-----------|-----
-            | Commit    | `${{ env.HEAD_SHA }}`
-            | Logs      | [View Logs]($JOB_PATH)
-            | Jar Files | [Download Jar]($ARTIFACT_HUMAN_URL)
-
-            [badge]: https://img.shields.io/badge/Build-Success!-3fb950?logo=github&style=for-the-badge
+              ## 🚀 Build Preview
+              [![badge]](${{ env.JOB_PATH }})
+            
+              You can find files attached to the Workflow Run linked below.
+            
+              ⚠️ Files only stay for around 90 days!
+            
+              | Name      | Link
+              |-----------|-----
+              | Commit    | `${{ env.HEAD_SHA }}`
+              | Logs      | [View Logs](${{ env.JOB_PATH }})
+              | Jar Files | [Download Jar](${{ env.ARTIFACT_HUMAN_URL }})
+            
+              [badge]: https://img.shields.io/badge/Build-Success!-3fb950?logo=github&style=for-the-badge

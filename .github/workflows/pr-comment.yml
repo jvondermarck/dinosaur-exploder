@@ -11,14 +11,20 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifact metadata
+      - name: Set up GitHub CLI
+        uses: actions/setup-gh@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Retrieve artifact URL
+        id: get_artifact
         run: |
-          echo "Fetching artifact information..."
-          ARTIFACT_URL=$(gh api \
+          gh api \
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/actions/artifacts \
-            --jq ".artifacts[] | select(.workflow_run.id == ${{ github.event.workflow_run.id }}) | .archive_download_url")
-          echo "ARTIFACT_URL=$ARTIFACT_URL" >> $GITHUB_ENV
+            | jq -r '.artifacts[] | select(.workflow_run.id == ${{ github.event.workflow_run.id }}) | .archive_download_url' \
+            > artifact_url.txt
+          echo "ARTIFACT_URL=$(cat artifact_url.txt)" >> $GITHUB_ENV
 
       - name: Post comment to PR
         uses: peter-evans/create-or-update-comment@v4
@@ -26,27 +32,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body: |
-            ## 🚀 Build Artifact Available
-
-            A new build of **Dinosaur Exploder** is ready for testing!
-
-            🔗 [Download JAR]( ${{ env.ARTIFACT_URL }} )
-
-            _Note: Artifacts are retained for 90 days._
-
-      - name: Comment on PR
-        uses: peter-evans/create-or-update-comment@v4        
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
-          body: |
             ## 🦕 New JAR Build Available!
-
             A new JAR file has been built for this pull request:
 
             - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_URL }})
-            - 📄 **Workflow run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
+            - 📄 **Workflow Run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
 
-            ⏳ Artifacts will be deleted automatically in ~90 days.
-
-            Happy testing! 🚀
+            ⏳ Artifacts will be retained for 90 days.

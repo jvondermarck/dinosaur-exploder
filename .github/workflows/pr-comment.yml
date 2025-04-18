@@ -5,8 +5,8 @@ on:
     types:
       - "completed"
     workflows:
-      - "Artifact Upload"
-
+      - "Build and Upload JAR"
+      
 jobs:
   comment-on-pr:
     if: github.event.workflow_run.conclusion == 'success'

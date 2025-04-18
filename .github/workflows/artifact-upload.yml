@@ -2,29 +2,27 @@ name: Build and Upload JAR
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
-    name: Build JAR
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: 'maven'
 
-      - name: Build JAR
-        run: |
-          ./gradlew build
-          cp build/libs/*.jar dinosaur-exploder-${{ github.event.pull_request.number }}.jar
+      - name: Build project with Maven
+        run: mvn clean package
 
-      - name: Upload Artifact
+      - name: Upload JAR as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DinosaurExploder-JAR-PR${{ github.event.pull_request.number }}
-          path: dinosaur-exploder-${{ github.event.pull_request.number }}.jar
+          name: dinosaur-exploder-${{ github.event.pull_request.number }}
+          path: target/dinosaur-exploder-1.0.jar

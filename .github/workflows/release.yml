@@ -23,11 +23,12 @@ jobs:
         run: mvn clean package
 
       - name: Upload JAR as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: DinosaurExploder-JAR
           path: target/dinosaur-exploder-1.0.jar
+          
       - name: Publish JAR to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          files: target/*.jar
+          files: target/dinosaur-exploder-1.0.jar

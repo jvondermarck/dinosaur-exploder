@@ -1,0 +1,49 @@
+name: Comment Artifact Link
+
+on:
+  workflow_run:
+    workflows: ["Build and Upload JAR"]
+    types:
+      - completed
+
+jobs:
+  comment:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Artifact Info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          echo "Fetching data..."
+
+          RUN_ID=${{ github.event.workflow_run.id }}
+          ARTIFACT_INFO=$(gh api /repos/$OWNER/$REPO/actions/artifacts \
+            --jq ".artifacts[] | select(.workflow_run.id == $RUN_ID) | select(.expired == false)")
+          
+          echo "ARTIFACT_INFO=$ARTIFACT_INFO" >> $GITHUB_ENV
+
+          ARTIFACT_URL=$(jq -r '.archive_download_url' <<< "$ARTIFACT_INFO")
+          echo "ARTIFACT_URL=$ARTIFACT_URL" >> $GITHUB_ENV
+
+          PR_NUMBER=$(jq -r '.pull_requests[0].number' <<< "${{ toJSON(github.event.workflow_run) }}")
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+
+      - name: Comment on PR
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ env.PR_NUMBER }}
+          body: |
+            ## 🦕 New JAR Build Available!
+
+            A new JAR file has been built for this pull request:
+
+            - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_URL }})
+            - 📄 **Workflow run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
+
+            ⏳ Artifacts will be deleted automatically in ~90 days.
+
+            Happy testing! 🚀

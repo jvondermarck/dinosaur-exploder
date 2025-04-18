@@ -64,7 +64,8 @@ jobs:
               ## Build preview 🚀
               [![badge]](${{ env.JOB_PATH }})
                 
-              **Thanks** for your **contribution** to this open-source project!❤️
+              **Thanks** for your **contribution** to this open-source project! ❤️
+              
               A **new build** has been generated for this pull request:
 
               - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_HUMAN_URL }})

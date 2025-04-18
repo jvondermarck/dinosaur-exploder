@@ -1,4 +1,4 @@
-name: Comment Artifact Link
+name: Comment with Artifact Link
 
 on:
   workflow_run:
@@ -10,32 +10,35 @@ jobs:
   comment:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Get Artifact Info
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
+      - name: Download artifact metadata
         run: |
-          echo "Fetching data..."
-
-          RUN_ID=${{ github.event.workflow_run.id }}
-          ARTIFACT_INFO=$(gh api /repos/$OWNER/$REPO/actions/artifacts \
-            --jq ".artifacts[] | select(.workflow_run.id == $RUN_ID) | select(.expired == false)")
-          
-          echo "ARTIFACT_INFO=$ARTIFACT_INFO" >> $GITHUB_ENV
-
-          ARTIFACT_URL=$(jq -r '.archive_download_url' <<< "$ARTIFACT_INFO")
+          echo "Fetching artifact information..."
+          ARTIFACT_URL=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/actions/artifacts \
+            --jq ".artifacts[] | select(.workflow_run.id == ${{ github.event.workflow_run.id }}) | .archive_download_url")
           echo "ARTIFACT_URL=$ARTIFACT_URL" >> $GITHUB_ENV
 
-          PR_NUMBER=$(jq -r '.pull_requests[0].number' <<< "${{ toJSON(github.event.workflow_run) }}")
-          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+      - name: Post comment to PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body: |
+            ## 🚀 Build Artifact Available
+
+            A new build of **Dinosaur Exploder** is ready for testing!
+
+            🔗 [Download JAR]( ${{ env.ARTIFACT_URL }} )
+
+            _Note: Artifacts are retained for 90 days._
 
       - name: Comment on PR
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v4        
         with:
-          issue-number: ${{ env.PR_NUMBER }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body: |
             ## 🦕 New JAR Build Available!
 

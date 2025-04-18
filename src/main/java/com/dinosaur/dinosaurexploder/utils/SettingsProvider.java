@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.controller;
+package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.model.Settings;
 
@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.Properties;
 
-public class SettingsController {
+public class SettingsProvider {
 
     public static final String SETTINGS_FILE = "settings.properties";
     public static final String SETTING_VOLUME = "soundVolume";
@@ -26,9 +26,8 @@ public class SettingsController {
     }
 
     public static void saveSettings(Settings settings) {
-        Properties properties = new Properties();
-        properties.put(SETTING_VOLUME, String.valueOf(settings.getVolume()));
-        properties.put(SETTINGS_MUTED, String.valueOf(settings.isMuted()));
+
+        Properties properties = createPropertiesFormSettings(settings);
 
         try {
             properties.store(new FileWriter(SETTINGS_FILE), "store properties");
@@ -43,6 +42,14 @@ public class SettingsController {
         settings.setMuted(Boolean.parseBoolean(props.getProperty(SETTINGS_MUTED)));
 
         return settings;
+    }
+
+    private static Properties createPropertiesFormSettings(Settings settings){
+        Properties properties = new Properties();
+        properties.put(SETTING_VOLUME, String.valueOf(settings.getVolume()));
+        properties.put(SETTINGS_MUTED, String.valueOf(settings.isMuted()));
+
+        return properties;
     }
 
     private static Settings generateDefaultSettings(){

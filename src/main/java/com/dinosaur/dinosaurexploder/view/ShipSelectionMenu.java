@@ -4,7 +4,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.controller.SettingsController;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameConstants;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
@@ -35,7 +35,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 public class ShipSelectionMenu extends FXGLMenu {
     private MediaPlayer mainMenuSound;
     LanguageManager languageManager = LanguageManager.getInstance();
-    private final Settings settings = SettingsController.loadSettings();
+    private final Settings settings = SettingsProvider.loadSettings();
 
     public ShipSelectionMenu() {
         super(MenuType.MAIN_MENU);
@@ -43,7 +43,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         // Background music
         Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
-        mainMenuSound.setVolume(SettingsController.loadSettings().getVolume());
+        mainMenuSound.setVolume(SettingsProvider.loadSettings().getVolume());
         mainMenuSound.setMute(settings.isMuted());
         mainMenuSound.play();
         mainMenuSound.setCycleCount(MediaPlayer.INDEFINITE);

@@ -1,0 +1,28 @@
+name: Test JAR Build
+
+on:
+  pull_request:  # Trigger for each PR and also if we can, whenever someone update the PR with new commit, we should generate it again ? 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Build project with Maven
+        run: mvn clean package
+
+      - name: Upload JAR as artifact (for testing)
+        uses: actions/upload-artifact@v3
+        with:
+          name: DinosaurExploder-JAR-Test # Something like this ? maybe a dynamic name with the dinosaur-exploder-<ID of the PR>. ?
+          path: target/dinosaur-exploder-1.0.jar

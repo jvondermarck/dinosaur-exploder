@@ -32,3 +32,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: target/dinosaur-exploder-1.0.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}

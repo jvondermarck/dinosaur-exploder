@@ -1,72 +1,75 @@
-name: Comment Artifact URL on PR
+name: Comment on PR with JAR Artifact
 
 on:
   workflow_run:
+    workflows: ["Upload JAR Artifact on PR"]
     types:
       - completed
-    workflows:
-      - Upload JAR Artifact on PR
-
-permissions:
-  pull-requests: write
-  actions: read
 
 jobs:
-  comment-on-success:
-    if: github.event.workflow_run.conclusion == 'success'
+  comment:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
 
-      - name: Event Obj Debug
-        env:
-          EVENT_OBJ: ${{ toJSON(github.event.workflow_run) }}
+      - name: Download workflow run event payload
         run: |
-          jq '.' <<< "$EVENT_OBJ"
-          jq '.pull_requests' <<< "$EVENT_OBJ"
-
-      - name: Get Artifact URL & PR Info
+          gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }} \
+            > workflow_run_event.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
-          WORKFLOW_RUN_EVENT_OBJ: ${{ toJSON(github.event.workflow_run) }}
+
+      - name: Extract PR number and head SHA
+        id: extract
         run: |
-          PREVIOUS_JOB_ID=$(jq -r '.id' <<< "$WORKFLOW_RUN_EVENT_OBJ")
-          echo "PREVIOUS_JOB_ID=$PREVIOUS_JOB_ID" >> "$GITHUB_ENV"
-      
-          # Get Artifact ID
-          ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
-          --jq ".artifacts.[] |
-          select(.workflow_run.id == ${PREVIOUS_JOB_ID}) |
-          select(.expired == false) |
-          .id")
-          echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
-      
-          # Human-friendly artifact URL
-          ARTIFACT_HUMAN_URL="https://github.com/$OWNER/$REPO/actions/runs/$PREVIOUS_JOB_ID/artifacts/$ARTIFACT_ID"
-          echo "ARTIFACT_HUMAN_URL=$ARTIFACT_HUMAN_URL" >> "$GITHUB_ENV"
-      
-          # Try getting PR info directly from event
+          WORKFLOW_RUN_EVENT_OBJ=$(cat workflow_run_event.json)
+
+          # Extract head_sha directly
+          HEAD_SHA=$(jq -r '.head_sha' <<< "$WORKFLOW_RUN_EVENT_OBJ")
+          echo "HEAD_SHA=$HEAD_SHA"
+
+          # Try getting PR number from embedded pull_requests (sometimes empty)
           PR_NUMBER=$(jq -r '.pull_requests[0].number // empty' <<< "$WORKFLOW_RUN_EVENT_OBJ")
-          HEAD_SHA=$(jq -r '.pull_requests[0].head.sha // .head_commit.id // .head_sha // empty' <<< "$WORKFLOW_RUN_EVENT_OBJ")
-      
+
+          # Fallback using gh CLI if PR number not found
           if [ -z "$PR_NUMBER" ]; then
-          echo "PR number not found in event. Falling back to gh CLI..."
-          PR_NUMBER=$(gh pr list --state all --json number,headRefOid | jq -r --arg sha "$HEAD_SHA" '.[] | select(.headRefOid == $sha) | .number')
+            echo "PR number not found in event. Falling back to gh CLI..."
+            PR_NUMBER=$(gh pr list --state open --json number,headRefOid | jq -r --arg sha "$HEAD_SHA" '.[] | select(.headRefOid == $sha) | .number')
           fi
-      
+
+          echo "PR_NUMBER=$PR_NUMBER"
+          echo "HEAD_SHA=$HEAD_SHA"
+
           echo "PR_NUMBER=$PR_NUMBER" >> "$GITHUB_ENV"
           echo "HEAD_SHA=$HEAD_SHA" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Find previous comment
+      - name: Download artifact metadata
+        id: download-artifact
+        run: |
+          ARTIFACT_ID=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts \
+            | jq -r '.artifacts[0].id')
+          echo "ARTIFACT_ID=$ARTIFACT_ID"
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
+          echo "ARTIFACT_HUMAN_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts/${ARTIFACT_ID}" >> "$GITHUB_ENV"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find existing preview comment
         id: find-comment
         uses: peter-evans/find-comment@v3
         with:
-          issue-number: ${{ env.PR_NUMBER }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '<!-- build-preview-comment -->'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          comment-author: github-actions[bot]
+          body-includes: <!-- build-preview-comment -->
+          direction: first
+          nth: 0
 
-      - name: Update Comment
+      - name: Create or update PR comment
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
           HEAD_SHA: ${{ env.HEAD_SHA }}

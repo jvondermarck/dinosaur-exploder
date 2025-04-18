@@ -58,16 +58,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Find existing preview comment
+      - name: Find previous comment
         id: find-comment
         uses: peter-evans/find-comment@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          comment-author: github-actions[bot]
-          body-includes: <!-- build-preview-comment -->
-          direction: first
-          nth: 0
+            issue-number: ${{ env.PR_NUMBER }}
+            comment-author: 'github-actions[bot]'
+            body-includes: '<!-- build-preview-comment -->'
 
       - name: Create or update PR comment
         env:

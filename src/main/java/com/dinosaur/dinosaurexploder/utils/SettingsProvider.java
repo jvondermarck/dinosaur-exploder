@@ -16,17 +16,19 @@ public class SettingsProvider {
         Properties properties = new Properties();
 
         try {
-            properties.load(new FileInputStream(SETTINGS_FILE));
-        }catch(Exception ex){
-            System.err.println("Error loading settings file " + ex.getMessage());
-            return generateDefaultSettings();
+            FileInputStream in = new FileInputStream(SETTINGS_FILE);
+            properties.load(in);
+            in.close();
+        } catch (Exception ex) {
+            Settings defaultSettings = generateDefaultSettings();
+            saveSettings(defaultSettings);
+            return defaultSettings;
         }
 
         return createSettingsFromProperties(properties);
     }
 
     public static void saveSettings(Settings settings) {
-
         Properties properties = createPropertiesFormSettings(settings);
 
         try {

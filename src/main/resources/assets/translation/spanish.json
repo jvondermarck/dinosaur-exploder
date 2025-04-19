@@ -22,5 +22,9 @@
   "bombs_left": "Bombas restantes",
   "yes": "Sí",
   "no": "No",
-  "coin": "acuñar"
+  "coin": "acuñar",
+  "level": "Nivel",
+  "ship_locked": "La nave espacial está cerrada.",
+  "unlock_highScore": "Alcanzar una puntuación alta de ## para desbloquearlo.",
+  "ok": "Está bien"
 }

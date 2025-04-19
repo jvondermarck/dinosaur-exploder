@@ -22,5 +22,9 @@
   "bombs_left": "Bomben übrig",
   "yes": "Ja",
   "no": "Nein",
-  "coin": "Münze"
+  "coin": "Münze",
+  "level": "Level",
+  "ship_locked": "Das Raumschiff ist gesperrt.",
+  "unlock_highScore": "Erreiche eine Punktzahl von ## um es freizuschalten.",
+  "ok": "Okay"
 }

@@ -54,11 +54,21 @@ jobs:
       - name: Download artifact metadata
         id: download-artifact
         run: |
-          ARTIFACT_ID=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts \
-            | jq -r '.artifacts[0].id')
-          echo "ARTIFACT_ID=$ARTIFACT_ID"
-          echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
-          echo "ARTIFACT_HUMAN_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts/${ARTIFACT_ID}" >> "$GITHUB_ENV"
+          ARTIFACTS_JSON=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts)
+          echo "$ARTIFACTS_JSON" > artifacts.json
+
+          get_artifact_url() {
+            local name="$1"
+            jq -r --arg NAME "$name" '.artifacts[] | select(.name == $NAME) | .id' artifacts.json
+          }
+
+          LINUX_ID=$(get_artifact_url "dinosaur-exploder-linux")
+          MAC_ID=$(get_artifact_url "dinosaur-exploder-mac")
+          WIN_ID=$(get_artifact_url "dinosaur-exploder-win")
+
+          echo "LINUX_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts/$LINUX_ID" >> "$GITHUB_ENV"
+          echo "MAC_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts/$MAC_ID" >> "$GITHUB_ENV"
+          echo "WIN_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts/$WIN_ID" >> "$GITHUB_ENV"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -89,7 +99,7 @@ jobs:
             
             A **new build** has been generated for this pull request:
             
-            - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_HUMAN_URL }})
+            - 🎮 **Game Artifacts**: 🐧 [Linux](${{ env.LINUX_URL }}) / 🍎 [macOS](${{ env.MAC_URL }}) / 🪟 [Windows](${{ env.WIN_URL }})
             - 🧪 **Workflow Run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
             - 🔖 **Commit**: `${{ env.HEAD_SHA }}`
             

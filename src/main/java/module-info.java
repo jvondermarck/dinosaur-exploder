@@ -1,5 +1,4 @@
-module com.dinosaur.dinosaurexploder {
-    requires javafx.controls;
+
     requires com.almasb.fxgl.all;
     requires jpro.webapi;
 

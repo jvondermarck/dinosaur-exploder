@@ -6,6 +6,10 @@ on:
     types:
       - completed
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   comment-success:
     runs-on: ubuntu-latest
@@ -62,13 +66,12 @@ jobs:
         id: find-comment
         uses: peter-evans/find-comment@v3
         with:
-            issue-number: ${{ env.PR_NUMBER }}
-            comment-author: 'github-actions[bot]'
-            body-includes: '<!-- build-preview-comment -->'
+          issue-number: ${{ env.PR_NUMBER }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- build-preview-comment -->'
 
       - name: Create or update PR comment
         env:
-          JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
           HEAD_SHA: ${{ env.HEAD_SHA }}
           ARTIFACT_HUMAN_URL: ${{ env.ARTIFACT_HUMAN_URL }}
         uses: peter-evans/create-or-update-comment@v2
@@ -87,7 +90,7 @@ jobs:
             A **new build** has been generated for this pull request:
             
             - 📦 **Artifact**: [Download JAR](${{ env.ARTIFACT_HUMAN_URL }})
-            - 🧪 **Workflow Run**: [View Logs](${{ env.JOB_PATH }})
+            - 🧪 **Workflow Run**: [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }})
             - 🔖 **Commit**: `${{ env.HEAD_SHA }}`
             
             > [!TIP]
@@ -105,6 +108,16 @@ jobs:
     if: github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Download workflow run event payload
+        run: |
+          gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }} \
+            > workflow_run_event.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract PR number and head SHA
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

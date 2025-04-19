@@ -15,10 +15,11 @@ You’ll also see a message from the GitHub bot with a downloadable .jar file �
 
 <!-- ✅ To check a box, write: `[x]` (no space between the brackets) -->
 
+- [ ] My PR title follows the format: `[Type]: clear description of change`
+- [ ] I used the correct `type`: Feature, Fix, Refactor, Docs, Test, Chore
 - [ ] I reviewed my code and removed unnecessary debug logs or comments.
 - [ ] I tested my changes and verified they work as expected.
 - [ ] I ran the project to confirm it compiles and runs correctly.
-- [ ] I ran the JUnit tests (if applicable).
 - [ ] I read the [Code of Conduct](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and the [Contribution Guidelines](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CONTRIBUTING.md).
 
 

@@ -19,7 +19,13 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 public class BombComponent extends Component implements Bomb {
     private int bombCount = 3;
+    private int maxBombCount = 3;
     private Image spcshpImg;
+    
+    // Tracking variables for regeneration
+    private int lastLevel = 1;
+    private int coinCounter = 0;
+    private static final int COINS_NEEDED_FOR_BOMB = 15; // Number of coins needed to regenerate a bomb
    
     public BombComponent() {
         // Selected spaceship from GameData
@@ -145,5 +151,44 @@ public class BombComponent extends Component implements Bomb {
                     .put("direction", direction.toPoint2D()));
         }
         System.out.println("Bomb used! " + getBombCount() + " bombs left!");
+    }
+    
+    /**
+     * Regenerates bombs when a new level is reached.
+     * Call this method when the player advances to a new level.
+     * 
+     * @param currentLevel The current level of the game
+     */
+    public void checkLevelForBombRegeneration(int currentLevel) {
+        if (currentLevel > lastLevel) {
+            // Player has advanced to a new level, regenerate one bomb
+            regenerateBomb(1);
+            lastLevel = currentLevel;
+            System.out.println("Level up! Regenerated a bomb. Current bombs: " + bombCount);
+        }
+    }
+    
+    /**
+     * Tracks coin collection and regenerates bombs when enough coins are collected.
+     * Call this method whenever the player collects a coin.
+     */
+    public void trackCoinForBombRegeneration() {
+        coinCounter++;
+        if (coinCounter >= COINS_NEEDED_FOR_BOMB) {
+            // Player has collected enough coins, regenerate one bomb
+            regenerateBomb(1);
+            coinCounter = 0; // Reset counter
+            System.out.println("Collected " + COINS_NEEDED_FOR_BOMB + " coins! Regenerated a bomb. Current bombs: " + bombCount);
+        }
+    }
+    
+    /**
+     * Regenerates the specified number of bombs, not exceeding the maximum.
+     * 
+     * @param count The number of bombs to regenerate
+     */
+    private void regenerateBomb(int count) {
+        bombCount = Math.min(bombCount + count, maxBombCount);
+        updateBombUI();
     }
 }

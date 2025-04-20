@@ -172,6 +172,11 @@ public class DinosaurController {
     private void updateLevelDisplay(){
         Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
         levelText.setText(languageManager.getTranslation("level") + ": " + levelManager.getCurrentLevel());
+        
+        // Regenerate bombs when level changes
+        if (bomb.hasComponent(BombComponent.class)) {
+            bomb.getComponent(BombComponent.class).checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+        }
     }
     /**
      * Summary :
@@ -196,6 +201,10 @@ public class DinosaurController {
         centerText(levelText);
         getGameScene().addUINode(levelText);
 
+        // Trigger bomb regeneration for level advancement
+        if (bomb.hasComponent(BombComponent.class)) {
+            bomb.getComponent(BombComponent.class).checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+        }
         
         // Resume gameplay after a delay
         runOnce(() -> {
@@ -284,6 +293,11 @@ public class DinosaurController {
             coin.removeFromWorld();
             System.out.println("You touched a coin!");
             coinComponent.incrementCoin();
+            
+            // Check for bomb regeneration when coin is collected
+            if (bomb.hasComponent(BombComponent.class)) {
+                bomb.getComponent(BombComponent.class).trackCoinForBombRegeneration();
+            }
         });
     }
 

@@ -13,7 +13,7 @@
         <maven.compiler.version>3.8.0</maven.compiler.version>
         <maven.shade.version>3.0.0</maven.shade.version>
         <jfx.maven.plugin.version>0.0.6</jfx.maven.plugin.version>
-        <jpro.version>2025.1.0</jpro.version>
+        <jpro.version>9999.9.9-TEST</jpro.version>
         <fxgl.version>21</fxgl.version>
         <junit.version>5.12.1</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>

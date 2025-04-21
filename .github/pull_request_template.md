@@ -37,7 +37,7 @@ You’ll also see a message from the GitHub bot with a downloadable .jar file �
 <!-- To close an issue automatically when the PR is merged, use the format: `Fixes #<issue-number>` -->
 <!-- ✅ To check a box, write: `[x]` (no space between the brackets) -->
 
-- [ ] This PR fixes/closes: `#<issue-number>`
+- [ ] This PR fixes/closes: #<issue-number>
 - [ ] This PR doesn’t address a specific issue.
 
 ### 📸 Screenshots / Demos (if applicable)

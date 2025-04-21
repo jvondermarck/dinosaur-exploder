@@ -69,8 +69,6 @@ public class DinosaurMenu extends FXGLMenu {
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.BLACK);
 
         var title = FXGL.getUIFactoryService().newText(GameConstants.GAME_NAME, Color.LIME, FontType.MONO, 35);
-//        var startButton = new Button("Start Game");
-//        var quitButton = new Button("Quit");
 
         // Adding styles to the buttons
         startButton.getStylesheets()
@@ -81,21 +79,21 @@ public class DinosaurMenu extends FXGLMenu {
         // Add the language selection UI
         ComboBox<String> languageComboBox = new ComboBox<>();
         languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
-        languageComboBox.setValue("English"); // Default language
+        if(settings.getLanguage() == null) {
+            // Default language
+            languageComboBox.setValue("English");
+        }else{
+            languageComboBox.setValue(settings.getLanguage());
+            changeLanguage(settings.getLanguage());
+        }
 
-        //Label languageLabel = new Label("Select Language:");
         languageLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: #61C181; -fx-font-weight: bold;");
         languageLabel.setTranslateY(5);
 
         // Set action on language change
         languageComboBox.setOnAction(event -> {
-            String selectedLanguage = languageComboBox.getValue();
-            languageManager.setSelectedLanguage(selectedLanguage);
-
-            Map<String, String> translations = languageManager.loadTranslations(selectedLanguage);
-
-            startButton.setText(translations.getOrDefault("start", "Start Game"));
-            quitButton.setText(translations.getOrDefault("quit", "Quit"));
+            changeLanguage(languageComboBox.getValue());
+            updateTexts();
         });
 
 
@@ -244,26 +242,28 @@ public class DinosaurMenu extends FXGLMenu {
             quitButton.setOnAction(event -> fireExit());
 
             getContentRoot().getChildren().addAll(
-
-
                     imageViewB, title, startButton, quitButton, imageView, imageViewPlaying, volumeLabel, volumeSlider, languageBox
             );
         }
         catch (FileNotFoundException e){
-
-
             System.out.println("File not found" + e.getMessage());
         }
+    }
+
+    private Map<String, String> changeLanguage(String selectedLanguage){
+        languageManager.setSelectedLanguage(selectedLanguage);
+        Map<String, String> translations = languageManager.loadTranslations(selectedLanguage);
+
+        settings.setLanguage(selectedLanguage);
+        SettingsProvider.saveSettings(settings);
+
+        return translations;
     }
 
     private void updateTexts() {
         startButton.setText(languageManager.getTranslation("start"));
         quitButton.setText(languageManager.getTranslation("quit"));
         languageLabel.setText(languageManager.getTranslation("language_label"));
-    }
-
-    public void setLanguage(Language language) {
-        getLocalizationService().setSelectedLanguage(language);
     }
 
     @Override
@@ -273,5 +273,4 @@ public class DinosaurMenu extends FXGLMenu {
         mainMenuSound.play();
         mainMenuSound.setMute(settings.isMuted());
     }
-
 }

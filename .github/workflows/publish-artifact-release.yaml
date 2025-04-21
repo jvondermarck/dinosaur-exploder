@@ -1,0 +1,44 @@
+name: Publish Artifact on Release
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            platform: mac
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: win
+
+    name: Build for ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Rename jar with version
+        run: |
+          mkdir output
+          cp target/dinosaur-exploder-1.0.jar output/dinosaur-exploder-${{ matrix.platform }}-${{ github.ref_name }}.jar
+
+      - name: Upload jar to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/dinosaur-exploder-${{ matrix.platform }}-${{ github.ref_name }}.jar

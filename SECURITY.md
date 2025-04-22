@@ -6,6 +6,9 @@ Here are the versions currently being supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 1.2.1   | :white_check_mark: |
+| 1.2.0   | :white_check_mark: |
+| 1.1.0   | :white_check_mark: |
 | 1.0.2   | :white_check_mark: |
 | 1.0.1   | :white_check_mark: |
 | 1.0.0   | :white_check_mark: |
@@ -14,7 +17,7 @@ Here are the versions currently being supported with security updates.
 
 If you believe you have found a security vulnerability in any GitHub-owned repository, please report it to us through coordinated disclosure.
 Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.
-Instead, please contact us on our Discord server. 
+Instead, please contact us on our Discord server or in the security panel where you can submit a private request.
 
 Please include as much of the information listed below as you can to help us better understand and resolve the issue:
 

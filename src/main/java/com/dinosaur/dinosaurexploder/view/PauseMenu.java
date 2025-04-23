@@ -86,7 +86,7 @@ public class PauseMenu extends FXGLMenu {
                 btnBack,
                 btnControls,
                 btnQuitGame);
-        var version = FXGL.getUIFactoryService().newText("v1.2.0", Color.WHITE, FontType.MONO, 20);
+        var version = FXGL.getUIFactoryService().newText(GameConstants.VERSION, Color.WHITE, FontType.MONO, 20);
 
         title.setTranslateX(getAppWidth() / 2 - 175);
         title.setTranslateY(150);

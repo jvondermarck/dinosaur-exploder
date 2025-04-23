@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+import com.dinosaur.dinosaurexploder.model.GameConstants;
 
 public class DinosaurGUI {
     public static final int WIDTH = 550;
@@ -29,7 +30,7 @@ public class DinosaurGUI {
             
         });
 
-        settings.setVersion("1.0.2");
+        settings.setVersion(GameConstants.VERSION);
         settings.setTicksPerSecond(60); // check info : settings.setProfilingEnabled(true);
         settings.setFontText(ARCADECLASSIC_FONT);
         settings.setFontGame(ARCADECLASSIC_FONT);

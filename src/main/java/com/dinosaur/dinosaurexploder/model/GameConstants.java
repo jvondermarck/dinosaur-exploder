@@ -39,7 +39,17 @@ public class GameConstants {
     public static final String ENEMY_EXPLODE_SOUND = "enemyExplode.wav";
     public static final String PLAYER_HIT_SOUND = "playerHit.wav";
     public static final String COIN_GAIN = "coinHit.wav";
-    
+    public static final String SPACESHIP_EXPLOSION = "SpaceshipExplosion.wav";
+    public static final String DINO_DEATH_1 = "DinoDeath1.wav";
+    public static final String DINO_DEATH_2 = "DinoDeath2.wav";
+    public static final String DINO_DEATH_3 = "DinoDeath3.wav";
+    public static final String DINO_DEATH_4 = "DinoDeath4.wav";
+
+
+
+
+
+
     public static final String GAME_NAME = "Dinosaur Exploder";
     
     public static final List<Language> AVAILABLE_LANGUAGES  = List.of(Language.ENGLISH, Language.GERMAN );

@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.controller;
 
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
@@ -58,6 +59,9 @@ public class DinosaurController {
             // Added extra line of code to sync the lives counter after death
             // All hearts disappear after death
             life.getComponent(LifeComponent.class).onUpdate(lives);
+
+            FXGL.play(GameConstants.SPACESHIP_EXPLOSION);
+
             System.out.println("Game Over!");
             gameOver();
         } else {
@@ -254,8 +258,24 @@ public class DinosaurController {
             if (random(0, 100) < 50) {
                 spawn("coin", greendino.getX(), greendino.getY());
             }
-            if(!settings.isMuted()) {
-                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
+            if(!settings.isMuted())
+            {
+                int rand = FXGLMath.random(1, 4);
+
+                switch (rand) {
+                    case 1:
+                        FXGL.play(GameConstants.DINO_DEATH_1);
+                        break;
+                    case 2:
+                        FXGL.play(GameConstants.DINO_DEATH_2);
+                        break;
+                    case 3:
+                        FXGL.play(GameConstants.DINO_DEATH_3);
+                        break;
+                    case 4:
+                        FXGL.play(GameConstants.DINO_DEATH_4);
+                        break;
+                }
             }
             projectile.removeFromWorld();
             greendino.removeFromWorld();

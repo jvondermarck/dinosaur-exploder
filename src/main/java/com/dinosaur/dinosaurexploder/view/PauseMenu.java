@@ -18,8 +18,11 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+import javafx.scene.control.Slider;
 
 import com.dinosaur.dinosaurexploder.model.GameConstants;
+
+import java.util.Objects;
 
 public class PauseMenu extends FXGLMenu {
     LanguageManager languageManager = LanguageManager.getInstance();
@@ -80,13 +83,31 @@ public class PauseMenu extends FXGLMenu {
 
         });
 
+        System.out.print("");
+
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
         var title = FXGL.getUIFactoryService().newText(GameConstants.GAME_NAME, Color.WHITE, FontType.MONO, 35);
+
+        FXGL.getSettings().setGlobalSoundVolume(1.0); // Optional: sets system default to 100%
+        FXGL.getSettings().setGlobalMusicVolume(1.0);
+        Slider sfxVolumeSlider = new Slider(0, 1, FXGL.getSettings().getGlobalSoundVolume());
+        sfxVolumeSlider.setBlockIncrement(0.01);
+        sfxVolumeSlider.getStylesheets()
+                .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+        sfxVolumeSlider.setTranslateY(15);
+        sfxVolumeSlider.setTranslateX(10);
+
+        sfxVolumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            FXGL.getSettings().setGlobalSoundVolume(newVal.doubleValue());
+            FXGL.getSettings().setGlobalMusicVolume(newVal.doubleValue());
+        });
+
         var box = new VBox(15,
+                sfxVolumeSlider,
                 btnBack,
                 btnControls,
                 btnQuitGame);
-        var version = FXGL.getUIFactoryService().newText(GameConstants.VERSION, Color.WHITE, FontType.MONO, 20);
+        var version = FXGL.getUIFactoryService().newText("v1.0-Developer", Color.WHITE, FontType.MONO, 20);
 
         title.setTranslateX(getAppWidth() / 2 - 175);
         title.setTranslateY(150);

@@ -104,10 +104,10 @@ public class DinosaurController {
             }else{
                 countDownAction.expire();
                 countDownText.setVisible(false);
-
                 gameStarted = true;
             }
             if(countDown == 1) {
+                resumeEnemySpawning();
                 spawnEnemies();
             }
 

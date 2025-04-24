@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.controller;
 
+import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
@@ -9,12 +10,14 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -37,6 +40,11 @@ public class DinosaurController {
     private Entity levelDisplay;
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
+
+    private TimerAction countDownAction;
+    private Text countDownText;
+    private int countDown = 3;
+    private boolean gameStarted = false;
 
     private final Settings settings = SettingsProvider.loadSettings();
 
@@ -84,6 +92,20 @@ public class DinosaurController {
         onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
     }
 
+    public void countdownAnimation(){
+        countDownAction = getGameTimer().runAtInterval(() -> {
+            if(countDown > 0){
+                countDown -= 1;
+                countDownText.setText(String.valueOf(countDown));
+            }else{
+                countDownAction.expire();
+                countDownText.setVisible(false);
+                spawnEnemies();
+                gameStarted = true;
+            }
+        }, Duration.seconds(1));
+    }
+
     public void initGame() {
         levelManager = new LevelManager();
         spawn("background", 0, 0);
@@ -103,12 +125,28 @@ public class DinosaurController {
         
         bomb.addComponent(new BombComponent());
         updateLevelDisplay();
-        spawnEnemies();
+
+        countDown = 3;
+        countDownText = getUIFactoryService().newText(String.valueOf(countDown), Color.WHITE, 60);
+        getGameScene().addUINode(countDownText);
+        FXGL.animationBuilder()
+                .interpolator(Interpolators.ELASTIC.EASE_OUT())
+                .onCycleFinished(() -> System.out.println("Started countdown animation"))
+                .onFinished(() -> System.out.println("Countdown animation finished"))
+                .duration(Duration.seconds(1))
+                .repeat(4)
+                .translate(countDownText)
+                .from(new Point2D((getAppWidth() - countDownText.getLayoutBounds().getWidth())/2,getAppHeight() /2.0 - 200))
+                .to(new Point2D((getAppWidth() - countDownText.getLayoutBounds().getWidth())/2,getAppHeight() /2.0))
+                .buildAndPlay();
+
+        countdownAnimation();
+
         /*
         * every 1 sec there is 10% change to span a coin
         */
         run(() -> {
-            if (random(0, 100) < 10) {
+            if (gameStarted && random(0, 100) < 10) {
                 double x = random(0, getAppWidth() - 80);
                 spawn("coin", x, 0);
             }
@@ -234,8 +272,8 @@ public class DinosaurController {
      */
 
     private void centerText(Text text){
-        text.setX((getAppWidth() - text.getLayoutBounds().getWidth()) /2);
-        text.setY(getAppHeight() /2);
+        text.setX((getAppWidth() - text.getLayoutBounds().getWidth()) / 2.0);
+        text.setY(getAppHeight() / 2.0);
     }
 
 
@@ -245,7 +283,7 @@ public class DinosaurController {
      */
 
     public void initPhysics() {
-        /**
+        /*
          * After collision of projectile and greenDino there hava explosion animation
          * and there have 50% change to spawn a coin
          */

@@ -104,7 +104,9 @@ Play the game with these controls:
 
 ## 🎥 Gameplay
 
-https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
+> Here is a demo of the actual game. Dare to play it now 🎮 !
+
+https://github.com/user-attachments/assets/4b5a6ed4-2e68-4e12-a9c8-8a6c33178c5e
 
 ## 🙏 Contributing
 

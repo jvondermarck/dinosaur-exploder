@@ -1,10 +1,12 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.time.LocalTimer;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
@@ -15,7 +17,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
  */
 public class GreenDinoComponent extends Component implements Dinosaur{
     double verticalSpeed = 1.5;
-    private LocalTimer timer = FXGL.newLocalTimer();
+    private final LocalTimer timer = FXGL.newLocalTimer();
     private boolean isPaused = false;
     private boolean isMuted = false;
 
@@ -30,7 +32,7 @@ public class GreenDinoComponent extends Component implements Dinosaur{
     @Override
     public void onAdded(){
         //Get the current enemy speed from the level manager
-        LevelManager levelManager = FXGL.<LevelManager>geto("levelManager");
+        LevelManager levelManager = FXGL.geto("levelManager");
         verticalSpeed = levelManager.getEnemySpeed();
     }
     /**
@@ -59,7 +61,7 @@ public class GreenDinoComponent extends Component implements Dinosaur{
     @Override
     public void shoot() {
         if(!isMuted) {
-            FXGL.play(GameConstants.ENEMYSHOOT_SOUND);
+            FXGL.play(GameConstants.ENEMY_SHOOT_SOUND);
         }
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() +90);

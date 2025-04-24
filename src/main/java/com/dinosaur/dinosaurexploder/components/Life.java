@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 /**
  * Summary :
  *      This interface is to implement in  new playerClass for clean Understanding
@@ -10,20 +10,10 @@ public interface Life {
      * Parameters :
      *      double ptf
      */
-    public void onUpdate(double tpf);
-    /**
-     * Summary :
-     *      This method return the life to the current life
-     */
-    public int getLife();
+    void onUpdate(double tpf);
     /**
      * Summary :
      *      This method sets the life to the current life
      */
-    public void setLife(int i);
-    /**
-     * Summary :
-     *      This method decrease the life to the current life
-     */
-    public int decreaseLife(int i);
+    int decreaseLife(int i);
 }

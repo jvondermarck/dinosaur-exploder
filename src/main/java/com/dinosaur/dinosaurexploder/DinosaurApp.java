@@ -3,14 +3,10 @@ package com.dinosaur.dinosaurexploder;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.localization.Language;
 import com.dinosaur.dinosaurexploder.controller.DinosaurController;
 import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
-import com.dinosaur.dinosaurexploder.model.LevelManager;
+import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import static com.almasb.fxgl.dsl.FXGL.*;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * Summary :
@@ -77,26 +73,4 @@ public class DinosaurApp extends GameApplication {
         launch(args);
     }
 
-    @Override
-    protected void onPreInit() {
-        initLanguages();
-    }
-
-    public static void initLanguages() {
-        // Init languages
-        getLocalizationService().addLanguageData(Language.ENGLISH,
-                ResourceBundle.getBundle("assets.properties.texts_en", Locale.ENGLISH));
-        getLocalizationService().addLanguageData(Language.GERMAN,
-                ResourceBundle.getBundle("assets.properties.texts_de", Locale.GERMAN));
-        getLocalizationService().addLanguageData(Language.SPANISH,
-                ResourceBundle.getBundle("assets.properties.texts_es", new Locale("es", "ES")));
-        getLocalizationService().addLanguageData(Language.FRENCH,
-                ResourceBundle.getBundle("assets.properties.texts_fr", Locale.FRENCH));
-        getLocalizationService().addLanguageData(Language.RUSSIAN,
-                ResourceBundle.getBundle("assets.properties.texts_ru", new Locale("ru", "RU")));
-
-        // Set first entry as default
-        getLocalizationService().selectedLanguageProperty().unbind();
-        getLocalizationService().setSelectedLanguage(Language.ENGLISH);
-    }
 }

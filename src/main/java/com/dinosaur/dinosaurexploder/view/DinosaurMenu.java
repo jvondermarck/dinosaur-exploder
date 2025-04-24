@@ -7,20 +7,17 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
-import com.dinosaur.dinosaurexploder.model.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 
-import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
-import com.almasb.fxgl.localization.Language;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.image.Image;
@@ -35,15 +32,13 @@ import javafx.util.Duration;
 import java.io.InputStream;
 
 import javafx.scene.layout.HBox;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
-import java.util.Map;
 import java.util.Objects;
 
-import static com.almasb.fxgl.dsl.FXGL.getLocalizationService;
-
 public class DinosaurMenu extends FXGLMenu {
-    private MediaPlayer mainMenuSound;
+    private final MediaPlayer mainMenuSound;
     LanguageManager languageManager = LanguageManager.getInstance();
     private final Button startButton = new Button("Start Game");
     private final Button quitButton = new Button("Quit");
@@ -55,11 +50,9 @@ public class DinosaurMenu extends FXGLMenu {
         super(MenuType.MAIN_MENU);
 
         // Listen for language changes and update menu text
-        languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> {
-            updateTexts();
-        });
+        languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> updateTexts());
 
-        Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
+        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
         mainMenuSound.setVolume(settings.getVolume());
         mainMenuSound.play();
@@ -99,7 +92,7 @@ public class DinosaurMenu extends FXGLMenu {
 
         // Add the language selection combo box to the menu layout
         HBox languageBox = new HBox(10, languageLabel, languageComboBox);
-        languageBox.setTranslateX(getAppWidth() / 2 - 100); // Adjust based on UI design
+        languageBox.setTranslateX(getAppWidth() / 2.0 - 100); // Adjust based on UI design
         languageBox.setTranslateY(600); // Adjust Y position based on layout
 
         // Assuming 'root' is the layout for the menu
@@ -113,14 +106,11 @@ public class DinosaurMenu extends FXGLMenu {
 
         // Sets the volume label
         Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mainMenuSound.setVolume(newValue.doubleValue());
-                settings.setVolume(newValue.doubleValue());
-                SettingsProvider.saveSettings(settings);
-                volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
-            }
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            mainMenuSound.setVolume(newValue.doubleValue());
+            settings.setVolume(newValue.doubleValue());
+            SettingsProvider.saveSettings(settings);
+            volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
         });
 
         try {
@@ -146,21 +136,12 @@ public class DinosaurMenu extends FXGLMenu {
             Image Background = new Image(backGround);
             ImageView imageViewB = new ImageView(Background);
             imageViewB.setFitHeight(DinosaurGUI.HEIGHT);
-            // imageViewB.setFitWidth(200);
             imageViewB.setX(0);
             imageViewB.setY(0);
             imageViewB.setPreserveRatio(true);
 
             // Create a TranslateTransition for horizontal scrolling
-            TranslateTransition translateTransition = new TranslateTransition();
-            translateTransition.setNode(imageViewB);
-            translateTransition.setDuration(Duration.seconds(50)); // Set the duration for one cycle
-            translateTransition.setFromX(0);
-            translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8); // Move to the left by the
-                                                                                          // width of the image
-            translateTransition.setCycleCount(TranslateTransition.INDEFINITE); // Repeat indefinitely
-            translateTransition.setInterpolator(Interpolator.LINEAR); // Smooth linear transition
-            translateTransition.setAutoReverse(true);
+            TranslateTransition translateTransition = getTranslateTransition(imageViewB, Background);
 
             // Start the transition
             translateTransition.play();
@@ -191,14 +172,14 @@ public class DinosaurMenu extends FXGLMenu {
             quitButton.setMinSize(140, 60);
 
             title.setTranslateY(100);
-            title.setTranslateX(getAppWidth() / 2 - 145);
+            title.setTranslateX(getAppWidth() / 2.0 - 145);
 
             startButton.setTranslateY(400);
-            startButton.setTranslateX(getAppWidth() / 2 - 50);
+            startButton.setTranslateX(getAppWidth() / 2.0 - 50);
             // startButton.setStyle("-fx-font-size:20");
 
             quitButton.setTranslateY(500);
-            quitButton.setTranslateX(getAppWidth() / 2 - 50);
+            quitButton.setTranslateX(getAppWidth() / 2.0 - 50);
             // quitButton.setStyle("-fx-font-size:20");
 
             BorderPane root = new BorderPane();
@@ -250,14 +231,26 @@ public class DinosaurMenu extends FXGLMenu {
         }
     }
 
-    private Map<String, String> changeLanguage(String selectedLanguage){
+    @NotNull
+    private static TranslateTransition getTranslateTransition(ImageView imageViewB, Image Background) {
+        TranslateTransition translateTransition = new TranslateTransition();
+        translateTransition.setNode(imageViewB);
+        translateTransition.setDuration(Duration.seconds(50)); // Set the duration for one cycle
+        translateTransition.setFromX(0);
+        translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8); // Move to the left by the
+        // width of the image
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE); // Repeat indefinitely
+        translateTransition.setInterpolator(Interpolator.LINEAR); // Smooth linear transition
+        translateTransition.setAutoReverse(true);
+        return translateTransition;
+    }
+
+    private void changeLanguage(String selectedLanguage){
         languageManager.setSelectedLanguage(selectedLanguage);
-        Map<String, String> translations = languageManager.loadTranslations(selectedLanguage);
+        languageManager.loadTranslations(selectedLanguage);
 
         settings.setLanguage(selectedLanguage);
         SettingsProvider.saveSettings(settings);
-
-        return translations;
     }
 
     private void updateTexts() {

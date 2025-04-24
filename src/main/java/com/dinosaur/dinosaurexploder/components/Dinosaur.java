@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 /**
  * Summary :
@@ -11,10 +11,10 @@ public interface Dinosaur {
      * Parameters :
      *      double ptf
      */
-    public void onUpdate(double ptf);
+    void onUpdate(double ptf);
     /**
      * Summary :
      *      This handles with the shooting from the dinosaur and spawning of the new bullet
      */
-    public void shoot();
+    void shoot();
 }

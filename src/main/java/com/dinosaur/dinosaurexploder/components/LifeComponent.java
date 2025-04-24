@@ -1,6 +1,8 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,15 +16,15 @@ import javafx.scene.text.Text;
  */
 public class LifeComponent extends Component implements Life {
 
-    private final Image heart = new Image(GameConstants.HEART_IMAGEPATH);
+    private final Image heart = new Image(GameConstants.HEART_IMAGE_PATH);
     private int life = 3;
 
     // Declaring Lives Text
     private Text lifeText;
     // Declaring 3 Hearts
-    private ImageView test1 = new ImageView(heart);
-    private ImageView test2 = new ImageView(heart);
-    private ImageView test3 = new ImageView(heart);
+    private final ImageView heart1 = new ImageView(heart);
+    private final ImageView heart2 = new ImageView(heart);
+    private final ImageView heart3 = new ImageView(heart);
 
     private final LanguageManager languageManager = LanguageManager.getInstance();
 
@@ -33,7 +35,7 @@ public class LifeComponent extends Component implements Life {
 
         // Style the text
         lifeText.setFill(Color.RED);
-        lifeText.setFont(Font.font(GameConstants.ARCADECLASSIC_FONTNAME, 20));
+        lifeText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
 
         // Listen for language changes and update UI automatically
         languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
@@ -56,23 +58,23 @@ public class LifeComponent extends Component implements Life {
         clearEntity();
 
         // Adjust hearts and set them based on the current life value
-        test1.setLayoutY(10);
-        test2.setLayoutY(10);
-        test3.setLayoutY(10);
+        heart1.setLayoutY(10);
+        heart2.setLayoutY(10);
+        heart3.setLayoutY(10);
 
-        test2.setLayoutX(test1.getLayoutX() + 30);
-        test3.setLayoutX(test2.getLayoutX() + 30);
+        heart2.setLayoutX(heart1.getLayoutX() + 30);
+        heart3.setLayoutX(heart2.getLayoutX() + 30);
 
         // Set the appropriate number of hearts based on `life`
         if (life == 3) {
-            setEntity(test1);
-            setEntity(test2);
-            setEntity(test3);
+            setEntity(heart1);
+            setEntity(heart2);
+            setEntity(heart3);
         } else if (life == 2) {
-            setEntity(test1);
-            setEntity(test2);
+            setEntity(heart1);
+            setEntity(heart2);
         } else if (life == 1) {
-            setEntity(test1);
+            setEntity(heart1);
         }
 
         // Display the lifeText component
@@ -89,24 +91,6 @@ public class LifeComponent extends Component implements Life {
         entity.getViewComponent().clearChildren();
     }
 
-    @Override
-    public int getLife() {
-        return life;
-    }
-
-    /**
-     * Summary :
-     * This method is overriding the superclass method to sets the life the current life
-     */
-    @Override
-    public void setLife(int i) {
-        life = i;
-    }
-
-    /**
-     * Summary :
-     * This method is overriding the superclass method to decrease the life to the current life
-     */
     @Override
     public int decreaseLife(int i) {
         life -= i;

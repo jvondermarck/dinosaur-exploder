@@ -126,6 +126,7 @@ public class DinosaurController {
         bomb.addComponent(new BombComponent());
         updateLevelDisplay();
 
+        gameStarted = false;
         countDown = 3;
         countDownText = getUIFactoryService().newText(String.valueOf(countDown), Color.WHITE, 60);
         getGameScene().addUINode(countDownText);

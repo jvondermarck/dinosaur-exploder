@@ -4,11 +4,11 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.exception.LockedShipException;
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
-import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
+import com.dinosaur.dinosaurexploder.model.GameConstants;
+import com.dinosaur.dinosaurexploder.model.LanguageManager;
 import com.dinosaur.dinosaurexploder.model.Settings;
-import com.dinosaur.dinosaurexploder.model.GameData;
+import com.dinosaur.dinosaurexploder.utils.GameData;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -34,16 +34,16 @@ import java.util.Objects;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
-public class ShipSelectionMenu extends FXGLMenu {
-    private final MediaPlayer mainMenuSound;
-    private final LanguageManager languageManager = LanguageManager.getInstance();
+public class WeaponSelectionMenu extends FXGLMenu {
+    private MediaPlayer mainMenuSound;
+    LanguageManager languageManager = LanguageManager.getInstance();
     private final Settings settings = SettingsProvider.loadSettings();
 
-    public ShipSelectionMenu() {
+    public WeaponSelectionMenu() {
         super(MenuType.MAIN_MENU);
 
         // Background music
-        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
+        Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
         mainMenuSound.setVolume(SettingsProvider.loadSettings().getVolume());
         mainMenuSound.setMute(settings.isMuted());
@@ -59,10 +59,10 @@ public class ShipSelectionMenu extends FXGLMenu {
         imageViewB.setY(0);
         imageViewB.setPreserveRatio(true);
 
-        //Background animation
+        // Background animation
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setNode(imageViewB);
-        translateTransition.setDuration(Duration.seconds(50));
+        translateTransition.setDuration(Duration.seconds(50)); // Duración del ciclo
         translateTransition.setFromX(0);
         translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8);
         translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
@@ -71,20 +71,20 @@ public class ShipSelectionMenu extends FXGLMenu {
         translateTransition.play();
 
         // Title
-        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_ship"), Color.LIME, FontType.MONO, 35);
+        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_weapon"), Color.LIME, FontType.MONO, 35);
 
-        // GridPane for ships
-        GridPane shipGrid = new GridPane();
-        shipGrid.setAlignment(Pos.CENTER);
-        shipGrid.setHgap(20);
-        shipGrid.setVgap(20);
-        shipGrid.setPrefWidth(getAppWidth());
+        // GridPane for weapons
+        GridPane weaponGrid = new GridPane();
+        weaponGrid.setAlignment(Pos.CENTER);
+        weaponGrid.setHgap(20);
+        weaponGrid.setVgap(20);
+        weaponGrid.setPrefWidth(getAppWidth());
 
         // Columns and rows for the GridPane
         int columns = 4;
         double imageSize = getAppWidth() * 0.15; // 15% of the screen width
 
-        showSelectionButton(imageSize, columns, shipGrid);
+        showSelectionButton(imageSize, columns, weaponGrid);
 
         // Back button
         var backButton = new Button(languageManager.getTranslation("back"));
@@ -97,19 +97,19 @@ public class ShipSelectionMenu extends FXGLMenu {
             fireResume();
         });
 
-        // Invisible spacer to push the title and ships to the top
+        // Invisible spacer to push the title and weapons to the top
         Rectangle spacer = new Rectangle();
         spacer.setHeight(50);
         spacer.setWidth(getAppWidth());
         spacer.setOpacity(0);
 
         // Vbox layout
-        VBox layout = new VBox(20, spacer, title, shipGrid, backButton);
+        VBox layout = new VBox(20, spacer, title, weaponGrid, backButton);
         layout.setAlignment(Pos.CENTER);
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(50); // 50px spacing between nodes
 
-        VBox.setVgrow(shipGrid, Priority.ALWAYS);
+        VBox.setVgrow(weaponGrid, Priority.ALWAYS);
         VBox.setVgrow(backButton, Priority.NEVER);
 
         // Maxing the layout to the screen size
@@ -120,64 +120,66 @@ public class ShipSelectionMenu extends FXGLMenu {
         getContentRoot().getChildren().add(layout);
     }
 
-    private void showSelectionButton(double imageSize, int columns, GridPane shipGrid) {
-        // button for each ship
-        for (int i = 1; i <= 8; i++) {
-            Image shipImage = new Image(
-                    Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/spaceship" + i + ".png")));
-            boolean isLocked = !GameData.checkUnlockedShip(i);
+    private void showSelectionButton(double imageSize, int columns, GridPane weaponGrid) {
+        int selectedShip = GameData.getSelectedShip();
+        // button for each weapon
+        for (int i = 1; i <= 3; i++) {
+            Image weaponImage = new Image(
+                    Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/projectiles/projectile" +selectedShip + "_" + i + ".png")));
+            boolean isLocked = !GameData.checkUnlockedWeapon(i);
 
-            ImageView shipView = new ImageView(shipImage);
-            shipView.setFitHeight(imageSize);
-            shipView.setFitWidth(imageSize);
-            applyDarkFilterIfLocked(isLocked, shipView);
+            ImageView weaponView = new ImageView(weaponImage);
+            weaponView.setRotate(-90);
+            weaponView.setFitHeight(imageSize);
+            weaponView.setFitWidth(imageSize);
+            applyDarkFilterIfLocked(isLocked, weaponView);
 
-            ImageView lockIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/lock.png"))));
+            ImageView lockIcon = new ImageView(new Image(getClass().getResourceAsStream("/assets/textures/lock.png")));
             setLockProperties(lockIcon, isLocked);
 
-            Button shipButton = new Button();
-            shipButton.setGraphic(shipView);
+            Button weaponButton = new Button();
+            weaponButton.setGraphic(weaponView);
 
             int finalI = i;
-            shipButton.setOnAction(event -> {
+            weaponButton.setOnAction(event -> {
                 try {
-                    selectShip(finalI);
-                } catch (LockedShipException exception) {
+                    selectWeapon(finalI);
+                } catch (LockedWeaponException exception) {
                     Button btn = getUIFactoryService().newButton(languageManager.getTranslation("ok"));
-                    btn.setOnAction(event1 -> showSelectionButton(imageSize, columns, shipGrid));
+                    btn.setOnAction(event1 -> showSelectionButton(imageSize, columns, weaponGrid));
                     getDialogService().showBox(languageManager.getTranslation(exception.getMessage()), new VBox(), btn);
                 }
             });
-            shipButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+            weaponButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
             DropShadow hoverEffect = new DropShadow(10, Color.rgb(0, 255, 0));
-            shipButton.setOnMouseEntered(event -> {
-                shipButton.setEffect(hoverEffect); // Shadow effect
-                shipButton
+            weaponButton.setOnMouseEntered(event -> {
+                weaponButton.setEffect(hoverEffect); // Shadow effect
+                weaponButton
                         .setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
             });
 
             // Delete shadow effect when mouse exits
-            shipButton.setOnMouseExited(event -> {
-                shipButton.setEffect(null); // Remove shadow effect
-                shipButton
+            weaponButton.setOnMouseExited(event -> {
+                weaponButton.setEffect(null); // Remove shadow effect
+                weaponButton
                         .setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
             });
-            shipButton.setMaxWidth(Double.MAX_VALUE);
+            weaponButton.setMaxWidth(Double.MAX_VALUE);
 
             int row = (i - 1) / columns;
             int col = (i - 1) % columns;
-            StackPane shipContainer = new StackPane(shipButton, lockIcon);
+            StackPane weaponContainer = new StackPane(weaponButton, lockIcon);
             StackPane.setAlignment(lockIcon, Pos.TOP_RIGHT);
-            shipGrid.add(shipContainer, col, row);
+            weaponGrid.add(weaponContainer, col, row);
         }
     }
 
-    private void applyDarkFilterIfLocked(boolean isLocked, ImageView shipView) {
+    private void applyDarkFilterIfLocked(boolean isLocked, ImageView weaponView) {
         if (isLocked) {
             ColorAdjust grayscale = new ColorAdjust();
             grayscale.setBrightness(-0.5);
-            shipView.setEffect(grayscale);
+            weaponView.setEffect(grayscale);
         }
     }
 
@@ -189,12 +191,12 @@ public class ShipSelectionMenu extends FXGLMenu {
         lockIcon.setVisible(isLocked);
     }
 
-    private void selectShip(int shipNumber) {
-        // Save the selected ship in GameData
-        GameData.setSelectedShip(shipNumber);
-        // Selected spaceship in console
-        System.out.println("Selected Spaceship: " + shipNumber);
-        FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
+    private void selectWeapon(int weaponNumber) {
+        // Save the selected wapon in GameData
+        GameData.setSelectedWeapon(weaponNumber);
+        // Selected weapon in console
+        System.out.println("Selected Weapon: " + weaponNumber);
+        fireNewGame();
         mainMenuSound.stop();
     }
 }

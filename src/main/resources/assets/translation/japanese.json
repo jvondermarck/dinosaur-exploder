@@ -4,6 +4,7 @@
   "score": "スコア",
   "language_label" : "言語を選択:",
   "select_ship": "船を選択してください",
+  "select_weapon": "武器を選択してください",
   "game_over": "ゲームオーバー。",
   "score_label": "スコア",
   "high_score": "ハイスコ​​ア",
@@ -25,6 +26,7 @@
   "coin": "コイン",
   "level": "レベル",
   "ship_locked" : "宇宙船はロックされています。",
+  "weapon_locked" : "武器はロックされています。",
   "unlock_highScore" : "それを解除するには、ハイスコア##を達成してください。",
   "ok" : "オッケー"
 }

@@ -152,10 +152,10 @@ public class GameEntityFactory implements EntityFactory {
      */
     @Spawns("heart")
     public Entity newHeart(SpawnData data) {
-        System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGEFILE);
+        System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGE_FILE);
         return entityBuilderBase(data, EntityType.HEART)
                 .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.HEART_IMAGEFILE))
+                .view(texture(GameConstants.HEART_IMAGE_FILE))
                 .bbox(new HitBox(BoundingShape.box(22, 22)))
                 .collidable()
                 .with(new Heart())

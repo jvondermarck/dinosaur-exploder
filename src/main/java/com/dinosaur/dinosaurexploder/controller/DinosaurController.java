@@ -296,7 +296,7 @@ public class DinosaurController {
          * After collision between projectile and greenDino there have an explosion animation
          * and there have a 5% chance to spawn a heart
          */
-        onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMY_PROJECTILE, (projectile, greendino) -> {
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.GREEN_DINO, (projectile, greendino) -> {
             spawn("explosion", greendino.getX() - 25, greendino.getY() - 30);
             if (random(0, 100) < 5) {
                 spawn("heart", greendino.getX(), greendino.getY());
@@ -315,7 +315,7 @@ public class DinosaurController {
             }
         });
 
-        onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMYPROJECTILE, (projectile, enemyProjectile) -> {
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMY_PROJECTILE, (projectile, enemyProjectile) -> {
             spawn("explosion", enemyProjectile.getX() - 25, enemyProjectile.getY() - 30);
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);

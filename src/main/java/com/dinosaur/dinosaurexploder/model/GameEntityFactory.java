@@ -140,8 +140,8 @@ public class GameEntityFactory implements EntityFactory {
     public Entity newAsteroid(SpawnData data) {
         return entityBuilderBase(data, EntityType.ASTEROID)
                 .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.ASTEROID_IMAGEFILE, 80, 60))
-                .bbox(new HitBox(BoundingShape.box(65, 55)))
+                .view(texture(GameConstants.ASTEROID_IMAGEFILE, 100, 100))
+                .bbox(new HitBox(BoundingShape.box(80, 80)))
                 .collidable()
                 .with(new asteroidComponent())
                 .build();

@@ -350,7 +350,7 @@ public class DinosaurController {
 			for (int i = 0; i < numberOfShards; i++) {
 				double currentAngle = startAngle + i * angleIncrement;
 				Vec2 directionVec = Vec2.fromAngle(currentAngle); 
-				SpawnData shardData = new SpawnData(asteroid.getPosition());
+				SpawnData shardData = new SpawnData(asteroid.getCenter());
 				shardData.put("direction", directionVec.toPoint2D());
 				spawn("asteroidShard", shardData);
 			}

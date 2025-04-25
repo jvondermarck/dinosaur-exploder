@@ -5,10 +5,10 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
-import com.dinosaur.dinosaurexploder.model.GameConstants;
-import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.model.Settings;
-import com.dinosaur.dinosaurexploder.utils.GameData;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -43,7 +43,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
         super(MenuType.MAIN_MENU);
 
         // Background music
-        Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
+        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
         mainMenuSound.setVolume(SettingsProvider.loadSettings().getVolume());
         mainMenuSound.setMute(settings.isMuted());
@@ -71,7 +71,8 @@ public class WeaponSelectionMenu extends FXGLMenu {
         translateTransition.play();
 
         // Title
-        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_weapon"), Color.LIME, FontType.MONO, 35);
+        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_weapon"), Color.LIME,
+                FontType.MONO, 35);
 
         // GridPane for weapons
         GridPane weaponGrid = new GridPane();
@@ -125,7 +126,8 @@ public class WeaponSelectionMenu extends FXGLMenu {
         // button for each weapon
         for (int i = 1; i <= 3; i++) {
             Image weaponImage = new Image(
-                    Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/projectiles/projectile" +selectedShip + "_" + i + ".png")));
+                    Objects.requireNonNull(getClass().getResourceAsStream(
+                            "/assets/textures/projectiles/projectile" + selectedShip + "_" + i + ".png")));
             boolean isLocked = !GameData.checkUnlockedWeapon(i);
 
             ImageView weaponView = new ImageView(weaponImage);

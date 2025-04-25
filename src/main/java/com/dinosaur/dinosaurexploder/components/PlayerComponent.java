@@ -16,11 +16,13 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
+import java.util.Objects;
+
 public class PlayerComponent extends Component implements Player {
     private final int selectedShip = GameData.getSelectedShip();
     private final int selectedWeapon = GameData.getSelectedWeapon();
     String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
-    String weaponImagePath = "assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
+    String weaponImagePath = "/assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
     int movementSpeed = 8;
     private boolean isInvincible = false;
 
@@ -106,7 +108,7 @@ public class PlayerComponent extends Component implements Player {
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
         System.out.println(selectedWeapon);
-        Image projImg = new Image(weaponImagePath);
+        Image projImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
 
         spawn("basicProjectile",
                 new SpawnData(center.getX() - (projImg.getWidth() / 2) + 3, center.getY() - 25) // Ajusta según el

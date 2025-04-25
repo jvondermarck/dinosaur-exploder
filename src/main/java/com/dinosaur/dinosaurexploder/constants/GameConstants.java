@@ -1,12 +1,12 @@
 package com.dinosaur.dinosaurexploder.constants;
 
 /**
- *
- * This holds every constant in the PROJECT
+ * This holds every constant in the project
  */
 public class GameConstants {
 
     public static final String VERSION = "1.2.1";
+    public static final String GAME_NAME = "Dinosaur Exploder";
 
     /*
     * CONSTANTS FOR IMAGES
@@ -21,10 +21,13 @@ public class GameConstants {
     public static final String COIN_IMAGE_FILE = "coin.png";
     public static final String HEART_IMAGE_PATH = "assets/textures/life.png";
     public static final String BOMB_IMAGE_PATH = "assets/textures/bomb.png";
+
     /*
     *CONSTANTS FOR FONTS
     */
+
     public static final String ARCADE_CLASSIC_FONTNAME = "ArcadeClassic";
+
     /*
     * SOUNDS
     */
@@ -35,7 +38,14 @@ public class GameConstants {
     public static final String ENEMY_EXPLODE_SOUND = "enemyExplode.wav";
     public static final String PLAYER_HIT_SOUND = "playerHit.wav";
     public static final String COIN_GAIN = "coinHit.wav";
-    
-    public static final String GAME_NAME = "Dinosaur Exploder";
 
+    /*
+    * CONSTANTS FOR UI
+    */
+    public static final double TEXT_SIZE_GAME_DETAILS = 20;
+
+    /*
+    * CONSTANTS FOR SAVED FILES
+    */
+    public static final String HIGH_SCORE_FILE = "highScore.ser";
 }

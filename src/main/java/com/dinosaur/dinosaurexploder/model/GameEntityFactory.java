@@ -224,7 +224,8 @@ public class GameEntityFactory implements EntityFactory {
     public Entity newLevel(SpawnData data){
         Text levelText = new Text("Level: 1");
         levelText.setFill(Color.YELLOW);
-        levelText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
+        levelText.setTranslateX(10);
+        levelText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
         return entityBuilderBase(data, EntityType.LEVEL)
                 .view(levelText)
                 .build();

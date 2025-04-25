@@ -25,6 +25,8 @@ public class GameConstants {
     public static final String COIN_IMAGEFILE = "coin.png";
     public static final String HEART_IMAGEPATH = "assets/textures/life.png";
     public static final String BOMB_IMAGEPATH = "assets/textures/bomb.png";
+    public static final String ASTEROID_IMAGEPATH = "assets/textures/asteroid.png";
+    public static final String ASTEROID_IMAGEFILE = "asteroid.png";
     /*
     *CONSTANTS FOR FONTS
     */

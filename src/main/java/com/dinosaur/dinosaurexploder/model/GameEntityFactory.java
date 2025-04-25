@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -130,6 +131,40 @@ public class GameEntityFactory implements EntityFactory {
                 .with(new GreenDinoComponent())
                 .build();
     }
+    
+    /**
+     * Summary :
+     * New Asteroid creation will be handled in below Entity
+     */
+    @Spawns("asteroid")
+    public Entity newAsteroid(SpawnData data) {
+        return entityBuilderBase(data, EntityType.ASTEROID)
+                .with(new OffscreenCleanComponent())
+                .view(texture(GameConstants.ASTEROID_IMAGEFILE, 80, 60))
+                .bbox(new HitBox(BoundingShape.box(65, 55)))
+                .collidable()
+                .with(new asteroidComponent())
+                .build();
+    }
+    
+    /**
+     * Summary :
+//     * New Asteroid SHARD creation will be handled in below Entity
+//     */
+    @Spawns("asteroidShard")
+    public Entity newAsteroidShard(SpawnData data) {
+        Point2D direction = data.get("direction");
+        double shardSpeed = 250.0;
+        return entityBuilder(data)
+                .type(EntityType.ASTEROIDSHARD)
+                .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGEFILE, 30, 17))
+                .bbox(new HitBox(BoundingShape.box(15, 12)))
+                .collidable()
+                .with(new ProjectileComponent(direction, shardSpeed)) 
+                .with(new OffscreenCleanComponent()) 
+                .build();
+    }
+    
 
     /**
      * spawn random coin on the window

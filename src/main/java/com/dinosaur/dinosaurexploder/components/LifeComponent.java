@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.interfaces.Life;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.scene.Node;
 import javafx.scene.image.Image;

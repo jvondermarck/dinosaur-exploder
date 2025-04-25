@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.interfaces.Score;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.scene.image.Image;
@@ -21,7 +22,7 @@ import javafx.scene.text.Text;
  * Summary :
  *      This handles the Score component of the Player implements the Score interface and extends the Component
  */
-public class ScoreComponent extends Component  implements Score{
+public class ScoreComponent extends Component  implements Score {
     private static final String HIGH_SCORE_FILE = "highScore.ser";
 
     private int score = 0;

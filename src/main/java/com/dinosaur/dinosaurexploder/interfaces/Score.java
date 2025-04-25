@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.components;
+package com.dinosaur.dinosaurexploder.interfaces;
 /**
  * Summary :
  *      This interface is to implement in  new playerClass for clean Understanding

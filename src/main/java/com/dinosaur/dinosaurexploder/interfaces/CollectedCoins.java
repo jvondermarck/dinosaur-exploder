@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.components;
+package com.dinosaur.dinosaurexploder.interfaces;
 
 public interface CollectedCoins {
 

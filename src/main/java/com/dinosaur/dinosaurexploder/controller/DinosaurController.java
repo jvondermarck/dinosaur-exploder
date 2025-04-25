@@ -12,17 +12,13 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.dinosaur.dinosaurexploder.view.GameOverDialog;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -36,12 +32,11 @@ public class DinosaurController {
     LanguageManager languageManager = LanguageManager.getInstance();
     private Entity player;
     private Entity score;
-    private Entity life;
     private Entity bomb;
-    private Entity coin;
-    private CollectedCoinsComponent coinComponent;
-    private LevelManager levelManager;
+    private CollectedCoinsComponent collectedCoinsComponent;
     private Entity levelDisplay;
+    private Entity life;
+    private LevelManager levelManager;
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
 
@@ -56,8 +51,7 @@ public class DinosaurController {
      * Summary :
      *      Detecting the player damage to decrease the lives and checking if the game is over
      */
-
-    public void damagePlayer() {
+     public void damagePlayer() {
         if(player.getComponent(PlayerComponent.class).isInvincible()){
             return; 
         }
@@ -96,7 +90,7 @@ public class DinosaurController {
         onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
     }
 
-    public void countdownAnimation(){
+    private void countdownAnimation(){
         countDownAction = getGameTimer().runAtInterval(() -> {
             if(countDown > 0){
                 countDown -= 1;
@@ -115,27 +109,44 @@ public class DinosaurController {
     }
 
     public void initGame() {
+        initGameEntities();
         levelManager = new LevelManager();
-        spawn("background", 0, 0);
-        player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
+
         if(!settings.isMuted()) {
             FXGL.play(GameConstants.BACKGROUND_SOUND);
         }
 
+        gameStarted = false;
+        countDown = 3;
+        createCountDownAnimation();
+        startCoinSpawner();
+    }
+
+    private void initGameEntities(){
+        spawn("background", 0, 0);
+        player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
         levelDisplay = spawn("Level", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
-        levelDisplay.setZIndex(100);
         score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 320);
         life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() - 250);
         bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 180);
-        coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 120);
-        System.out.println("Coins at : " + coin.getPosition());
-        coinComponent = coin.getComponent(CollectedCoinsComponent.class);
-        
+        Entity coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 120);
+        collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
         bomb.addComponent(new BombComponent());
-        updateLevelDisplay();
+    }
 
-        gameStarted = false;
-        countDown = 3;
+    /*
+     * every 1 sec there is 10% change to span a coin
+     */
+    private void startCoinSpawner(){
+        run(() -> {
+            if (gameStarted && random(0, 100) < 10) {
+                double x = random(0, getAppWidth() - 80);
+                spawn("coin", x, 0);
+            }
+        }, seconds(1.0));
+    }
+
+    private void createCountDownAnimation(){
         countDownText = getUIFactoryService().newText(String.valueOf(countDown), Color.WHITE, 60);
         getGameScene().addUINode(countDownText);
         FXGL.animationBuilder()
@@ -150,16 +161,6 @@ public class DinosaurController {
                 .buildAndPlay();
 
         countdownAnimation();
-
-        /*
-        * every 1 sec there is 10% change to span a coin
-        */
-        run(() -> {
-            if (gameStarted && random(0, 100) < 10) {
-                double x = random(0, getAppWidth() - 80);
-                spawn("coin", x, 0);
-            }
-        }, seconds(1.0));
     }
 
     /**
@@ -167,17 +168,10 @@ public class DinosaurController {
      *      This method is used to spawn the enemies
      *      and set the spawn rate of the enemies
      */
-
     private void spawnEnemies(){
         if(enemySpawnTimer != null){
             enemySpawnTimer.expire();
         }
-
-        /*
-        * At each second that passes, we have 2 out of 3 chances of spawning a green
-        * dinosaur
-        * This spawns dinosaurs randomly
-        */
 
         enemySpawnTimer = run(() -> {
             if (!isSpawningPaused && random(0, 2) < 2) {
@@ -202,7 +196,6 @@ public class DinosaurController {
      * Summary :
      *      This method is used to resume the enemy spawning
      */
-
     private void resumeEnemySpawning(){
         isSpawningPaused = false;
         if(enemySpawnTimer != null){
@@ -211,26 +204,12 @@ public class DinosaurController {
             spawnEnemies();
         }
     }
-    /**
-     * Summary :
-     *      This method is used to update the level display
-     */
 
-    private void updateLevelDisplay(){
-        Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
-        levelText.setText(languageManager.getTranslation("level") + ": " + levelManager.getCurrentLevel());
-        
-        // Regenerate bombs when level changes
-        if (bomb.hasComponent(BombComponent.class)) {
-            bomb.getComponent(BombComponent.class).checkLevelForBombRegeneration(levelManager.getCurrentLevel());
-        }
-    }
     /**
      * Summary :
      *      Handles level progression when enemies are defeated
      *      and shows a message when the level is changed
      */
-
     private void showLevelMessage(){
         //Pause game elements during level transition
         FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
@@ -279,18 +258,25 @@ public class DinosaurController {
      * Summary :
      *      Center the text on the screen
      */
-
     private void centerText(Text text){
         text.setX((getAppWidth() - text.getLayoutBounds().getWidth()) / 2.0);
         text.setY(getAppHeight() / 2.0);
     }
 
+    public void updateLevelDisplay(){
+        Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
+        levelText.setText(languageManager.getTranslation("level") + ": " + levelManager.getCurrentLevel());
+
+        // Regenerate bombs when level changes
+        if (bomb.hasComponent(BombComponent.class)) {
+            bomb.getComponent(BombComponent.class).checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+        }
+    }
 
     /**
      * Summary :
      *      Detect the collision between the game elements.
      */
-
     public void initPhysics() {
         /*
          * After collision of projectile and greenDino there hava explosion animation
@@ -307,13 +293,13 @@ public class DinosaurController {
             projectile.removeFromWorld();
             greendino.removeFromWorld();
             score.getComponent(ScoreComponent.class).incrementScore(1);
+
             levelManager.incrementDefeatedEnemies();
             if(levelManager.shouldAdvanceLevel()){
                 levelManager.nextLevel();
                 showLevelMessage();
                 System.out.println("Level up!");
             }
-
         });
 
         onCollisionBegin(EntityType.ENEMY_PROJECTILE, EntityType.PLAYER, (projectile, player) -> {
@@ -325,21 +311,22 @@ public class DinosaurController {
             damagePlayer();
         });
 
-        onCollisionBegin(EntityType.PLAYER, EntityType.GREEN_DINO, (player, greendino) -> {
+        onCollisionBegin(EntityType.PLAYER, EntityType.GREEN_DINO, (player, greenDino) -> {
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.PLAYER_HIT_SOUND);
             }
-            greendino.removeFromWorld();
+            greenDino.removeFromWorld();
             System.out.println("You touched a dino !");
             damagePlayer();
         });
+
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
             if(!settings.isMuted()){
                 FXGL.play(GameConstants.COIN_GAIN);
             }
             coin.removeFromWorld();
             System.out.println("You touched a coin!");
-            coinComponent.incrementCoin();
+            collectedCoinsComponent.incrementCoin();
             
             // Check for bomb regeneration when coin is collected
             if (bomb.hasComponent(BombComponent.class)) {
@@ -353,24 +340,6 @@ public class DinosaurController {
      *      To detect whether the player lives are empty or not
      */
     public void gameOver() {
-        Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
-        btnYes.setPrefWidth(200);
-        btnYes.defaultButtonProperty();
-        // action event for the yes Button
-        EventHandler<ActionEvent> startNewGameEvent = e -> getGameController().startNewGame();
-
-        // when button is pressed
-        btnYes.setOnAction(startNewGameEvent);
-
-        Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
-        btnNo.setPrefWidth(200);
-
-        // action event for the no Button
-        EventHandler<ActionEvent> backToMenuEvent = e -> getGameController().gotoMainMenu();
-
-        // when button is pressed
-        btnNo.setOnAction(backToMenuEvent);
-
-        getDialogService().showBox(languageManager.getTranslation("new_game"), new VBox(), btnYes, btnNo);
+        new GameOverDialog(languageManager).createDialog();
     }
 }

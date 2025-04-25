@@ -4,6 +4,7 @@
   "score": "Score",
   "language_label" : "Select Language:",
   "select_ship": "Select your Ship",
+  "select_weapon": "Select your Weapon",
   "game_over": "Game Over. Play Again?",
   "score_label": "Score",
   "high_score": "HighScore",
@@ -25,6 +26,7 @@
   "coin": "Coin",
   "level": "Level",
   "ship_locked": "The spaceship is locked.",
+  "weapon_locked": "The weapon is locked.",
   "unlock_highScore": "reach a high score of ## to unlock it.",
   "ok": "ok"
 }

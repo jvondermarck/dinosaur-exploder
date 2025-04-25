@@ -105,7 +105,7 @@ public class GameEntityFactory implements EntityFactory {
     @Spawns("basicEnemyProjectile")
     public Entity newBasicEnemyProjectile(SpawnData data) {
         Point2D direction = data.get("direction");
-        return entityBuilderBase(data, EntityType.GREEN_DINO)
+        return entityBuilderBase(data, EntityType.ENEMY_PROJECTILE)
                 .with(new OffscreenCleanComponent())
                 .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGE_FILE, 30, 17))
                 .bbox(new HitBox(BoundingShape.box(20, 20)))
@@ -145,6 +145,23 @@ public class GameEntityFactory implements EntityFactory {
                 .with(new CoinComponent())
                 .build();
     }
+
+    /**
+     * Summary :
+     * Spawn of a heart in the window will be handled in below Entity
+     */
+    @Spawns("heart")
+    public Entity newHeart(SpawnData data) {
+        System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGE_FILE);
+        return entityBuilderBase(data, EntityType.HEART)
+                .with(new OffscreenCleanComponent())
+                .view(texture(GameConstants.HEART_IMAGE_FILE))
+                .bbox(new HitBox(BoundingShape.box(22, 22)))
+                .collidable()
+                .with(new Heart())
+                .build();
+    }
+
     /**
      * Summary :
      * Setting up the Score will be handled in below Entity

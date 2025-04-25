@@ -152,10 +152,10 @@ public class DinosaurController {
         countdownAnimation();
 
         /*
-        * every 1 sec there is 10% change to span a coin
+        * every 1 sec there is 33% change to spawn a coin
         */
         run(() -> {
-            if (gameStarted && random(0, 100) < 10) {
+            if (gameStarted && random(0, 100) < 33) {
                 double x = random(0, getAppWidth() - 80);
                 spawn("coin", x, 0);
             }
@@ -292,14 +292,14 @@ public class DinosaurController {
      */
 
     public void initPhysics() {
-        /*
-         * After collision of projectile and greenDino there hava explosion animation
-         * and there have 50% change to spawn a coin
+        /**
+         * After collision between projectile and greenDino there have an explosion animation
+         * and there have a 5% chance to spawn a heart
          */
         onCollisionBegin(EntityType.PROJECTILE, EntityType.GREEN_DINO, (projectile, greendino) -> {
             spawn("explosion", greendino.getX() - 25, greendino.getY() - 30);
-            if (random(0, 100) < 50) {
-                spawn("coin", greendino.getX(), greendino.getY());
+            if (random(0, 100) < 5) {
+                spawn("heart", greendino.getX(), greendino.getY());
             }
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
@@ -313,7 +313,15 @@ public class DinosaurController {
                 showLevelMessage();
                 System.out.println("Level up!");
             }
+        });
 
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMY_PROJECTILE, (projectile, enemyProjectile) -> {
+            spawn("explosion", enemyProjectile.getX() - 25, enemyProjectile.getY() - 30);
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
+            }
+            projectile.removeFromWorld();
+            enemyProjectile.removeFromWorld();
         });
 
         onCollisionBegin(EntityType.ENEMY_PROJECTILE, EntityType.PLAYER, (projectile, player) -> {
@@ -345,6 +353,15 @@ public class DinosaurController {
             if (bomb.hasComponent(BombComponent.class)) {
                 bomb.getComponent(BombComponent.class).trackCoinForBombRegeneration();
             }
+        });
+
+        onCollisionBegin(EntityType.PLAYER, EntityType.HEART, (player, heart) -> {
+            if(!settings.isMuted()){
+                FXGL.play(GameConstants.HEART_HIT_SOUND);
+            }
+            heart.removeFromWorld();
+            System.out.println("You touched a heart!");
+            life.getComponent(LifeComponent.class).increaseLife(1);
         });
     }
 

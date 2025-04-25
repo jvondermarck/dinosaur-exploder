@@ -300,6 +300,9 @@ public class DinosaurController {
             spawn("explosion", greendino.getX() - 25, greendino.getY() - 30);
             if (random(0, 100) < 50) {
                 spawn("coin", greendino.getX(), greendino.getY());
+            }*/
+            if (random(0, 100) < 5) {
+                spawn("heart", greendino.getX(), greendino.getY());
             }
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
@@ -345,6 +348,15 @@ public class DinosaurController {
             if (bomb.hasComponent(BombComponent.class)) {
                 bomb.getComponent(BombComponent.class).trackCoinForBombRegeneration();
             }
+        });
+
+        onCollisionBegin(EntityType.PLAYER, EntityType.HEART, (player, heart) -> {
+            if(!settings.isMuted()){
+                FXGL.play(GameConstants.HEART_HIT_SOUND);
+            }
+            heart.removeFromWorld();
+            System.out.println("You touched a heart!");
+            life.getComponent(LifeComponent.class).increaseLife(1);
         });
     }
 

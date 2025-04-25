@@ -145,6 +145,23 @@ public class GameEntityFactory implements EntityFactory {
                 .with(new CoinComponent())
                 .build();
     }
+
+    /**
+     * Summary :
+     * Spawn of a heart in the window will be handled in below Entity
+     */
+    @Spawns("heart")
+    public Entity newHeart(SpawnData data) {
+        System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGEFILE);
+        return entityBuilderBase(data, EntityType.HEART)
+                .with(new OffscreenCleanComponent())
+                .view(texture(GameConstants.HEART_IMAGEFILE))
+                .bbox(new HitBox(BoundingShape.box(22, 22)))
+                .collidable()
+                .with(new Heart())
+                .build();
+    }
+
     /**
      * Summary :
      * Setting up the Score will be handled in below Entity

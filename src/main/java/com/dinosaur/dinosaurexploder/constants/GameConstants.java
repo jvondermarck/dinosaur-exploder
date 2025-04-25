@@ -20,6 +20,7 @@ public class GameConstants {
     public static final String COIN_IMAGE_PATH = "assets/textures/coin.png";
     public static final String COIN_IMAGE_FILE = "coin.png";
     public static final String HEART_IMAGE_PATH = "assets/textures/life.png";
+    public static final String HEART_IMAGE_FILE = "life.png";
     public static final String BOMB_IMAGE_PATH = "assets/textures/bomb.png";
     public static final String GAME_ICON_DINOSAUR = "icon.png";
 
@@ -39,6 +40,7 @@ public class GameConstants {
     public static final String ENEMY_EXPLODE_SOUND = "enemyExplode.wav";
     public static final String PLAYER_HIT_SOUND = "playerHit.wav";
     public static final String COIN_GAIN = "coinHit.wav";
+    public static final String HEART_HIT_SOUND = "heartHit.wav";
 
     /*
     * CONSTANTS FOR UI

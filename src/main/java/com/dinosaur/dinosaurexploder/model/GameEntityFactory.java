@@ -105,7 +105,7 @@ public class GameEntityFactory implements EntityFactory {
     @Spawns("basicEnemyProjectile")
     public Entity newBasicEnemyProjectile(SpawnData data) {
         Point2D direction = data.get("direction");
-        return entityBuilderBase(data, EntityType.GREEN_DINO)
+        return entityBuilderBase(data, EntityType.ENEMY_PROJECTILE)
                 .with(new OffscreenCleanComponent())
                 .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGE_FILE, 30, 17))
                 .bbox(new HitBox(BoundingShape.box(20, 20)))

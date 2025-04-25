@@ -1,10 +1,12 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
-import com.dinosaur.dinosaurexploder.utils.GameData;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.model.GameData;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -41,7 +43,7 @@ public class BombComponent extends Component implements Bomb {
 
     
     // Declaring Bomb Text
-    private Image bomb = new Image(GameConstants.BOMB_IMAGEPATH);
+    private Image bomb = new Image(GameConstants.BOMB_IMAGE_PATH);
     // Declaring 3 Bomb
     ImageView bomb1 = new ImageView(bomb);
     ImageView bomb2 = new ImageView(bomb);
@@ -60,7 +62,7 @@ public class BombComponent extends Component implements Bomb {
 
         // Style the text
         bombText.setFill(Color.BLUE);
-        bombText.setFont(Font.font(GameConstants.ARCADECLASSIC_FONTNAME, 20));
+        bombText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
         bombText.setLayoutX(0);
         bombText.setLayoutY(0);
 
@@ -143,7 +145,7 @@ public class BombComponent extends Component implements Bomb {
      */
     private void spawnBombBullets(Entity player) {
         Point2D center = player.getCenter();
-        Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGEPATH);
+        Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
         for (int i = -5; i <= 5; i++) {
             double angle = entity.getRotation() - 90 + i * 10;
             Vec2 direction = Vec2.fromAngle(angle);

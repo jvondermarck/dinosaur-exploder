@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,18 +36,13 @@ public class LanguageManager {
         selectedLanguage.set(language);
     }
 
-    // Getter for selected language
-    public String getSelectedLanguage() {
-        return selectedLanguage.get();
-    }
-
     public StringProperty selectedLanguageProperty() {
         return selectedLanguage;
     }
 
     // Main method to fetch all available languages
     public List<String> getAvailableLanguages() {
-        List<String> languages = new ArrayList<>();
+        List<String> languages;
 
         // Try loading languages from resources or JAR file based on environment
         if (isRunningInsideJar()) {
@@ -119,7 +114,7 @@ public class LanguageManager {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(inputStream, Map.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error loading translation " + language + " :" + e.getMessage());
             return Collections.emptyMap();
         }
     }

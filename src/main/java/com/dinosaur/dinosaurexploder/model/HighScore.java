@@ -1,7 +1,7 @@
 package com.dinosaur.dinosaurexploder.model;
 import java.io.*;
 public class HighScore implements Serializable {
-    Integer high;
+    private final Integer high;
     public HighScore(){
         this.high = 0;
     }

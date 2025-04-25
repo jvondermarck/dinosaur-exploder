@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
@@ -8,7 +8,8 @@ import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
-import com.dinosaur.dinosaurexploder.utils.GameData;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 
 import javafx.geometry.Point2D;
@@ -16,7 +17,7 @@ import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 public class PlayerComponent extends Component implements Player {
-    private int selectedShip = GameData.getSelectedShip();
+    private final int selectedShip = GameData.getSelectedShip();
     String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
     int movementSpeed = 8;
     private boolean isInvincible = false;
@@ -104,7 +105,7 @@ public class PlayerComponent extends Component implements Player {
         }
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-        Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGEPATH);
+        Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
 
         spawn("basicProjectile",
                 new SpawnData(center.getX() - (projImg.getWidth() / 2) + 3, center.getY() - 25) // Ajusta según el

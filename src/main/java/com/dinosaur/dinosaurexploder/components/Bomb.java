@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.entity.Entity;
 
@@ -18,7 +18,7 @@ public interface Bomb {
      * Parameters :
      *      double ptf
      */
-    public void onUpdate(double tpf);
+    void onUpdate(double tpf);
     /**
      * Summary :
      *      This method is used to launch a row of bullets as a bomb.

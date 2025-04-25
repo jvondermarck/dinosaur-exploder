@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.utils;
 
 /**
  * This class manages the game levels, including the current level, number of enemies to defeat,
@@ -14,10 +14,6 @@ public class LevelManager {
 
     public int getCurrentLevel() {
         return currentLevel;
-    }
-
-    public int getEnemiesToDefeat() {
-        return enemiesToDefeat;
     }
 
     public double getEnemySpawnRate() {
@@ -42,13 +38,5 @@ public class LevelManager {
 
         enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
         enemySpeed += 0.2;
-    }
-
-    public void reset() {
-        currentLevel = 1;
-        enemiesToDefeat = 5;
-        defeatedEnemies = 0;
-        enemySpawnRate = 0.75;
-        enemySpeed = 1.5;
     }
 }

@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.model;
+package com.dinosaur.dinosaurexploder.components;
 
 
 import java.io.FileInputStream;
@@ -8,6 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.model.HighScore;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -19,7 +22,9 @@ import javafx.scene.text.Text;
  *      This handles the Score component of the Player implements the Score interface and extends the Component
  */
 public class ScoreComponent extends Component  implements Score{
-    Integer score = 0;
+    private static final String HIGH_SCORE_FILE = "highScore.ser";
+
+    private int score = 0;
     public static HighScore highScore = new HighScore();
     private final LanguageManager languageManager = LanguageManager.getInstance();
 
@@ -33,13 +38,13 @@ public class ScoreComponent extends Component  implements Score{
         // Create UI elements
         scoreText = new Text();
         highScoreText = new Text();
-        Image image = new Image(GameConstants.GREENDINO_IMAGEPATH, 25, 20, false, false);
+        Image image = new Image(GameConstants.GREEN_DINO_IMAGE_PATH, 25, 20, false, false);
         ImageView imageView = new ImageView(image);
 
         scoreText.setFill(Color.GREEN);
-        scoreText.setFont(Font.font(GameConstants.ARCADECLASSIC_FONTNAME, 20));
+        scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
         highScoreText.setFill(Color.GREEN);
-        highScoreText.setFont(Font.font(GameConstants.ARCADECLASSIC_FONTNAME, 20));
+        highScoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
 
         // Arrange UI in a GridPane
         GridPane gridPane = new GridPane();
@@ -98,13 +103,18 @@ public class ScoreComponent extends Component  implements Score{
     @Override
     public void incrementScore(int i){
         score += i;
-        if(score > highScore.getHigh()){ highScore = new HighScore(score);
-        try{FileOutputStream fileOut = new FileOutputStream("highScore.ser");
-		ObjectOutputStream out = new ObjectOutputStream(fileOut);
-		out.writeObject(highScore);
-        out.close();
-        fileOut.close();} catch (IOException e){
-            e.printStackTrace();
-        }}
+        if(score > highScore.getHigh()) {
+            highScore = new HighScore(score);
+        }
+
+        try{
+            FileOutputStream fileOut = new FileOutputStream(HIGH_SCORE_FILE);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(highScore);
+            out.close();
+            fileOut.close();
+        } catch (IOException e){
+            System.err.println("Error saving highScore.ser file: " + e.getMessage());
+        }
     }
 }

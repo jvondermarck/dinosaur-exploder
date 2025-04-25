@@ -10,23 +10,22 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
-import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
-import com.dinosaur.dinosaurexploder.utils.GameData;
+import com.dinosaur.dinosaurexploder.components.*;
 
+import com.dinosaur.dinosaurexploder.constants.EntityType;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import static com.almasb.fxgl.dsl.FXGL.*;
 
 import java.util.Objects;
 
@@ -45,7 +44,7 @@ public class GameEntityFactory implements EntityFactory {
     @Spawns("background")
     public Entity newBackground(SpawnData data) {
         Image img = new Image(Objects.requireNonNull(
-                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGEPATH)).toString()));
+                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGE_PATH)).toString()));
 
         return FXGL.entityBuilder()
                 .view(new SelfScrollingBackgroundView(img, 3000, 1500, Orientation.VERTICAL, -50))
@@ -91,7 +90,7 @@ public class GameEntityFactory implements EntityFactory {
                 // they
                 // move outside the screen we want them deleted.
                 .with(new OffscreenCleanComponent())
-                .view(GameConstants.BASE_PROJECTILE_IMAGEFILE)
+                .view(GameConstants.BASE_PROJECTILE_IMAGE_FILE)
                 .bbox(new HitBox(BoundingShape.box(50, 50)))
                 .collidable()
                 .with(new ProjectileComponent(direction, 600))
@@ -106,9 +105,9 @@ public class GameEntityFactory implements EntityFactory {
     @Spawns("basicEnemyProjectile")
     public Entity newBasicEnemyProjectile(SpawnData data) {
         Point2D direction = data.get("direction");
-        return entityBuilderBase(data, EntityType.GREENDINO)
+        return entityBuilderBase(data, EntityType.GREEN_DINO)
                 .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGEFILE, 30, 17))
+                .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGE_FILE, 30, 17))
                 .bbox(new HitBox(BoundingShape.box(20, 20)))
                 .collidable()
                 .with(new ProjectileComponent(direction, 300))
@@ -122,9 +121,9 @@ public class GameEntityFactory implements EntityFactory {
      */
     @Spawns("greenDino")
     public Entity newGreenDino(SpawnData data) {
-        return entityBuilderBase(data, EntityType.GREENDINO)
+        return entityBuilderBase(data, EntityType.GREEN_DINO)
                 .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.GREENDINO_IMAGEFILE, 80, 60))
+                .view(texture(GameConstants.GREEN_DINO_IMAGE_FILE, 80, 60))
                 .bbox(new HitBox(BoundingShape.box(65, 55)))
                 .collidable()
                 .with(new GreenDinoComponent())
@@ -137,13 +136,13 @@ public class GameEntityFactory implements EntityFactory {
 
     @Spawns("coin")
     public Entity newCoin(SpawnData data) {
-        System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGEFILE);
+        System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGE_FILE);
         return entityBuilderBase(data, EntityType.COIN)
                 .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.COIN_IMAGEFILE, 40, 40))
+                .view(texture(GameConstants.COIN_IMAGE_FILE, 40, 40))
                 .bbox(new HitBox(BoundingShape.box(40, 40)))
                 .collidable()
-                .with(new Coin())
+                .with(new CoinComponent())
                 .build();
     }
     /**
@@ -154,7 +153,7 @@ public class GameEntityFactory implements EntityFactory {
     public Entity newScore(SpawnData data) {
         Text scoreText = new Text("");
         scoreText.setFill(Color.GREEN);
-        scoreText.setFont(Font.font(GameConstants.ARCADECLASSIC_FONTNAME, 20));
+        scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
         return entityBuilderBase(data, EntityType.SCORE)
                 .view(scoreText)
                 .with(new ScoreComponent())
@@ -194,7 +193,7 @@ public class GameEntityFactory implements EntityFactory {
         return entityBuilderBase(data, EntityType.COIN)
                 .from(data)
                 .view(coinText)
-                .with(new CoinComponent())
+                .with(new CollectedCoinsComponent())
                 .with(new OffscreenCleanComponent()).build();
     }
 
@@ -225,7 +224,7 @@ public class GameEntityFactory implements EntityFactory {
     public Entity newLevel(SpawnData data){
         Text levelText = new Text("Level: 1");
         levelText.setFill(Color.YELLOW);
-        levelText.setFont(Font.font(GameConstants.ARCADECLASSIC_FONTNAME, 20));
+        levelText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
         return entityBuilderBase(data, EntityType.LEVEL)
                 .view(levelText)
                 .build();

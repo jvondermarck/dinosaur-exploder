@@ -4,10 +4,14 @@ import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
+import com.dinosaur.dinosaurexploder.components.*;
+import com.dinosaur.dinosaurexploder.constants.EntityType;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.*;
+import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -35,7 +39,7 @@ public class DinosaurController {
     private Entity life;
     private Entity bomb;
     private Entity coin;
-    private CoinComponent coinComponent;
+    private CollectedCoinsComponent coinComponent;
     private LevelManager levelManager;
     private Entity levelDisplay;
     private TimerAction enemySpawnTimer;
@@ -100,10 +104,10 @@ public class DinosaurController {
             }else{
                 countDownAction.expire();
                 countDownText.setVisible(false);
-
                 gameStarted = true;
             }
             if(countDown == 1) {
+                resumeEnemySpawning();
                 spawnEnemies();
             }
 
@@ -125,7 +129,7 @@ public class DinosaurController {
         bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 180);
         coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 120);
         System.out.println("Coins at : " + coin.getPosition());
-        coinComponent = coin.getComponent(CoinComponent.class);
+        coinComponent = coin.getComponent(CollectedCoinsComponent.class);
         
         bomb.addComponent(new BombComponent());
         updateLevelDisplay();
@@ -229,7 +233,7 @@ public class DinosaurController {
 
     private void showLevelMessage(){
         //Pause game elements during level transition
-        FXGL.getGameWorld().getEntitiesByType(EntityType.GREENDINO).forEach(e -> {
+        FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
             if(e.hasComponent(GreenDinoComponent.class)) {
                 e.getComponent(GreenDinoComponent.class).setPaused(true);
             }
@@ -254,7 +258,7 @@ public class DinosaurController {
             getGameScene().removeUINode(levelText);
             updateLevelDisplay();
 
-            FXGL.getGameWorld().getEntitiesByType(EntityType.GREENDINO).forEach(e -> {
+            FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
                 if(e.hasComponent(GreenDinoComponent.class)){
                     e.getComponent(GreenDinoComponent.class).setPaused(false);
                 }
@@ -292,7 +296,7 @@ public class DinosaurController {
          * After collision of projectile and greenDino there hava explosion animation
          * and there have 50% change to spawn a coin
          */
-        onCollisionBegin(EntityType.PROJECTILE, EntityType.GREENDINO, (projectile, greendino) -> {
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.GREEN_DINO, (projectile, greendino) -> {
             spawn("explosion", greendino.getX() - 25, greendino.getY() - 30);
             if (random(0, 100) < 50) {
                 spawn("coin", greendino.getX(), greendino.getY());
@@ -312,7 +316,7 @@ public class DinosaurController {
 
         });
 
-        onCollisionBegin(EntityType.ENEMYPROJECTILE, EntityType.PLAYER, (projectile, player) -> {
+        onCollisionBegin(EntityType.ENEMY_PROJECTILE, EntityType.PLAYER, (projectile, player) -> {
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.PLAYER_HIT_SOUND);
             }
@@ -321,7 +325,7 @@ public class DinosaurController {
             damagePlayer();
         });
 
-        onCollisionBegin(EntityType.PLAYER, EntityType.GREENDINO, (player, greendino) -> {
+        onCollisionBegin(EntityType.PLAYER, EntityType.GREEN_DINO, (player, greendino) -> {
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.PLAYER_HIT_SOUND);
             }

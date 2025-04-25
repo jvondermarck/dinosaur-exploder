@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.model;
 
+import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

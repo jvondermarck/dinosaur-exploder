@@ -17,8 +17,9 @@ import javafx.scene.text.Text;
  */
 public class LifeComponent extends Component implements Life {
 
+    private static final int MAX_LIVES = 3;
     private final Image heart = new Image(GameConstants.HEART_IMAGE_PATH);
-    private int life = 3;
+    private int life = MAX_LIVES;
 
     // Declaring Lives Text
     private Text lifeText;
@@ -92,6 +93,21 @@ public class LifeComponent extends Component implements Life {
         entity.getViewComponent().clearChildren();
     }
 
+    /**
+     * Summary :
+     * This method is overriding the superclass method to increase the life to the current life without exceeding
+     * the maximum number of lives allowed
+     */
+    @Override
+    public int increaseLife(int i) {
+        life = Math.min(life + i, MAX_LIVES);
+        return life;
+    }
+
+    /**
+     * Summary :
+     * This method is overriding the superclass method to decrease the life to the current life
+     */
     @Override
     public int decreaseLife(int i) {
         life -= i;

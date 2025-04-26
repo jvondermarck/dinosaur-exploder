@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.DinosaurController;
 import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -26,8 +27,8 @@ public class DinosaurApp extends GameApplication {
     @Override
     protected void initSettings(GameSettings settings) {
         gui.initSettings(settings);
-        settings.setAppIcon("icon.png");
-        settings.setTitle("Dinosaur Exploder");
+        settings.setAppIcon(GameConstants.GAME_ICON_DINOSAUR);
+        settings.setTitle(GameConstants.GAME_NAME);
     }
 
     /**

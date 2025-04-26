@@ -17,17 +17,19 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
+import java.util.Objects;
+
 public class PlayerComponent extends Component implements Player {
     private final int selectedShip = GameData.getSelectedShip();
+    private final int selectedWeapon = GameData.getSelectedWeapon();
     String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
+    String weaponImagePath = "/assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
     int movementSpeed = 8;
     private boolean isInvincible = false;
 
-
-    
-    public void setInvincible(boolean invincible){
+    public void setInvincible(boolean invincible) {
         this.isInvincible = invincible;
-        if(invincible){
+        if (invincible) {
             entity.getViewComponent().setOpacity(0.5);
         } else {
             entity.getViewComponent().setOpacity(1.0);
@@ -101,12 +103,13 @@ public class PlayerComponent extends Component implements Player {
      * player and spawning of the new bullet
      */
     public void shoot(boolean muted) {
-        if(!muted) {
+        if (!muted) {
             FXGL.play(GameConstants.SHOOT_SOUND);
         }
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-        Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
+        System.out.println(selectedWeapon);
+        Image projImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
 
         spawn("basicProjectile",
                 new SpawnData(center.getX() - (projImg.getWidth() / 2) + 3, center.getY() - 25) // Ajusta según el

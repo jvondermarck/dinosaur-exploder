@@ -4,6 +4,7 @@
   "score": "Puntaje",
   "language_label": "Seleccione el idioma:",
   "select_ship": "Seleccione su nave",
+  "select_weapon": "Seleccione su arma",
   "game_over": "Juego terminado.",
   "score_label": "Puntaje",
   "high_score": "Puntuación máxima",
@@ -24,7 +25,8 @@
   "no": "No",
   "coin": "acuñar",
   "level": "Nivel",
-  "ship_locked": "La nave espacial está cerrada.",
+  "ship_locked": "La nave espacial está bloqueada.",
+  "weapon_locked": "El arma está bloqueada.",
   "unlock_highScore": "Alcanzar una puntuación alta de ## para desbloquearlo.",
   "ok": "Está bien"
 }

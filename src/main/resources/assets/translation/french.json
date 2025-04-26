@@ -4,6 +4,7 @@
   "score": "Score",
   "language_label" : "Sélectionnez la langue :",
   "select_ship": "Sélectionnez votre navire",
+  "select_weapon": "sélectionnez votre arme",
   "game_over": "Jeu terminé. ",
   "score_label": "Score",
   "high_score": "Haut niveau",
@@ -25,6 +26,7 @@
   "coin": "pièce de monnaie",
   "level": "Niveau",
   "ship_locked": "Le vaisseau spatial est verrouillé.",
+  "weapon_locked": "L'arme est verrouillée.",
   "unlock_highScore": "Atteignez un score élevé de ## pour le débloquer.",
   "ok": "D'accord"
 }

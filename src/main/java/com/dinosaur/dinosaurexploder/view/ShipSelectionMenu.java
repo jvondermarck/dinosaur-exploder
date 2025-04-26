@@ -194,7 +194,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         GameData.setSelectedShip(shipNumber);
         // Selected spaceship in console
         System.out.println("Selected Spaceship: " + shipNumber);
-        fireNewGame();
+        FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
         mainMenuSound.stop();
     }
 }

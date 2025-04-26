@@ -11,6 +11,13 @@ public interface Life {
      *      double ptf
      */
     void onUpdate(double tpf);
+
+    /**
+     * Summary :
+     *      This method increases the life to the current life
+     */
+    int increaseLife(int i);
+
     /**
      * Summary :
      *      This method sets the life to the current life

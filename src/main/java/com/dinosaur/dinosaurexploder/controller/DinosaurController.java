@@ -36,6 +36,8 @@ public class DinosaurController {
     private CollectedCoinsComponent collectedCoinsComponent;
     private Entity levelDisplay;
     private Entity life;
+    private Entity healthbar;
+    private CollectedCoinsComponent coinComponent;
     private LevelManager levelManager;
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
@@ -161,6 +163,25 @@ public class DinosaurController {
                 .buildAndPlay();
 
         countdownAnimation();
+
+        /*
+        * every 1 sec there is 10% change to span a coin
+        */
+        run(() -> {
+            if (gameStarted && random(0, 100) < 10) {
+                double x = random(0, getAppWidth() - 80);
+                spawn("coin", x, 0);
+            }
+        }, seconds(1.0));
+    }
+
+    private void spawnBoss(){
+        Entity redDino = spawn("redDino", getAppCenter().getX() - 45, 50);
+        redDino.getComponent(RedDinoComponent.class).setMuted(settings.isMuted());
+        redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
+
+        healthbar = spawn("healthbar",  getAppWidth()-215, 15);
+        healthbar.getComponent(HealthbarComponent.class).setRedDinoComponent(redDino.getComponent(RedDinoComponent.class));
     }
 
     /**
@@ -174,9 +195,14 @@ public class DinosaurController {
         }
 
         enemySpawnTimer = run(() -> {
-            if (!isSpawningPaused && random(0, 2) < 2) {
-                Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
-                greenDino.getComponent(GreenDinoComponent.class).setMuted(settings.isMuted());
+            if(levelManager.getCurrentLevel()%5==0){
+                pauseEnemySpawning();
+                spawnBoss();
+            }else {
+                if (!isSpawningPaused && random(0, 2) < 2) {
+                    Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                    greenDino.getComponent(GreenDinoComponent.class).setMuted(settings.isMuted());
+                }
             }
         }, seconds(levelManager.getEnemySpawnRate()));
     }
@@ -279,13 +305,13 @@ public class DinosaurController {
      */
     public void initPhysics() {
         /*
-         * After collision of projectile and greenDino there hava explosion animation
-         * and there have 50% change to spawn a coin
+         * After collision between projectile and greenDino there hava explosion animation
+         * and there have 5% chance to spawn a heart
          */
         onCollisionBegin(EntityType.PROJECTILE, EntityType.GREEN_DINO, (projectile, greendino) -> {
             spawn("explosion", greendino.getX() - 25, greendino.getY() - 30);
-            if (random(0, 100) < 50) {
-                spawn("coin", greendino.getX(), greendino.getY());
+            if (random(0, 100) < 5) {
+                spawn("heart", greendino.getX(), greendino.getY());
             }
             if(!settings.isMuted()) {
                 FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
@@ -293,13 +319,57 @@ public class DinosaurController {
             projectile.removeFromWorld();
             greendino.removeFromWorld();
             score.getComponent(ScoreComponent.class).incrementScore(1);
-
             levelManager.incrementDefeatedEnemies();
             if(levelManager.shouldAdvanceLevel()){
                 levelManager.nextLevel();
                 showLevelMessage();
                 System.out.println("Level up!");
             }
+        });
+
+        /*
+         * After collision between projectile and redDino they
+         * have an explosion animation,
+         * and lose one life.
+         * if deafeated they
+         * have a 100% chance to spawn a heart,
+         * spawn coins depending on the current level
+         *
+         */
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.RED_DINO, (projectile, reddino) -> {
+            spawn("explosion", reddino.getX() - 25, reddino.getY() - 30);
+            projectile.removeFromWorld();
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
+            }
+            reddino.getComponent(RedDinoComponent.class).damage(1);
+
+            if (reddino.getComponent(RedDinoComponent.class).getLives() == 0) {
+                // if the boss is deafeated it drops 100% a heart
+                spawn("heart", reddino.getX(), reddino.getY());
+                // if the boss dino is defeated it drops as much coins as the current level
+                for (int i = 0; i<levelManager.getCurrentLevel(); i++){
+                    spawn("coin", reddino.getX()+random(-25,25), reddino.getY()+random(-25,25));
+                }
+                healthbar.removeFromWorld();
+                reddino.removeFromWorld();
+                score.getComponent(ScoreComponent.class).incrementScore(levelManager.getCurrentLevel());
+                levelManager.nextLevel();
+                showLevelMessage();
+                System.out.println("Level up!");
+            } else{
+                healthbar.getComponent(HealthbarComponent.class).updateBar();
+            }
+
+        });
+
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMY_PROJECTILE, (projectile, enemyProjectile) -> {
+            spawn("explosion", enemyProjectile.getX() - 25, enemyProjectile.getY() - 30);
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
+            }
+            projectile.removeFromWorld();
+            enemyProjectile.removeFromWorld();
         });
 
         onCollisionBegin(EntityType.ENEMY_PROJECTILE, EntityType.PLAYER, (projectile, player) -> {
@@ -320,6 +390,14 @@ public class DinosaurController {
             damagePlayer();
         });
 
+        onCollisionBegin(EntityType.PLAYER, EntityType.RED_DINO, (player, reddino) -> {
+            if(!settings.isMuted()) {
+                FXGL.play(GameConstants.PLAYER_HIT_SOUND);
+            }
+            System.out.println("You touched a red dino !");
+            damagePlayer();
+        });
+
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
             if(!settings.isMuted()){
                 FXGL.play(GameConstants.COIN_GAIN);
@@ -332,6 +410,15 @@ public class DinosaurController {
             if (bomb.hasComponent(BombComponent.class)) {
                 bomb.getComponent(BombComponent.class).trackCoinForBombRegeneration();
             }
+        });
+
+        onCollisionBegin(EntityType.PLAYER, EntityType.HEART, (player, heart) -> {
+            if(!settings.isMuted()){
+                FXGL.play(GameConstants.HEART_HIT_SOUND);
+            }
+            heart.removeFromWorld();
+            System.out.println("You touched a heart!");
+            life.getComponent(LifeComponent.class).increaseLife(1);
         });
     }
 

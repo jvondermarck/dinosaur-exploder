@@ -36,7 +36,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
     }
 
     private void updateText(){
-        coinText.setText(languageManager.getTranslation("coin") + "\t" + coin);
+        coinText.setText(languageManager.getTranslation("coin") + ": " + coin);
     }
 
     private Node createCoinUI(){

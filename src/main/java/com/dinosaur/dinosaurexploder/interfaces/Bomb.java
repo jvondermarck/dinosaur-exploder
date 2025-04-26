@@ -1,4 +1,4 @@
-package com.dinosaur.dinosaurexploder.components;
+package com.dinosaur.dinosaurexploder.interfaces;
 
 import com.almasb.fxgl.entity.Entity;
 

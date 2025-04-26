@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.interfaces.Score;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.geometry.Pos;

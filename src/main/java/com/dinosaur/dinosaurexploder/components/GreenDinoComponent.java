@@ -6,6 +6,7 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.time.LocalTimer;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
@@ -15,7 +16,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
  * Summary :
  *      This class extends Component and Implements the Dinosaur Classes and Handles the Shooting and Updating the Dino
  */
-public class GreenDinoComponent extends Component implements Dinosaur{
+public class GreenDinoComponent extends Component implements Dinosaur {
     double verticalSpeed = 1.5;
     private final LocalTimer timer = FXGL.newLocalTimer();
     private boolean isPaused = false;

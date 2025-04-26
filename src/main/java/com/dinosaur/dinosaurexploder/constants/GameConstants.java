@@ -17,6 +17,8 @@ public class GameConstants {
     public static final String ENEMY_PROJECTILE_IMAGE_FILE = "enemyProjectile.png";
     public static final String GREEN_DINO_IMAGE_PATH = "assets/textures/greenDino.png";
     public static final String GREEN_DINO_IMAGE_FILE = "greenDino.png";
+    public static final String RED_DINO_IMAGE_PATH = "assets/textures/redDino.png";
+    public static final String RED_DINO_IMAGE_FILE = "redDino.png";
     public static final String COIN_IMAGE_PATH = "assets/textures/coin.png";
     public static final String COIN_IMAGE_FILE = "coin.png";
     public static final String HEART_IMAGE_PATH = "assets/textures/life.png";

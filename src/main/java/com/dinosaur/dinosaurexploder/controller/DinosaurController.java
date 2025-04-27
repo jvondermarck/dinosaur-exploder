@@ -13,12 +13,11 @@ import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.view.GameOverDialog;
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -36,16 +35,11 @@ public class DinosaurController {
     private CollectedCoinsComponent collectedCoinsComponent;
     private Entity levelDisplay;
     private Entity life;
-    private Entity healthbar;
+    private Entity healthBar;
     private CollectedCoinsComponent coinComponent;
     private LevelManager levelManager;
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
-
-    private TimerAction countDownAction;
-    private Text countDownText;
-    private int countDown = 3;
-    private boolean gameStarted = false;
 
     private final Settings settings = SettingsProvider.loadSettings();
 
@@ -92,36 +86,20 @@ public class DinosaurController {
         onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
     }
 
-    private void countdownAnimation(){
-        countDownAction = getGameTimer().runAtInterval(() -> {
-            if(countDown > 0){
-                countDown -= 1;
-                countDownText.setText(String.valueOf(countDown));
-            }else{
-                countDownAction.expire();
-                countDownText.setVisible(false);
-                gameStarted = true;
-            }
-            if(countDown == 1) {
-                resumeEnemySpawning();
-                spawnEnemies();
-            }
-
-        }, Duration.seconds(1));
-    }
-
     public void initGame() {
         initGameEntities();
         levelManager = new LevelManager();
+        CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
         if(!settings.isMuted()) {
             FXGL.play(GameConstants.BACKGROUND_SOUND);
         }
 
-        gameStarted = false;
-        countDown = 3;
-        createCountDownAnimation();
-        startCoinSpawner();
+        new CountdownAnimation(3).startCountdown(() -> {
+            resumeEnemySpawning();
+            spawnEnemies();
+            coinSpawner.startSpawning();
+        });
     }
 
     private void initGameEntities(){
@@ -136,52 +114,13 @@ public class DinosaurController {
         bomb.addComponent(new BombComponent());
     }
 
-    /*
-     * every 1 sec there is 10% change to span a coin
-     */
-    private void startCoinSpawner(){
-        run(() -> {
-            if (gameStarted && random(0, 100) < 10) {
-                double x = random(0, getAppWidth() - 80);
-                spawn("coin", x, 0);
-            }
-        }, seconds(1.0));
-    }
-
-    private void createCountDownAnimation(){
-        countDownText = getUIFactoryService().newText(String.valueOf(countDown), Color.WHITE, 60);
-        getGameScene().addUINode(countDownText);
-        FXGL.animationBuilder()
-                .interpolator(Interpolators.ELASTIC.EASE_OUT())
-                .onCycleFinished(() -> System.out.println("Started countdown animation"))
-                .onFinished(() -> System.out.println("Countdown animation finished"))
-                .duration(Duration.seconds(1))
-                .repeat(4)
-                .translate(countDownText)
-                .from(new Point2D((getAppWidth() - countDownText.getLayoutBounds().getWidth())/2,getAppHeight() /2.0 - 200))
-                .to(new Point2D((getAppWidth() - countDownText.getLayoutBounds().getWidth())/2,getAppHeight() /2.0))
-                .buildAndPlay();
-
-        countdownAnimation();
-
-        /*
-        * every 1 sec there is 10% change to span a coin
-        */
-        run(() -> {
-            if (gameStarted && random(0, 100) < 10) {
-                double x = random(0, getAppWidth() - 80);
-                spawn("coin", x, 0);
-            }
-        }, seconds(1.0));
-    }
-
     private void spawnBoss(){
         Entity redDino = spawn("redDino", getAppCenter().getX() - 45, 50);
         redDino.getComponent(RedDinoComponent.class).setMuted(settings.isMuted());
         redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
 
-        healthbar = spawn("healthbar",  getAppWidth()-215, 15);
-        healthbar.getComponent(HealthbarComponent.class).setRedDinoComponent(redDino.getComponent(RedDinoComponent.class));
+        healthBar = spawn("healthbar",  getAppWidth()-215, 15);
+        healthBar.getComponent(HealthbarComponent.class).setRedDinoComponent(redDino.getComponent(RedDinoComponent.class));
     }
 
     /**
@@ -351,14 +290,14 @@ public class DinosaurController {
                 for (int i = 0; i<levelManager.getCurrentLevel(); i++){
                     spawn("coin", reddino.getX()+random(-25,25), reddino.getY()+random(-25,25));
                 }
-                healthbar.removeFromWorld();
+                healthBar.removeFromWorld();
                 reddino.removeFromWorld();
                 score.getComponent(ScoreComponent.class).incrementScore(levelManager.getCurrentLevel());
                 levelManager.nextLevel();
                 showLevelMessage();
                 System.out.println("Level up!");
             } else{
-                healthbar.getComponent(HealthbarComponent.class).updateBar();
+                healthBar.getComponent(HealthbarComponent.class).updateBar();
             }
 
         });

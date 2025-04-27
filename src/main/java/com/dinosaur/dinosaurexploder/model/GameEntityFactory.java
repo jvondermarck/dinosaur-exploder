@@ -166,7 +166,7 @@ public class GameEntityFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("healthbar")
+    @Spawns("healthBar")
     public Entity newHealthbar(SpawnData data) {
         Rectangle healthbar = new Rectangle(200.0, 25.0, Color.RED);
         return entityBuilderBase(data, EntityType.HEALTHBAR)

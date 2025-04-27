@@ -34,11 +34,10 @@ public class DinosaurController {
     private CollectedCoinsComponent collectedCoinsComponent;
     private Entity levelDisplay;
     private Entity life;
-    private Entity healthBar;
     private LevelManager levelManager;
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
-
+    private BossSpawner bossSpawner;
     private final Settings settings = SettingsProvider.loadSettings();
 
     /**
@@ -87,6 +86,7 @@ public class DinosaurController {
     public void initGame() {
         initGameEntities();
         levelManager = new LevelManager();
+        bossSpawner = new BossSpawner(settings,levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
         if(!settings.isMuted()) {
@@ -112,15 +112,6 @@ public class DinosaurController {
         bomb.addComponent(new BombComponent());
     }
 
-    private void spawnBoss(){
-        Entity redDino = spawn("redDino", getAppCenter().getX() - 45, 50);
-        redDino.getComponent(RedDinoComponent.class).setMuted(settings.isMuted());
-        redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
-
-        healthBar = spawn("healthBar",  getAppWidth()-215, 15);
-        healthBar.getComponent(HealthbarComponent.class).setRedDinoComponent(redDino.getComponent(RedDinoComponent.class));
-    }
-
     /**
      * Summary :
      *      This method is used to spawn the enemies
@@ -134,7 +125,7 @@ public class DinosaurController {
         enemySpawnTimer = run(() -> {
             if(levelManager.getCurrentLevel()%5==0){
                 pauseEnemySpawning();
-                spawnBoss();
+                bossSpawner.spawnNewBoss();
             }else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
                     Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
@@ -288,14 +279,14 @@ public class DinosaurController {
                 for (int i = 0; i<levelManager.getCurrentLevel(); i++){
                     spawn("coin", redDino.getX()+random(-25,25), redDino.getY()+random(-25,25));
                 }
-                healthBar.removeFromWorld();
-                redDino.removeFromWorld();
+                bossSpawner.removeBossEntities();
+
                 score.getComponent(ScoreComponent.class).incrementScore(levelManager.getCurrentLevel());
                 levelManager.nextLevel();
                 showLevelMessage();
                 System.out.println("Level up!");
             } else{
-                healthBar.getComponent(HealthbarComponent.class).updateBar();
+                bossSpawner.updateHealthBar();
             }
 
         });

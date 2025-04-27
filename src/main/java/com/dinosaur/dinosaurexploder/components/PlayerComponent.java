@@ -108,7 +108,7 @@ public class PlayerComponent extends Component implements Player {
         }
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-        System.out.println(selectedWeapon);
+        System.out.println("Shoot with selected weapon: " + selectedWeapon);
         Image projImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
 
         spawn("basicProjectile",

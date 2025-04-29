@@ -59,7 +59,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         imageViewB.setY(0);
         imageViewB.setPreserveRatio(true);
 
-        //Background animation
+        // Background animation
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setNode(imageViewB);
         translateTransition.setDuration(Duration.seconds(50));
@@ -71,7 +71,14 @@ public class ShipSelectionMenu extends FXGLMenu {
         translateTransition.play();
 
         // Title
-        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_ship"), Color.LIME, FontType.MONO, 35);
+        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_ship"), Color.LIME,
+                FontType.MONO, 35);
+
+        // High Score display
+        var highScore = FXGL.getUIFactoryService().newText(
+                languageManager.getTranslation("high_score") + ": " + GameData.getHighScore(),
+                Color.LIME,
+                FontType.MONO, 25);
 
         // GridPane for ships
         GridPane shipGrid = new GridPane();
@@ -104,7 +111,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         spacer.setOpacity(0);
 
         // Vbox layout
-        VBox layout = new VBox(20, spacer, title, shipGrid, backButton);
+        VBox layout = new VBox(20, spacer, title, highScore, shipGrid, backButton);
         layout.setAlignment(Pos.CENTER);
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(50); // 50px spacing between nodes
@@ -132,7 +139,8 @@ public class ShipSelectionMenu extends FXGLMenu {
             shipView.setFitWidth(imageSize);
             applyDarkFilterIfLocked(isLocked, shipView);
 
-            ImageView lockIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/lock.png"))));
+            ImageView lockIcon = new ImageView(
+                    new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/lock.png"))));
             setLockProperties(lockIcon, isLocked);
 
             Button shipButton = new Button();

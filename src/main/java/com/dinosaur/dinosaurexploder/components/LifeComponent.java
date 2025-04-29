@@ -95,8 +95,7 @@ public class LifeComponent extends Component implements Life {
 
     /**
      * Summary :
-     * This method is overriding the superclass method to increase the life to the
-     * current life without exceeding
+     * This method is overriding the superclass method to increase the life to the current life without exceeding
      * the maximum number of lives allowed
      */
     @Override
@@ -107,8 +106,7 @@ public class LifeComponent extends Component implements Life {
 
     /**
      * Summary :
-     * This method is overriding the superclass method to decrease the life to the
-     * current life
+     * This method is overriding the superclass method to decrease the life to the current life
      */
     @Override
     public int decreaseLife(int i) {

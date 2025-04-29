@@ -147,34 +147,34 @@ public class GameEntityFactory implements EntityFactory {
         public Entity newCoin(SpawnData data) {
                 System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGE_FILE);
                 return entityBuilderBase(data, EntityType.COIN)
-                                .with(new OffscreenCleanComponent())
-                                .view(texture(GameConstants.COIN_IMAGE_FILE, 40, 40))
-                                .bbox(new HitBox(BoundingShape.box(40, 40)))
-                                .collidable()
-                                .with(new CoinComponent())
-                                .build();
+                        .with(new OffscreenCleanComponent())
+                        .view(texture(GameConstants.COIN_IMAGE_FILE, 40, 40))
+                        .bbox(new HitBox(BoundingShape.box(40, 40)))
+                        .collidable()
+                        .with(new CoinComponent())
+                        .build();
         }
 
         @Spawns("redDino")
         public Entity newRedDino(SpawnData data) {
                 return entityBuilderBase(data, EntityType.RED_DINO)
-                                .with(new OffscreenCleanComponent())
-                                .view(texture(GameConstants.RED_DINO_IMAGE_FILE, 100, 80))
-                                .bbox(new HitBox(BoundingShape.box(65, 55)))
-                                .collidable()
-                                .with(new RedDinoComponent())
-                                .build();
+                        .with(new OffscreenCleanComponent())
+                        .view(texture(GameConstants.RED_DINO_IMAGE_FILE, 100, 80))
+                        .bbox(new HitBox(BoundingShape.box(65, 55)))
+                        .collidable()
+                        .with(new RedDinoComponent())
+                        .build();
         }
 
-        @Spawns("healthBar")
-        public Entity newHealthbar(SpawnData data) {
-                Rectangle healthbar = new Rectangle(200.0, 25.0, Color.RED);
-                return entityBuilderBase(data, EntityType.HEALTHBAR)
-                                .with(new OffscreenCleanComponent())
-                                .with(new HealthbarComponent())
-                                .view(healthbar)
-                                .build();
-        }
+    @Spawns("healthBar")
+    public Entity newHealthbar(SpawnData data) {
+        Rectangle healthbar = new Rectangle(200.0, 25.0, Color.RED);
+        return entityBuilderBase(data, EntityType.HEALTHBAR)
+                .with(new OffscreenCleanComponent())
+                .with(new HealthbarComponent())
+                .view(healthbar)
+                .build();
+    }
 
         /**
          * Summary :

@@ -13,8 +13,7 @@ import javafx.scene.text.Text;
 
 /**
  * Summary :
- * This handles the life component of the Player implements the life interface
- * and extends the Component
+ * This handles the life component of the Player implements the life interface and extends the Component
  */
 public class LifeComponent extends Component implements Life {
 

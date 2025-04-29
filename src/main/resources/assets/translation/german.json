@@ -3,6 +3,7 @@
   "quit": "Beenden",
   "language_label" : "Sprache wählen:",
   "select_ship": "Wähle ein Schiff",
+  "select_weapon": "Wähle deine Waffe",
   "score": "Punktzahl",
   "game_over": "Spiel beendet.",
   "score_label": "Punktzahl",
@@ -25,6 +26,7 @@
   "coin": "Münze",
   "level": "Level",
   "ship_locked": "Das Raumschiff ist gesperrt.",
+  "weapon_locked": "Die Waffe ist verriegelt..",
   "unlock_highScore": "Erreiche eine Punktzahl von ## um es freizuschalten.",
   "ok": "Okay"
 }

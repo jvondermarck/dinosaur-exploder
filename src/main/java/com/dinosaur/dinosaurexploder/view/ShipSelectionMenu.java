@@ -5,10 +5,10 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
-import com.dinosaur.dinosaurexploder.model.GameConstants;
-import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.model.Settings;
-import com.dinosaur.dinosaurexploder.utils.GameData;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -35,15 +35,15 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class ShipSelectionMenu extends FXGLMenu {
-    private MediaPlayer mainMenuSound;
-    LanguageManager languageManager = LanguageManager.getInstance();
+    private final MediaPlayer mainMenuSound;
+    private final LanguageManager languageManager = LanguageManager.getInstance();
     private final Settings settings = SettingsProvider.loadSettings();
 
     public ShipSelectionMenu() {
         super(MenuType.MAIN_MENU);
 
         // Background music
-        Media media = new Media(getClass().getResource(GameConstants.MAINMENU_SOUND).toExternalForm());
+        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
         mainMenuSound = new MediaPlayer(media);
         mainMenuSound.setVolume(SettingsProvider.loadSettings().getVolume());
         mainMenuSound.setMute(settings.isMuted());
@@ -59,10 +59,10 @@ public class ShipSelectionMenu extends FXGLMenu {
         imageViewB.setY(0);
         imageViewB.setPreserveRatio(true);
 
-        // Background animation
+        //Background animation
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setNode(imageViewB);
-        translateTransition.setDuration(Duration.seconds(50)); // Duración del ciclo
+        translateTransition.setDuration(Duration.seconds(50));
         translateTransition.setFromX(0);
         translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8);
         translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
@@ -132,7 +132,7 @@ public class ShipSelectionMenu extends FXGLMenu {
             shipView.setFitWidth(imageSize);
             applyDarkFilterIfLocked(isLocked, shipView);
 
-            ImageView lockIcon = new ImageView(new Image(getClass().getResourceAsStream("/assets/textures/lock.png")));
+            ImageView lockIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/lock.png"))));
             setLockProperties(lockIcon, isLocked);
 
             Button shipButton = new Button();
@@ -194,7 +194,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         GameData.setSelectedShip(shipNumber);
         // Selected spaceship in console
         System.out.println("Selected Spaceship: " + shipNumber);
-        fireNewGame();
+        FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
         mainMenuSound.stop();
     }
 }

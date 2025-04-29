@@ -39,13 +39,12 @@ body:
     label: 💻 Environment
     description: |
       Examples: |
-        - **OS**: Ubuntu 20.04 / Windows 11
-        - **JDK Java**: 17.0.1
-        - **JavaFX**: 17
-        - **Game Version**: 1.0.0
+        - **OS**: Ubuntu 20.04 / Windows 11 / macOS 15.0
+        - **JDK Java**: 21
+        - **Game Version**: 1.2.0
     value: |
       - OS:
-      - Game version: 1.0.0
+      - Game version: 1.2.0
     render: markdown
   validations:
     required: false

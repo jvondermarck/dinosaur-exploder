@@ -4,7 +4,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.model.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,12 +19,12 @@ import javafx.scene.control.Button;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
-import com.dinosaur.dinosaurexploder.model.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 
 public class PauseMenu extends FXGLMenu {
     LanguageManager languageManager = LanguageManager.getInstance();
-    PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), () -> fireResume());
-    PauseButton btnQuitGame = new PauseButton(languageManager.getTranslation("quit"), () -> exit());
+    PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
+    PauseButton btnQuitGame = new PauseButton(languageManager.getTranslation("quit"), this::exit);
     ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
 
     // Store OptionButtons as fields so they can be updated
@@ -42,9 +42,7 @@ public class PauseMenu extends FXGLMenu {
         updateTexts();
 
         // Listen for language changes and update UI automatically
-        languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> {
-            updateTexts();
-        });
+        languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> updateTexts());
 
         btnControls.setControlAction(() -> {
             var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
@@ -68,7 +66,7 @@ public class PauseMenu extends FXGLMenu {
             );
 
             controlsBox.setTranslateX(300);
-            controlsBox.setTranslateY(getAppWidth() / 2);
+            controlsBox.setTranslateY(getAppWidth() / 2.0);
 
             btnBack.disable();
             btnQuitGame.disable();
@@ -86,13 +84,13 @@ public class PauseMenu extends FXGLMenu {
                 btnBack,
                 btnControls,
                 btnQuitGame);
-        var version = FXGL.getUIFactoryService().newText("v1.0-Developer", Color.WHITE, FontType.MONO, 20);
+        var version = FXGL.getUIFactoryService().newText(GameConstants.VERSION, Color.WHITE, FontType.MONO, 20);
 
-        title.setTranslateX(getAppWidth() / 2 - 175);
+        title.setTranslateX(getAppWidth() / 2.0 - 175);
         title.setTranslateY(150);
 
         box.setTranslateX(100);
-        box.setTranslateY(getAppWidth() / 2 + 100);
+        box.setTranslateY(getAppWidth() / 2.0 + 100);
 
         version.setTranslateX(10);
         version.setTranslateY(getAppHeight() - 10);
@@ -103,8 +101,8 @@ public class PauseMenu extends FXGLMenu {
 
     private static class OptionsButton extends StackPane {
 
-        private String description;
-        private Text text;
+        private final String description;
+        private final Text text;
 
         public OptionsButton(String description) {
             this.description = description;

@@ -2,7 +2,6 @@ package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
-import com.dinosaur.dinosaurexploder.model.LanguageManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.util.Map;
 
 public class ShipUnlockChecker {
-    LanguageManager languageManager = LanguageManager.getInstance();
+    public LanguageManager languageManager = LanguageManager.getInstance();
 
     private static final Map<Integer, Integer> scoreMap = Map.of(   //key: shipNumber, value: lower limit score
             1, 0,

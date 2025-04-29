@@ -41,10 +41,13 @@
 ### 🛠 Installation on Windows / Linux / Mac
 
 🚀 **Quick Start**:
-1. **Download the latest release** ➡️ [Click here](https://github.com/jvondermarck/dinosaur-exploder/tags) and grab the latest `dinosaur-exploder.jar`.
+1. **Download the latest release** ➡️ [Click here](https://github.com/jvondermarck/dinosaur-exploder/tags) and grab the appropriate JAR for your platform:
+   - 🪟 `dinosaur-exploder-win-<version>.jar`
+   - 🐧 `dinosaur-exploder-linux-<version>.jar`
+   - 🍎 `dinosaur-exploder-mac-<version>.jar`
 2. **Run the game** by executing the following command in your terminal:
    ```console
-   $ java -jar dinosaur-exploder.jar
+   $ java -jar dinosaur-exploder-<platform>-<version>.jar
    ```
 
 ### 💻 Installation Locally
@@ -101,7 +104,9 @@ Play the game with these controls:
 
 ## 🎥 Gameplay
 
-https://github.com/user-attachments/assets/9dbad492-b600-4a14-9367-11eef2a7834a
+> Here is a demo of the actual game. Dare to play it now 🎮 !
+
+https://github.com/user-attachments/assets/4b5a6ed4-2e68-4e12-a9c8-8a6c33178c5e
 
 ## 🙏 Contributing
 

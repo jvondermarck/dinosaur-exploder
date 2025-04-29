@@ -4,6 +4,7 @@ public class Settings {
 
     private double volume;
     private boolean muted;
+    private String language;
 
     public double getVolume() {
         return volume;
@@ -19,5 +20,13 @@ public class Settings {
 
     public void setMuted(boolean muted) {
         this.muted = muted;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

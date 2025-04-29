@@ -45,8 +45,8 @@ public class DinosaurController {
      *      Detecting the player damage to decrease the lives and checking if the game is over
      */
     public void damagePlayer() {
-            if(player.getComponent(PlayerComponent.class).isInvincible()){
-                return; 
+        if(player.getComponent(PlayerComponent.class).isInvincible()){
+            return; 
         }
         int lives = life.getComponent(LifeComponent.class).decreaseLife(1);
         var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));
@@ -63,10 +63,9 @@ public class DinosaurController {
             System.out.printf("%d lives remaining ! ", lives);
         }
     }
-
     /**
      * Summary :
-    *      To move the space shuttle in forward , backward , right , left directions
+     *      To move the space shuttle in forward , backward , right , left directions
      */
     public void initInput() {
         onKey(KeyCode.UP, () -> player.getComponent(PlayerComponent.class).moveUp());
@@ -118,13 +117,13 @@ public class DinosaurController {
      *      This method is used to spawn the enemies
      *      and set the spawn rate of the enemies
      */
-    private void spawnEnemies() {
-        if(enemySpawnTimer != null) {
+    private void spawnEnemies(){
+        if(enemySpawnTimer != null){
             enemySpawnTimer.expire();
         }
 
         enemySpawnTimer = run(() -> {
-            if(levelManager.getCurrentLevel() % 5 == 0) {
+            if(levelManager.getCurrentLevel()% 5==0) {
                 pauseEnemySpawning();
                 bossSpawner.spawnNewBoss();
             }else {
@@ -142,14 +141,14 @@ public class DinosaurController {
      */
     private void pauseEnemySpawning(){
         isSpawningPaused = true;
-        if(enemySpawnTimer != null) {
+        if(enemySpawnTimer != null){
             enemySpawnTimer.pause();
         }
     }
 
     /**
      * Summary :
-     * This method is used to resume the enemy spawning
+     *      This method is used to resume the enemy spawning
      */
     private void resumeEnemySpawning(){
         isSpawningPaused = false;
@@ -175,7 +174,7 @@ public class DinosaurController {
 
         pauseEnemySpawning();
 
-        // Display centered level notification
+        //Display centered level notification
         Text levelText = getUIFactoryService().newText(languageManager.getTranslation("level") + levelManager.getCurrentLevel(), Color.WHITE, 24);
         levelText.setStroke(Color.BLACK);
         levelText.setStrokeWidth(1.5);
@@ -249,7 +248,7 @@ public class DinosaurController {
             greenDino.removeFromWorld();
             score.getComponent(ScoreComponent.class).incrementScore(1);
             levelManager.incrementDefeatedEnemies();
-            if(levelManager.shouldAdvanceLevel()) {
+            if(levelManager.shouldAdvanceLevel()){
                 levelManager.nextLevel();
                 showLevelMessage();
                 System.out.println("Level up!");
@@ -328,7 +327,7 @@ public class DinosaurController {
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
-            if(!settings.isMuted()) {
+            if(!settings.isMuted()){
                 FXGL.play(GameConstants.COIN_GAIN);
             }
             coin.removeFromWorld();
@@ -342,7 +341,7 @@ public class DinosaurController {
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.HEART, (player, heart) -> {
-            if(!settings.isMuted()) {
+            if(!settings.isMuted()){
                 FXGL.play(GameConstants.HEART_HIT_SOUND);
             }
             heart.removeFromWorld();

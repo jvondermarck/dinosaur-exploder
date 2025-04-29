@@ -80,6 +80,7 @@ public class LifeComponent extends Component implements Life {
         }
 
         // Display the lifeText component
+        lifeText.setText(languageManager.getTranslation("lives") + ": " + life);
         setEntity(lifeText);
     }
 

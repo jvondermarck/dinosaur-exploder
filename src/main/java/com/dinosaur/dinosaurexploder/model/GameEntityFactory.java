@@ -199,7 +199,7 @@ public class GameEntityFactory implements EntityFactory {
     @Spawns("Score")
     public Entity newScore(SpawnData data) {
         Text scoreText = new Text("");
-        scoreText.setFill(Color.GREEN);
+        scoreText.setFill(Color.LIGHTBLUE);
         scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
         return entityBuilderBase(data, EntityType.SCORE)
                 .view(scoreText)
@@ -270,7 +270,7 @@ public class GameEntityFactory implements EntityFactory {
         @Spawns("Level")
         public Entity newLevel(SpawnData data) {
                 Text levelText = new Text("Level: 1");
-                levelText.setFill(Color.YELLOW);
+                levelText.setFill(Color.LIGHTBLUE);
                 levelText.setTranslateX(10);
                 levelText.setFont(
                                 Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));

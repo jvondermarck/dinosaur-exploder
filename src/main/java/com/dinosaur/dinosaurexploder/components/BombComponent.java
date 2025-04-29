@@ -62,7 +62,7 @@ public class BombComponent extends Component implements Bomb {
         bombText = new Text(languageManager.getTranslation("bombs_left") + ": " + bombCount);
 
         // Style the text
-        bombText.setFill(Color.BLUE);
+        bombText.setFill(Color.ORANGE);
         bombText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
         bombText.setLayoutX(0);
         bombText.setLayoutY(0);

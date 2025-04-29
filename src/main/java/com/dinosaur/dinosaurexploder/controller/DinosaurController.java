@@ -24,7 +24,7 @@ import static javafx.util.Duration.seconds;
 
 /**
  * Summary :
- *      The Factory handles the Dinosaur , player controls and collision detection of all entities in the game
+  *      The Factory handles the Dinosaur , player controls and collision detection of all entities in the game
  */
 public class DinosaurController {
     LanguageManager languageManager = LanguageManager.getInstance();
@@ -44,7 +44,7 @@ public class DinosaurController {
      * Summary :
      *      Detecting the player damage to decrease the lives and checking if the game is over
      */
-     public void damagePlayer() {
+    public void damagePlayer() {
         if(player.getComponent(PlayerComponent.class).isInvincible()){
             return; 
         }
@@ -103,11 +103,11 @@ public class DinosaurController {
     private void initGameEntities(){
         spawn("background", 0, 0);
         player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
-        levelDisplay = spawn("Level", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
-        score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 320);
-        life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() - 250);
-        bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 180);
-        Entity coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 120);
+        levelDisplay = spawn("Level", getAppCenter().getX() - 270, getAppCenter().getY() + 350);
+        score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
+        life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() + 290);
+        bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 280);
+        Entity coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 235);
         collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
         bomb.addComponent(new BombComponent());
     }
@@ -123,7 +123,7 @@ public class DinosaurController {
         }
 
         enemySpawnTimer = run(() -> {
-            if(levelManager.getCurrentLevel()%5==0){
+            if(levelManager.getCurrentLevel()% 5==0) {
                 pauseEnemySpawning();
                 bossSpawner.spawnNewBoss();
             }else {
@@ -185,7 +185,7 @@ public class DinosaurController {
         if (bomb.hasComponent(BombComponent.class)) {
             bomb.getComponent(BombComponent.class).checkLevelForBombRegeneration(levelManager.getCurrentLevel());
         }
-        
+
         // Resume gameplay after a delay
         runOnce(() -> {
             getGameScene().removeUINode(levelText);
@@ -333,7 +333,7 @@ public class DinosaurController {
             coin.removeFromWorld();
             System.out.println("You touched a coin!");
             collectedCoinsComponent.incrementCoin();
-            
+
             // Check for bomb regeneration when coin is collected
             if (bomb.hasComponent(BombComponent.class)) {
                 bomb.getComponent(BombComponent.class).trackCoinForBombRegeneration();

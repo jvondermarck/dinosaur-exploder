@@ -333,6 +333,8 @@ public class DinosaurController {
             coin.removeFromWorld();
             System.out.println("You touched a coin!");
             collectedCoinsComponent.incrementCoin();
+
+            score.getComponent(ScoreComponent.class).incrementScore(2);
             
             // Check for bomb regeneration when coin is collected
             if (bomb.hasComponent(BombComponent.class)) {

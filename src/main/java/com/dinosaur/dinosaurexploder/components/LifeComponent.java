@@ -13,7 +13,8 @@ import javafx.scene.text.Text;
 
 /**
  * Summary :
- * This handles the life component of the Player implements the life interface and extends the Component
+ * This handles the life component of the Player implements the life interface
+ * and extends the Component
  */
 public class LifeComponent extends Component implements Life {
 
@@ -80,9 +81,9 @@ public class LifeComponent extends Component implements Life {
         }
 
         // Display the lifeText component
+        lifeText.setText(languageManager.getTranslation("lives") + ": " + life);
         setEntity(lifeText);
     }
-
 
     // Created two methods for shorter and cleaner code
     public void setEntity(Node j) {
@@ -95,7 +96,8 @@ public class LifeComponent extends Component implements Life {
 
     /**
      * Summary :
-     * This method is overriding the superclass method to increase the life to the current life without exceeding
+     * This method is overriding the superclass method to increase the life to the
+     * current life without exceeding
      * the maximum number of lives allowed
      */
     @Override
@@ -106,7 +108,8 @@ public class LifeComponent extends Component implements Life {
 
     /**
      * Summary :
-     * This method is overriding the superclass method to decrease the life to the current life
+     * This method is overriding the superclass method to decrease the life to the
+     * current life
      */
     @Override
     public int decreaseLife(int i) {

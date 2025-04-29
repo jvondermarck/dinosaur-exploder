@@ -62,7 +62,7 @@ public class ScoreComponent extends Component implements Score {
 
     private Text createText() {
         Text text = new Text();
-        text.setFill(Color.GREEN);
+        text.setFill(Color.YELLOW);
         text.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
         return text;
     }

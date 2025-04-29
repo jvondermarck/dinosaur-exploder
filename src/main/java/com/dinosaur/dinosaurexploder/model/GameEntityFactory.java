@@ -143,69 +143,69 @@ public class GameEntityFactory implements EntityFactory {
          * spawn random coin on the window
          */
 
-    @Spawns("coin")
-    public Entity newCoin(SpawnData data) {
-        System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGE_FILE);
-        return entityBuilderBase(data, EntityType.COIN)
-                .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.COIN_IMAGE_FILE, 40, 40))
-                .bbox(new HitBox(BoundingShape.box(40, 40)))
-                .collidable()
-                .with(new CoinComponent())
-                .build();
-    }
+        @Spawns("coin")
+        public Entity newCoin(SpawnData data) {
+                System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGE_FILE);
+                return entityBuilderBase(data, EntityType.COIN)
+                                .with(new OffscreenCleanComponent())
+                                .view(texture(GameConstants.COIN_IMAGE_FILE, 40, 40))
+                                .bbox(new HitBox(BoundingShape.box(40, 40)))
+                                .collidable()
+                                .with(new CoinComponent())
+                                .build();
+        }
 
-    @Spawns("redDino")
-    public Entity newRedDino(SpawnData data) {
-        return entityBuilderBase(data, EntityType.RED_DINO)
-                .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.RED_DINO_IMAGE_FILE, 100, 80))
-                .bbox(new HitBox(BoundingShape.box(65, 55)))
-                .collidable()
-                .with(new RedDinoComponent())
-                .build();
-    }
+        @Spawns("redDino")
+        public Entity newRedDino(SpawnData data) {
+                return entityBuilderBase(data, EntityType.RED_DINO)
+                                .with(new OffscreenCleanComponent())
+                                .view(texture(GameConstants.RED_DINO_IMAGE_FILE, 100, 80))
+                                .bbox(new HitBox(BoundingShape.box(65, 55)))
+                                .collidable()
+                                .with(new RedDinoComponent())
+                                .build();
+        }
 
-    @Spawns("healthBar")
-    public Entity newHealthbar(SpawnData data) {
-        Rectangle healthbar = new Rectangle(200.0, 25.0, Color.RED);
-        return entityBuilderBase(data, EntityType.HEALTHBAR)
-                .with(new OffscreenCleanComponent())
-                .with(new HealthbarComponent())
-                .view(healthbar)
-                .build();
-    }
+        @Spawns("healthBar")
+        public Entity newHealthbar(SpawnData data) {
+                Rectangle healthbar = new Rectangle(200.0, 25.0, Color.RED);
+                return entityBuilderBase(data, EntityType.HEALTHBAR)
+                                .with(new OffscreenCleanComponent())
+                                .with(new HealthbarComponent())
+                                .view(healthbar)
+                                .build();
+        }
 
-    /**
-     * Summary :
-     * Spawn of a heart in the window will be handled in below Entity
-     */
-    @Spawns("heart")
-    public Entity newHeart(SpawnData data) {
-        System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGE_FILE);
-        return entityBuilderBase(data, EntityType.HEART)
-                .with(new OffscreenCleanComponent())
-                .view(texture(GameConstants.HEART_IMAGE_FILE))
-                .bbox(new HitBox(BoundingShape.box(22, 22)))
-                .collidable()
-                .with(new Heart())
-                .build();
-    }
+        /**
+         * Summary :
+         * Spawn of a heart in the window will be handled in below Entity
+         */
+        @Spawns("heart")
+        public Entity newHeart(SpawnData data) {
+                System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGE_FILE);
+                return entityBuilderBase(data, EntityType.HEART)
+                                .with(new OffscreenCleanComponent())
+                                .view(texture(GameConstants.HEART_IMAGE_FILE))
+                                .bbox(new HitBox(BoundingShape.box(22, 22)))
+                                .collidable()
+                                .with(new Heart())
+                                .build();
+        }
 
-    /**
-     * Summary :
-     * Setting up the Score will be handled in below Entity
-     */
-    @Spawns("Score")
-    public Entity newScore(SpawnData data) {
-        Text scoreText = new Text("");
-        scoreText.setFill(Color.GREEN);
-        scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
-        return entityBuilderBase(data, EntityType.SCORE)
-                .view(scoreText)
-                .with(new ScoreComponent())
-                .with(new OffscreenCleanComponent()).build();
-    }
+        /**
+         * Summary :
+         * Setting up the Score will be handled in below Entity
+         */
+        @Spawns("Score")
+        public Entity newScore(SpawnData data) {
+                Text scoreText = new Text("");
+                scoreText.setFill(Color.GREEN);
+                scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
+                return entityBuilderBase(data, EntityType.SCORE)
+                                .view(scoreText)
+                                .with(new ScoreComponent())
+                                .with(new OffscreenCleanComponent()).build();
+        }
 
         /**
          * Summary :
@@ -270,7 +270,7 @@ public class GameEntityFactory implements EntityFactory {
         @Spawns("Level")
         public Entity newLevel(SpawnData data) {
                 Text levelText = new Text("Level: 1");
-                levelText.setFill(Color.YELLOW);
+                levelText.setFill(Color.LIGHTBLUE);
                 levelText.setTranslateX(10);
                 levelText.setFont(
                                 Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));

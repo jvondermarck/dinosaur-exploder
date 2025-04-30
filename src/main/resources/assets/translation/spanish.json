@@ -28,5 +28,6 @@
   "ship_locked": "La nave espacial está bloqueada.",
   "weapon_locked": "El arma está bloqueada.",
   "unlock_highScore": "Alcanzar una puntuación alta de ## para desbloquearlo.",
+  "unlock_totalCoins": "Alcanzar un total de ## monedas para desbloquearlo.",
   "ok": "Está bien"
 }

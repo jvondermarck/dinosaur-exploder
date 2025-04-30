@@ -28,5 +28,6 @@
   "ship_locked": "The spaceship is locked.",
   "weapon_locked": "The weapon is locked.",
   "unlock_highScore": "reach a high score of ## to unlock it.",
+  "unlock_totalCoins": "reach a total of ## coins to unlock it",
   "ok": "ok"
 }

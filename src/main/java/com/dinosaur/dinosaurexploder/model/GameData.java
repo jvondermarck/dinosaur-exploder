@@ -20,6 +20,9 @@ public class GameData {
         return selectedShip;
     }
 
+    // Static variable that stores total coins
+    private static int totalCoins;
+
     public static void setSelectedShip(int shipNumber) {
         selectedShip = shipUnlockChecker.check(shipNumber);
     }
@@ -55,5 +58,12 @@ public class GameData {
     public static int getHighScore() {
         highScore = shipUnlockChecker.getHighScore().getHigh();
         return highScore;
+    }
+
+    // Getter for total coins
+    public static int getTotalCoins() {
+        totalCoins = unlockChecker.getTotalCoins().getTotal();
+        System.out.println("Total: " + totalCoins);
+        return totalCoins;
     }
 }

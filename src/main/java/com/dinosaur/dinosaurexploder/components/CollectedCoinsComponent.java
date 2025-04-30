@@ -40,11 +40,11 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         entity.getViewComponent().addChild(coinUI);
     }
 
-    private void updateText(){
+    private void updateText() {
         coinText.setText(languageManager.getTranslation("coin") + ": " + coin);
     }
 
-    private Node createCoinUI(){
+    private Node createCoinUI() {
         var container = new HBox(5);
         Image image = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
         ImageView imageView = new ImageView(image);
@@ -78,8 +78,8 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
     }
 
     public void incrementCoin() {
-        coin += 1;
-        totalCoins.setTotal(totalCoins.getTotal() + 1);
+        coin += COIN_VALUE;
+        totalCoins.setTotal(totalCoins.getTotal() + COIN_VALUE);
         updateText();
         saveCoins();
     }

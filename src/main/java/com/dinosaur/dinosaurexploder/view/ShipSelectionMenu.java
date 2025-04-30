@@ -10,6 +10,7 @@ import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
+import com.dinosaur.dinosaurexploder.model.TotalCoins;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
@@ -80,6 +81,14 @@ public class ShipSelectionMenu extends FXGLMenu {
                 Color.LIME,
                 FontType.MONO, 25);
 
+        // Total Coin display
+        int totalCoinCount = GameData.getTotalCoins();
+
+        var totalCoins = FXGL.getUIFactoryService().newText(
+            languageManager.getTranslation("total coins") + ": " + totalCoinCount,
+            Color.LIME,
+            FontType.MONO, 25);
+
         // GridPane for ships
         GridPane shipGrid = new GridPane();
         shipGrid.setAlignment(Pos.CENTER);
@@ -111,7 +120,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         spacer.setOpacity(0);
 
         // Vbox layout
-        VBox layout = new VBox(20, spacer, title, highScore, shipGrid, backButton);
+        VBox layout = new VBox(20, spacer, title, highScore, totalCoins, shipGrid, backButton);
         layout.setAlignment(Pos.CENTER);
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(50); // 50px spacing between nodes

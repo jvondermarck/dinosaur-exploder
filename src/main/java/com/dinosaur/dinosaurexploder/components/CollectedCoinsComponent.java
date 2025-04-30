@@ -4,6 +4,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.model.TotalCoins;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import java.io.*;
 
 public class CollectedCoinsComponent extends Component implements CollectedCoins {
     private int coin = 0;
@@ -51,20 +53,18 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
     }
 
     private void loadCoins() {
-        try (FileInputStream file = new FileInputStream("totalCoins.ser");
-            ObjectInputStream in = new ObjectInputStream(file)) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(GameConstants.TOTAL_COINS_FILE))) {
             totalCoins = (TotalCoins) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            totalCoins = new TotalCoins();
+            totalCoins = new TotalCoins(); // Defaults to 0 if file is missing or corrupted
         }
     }
 
     private void saveCoins() {
-        try (FileOutputStream file = new FileOutputStream("totalCoins.ser");
-            ObjectOutputStream out = new ObjectOutputStream(file)) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(GameConstants.TOTAL_COINS_FILE))) {
             out.writeObject(totalCoins);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error saving coins: " + e.getMessage());
         }
     }
 
@@ -82,6 +82,5 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         totalCoins.setTotal(totalCoins.getTotal() + 1);
         updateText();
         saveCoins();
-        // System.out.println("Total: " + totalCoins.getTotal());
     }
 }

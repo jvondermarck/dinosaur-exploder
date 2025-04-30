@@ -15,13 +15,13 @@ public class GameData {
     // Static variable that stores the high score
     private static int highScore;
 
+    // Static variable that stores total coins
+    private static int totalCoins;
+
     // Getter and setter for the selected ship
     public static int getSelectedShip() {
         return selectedShip;
     }
-
-    // Static variable that stores total coins
-    private static int totalCoins;
 
     public static void setSelectedShip(int shipNumber) {
         selectedShip = shipUnlockChecker.check(shipNumber);

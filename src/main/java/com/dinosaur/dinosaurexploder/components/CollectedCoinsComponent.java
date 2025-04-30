@@ -27,7 +27,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
 
     @Override
     public void onAdded() {
-        loadCoins(); // Deserialize once when the component is added
+        loadTotalCoins(); // Deserialize once when the component is added
 
         // Create UI elements
         coinText = new Text();
@@ -52,7 +52,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         return container;
     }
 
-    private void loadCoins() {
+    private void loadTotalCoins() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(GameConstants.TOTAL_COINS_FILE))) {
             totalCoins = (TotalCoins) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
@@ -60,16 +60,12 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         }
     }
 
-    private void saveCoins() {
+    private void saveTotalCoins() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(GameConstants.TOTAL_COINS_FILE))) {
             out.writeObject(totalCoins);
         } catch (IOException e) {
             System.err.println("Error saving coins: " + e.getMessage());
         }
-    }
-
-    public static TotalCoins getTotalCoins() {
-        return totalCoins;
     }
 
     @Override
@@ -81,6 +77,6 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         coin += COIN_VALUE;
         totalCoins.setTotal(totalCoins.getTotal() + COIN_VALUE);
         updateText();
-        saveCoins();
+        saveTotalCoins();
     }
 }

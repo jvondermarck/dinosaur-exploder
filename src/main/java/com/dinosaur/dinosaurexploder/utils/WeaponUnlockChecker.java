@@ -2,9 +2,7 @@ package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
 import java.util.Map;
 
 public class WeaponUnlockChecker {
@@ -16,20 +14,18 @@ public class WeaponUnlockChecker {
             3, 100);
     private HighScore highScore = new HighScore();
 
+    private final DataProvider dataProvider;
+
+    public WeaponUnlockChecker(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
+    }
+
     public int check(int weaponNumber) {
-        highScore = getHighScore();
+        highScore = dataProvider.getHighScore();
         checkScore(weaponNumber);
         return weaponNumber;
     }
 
-    public HighScore getHighScore() {
-        try (FileInputStream file = new FileInputStream("highScore.ser");
-                ObjectInputStream in = new ObjectInputStream(file)) {
-            return (HighScore) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new HighScore();
-        }
-    }
 
     private void checkScore(int weaponNumber) {
         int lowerLimit = scoreMap.getOrDefault(weaponNumber, 0);

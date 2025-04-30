@@ -3,9 +3,6 @@ package com.dinosaur.dinosaurexploder.utils;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Map;
 
 public class ShipUnlockChecker {
@@ -23,25 +20,22 @@ public class ShipUnlockChecker {
     );
     private HighScore highScore = new HighScore();
 
-    public int check(int shipNumber) {
-        highScore = getHighScore();
-        checkScore(shipNumber);
-        return shipNumber;
+    private final DataProvider dataProvider;
+
+    public ShipUnlockChecker(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
     }
 
-    public HighScore getHighScore() {
-        try (FileInputStream file = new FileInputStream("highScore.ser");
-             ObjectInputStream in = new ObjectInputStream(file)) {
-            return (HighScore) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new HighScore();
-        }
+    public int check(int shipNumber) {
+        highScore = dataProvider.getHighScore();
+        checkScore(shipNumber);
+        return shipNumber;
     }
 
     private void checkScore(int shipNumber) {
         int lowerLimit = scoreMap.getOrDefault(shipNumber, 0);
         if (lowerLimit <= highScore.getHigh()) return;
         throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
-               languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerLimit)));
+                languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerLimit)));
     }
 }

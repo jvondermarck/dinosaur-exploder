@@ -21,12 +21,23 @@ public class ShipUnlockChecker {
             6, 400,
             7, 600,
             8, 700);
+
+    private static final Map<Integer, Integer> coinMap = Map.of( // key: shipNumber, value: lower limit total coins
+            1, 0,
+            2, 0,
+            3, 10,
+            4, 50,
+            5, 100,
+            6, 150,
+            7, 200,
+            8, 250);
+
     private HighScore highScore = new HighScore();
     private TotalCoins totalCoins = new TotalCoins();
 
     public int check(int shipNumber) {
         highScore = getHighScore();
-        checkScore(shipNumber);
+        checkScoreAndCoins(shipNumber);
         return shipNumber;
     }
 
@@ -48,11 +59,24 @@ public class ShipUnlockChecker {
         }
     }
 
-    private void checkScore(int shipNumber) {
-        int lowerLimit = scoreMap.getOrDefault(shipNumber, 0);
-        if (lowerLimit <= highScore.getHigh())
+    private void checkScoreAndCoins(int shipNumber) {
+        int lowerScoreLimit = scoreMap.getOrDefault(shipNumber, 0);
+        int lowerCoinLimit = coinMap.getOrDefault(shipNumber, 0);
+
+        if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal())
             return;
-        throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
-                languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerLimit)));
+        else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+            throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
+                    languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerScoreLimit)));
+        } else if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit > totalCoins.getTotal()) {
+            throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
+                    languageManager.getTranslation("unlock_totalCoins").replace("##", String.valueOf(lowerCoinLimit)));
+        } else {
+            throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n"
+                    + languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerScoreLimit))
+                    + "\n" +
+                    languageManager.getTranslation("unlock_totalCoins").replace("##", String.valueOf(lowerCoinLimit)));
+        }
+
     }
 }

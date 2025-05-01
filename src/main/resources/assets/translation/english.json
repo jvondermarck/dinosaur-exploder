@@ -24,6 +24,7 @@
   "yes": "Yes",
   "no": "No",
   "coin": "Coin",
+  "total_coins": "Total Coins",
   "level": "Level",
   "ship_locked": "The spaceship is locked.",
   "weapon_locked": "The weapon is locked.",

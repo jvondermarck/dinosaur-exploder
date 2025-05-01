@@ -24,6 +24,7 @@
   "yes": "はい",
   "no": "いいえ",
   "coin": "コイン",
+  "total_coins": "合計コイン数",
   "level": "レベル",
   "ship_locked" : "宇宙船はロックされています。",
   "weapon_locked" : "武器はロックされています。",

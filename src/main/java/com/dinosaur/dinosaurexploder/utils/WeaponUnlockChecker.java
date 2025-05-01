@@ -50,17 +50,6 @@ public class WeaponUnlockChecker {
         }
     }
 
-    // private void checkScore(int weaponNumber) {
-    // int lowerLimit = scoreMap.getOrDefault(weaponNumber, 0);
-    // if (lowerLimit <= highScore.getHigh())
-    // return;
-    // throw new
-    // LockedWeaponException(languageManager.getTranslation("weapon_locked") + "\n"
-    // +
-    // languageManager.getTranslation("unlock_highScore").replace("##",
-    // String.valueOf(lowerLimit)));
-    // }
-
     private void checkScoreAndCoins(int weaponNumber) {
         int lowerScoreLimit = scoreMap.getOrDefault(weaponNumber, 0);
         int lowerCoinLimit = coinMap.getOrDefault(weaponNumber, 0);

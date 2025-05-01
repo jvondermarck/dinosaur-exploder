@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
+import com.dinosaur.dinosaurexploder.model.TotalCoins;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.util.Map;
 public class ShipUnlockChecker {
     public LanguageManager languageManager = LanguageManager.getInstance();
 
-    private static final Map<Integer, Integer> scoreMap = Map.of(   //key: shipNumber, value: lower limit score
+    private static final Map<Integer, Integer> scoreMap = Map.of( // key: shipNumber, value: lower limit score
             1, 0,
             2, 0,
             3, 100,
@@ -19,29 +20,63 @@ public class ShipUnlockChecker {
             5, 300,
             6, 400,
             7, 600,
-            8, 700
-    );
+            8, 700);
+
+    private static final Map<Integer, Integer> coinMap = Map.of( // key: shipNumber, value: lower limit total coins
+            1, 0,
+            2, 0,
+            3, 10,
+            4, 50,
+            5, 100,
+            6, 150,
+            7, 200,
+            8, 250);
+
     private HighScore highScore = new HighScore();
+    private TotalCoins totalCoins = new TotalCoins();
 
     public int check(int shipNumber) {
         highScore = getHighScore();
-        checkScore(shipNumber);
+        checkScoreAndCoins(shipNumber);
         return shipNumber;
     }
 
     public HighScore getHighScore() {
         try (FileInputStream file = new FileInputStream("highScore.ser");
-             ObjectInputStream in = new ObjectInputStream(file)) {
+                ObjectInputStream in = new ObjectInputStream(file)) {
             return (HighScore) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             return new HighScore();
         }
     }
 
-    private void checkScore(int shipNumber) {
-        int lowerLimit = scoreMap.getOrDefault(shipNumber, 0);
-        if (lowerLimit <= highScore.getHigh()) return;
-        throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
-               languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerLimit)));
+    public TotalCoins getTotalCoins() {
+        try (FileInputStream file = new FileInputStream("totalCoins.ser");
+                ObjectInputStream in = new ObjectInputStream(file)) {
+            return (TotalCoins) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return new TotalCoins();
+        }
+    }
+
+    private void checkScoreAndCoins(int shipNumber) {
+        int lowerScoreLimit = scoreMap.getOrDefault(shipNumber, 0);
+        int lowerCoinLimit = coinMap.getOrDefault(shipNumber, 0);
+
+        if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal())
+            return;
+        else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+            throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
+                    languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerScoreLimit)));
+        } else if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit > totalCoins.getTotal()) {
+            throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n" +
+                    languageManager.getTranslation("unlock_totalCoins").replace("##", String.valueOf(lowerCoinLimit)));
+        } else {
+            throw new LockedShipException(languageManager.getTranslation("ship_locked") + "\n"
+                    + languageManager.getTranslation("unlock_highScore").replace("##", String.valueOf(lowerScoreLimit))
+                    + "\n" +
+                    languageManager.getTranslation("unlock_totalCoins").replace("##", String.valueOf(lowerCoinLimit)));
+        }
+
     }
 }

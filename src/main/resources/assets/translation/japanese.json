@@ -24,9 +24,11 @@
   "yes": "はい",
   "no": "いいえ",
   "coin": "コイン",
+  "total_coins": "合計コイン数",
   "level": "レベル",
   "ship_locked" : "宇宙船はロックされています。",
   "weapon_locked" : "武器はロックされています。",
   "unlock_highScore" : "それを解除するには、ハイスコア##を達成してください。",
+  "unlock_totalCoins": "合計##枚のコインに達するとロックが解除されます。",
   "ok" : "オッケー"
 }

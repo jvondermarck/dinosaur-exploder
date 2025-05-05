@@ -63,7 +63,7 @@ public class GameData {
 
     // Getter for total coins
     public static int getTotalCoins() {
-        totalCoins = shipUnlockChecker.getTotalCoins().getTotal();
+        totalCoins = new FileDataProvider().getTotalCoins().getTotal();
         System.out.println("Total: " + totalCoins);
         return totalCoins;
     }

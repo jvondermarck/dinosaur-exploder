@@ -4,9 +4,6 @@ import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Map;
 
 public class ShipUnlockChecker {
@@ -48,16 +45,9 @@ public class ShipUnlockChecker {
         return shipNumber;
     }
 
-    public TotalCoins getTotalCoins() {
-        try (FileInputStream file = new FileInputStream("totalCoins.ser");
-             ObjectInputStream in = new ObjectInputStream(file)) {
-            return (TotalCoins) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new TotalCoins();
-        }
-    }
-
     private void checkScoreAndCoins(int shipNumber) {
+        totalCoins = dataProvider.getTotalCoins();
+
         int lowerScoreLimit = scoreMap.getOrDefault(shipNumber, 0);
         int lowerCoinLimit = coinMap.getOrDefault(shipNumber, 0);
 

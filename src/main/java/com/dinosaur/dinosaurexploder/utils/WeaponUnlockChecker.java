@@ -37,17 +37,9 @@ public class WeaponUnlockChecker {
         return weaponNumber;
     }
 
-
-    public TotalCoins getTotalCoins() {
-        try (FileInputStream file = new FileInputStream("totalCoins.ser");
-             ObjectInputStream in = new ObjectInputStream(file)) {
-            return (TotalCoins) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new TotalCoins();
-        }
-    }
-
     private void checkScoreAndCoins(int weaponNumber) {
+        totalCoins = dataProvider.getTotalCoins();
+
         int lowerScoreLimit = scoreMap.getOrDefault(weaponNumber, 0);
         int lowerCoinLimit = coinMap.getOrDefault(weaponNumber, 0);
 

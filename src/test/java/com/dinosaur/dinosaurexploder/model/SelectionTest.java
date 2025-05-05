@@ -13,6 +13,7 @@ class SelectionTest {
     public static final int HIGH_SCORE = 100;
     public static final int UNLOCKED_WEAPON_HIGHER_LIMIT = 2;
     public static final int UNLOCKED_SHIP_HIGHER_LIMIT = 3;
+    public static final int TOTAL_COINS = 10;
 
     @Test
     void cannotSelectLockedShip() {
@@ -42,6 +43,11 @@ class SelectionTest {
         @Override
         public HighScore getHighScore() {
             return new HighScore(HIGH_SCORE);
+        }
+
+        @Override
+        public TotalCoins getTotalCoins() {
+            return new TotalCoins(TOTAL_COINS);
         }
     }
 }

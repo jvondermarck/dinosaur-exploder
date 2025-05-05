@@ -105,7 +105,7 @@ class CollisionHandlerTest {
         assertEquals(bombComponent.getBombCount(), MAX_BOMB_COUNT - 1);
 
         for (int i = 0; i < 15; i++) {
-            collisionHandler.onPlayerGetCoin(collectedCoinsComponent, bombComponent);
+            collisionHandler.onPlayerGetCoin(collectedCoinsComponent, new ScoreComponent(), bombComponent);
         }
 
         //then

@@ -39,7 +39,7 @@ public class DinosaurController {
     private boolean isSpawningPaused = false;
     private BossSpawner bossSpawner;
     private final Settings settings = SettingsProvider.loadSettings();
-    private final CollisionHandler collisionHandler = new CollisionHandler(levelManager);
+    private CollisionHandler collisionHandler;
 
 
     /**
@@ -89,6 +89,7 @@ public class DinosaurController {
     public void initGame() {
         initGameEntities();
         levelManager = new LevelManager();
+        collisionHandler = new CollisionHandler(levelManager);
         bossSpawner = new BossSpawner(settings, levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 

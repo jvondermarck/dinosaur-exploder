@@ -13,6 +13,12 @@ public class GameData {
     private static final ShipUnlockChecker shipUnlockChecker = new ShipUnlockChecker(new FileDataProvider());
     private static final WeaponUnlockChecker weaponUnlockChecker = new WeaponUnlockChecker(new FileDataProvider());
 
+    // Static variable that stores the high score
+    private static int highScore;
+
+    // Static variable that stores total coins
+    private static int totalCoins;
+
     // Getter and setter for the selected ship
     public static int getSelectedShip() {
         return selectedShip;
@@ -47,5 +53,18 @@ public class GameData {
         } catch (LockedWeaponException e) {
             return false;
         }
+    }
+
+    // Getter for the high score
+    public static int getHighScore() {
+        highScore = shipUnlockChecker.getHighScore().getHigh();
+        return highScore;
+    }
+
+    // Getter for total coins
+    public static int getTotalCoins() {
+        totalCoins = shipUnlockChecker.getTotalCoins().getTotal();
+        System.out.println("Total: " + totalCoins);
+        return totalCoins;
     }
 }

@@ -23,6 +23,8 @@ public class GameConstants {
     public static final String COIN_IMAGE_FILE = "coin.png";
     public static final String HEART_IMAGE_PATH = "assets/textures/life.png";
     public static final String HEART_IMAGE_FILE = "life.png";
+    public static final String HEART_LOST_IMAGE_PATH = "assets/textures/lifeLost.png";
+    public static final String HEART_LOST_IMAGE_FILE = "lifeLost.png";
     public static final String BOMB_IMAGE_PATH = "assets/textures/bomb.png";
     public static final String GAME_ICON_DINOSAUR = "icon.png";
 
@@ -53,4 +55,5 @@ public class GameConstants {
     * CONSTANTS FOR SAVED FILES
     */
     public static final String HIGH_SCORE_FILE = "highScore.ser";
+    public static final String TOTAL_COINS_FILE = "totalCoins.ser";
 }

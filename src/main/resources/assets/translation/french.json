@@ -23,10 +23,12 @@
   "bombs_left": "Bombes à gauche",
   "yes": "Oui",
   "no": "Non",
-  "coin": "pièce de monnaie",
+  "coin": "Pièce de monnaie",
+  "total_coins": "Total des pièces",
   "level": "Niveau",
   "ship_locked": "Le vaisseau spatial est verrouillé.",
   "weapon_locked": "L'arme est verrouillée.",
   "unlock_highScore": "Atteignez un score élevé de ## pour le débloquer.",
+  "unlock_totalCoins": "Atteignez un total de ## pièces pour le débloquer.",
   "ok": "D'accord"
 }

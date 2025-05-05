@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.util.List;
+
 /**
  * Summary :
  * This handles the life component of the Player implements the life interface and extends the Component
@@ -18,6 +20,8 @@ import javafx.scene.text.Text;
 public class LifeComponent extends Component implements Life {
 
     private static final int MAX_LIVES = 3;
+    private Image heart;
+    private Image heartLost;
     private int life = MAX_LIVES;
 
     // Declaring Lives Text
@@ -31,7 +35,7 @@ public class LifeComponent extends Component implements Life {
 
     @Override
     public void onAdded() {
-        Image heart = new Image(GameConstants.HEART_IMAGE_PATH);
+        heart = new Image(GameConstants.HEART_IMAGE_PATH);
         heart1 = new ImageView(heart);
         heart2 = new ImageView(heart);
         heart3 = new ImageView(heart);
@@ -60,27 +64,25 @@ public class LifeComponent extends Component implements Life {
     }
 
     private void updateLifeDisplay() {
+        heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
         // Clear previous entities
         clearEntity();
 
-        // Adjust hearts and set them based on the current life value
-        heart1.setLayoutY(10);
-        heart2.setLayoutY(10);
-        heart3.setLayoutY(10);
-
-        heart2.setLayoutX(heart1.getLayoutX() + 30);
-        heart3.setLayoutX(heart2.getLayoutX() + 30);
+        List<ImageView> lives = List.of(heart1, heart2, heart3);
 
         // Set the appropriate number of hearts based on `life`
-        if (life == 3) {
-            setEntity(heart1);
-            setEntity(heart2);
-            setEntity(heart3);
-        } else if (life == 2) {
-            setEntity(heart1);
-            setEntity(heart2);
-        } else if (life == 1) {
-            setEntity(heart1);
+        for(int i = MAX_LIVES; i > 0; i--){
+            ImageView currentHeart = lives.get(MAX_LIVES - i);
+            if(i > life){
+                currentHeart.setImage(heartLost);
+            }else{
+                currentHeart.setImage(heart);
+
+            }
+
+            currentHeart.setLayoutY(10);
+            currentHeart.setLayoutX((MAX_LIVES -i) * 30);
+            setEntity(currentHeart);
         }
 
         // Display the lifeText component

@@ -2,6 +2,8 @@ package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
+import com.dinosaur.dinosaurexploder.model.TotalCoins;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;

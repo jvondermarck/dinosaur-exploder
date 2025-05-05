@@ -57,7 +57,7 @@ public class GameData {
 
     // Getter for the high score
     public static int getHighScore() {
-        highScore = shipUnlockChecker.getHighScore().getHigh();
+        highScore = new FileDataProvider().getHighScore().getHigh();
         return highScore;
     }
 

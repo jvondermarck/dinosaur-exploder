@@ -15,11 +15,11 @@ public class CollisionHandler {
         this.levelManager = levelManager;
     }
 
-    public void onProjectileHitDino(ScoreComponent scoreComponent) {
+    public boolean isLevelUpAfterHitDino(ScoreComponent scoreComponent) {
         scoreComponent.incrementScore(1);
         levelManager.incrementDefeatedEnemies();
 
-        adjustLevel();
+        return adjustLevel();
     }
 
     public void handleHitBoss(RedDinoComponent redDinoComponent) {
@@ -53,9 +53,11 @@ public class CollisionHandler {
         lifeComponent.increaseLife(1);
     }
 
-    private void adjustLevel() {
+    private boolean adjustLevel() {
         if (levelManager.shouldAdvanceLevel()) {
             levelManager.nextLevel();
+            return true;
         }
+        return false;
     }
 }

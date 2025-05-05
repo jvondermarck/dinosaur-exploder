@@ -250,8 +250,7 @@ public class DinosaurController {
             }
             projectile.removeFromWorld();
             greenDino.removeFromWorld();
-            collisionHandler.onProjectileHitDino(score.getComponent(ScoreComponent.class));
-            if (levelManager.shouldAdvanceLevel()) {
+            if (collisionHandler.isLevelUpAfterHitDino(score.getComponent(ScoreComponent.class))) {
                 showLevelMessage();
                 System.out.println("Level up!");
             }

@@ -35,7 +35,7 @@ class CollisionHandlerTest {
     void projectileHitDino_thenLevelUp() {
         ScoreComponent scoreComponent = new ScoreComponent();
 
-        for (int i = 0; i < LEVEL_UP_COUNT; i++) collisionHandler.onProjectileHitDino(scoreComponent);
+        for (int i = 0; i < LEVEL_UP_COUNT; i++) collisionHandler.isLevelUpAfterHitDino(scoreComponent);
 
         assertEquals(2, levelManager.getCurrentLevel());
     }
@@ -44,7 +44,7 @@ class CollisionHandlerTest {
     void projectileHitDino_thenScoreIncrease() {
         ScoreComponent scoreComponent = new ScoreComponent();
 
-        collisionHandler.onProjectileHitDino(scoreComponent);
+        collisionHandler.isLevelUpAfterHitDino(scoreComponent);
 
         assertEquals(1, scoreComponent.getScore());
     }

@@ -1,16 +1,17 @@
 package com.dinosaur.dinosaurexploder.model;
 
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
+import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
+import com.dinosaur.dinosaurexploder.utils.FileDataProvider;
 import com.dinosaur.dinosaurexploder.utils.ShipUnlockChecker;
 import com.dinosaur.dinosaurexploder.utils.WeaponUnlockChecker;
-import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 
 public class GameData {
     // Static variable that stores the selected ship and weapon
     private static int selectedShip = 1; // Default ship
     private static int selectedWeapon = 1; // Default weapon
-    private static final ShipUnlockChecker shipUnlockChecker = new ShipUnlockChecker();
-    private static final WeaponUnlockChecker weaponUnlockChecker = new WeaponUnlockChecker();
+    private static final ShipUnlockChecker shipUnlockChecker = new ShipUnlockChecker(new FileDataProvider());
+    private static final WeaponUnlockChecker weaponUnlockChecker = new WeaponUnlockChecker(new FileDataProvider());
 
     // Static variable that stores the high score
     private static int highScore;
@@ -56,13 +57,13 @@ public class GameData {
 
     // Getter for the high score
     public static int getHighScore() {
-        highScore = shipUnlockChecker.getHighScore().getHigh();
+        highScore = new FileDataProvider().getHighScore().getHigh();
         return highScore;
     }
 
     // Getter for total coins
     public static int getTotalCoins() {
-        totalCoins = shipUnlockChecker.getTotalCoins().getTotal();
+        totalCoins = new FileDataProvider().getTotalCoins().getTotal();
         System.out.println("Total: " + totalCoins);
         return totalCoins;
     }

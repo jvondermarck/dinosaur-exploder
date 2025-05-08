@@ -24,32 +24,27 @@ public class BombComponent extends Component implements Bomb {
     private int bombCount = 3;
     private int maxBombCount = 3;
     private Image spcshpImg;
-    
+    private int selectedShip;
+
     // Tracking variables for regeneration
     private int lastLevel = 1;
     private int coinCounter = 0;
     private static final int COINS_NEEDED_FOR_BOMB = 15; // Number of coins needed to regenerate a bomb
-   
+
     public BombComponent() {
         // Selected spaceship from GameData
-        int selectedShip = GameData.getSelectedShip();
+        this.selectedShip = GameData.getSelectedShip();
 
         //  Set the image of SelectedShip using the spaceship number
-        if (selectedShip != 0) {
-            String shipImagePath = "/assets/textures/spaceship" + selectedShip + ".png";
-            System.out.println("Selected spaceship: " + selectedShip);
-            this.spcshpImg = new Image(shipImagePath);
-        } 
+
     }
 
-    
-    // Declaring Bomb Text
-    private Image bomb = new Image(GameConstants.BOMB_IMAGE_PATH);
     // Declaring 3 Bomb
-    ImageView bomb1 = new ImageView(bomb);
-    ImageView bomb2 = new ImageView(bomb);
-    ImageView bomb3 = new ImageView(bomb);
-    private Text bombText = new Text("Bombs Left: " + bombCount);
+    ImageView bomb1;
+    ImageView bomb2;
+    ImageView bomb3;
+    // Declaring Bomb Text
+    private Text bombText;
 
 
     private Node bombUI;
@@ -58,6 +53,11 @@ public class BombComponent extends Component implements Bomb {
 
     @Override
     public void onAdded() {
+        Image bomb = new Image(GameConstants.BOMB_IMAGE_PATH);
+        bomb1 = new ImageView(bomb);
+        bomb2 = new ImageView(bomb);
+        bomb3 = new ImageView(bomb);
+
         // Initialize bombText with the translated string
         bombText = new Text(languageManager.getTranslation("bombs_left") + ": " + bombCount);
 
@@ -86,6 +86,7 @@ public class BombComponent extends Component implements Bomb {
 
     /**
      * This method creates the UI for displaying the bomb count and bomb images.
+     *
      * @return Node - The created bomb UI node
      */
     private Node createBombUI() {
@@ -106,16 +107,17 @@ public class BombComponent extends Component implements Bomb {
     /**
      * Updates the bomb UI based on the current bomb count.
      */
-    private void updateBombUI() {
+    protected void updateBombUI() {
         bomb1.setVisible(bombCount >= 1);
         bomb2.setVisible(bombCount >= 2);
         bomb3.setVisible(bombCount >= 3);
         // Update bomb text with the remaining bombs
         bombText.setText(languageManager.getTranslation("bombs_left") + ": " + bombCount);
     }
+
     /**
      * Summary:
-     *      This method returns the current number of bombs.
+     * This method returns the current number of bombs.
      */
     @Override
     public int getBombCount() {
@@ -124,9 +126,9 @@ public class BombComponent extends Component implements Bomb {
 
     /**
      * Summary :
-     *      This method is used to launch a row of bullets as a bomb.
+     * This method is used to launch a row of bullets as a bomb.
      * Parameters :
-     *      Entity player - The player entity using the bomb
+     * Entity player - The player entity using the bomb
      */
     @Override
     public void useBomb(Entity player) {
@@ -138,15 +140,23 @@ public class BombComponent extends Component implements Bomb {
             System.out.println("No bombs left!");
         }
     }
+
     /**
      * Summary :
-     *      This method spawns a row of bullets from the player's position.
+     * This method spawns a row of bullets from the player's position.
      * Parameters :
-     *      Entity player - The player entity from which to spawn the bullets
+     * Entity player - The player entity from which to spawn the bullets
      */
-    private void spawnBombBullets(Entity player) {
+    protected void spawnBombBullets(Entity player) {
         Point2D center = player.getCenter();
         Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
+
+        if (selectedShip != 0) {
+            String shipImagePath = "/assets/textures/spaceship" + selectedShip + ".png";
+            System.out.println("Selected spaceship: " + selectedShip);
+            this.spcshpImg = new Image(shipImagePath);
+        }
+
         for (int i = -5; i <= 5; i++) {
             double angle = entity.getRotation() - 90 + i * 10;
             Vec2 direction = Vec2.fromAngle(angle);
@@ -155,11 +165,11 @@ public class BombComponent extends Component implements Bomb {
         }
         System.out.println("Bomb used! " + getBombCount() + " bombs left!");
     }
-    
+
     /**
      * Regenerates bombs when a new level is reached.
      * Call this method when the player advances to a new level.
-     * 
+     *
      * @param currentLevel The current level of the game
      */
     public void checkLevelForBombRegeneration(int currentLevel) {
@@ -170,7 +180,7 @@ public class BombComponent extends Component implements Bomb {
             System.out.println("Level up! Regenerated a bomb. Current bombs: " + bombCount);
         }
     }
-    
+
     /**
      * Tracks coin collection and regenerates bombs when enough coins are collected.
      * Call this method whenever the player collects a coin.
@@ -184,14 +194,18 @@ public class BombComponent extends Component implements Bomb {
             System.out.println("Collected " + COINS_NEEDED_FOR_BOMB + " coins! Regenerated a bomb. Current bombs: " + bombCount);
         }
     }
-    
+
     /**
      * Regenerates the specified number of bombs, not exceeding the maximum.
-     * 
+     *
      * @param count The number of bombs to regenerate
      */
     private void regenerateBomb(int count) {
         bombCount = Math.min(bombCount + count, maxBombCount);
         updateBombUI();
+    }
+
+    public int getCoinCounter() {
+        return coinCounter;
     }
 }

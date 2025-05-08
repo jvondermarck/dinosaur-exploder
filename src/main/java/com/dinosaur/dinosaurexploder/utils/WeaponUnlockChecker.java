@@ -25,32 +25,22 @@ public class WeaponUnlockChecker {
     private HighScore highScore = new HighScore();
     private TotalCoins totalCoins = new TotalCoins();
 
+    private final DataProvider dataProvider;
+
+    public WeaponUnlockChecker(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
+    }
+
     public int check(int weaponNumber) {
-        highScore = getHighScore();
+        highScore = dataProvider.getHighScore();
         totalCoins = getTotalCoins();
         checkScoreAndCoins(weaponNumber);
         return weaponNumber;
     }
 
-    public HighScore getHighScore() {
-        try (FileInputStream file = new FileInputStream("highScore.ser");
-                ObjectInputStream in = new ObjectInputStream(file)) {
-            return (HighScore) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new HighScore();
-        }
-    }
-
-    public TotalCoins getTotalCoins() {
-        try (FileInputStream file = new FileInputStream("totalCoins.ser");
-                ObjectInputStream in = new ObjectInputStream(file)) {
-            return (TotalCoins) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new TotalCoins();
-        }
-    }
-
     private void checkScoreAndCoins(int weaponNumber) {
+        totalCoins = dataProvider.getTotalCoins();
+
         int lowerScoreLimit = scoreMap.getOrDefault(weaponNumber, 0);
         int lowerCoinLimit = coinMap.getOrDefault(weaponNumber, 0);
 

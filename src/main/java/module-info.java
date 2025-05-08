@@ -6,7 +6,7 @@ module com.dinosaur.dinosaurexploder {
     exports com.dinosaur.dinosaurexploder;
 
     requires javafx.media;
-    requires com.almasb.fxgl.scene;
+    //requires com.almasb.fxgl.scene;
     requires javafx.graphics;
 
     requires com.fasterxml.jackson.databind;

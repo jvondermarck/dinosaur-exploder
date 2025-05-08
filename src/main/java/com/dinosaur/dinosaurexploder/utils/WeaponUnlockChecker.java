@@ -1,6 +1,5 @@
 package com.dinosaur.dinosaurexploder.utils;
 
-import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
@@ -28,6 +27,7 @@ public class WeaponUnlockChecker {
 
     public int check(int weaponNumber) {
         highScore = getHighScore();
+        totalCoins = getTotalCoins();
         checkScoreAndCoins(weaponNumber);
         return weaponNumber;
     }

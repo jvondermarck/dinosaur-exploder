@@ -37,6 +37,7 @@ public class ShipUnlockChecker {
 
     public int check(int shipNumber) {
         highScore = getHighScore();
+        totalCoins = getTotalCoins();
         checkScoreAndCoins(shipNumber);
         return shipNumber;
     }

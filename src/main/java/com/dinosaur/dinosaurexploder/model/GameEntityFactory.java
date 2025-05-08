@@ -130,13 +130,17 @@ public class GameEntityFactory implements EntityFactory {
          */
         @Spawns("greenDino")
         public Entity newGreenDino(SpawnData data) {
-                return entityBuilderBase(data, EntityType.GREEN_DINO)
+                Entity greenDino = entityBuilderBase(data, EntityType.GREEN_DINO)
                                 .with(new OffscreenCleanComponent())
                                 .view(texture(GameConstants.GREEN_DINO_IMAGE_FILE, 80, 60))
                                 .bbox(new HitBox(BoundingShape.box(65, 55)))
                                 .collidable()
                                 .with(new GreenDinoComponent())
                                 .build();
+                // Set LevelManager reference
+                GreenDinoComponent comp = greenDino.getComponent(GreenDinoComponent.class);
+                comp.setLevelManager(FXGL.geto("levelManager"));
+                return greenDino;
         }
 
         /**

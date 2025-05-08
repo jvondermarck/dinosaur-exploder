@@ -33,6 +33,7 @@ public class WeaponUnlockChecker {
 
     public int check(int weaponNumber) {
         highScore = dataProvider.getHighScore();
+        totalCoins = dataProvider.getTotalCoins();
         checkScoreAndCoins(weaponNumber);
         return weaponNumber;
     }

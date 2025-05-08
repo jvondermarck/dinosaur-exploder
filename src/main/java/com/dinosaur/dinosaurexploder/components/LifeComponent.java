@@ -20,21 +20,26 @@ import java.util.List;
 public class LifeComponent extends Component implements Life {
 
     private static final int MAX_LIVES = 3;
-    private final Image heart = new Image(GameConstants.HEART_IMAGE_PATH);
-    private final Image heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
+    private Image heart;
+    private Image heartLost;
     private int life = MAX_LIVES;
 
     // Declaring Lives Text
     private Text lifeText;
     // Declaring 3 Hearts
-    private final ImageView heart1 = new ImageView(heart);
-    private final ImageView heart2 = new ImageView(heart);
-    private final ImageView heart3 = new ImageView(heart);
+    private ImageView heart1;
+    private ImageView heart2;
+    private ImageView heart3;
 
     private final LanguageManager languageManager = LanguageManager.getInstance();
 
     @Override
     public void onAdded() {
+        heart = new Image(GameConstants.HEART_IMAGE_PATH);
+        heart1 = new ImageView(heart);
+        heart2 = new ImageView(heart);
+        heart3 = new ImageView(heart);
+
         // Initialize lifeText with the translated string
         lifeText = new Text(languageManager.getTranslation("lives"));
 
@@ -59,6 +64,7 @@ public class LifeComponent extends Component implements Life {
     }
 
     private void updateLifeDisplay() {
+        heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
         // Clear previous entities
         clearEntity();
 
@@ -111,6 +117,10 @@ public class LifeComponent extends Component implements Life {
     @Override
     public int decreaseLife(int i) {
         life -= i;
+        return life;
+    }
+
+    public int getLife() {
         return life;
     }
 }

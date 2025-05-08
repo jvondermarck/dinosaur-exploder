@@ -246,16 +246,19 @@ public class DinosaurController {
             }
             projectile.removeFromWorld();
             greenDino.removeFromWorld();
-            score.getComponent(ScoreComponent.class).incrementScore(1);
+
+            score.getComponent(ScoreComponent.class).incrementScore(levelManager.getCurrentLevel());
             levelManager.incrementDefeatedEnemies();
-            if(levelManager.shouldAdvanceLevel()){
+            
+            if (levelManager.shouldAdvanceLevel()) {
                 levelManager.nextLevel();
-                // Update all green dinos with new levelManager values
+                // Update all green dinos with new LevelManager values
                 FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
                     if(e.hasComponent(GreenDinoComponent.class)) {
                         e.getComponent(GreenDinoComponent.class).setLevelManager(levelManager);
                     }
                 });
+
                 showLevelMessage();
                 System.out.println("Level up!");
             }

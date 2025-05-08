@@ -21,6 +21,8 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     private final LocalTimer timer = FXGL.newLocalTimer();
     private boolean isPaused = false;
     private boolean isMuted = false;
+    private LevelManager levelManager;
+    private int lastLevel = -1;
 
     public void setPaused(boolean paused) {
         isPaused = paused;
@@ -30,11 +32,20 @@ public class GreenDinoComponent extends Component implements Dinosaur {
         isMuted = muted;
     }
 
+    public void setLevelManager(LevelManager levelManager) {
+        this.levelManager = levelManager;
+        this.verticalSpeed = levelManager.getEnemySpeed();
+        this.lastLevel = levelManager.getCurrentLevel();
+    }
+
     @Override
     public void onAdded(){
-        //Get the current enemy speed from the level manager
-        LevelManager levelManager = FXGL.geto("levelManager");
+        // Get the current enemy speed from the level manager if not already set
+        if (levelManager == null) {
+            levelManager = FXGL.geto("levelManager");
+        }
         verticalSpeed = levelManager.getEnemySpeed();
+        lastLevel = levelManager.getCurrentLevel();
     }
     /**
      * Summary :
@@ -45,7 +56,11 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     @Override
     public void onUpdate(double ptf) {
         if(isPaused) return;
-
+        // Update speed if level has changed
+        if (levelManager != null && levelManager.getCurrentLevel() != lastLevel) {
+            verticalSpeed = levelManager.getEnemySpeed();
+            lastLevel = levelManager.getCurrentLevel();
+        }
         entity.translateY(verticalSpeed);
 
         //The dinosaur shoots every 2 seconds

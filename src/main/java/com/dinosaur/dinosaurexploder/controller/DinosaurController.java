@@ -250,6 +250,12 @@ public class DinosaurController {
             levelManager.incrementDefeatedEnemies();
             if(levelManager.shouldAdvanceLevel()){
                 levelManager.nextLevel();
+                // Update all green dinos with new levelManager values
+                FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
+                    if(e.hasComponent(GreenDinoComponent.class)) {
+                        e.getComponent(GreenDinoComponent.class).setLevelManager(levelManager);
+                    }
+                });
                 showLevelMessage();
                 System.out.println("Level up!");
             }
@@ -283,6 +289,12 @@ public class DinosaurController {
 
                 score.getComponent(ScoreComponent.class).incrementScore(levelManager.getCurrentLevel());
                 levelManager.nextLevel();
+                // Update all green dinos with new levelManager values
+                FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
+                    if(e.hasComponent(GreenDinoComponent.class)) {
+                        e.getComponent(GreenDinoComponent.class).setLevelManager(levelManager);
+                    }
+                });
                 showLevelMessage();
                 System.out.println("Level up!");
             } else{

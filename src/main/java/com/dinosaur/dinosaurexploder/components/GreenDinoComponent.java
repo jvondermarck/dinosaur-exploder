@@ -35,7 +35,6 @@ public class GreenDinoComponent extends Component implements Dinosaur {
         //Get the current enemy speed from the level manager
         LevelManager levelManager = FXGL.geto("levelManager");
         verticalSpeed = levelManager.getEnemySpeed();
-        System.out.println("verticalSpeed: " + verticalSpeed);
     }
     /**
      * Summary :

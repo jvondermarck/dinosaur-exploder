@@ -7,7 +7,7 @@ package com.dinosaur.dinosaurexploder.utils;
  */
 public class LevelManager {
     private int currentLevel = 1;
-    private int enemiesToDefeat = 5; 
+    private int enemiesToDefeat = 5;
     private int defeatedEnemies = 0;
     private double enemySpawnRate = 0.75;
     private double enemySpeed = 1.5;
@@ -21,6 +21,10 @@ public class LevelManager {
     }
     public double getEnemySpeed() {
         return enemySpeed;
+    }
+
+    public float getLevelProgress() {
+        return (float) defeatedEnemies / enemiesToDefeat;
     }
 
     public void incrementDefeatedEnemies() {

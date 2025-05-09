@@ -4,15 +4,12 @@ import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Map;
 
 public class ShipUnlockChecker {
     public LanguageManager languageManager = LanguageManager.getInstance();
 
-    private static final Map<Integer, Integer> scoreMap = Map.of( // key: shipNumber, value: lower limit score
+    private static final Map<Integer, Integer> scoreMap = Map.of(   //key: shipNumber, value: lower limit score
             1, 0,
             2, 0,
             3, 100,
@@ -20,7 +17,8 @@ public class ShipUnlockChecker {
             5, 300,
             6, 400,
             7, 600,
-            8, 700);
+            8, 700
+    );
 
     private static final Map<Integer, Integer> coinMap = Map.of( // key: shipNumber, value: lower limit total coins
             1, 0,
@@ -35,31 +33,22 @@ public class ShipUnlockChecker {
     private HighScore highScore = new HighScore();
     private TotalCoins totalCoins = new TotalCoins();
 
+    private final DataProvider dataProvider;
+
+    public ShipUnlockChecker(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
+    }
+
     public int check(int shipNumber) {
-        highScore = getHighScore();
+        highScore = dataProvider.getHighScore();
+        totalCoins = dataProvider.getTotalCoins();
         checkScoreAndCoins(shipNumber);
         return shipNumber;
     }
 
-    public HighScore getHighScore() {
-        try (FileInputStream file = new FileInputStream("highScore.ser");
-                ObjectInputStream in = new ObjectInputStream(file)) {
-            return (HighScore) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new HighScore();
-        }
-    }
-
-    public TotalCoins getTotalCoins() {
-        try (FileInputStream file = new FileInputStream("totalCoins.ser");
-                ObjectInputStream in = new ObjectInputStream(file)) {
-            return (TotalCoins) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new TotalCoins();
-        }
-    }
-
     private void checkScoreAndCoins(int shipNumber) {
+        totalCoins = dataProvider.getTotalCoins();
+
         int lowerScoreLimit = scoreMap.getOrDefault(shipNumber, 0);
         int lowerCoinLimit = coinMap.getOrDefault(shipNumber, 0);
 

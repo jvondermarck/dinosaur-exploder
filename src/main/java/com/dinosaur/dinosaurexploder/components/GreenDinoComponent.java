@@ -67,7 +67,7 @@ public class GreenDinoComponent extends Component implements Dinosaur {
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() +90);
         spawn("basicEnemyProjectile",
-                new SpawnData(center.getX() + 50 +3, center.getY())
+                new SpawnData(center.getX(), center.getY())
                         .put("direction", direction.toPoint2D() )
         );
     }

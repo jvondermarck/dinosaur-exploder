@@ -19,6 +19,7 @@ public class LevelManager {
     public double getEnemySpawnRate() {
         return enemySpawnRate;
     }
+
     public double getEnemySpeed() {
         return enemySpeed;
     }
@@ -42,5 +43,9 @@ public class LevelManager {
 
         enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
         enemySpeed += 0.2;
+    }
+
+    public int getEnemiesToDefeat() {
+        return enemiesToDefeat;
     }
 }

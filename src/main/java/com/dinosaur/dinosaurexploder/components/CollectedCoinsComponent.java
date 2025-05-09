@@ -40,7 +40,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         entity.getViewComponent().addChild(coinUI);
     }
 
-    private void updateText() {
+    protected void updateText() {
         coinText.setText(languageManager.getTranslation("coin") + ": " + coin);
     }
 
@@ -78,5 +78,9 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         totalCoins.setTotal(totalCoins.getTotal() + COIN_VALUE);
         updateText();
         saveTotalCoins();
+    }
+
+    public int getCoin() {
+        return coin;
     }
 }

@@ -24,6 +24,10 @@ public class LevelManager {
         return enemySpeed;
     }
 
+    public float getLevelProgress() {
+        return (float) defeatedEnemies / enemiesToDefeat;
+    }
+
     public void incrementDefeatedEnemies() {
         defeatedEnemies++;
     }

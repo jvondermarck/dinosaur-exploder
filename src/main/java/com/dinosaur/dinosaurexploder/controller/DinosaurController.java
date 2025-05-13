@@ -92,7 +92,7 @@ public class DinosaurController {
         levelManager = new LevelManager();
         initGameEntities();
         collisionHandler = new CollisionHandler(levelManager);
-        bossSpawner = new BossSpawner(settings,levelManager);
+        bossSpawner = new BossSpawner(settings, levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
         if (!settings.isMuted()) {
@@ -173,7 +173,7 @@ public class DinosaurController {
      */
     private void showLevelMessage() {
         // Hide the progress bar for boss levels
-        if(levelManager.getCurrentLevel() % 5 == 0) {
+        if (levelManager.getCurrentLevel() % 5 == 0) {
             levelProgressBar.setVisible(false);
         }
 
@@ -200,12 +200,16 @@ public class DinosaurController {
 
         // Resume gameplay after a delay
         runOnce(() -> {
-            if(levelManager.getCurrentLevel() % 5 != 0) {
+            if (levelManager.getCurrentLevel() % 5 != 0) {
                 levelProgressBar.setVisible(true);
             }
 
             getGameScene().removeUINode(levelText);
             updateLevelDisplay();
+
+            if (levelProgressBar.hasComponent(LevelProgressBarComponent.class)) {
+                levelProgressBar.getComponent(LevelProgressBarComponent.class).resetProgress();
+            }
 
             FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
                 if (e.hasComponent(GreenDinoComponent.class)) {
@@ -262,7 +266,9 @@ public class DinosaurController {
             }
             projectile.removeFromWorld();
             greenDino.removeFromWorld();
-            if (collisionHandler.isLevelUpAfterHitDino(score.getComponent(ScoreComponent.class))) {
+            if (collisionHandler.isLevelUpAfterHitDino(
+                    score.getComponent(ScoreComponent.class),
+                    levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
                 showLevelMessage();
                 System.out.println("Level up!");
             }

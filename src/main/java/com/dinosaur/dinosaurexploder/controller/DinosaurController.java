@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.controller;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
@@ -34,6 +35,7 @@ public class DinosaurController {
     private CollectedCoinsComponent collectedCoinsComponent;
     private Entity levelDisplay;
     private Entity life;
+    private Entity levelProgressBar;
     private LevelManager levelManager;
     private TimerAction enemySpawnTimer;
     private boolean isSpawningPaused = false;
@@ -87,8 +89,8 @@ public class DinosaurController {
     }
 
     public void initGame() {
-        initGameEntities();
         levelManager = new LevelManager();
+        initGameEntities();
         collisionHandler = new CollisionHandler(levelManager);
         bossSpawner = new BossSpawner(settings, levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
@@ -114,6 +116,7 @@ public class DinosaurController {
         Entity coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 235);
         collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
         bomb.addComponent(new BombComponent());
+        levelProgressBar = spawn("levelProgressBar", new SpawnData(getAppCenter().getX() - 170, getAppCenter().getY() + 340).put("levelManager", levelManager));
     }
 
     /**
@@ -169,6 +172,11 @@ public class DinosaurController {
      * and shows a message when the level is changed
      */
     private void showLevelMessage() {
+        // Hide the progress bar for boss levels
+        if (levelManager.getCurrentLevel() % 5 == 0) {
+            levelProgressBar.setVisible(false);
+        }
+
         //Pause game elements during level transition
         FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
             if (e.hasComponent(GreenDinoComponent.class)) {
@@ -192,8 +200,16 @@ public class DinosaurController {
 
         // Resume gameplay after a delay
         runOnce(() -> {
+            if (levelManager.getCurrentLevel() % 5 != 0) {
+                levelProgressBar.setVisible(true);
+            }
+
             getGameScene().removeUINode(levelText);
             updateLevelDisplay();
+
+            if (levelProgressBar.hasComponent(LevelProgressBarComponent.class)) {
+                levelProgressBar.getComponent(LevelProgressBarComponent.class).resetProgress();
+            }
 
             FXGL.getGameWorld().getEntitiesByType(EntityType.GREEN_DINO).forEach(e -> {
                 if (e.hasComponent(GreenDinoComponent.class)) {
@@ -250,7 +266,9 @@ public class DinosaurController {
             }
             projectile.removeFromWorld();
             greenDino.removeFromWorld();
-            if (collisionHandler.isLevelUpAfterHitDino(score.getComponent(ScoreComponent.class))) {
+            if (collisionHandler.isLevelUpAfterHitDino(
+                    score.getComponent(ScoreComponent.class),
+                    levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
                 showLevelMessage();
                 System.out.println("Level up!");
             }

@@ -19,8 +19,10 @@ import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
+import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -277,6 +279,30 @@ public class GameEntityFactory implements EntityFactory {
                 Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
         return entityBuilderBase(data, EntityType.LEVEL)
                 .view(levelText)
+                .build();
+    }
+
+    /**
+     * Summary :
+     * Creates level progress bar
+     */
+    @Spawns("levelProgressBar")
+    public Entity newLevelProgressBar(SpawnData data) {
+        LevelManager levelManager = data.get("levelManager");
+
+        Rectangle background = new Rectangle(150, 10, Color.DARKGRAY);
+        background.setStroke(Color.GRAY);
+        background.setStrokeWidth(1);
+
+        Rectangle filled = new Rectangle(0, 8, Color.LIMEGREEN);
+        filled.setLayoutX(1);
+        filled.setLayoutY(1);
+
+        Group progressBar = new Group(background, filled);
+
+        return entityBuilderBase(data, EntityType.LEVEL_PROGRESS_BAR)
+                .view(progressBar)
+                .with(new LevelProgressBarComponent(filled, levelManager))
                 .build();
     }
 

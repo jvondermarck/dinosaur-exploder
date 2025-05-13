@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.model;
 
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
+import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
 import com.dinosaur.dinosaurexploder.components.LifeComponent;
 import com.dinosaur.dinosaurexploder.components.RedDinoComponent;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
@@ -15,9 +16,10 @@ public class CollisionHandler {
         this.levelManager = levelManager;
     }
 
-    public boolean isLevelUpAfterHitDino(ScoreComponent scoreComponent) {
+    public boolean isLevelUpAfterHitDino(ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
         scoreComponent.incrementScore(1);
         levelManager.incrementDefeatedEnemies();
+        levelProgressBarComponent.updateProgress();
 
         return adjustLevel();
     }

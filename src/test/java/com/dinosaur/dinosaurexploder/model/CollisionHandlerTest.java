@@ -3,11 +3,14 @@ package com.dinosaur.dinosaurexploder.model;
 import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
+import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
 import com.dinosaur.dinosaurexploder.components.LifeComponent;
 import com.dinosaur.dinosaurexploder.components.RedDinoComponent;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.MockGameTimer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -34,8 +37,13 @@ class CollisionHandlerTest {
     @Test
     void projectileHitDino_thenLevelUp() {
         ScoreComponent scoreComponent = new ScoreComponent();
+        Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);
+        LevelProgressBarComponent levelProgressBarComponent = new LevelProgressBarComponent(rect, levelManager) {
+            @Override
+            public void updateProgress() {}
+        };
 
-        for (int i = 0; i < LEVEL_UP_COUNT; i++) collisionHandler.isLevelUpAfterHitDino(scoreComponent);
+        for (int i = 0; i < LEVEL_UP_COUNT; i++) collisionHandler.isLevelUpAfterHitDino(scoreComponent, levelProgressBarComponent);
 
         assertEquals(2, levelManager.getCurrentLevel());
     }
@@ -43,8 +51,13 @@ class CollisionHandlerTest {
     @Test
     void projectileHitDino_thenScoreIncrease() {
         ScoreComponent scoreComponent = new ScoreComponent();
+        Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);
+        LevelProgressBarComponent levelProgressBarComponent = new LevelProgressBarComponent(rect, levelManager) {
+            @Override
+            public void updateProgress() {}
+        };
 
-        collisionHandler.isLevelUpAfterHitDino(scoreComponent);
+        collisionHandler.isLevelUpAfterHitDino(scoreComponent, levelProgressBarComponent);
 
         assertEquals(1, scoreComponent.getScore());
     }

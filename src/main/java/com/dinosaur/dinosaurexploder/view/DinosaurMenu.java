@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.util.Objects;
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
 
 public class DinosaurMenu extends FXGLMenu {
     private final MediaPlayer mainMenuSound;
@@ -48,16 +49,19 @@ public class DinosaurMenu extends FXGLMenu {
 
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
+        
+        mainMenuSound = new MediaPlayer(
+            new Media(Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav")).toExternalForm())
+        );
 
         // Listen for language changes and update menu text
         languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> updateTexts());
 
-        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
-        mainMenuSound = new MediaPlayer(media);
-        mainMenuSound.setVolume(settings.getVolume());
-        mainMenuSound.play();
-        mainMenuSound.setMute(settings.isMuted());
-        mainMenuSound.setCycleCount(MediaPlayer.INDEFINITE);
+        // Load the main menu sound
+        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
+        AudioManager.getInstance().stopMusic();
+
+        
 
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.BLACK);
 
@@ -107,10 +111,11 @@ public class DinosaurMenu extends FXGLMenu {
         // Sets the volume label
         Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            mainMenuSound.setVolume(newValue.doubleValue());
-            settings.setVolume(newValue.doubleValue());
-            SettingsProvider.saveSettings(settings);
-            volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
+        AudioManager.getInstance().setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
+        mainMenuSound.setVolume(newValue.doubleValue());
+        settings.setVolume(newValue.doubleValue());
+        SettingsProvider.saveSettings(settings);
+        volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
         });
 
         try {
@@ -208,15 +213,11 @@ public class DinosaurMenu extends FXGLMenu {
             });
 
             imageViewPlaying.setOnMouseClicked(mouseEvent -> {
-                if (mainMenuSound.isMute()) {
-                    mainMenuSound.setMute(false); // False later
-                    settings.setMuted(false);
-                    imageViewPlaying.setImage(audioOn);
-                } else {
-                    mainMenuSound.setMute(true);
-                    settings.setMuted(true);
-                    imageViewPlaying.setImage(mute);
-                }
+                boolean newMutedState = !AudioManager.getInstance().isMuted();
+                AudioManager.getInstance().setMuted(newMutedState); // <--- THIS LINE IS IMPORTANT
+                mainMenuSound.setMute(newMutedState);
+                settings.setMuted(newMutedState);
+                imageViewPlaying.setImage(newMutedState ? mute : audioOn);
                 SettingsProvider.saveSettings(settings);
             });
 
@@ -264,6 +265,7 @@ public class DinosaurMenu extends FXGLMenu {
         super.onEnteredFrom(prevState);
         FXGL.getAudioPlayer().stopAllSounds();
         mainMenuSound.play();
-        mainMenuSound.setMute(settings.isMuted());
-    }
+        mainMenuSound.setMute(AudioManager.getInstance().isMuted()); // Optional: sync menu music with global mute
+        mainMenuSound.setVolume(AudioManager.getInstance().getVolume()); // Optional: sync menu music with global volume
+        }
 }

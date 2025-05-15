@@ -12,6 +12,7 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Player;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -102,10 +103,8 @@ public class PlayerComponent extends Component implements Player {
      * This method is overriding the superclass method to the shooting from the
      * player and spawning of the new bullet
      */
-    public void shoot(boolean muted) {
-        if (!muted) {
-            FXGL.play(GameConstants.SHOOT_SOUND);
-        }
+    public void shoot() {
+        AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
         System.out.println("Shoot with selected weapon: " + selectedWeapon);

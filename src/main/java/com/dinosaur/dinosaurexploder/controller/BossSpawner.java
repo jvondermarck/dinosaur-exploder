@@ -5,7 +5,7 @@ import com.dinosaur.dinosaurexploder.components.HealthbarComponent;
 import com.dinosaur.dinosaurexploder.components.RedDinoComponent;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
-
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import static com.almasb.fxgl.dsl.FXGL.getAppCenter;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -24,7 +24,7 @@ public class BossSpawner {
 
     public void spawnNewBoss(){
         redDino = spawn("redDino", getAppCenter().getX() - 45, 50);
-        redDino.getComponent(RedDinoComponent.class).setMuted(settings.isMuted());
+        
         redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
 
         healthBar = spawn("healthBar",  getAppWidth()-215, 15);

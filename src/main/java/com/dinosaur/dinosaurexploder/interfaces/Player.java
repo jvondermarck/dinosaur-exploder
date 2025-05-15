@@ -28,5 +28,5 @@ public interface Player {
      * Summary :
      *      This handles with the shooting from the player and spawning of the new bullet
      */
-    void shoot(boolean muted);
+    void shoot();
 }

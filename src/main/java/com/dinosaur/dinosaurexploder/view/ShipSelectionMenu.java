@@ -27,7 +27,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -35,20 +35,17 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class ShipSelectionMenu extends FXGLMenu {
-    private final MediaPlayer mainMenuSound;
+  
     private final LanguageManager languageManager = LanguageManager.getInstance();
     private final Settings settings = SettingsProvider.loadSettings();
 
     public ShipSelectionMenu() {
         super(MenuType.MAIN_MENU);
 
+
         // Background music
-        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
-        mainMenuSound = new MediaPlayer(media);
-        mainMenuSound.setVolume(SettingsProvider.loadSettings().getVolume());
-        mainMenuSound.setMute(settings.isMuted());
-        mainMenuSound.play();
-        mainMenuSound.setCycleCount(MediaPlayer.INDEFINITE);
+        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
+        
 
         // background image
         InputStream backGround = getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");
@@ -106,7 +103,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         backButton.setMinSize(140, 60);
         backButton.setStyle("-fx-font-size: 20px;");
         backButton.setOnAction(event -> {
-            mainMenuSound.stop();
+            AudioManager.getInstance().stopMusic();
             fireResume();
         });
 
@@ -209,6 +206,6 @@ public class ShipSelectionMenu extends FXGLMenu {
         // Selected spaceship in console
         System.out.println("Selected Spaceship: " + shipNumber);
         FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
-        mainMenuSound.stop();
+      
     }
 }

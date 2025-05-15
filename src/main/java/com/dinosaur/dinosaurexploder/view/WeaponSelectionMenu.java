@@ -27,7 +27,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -35,7 +35,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class WeaponSelectionMenu extends FXGLMenu {
-    private MediaPlayer mainMenuSound;
+    
     LanguageManager languageManager = LanguageManager.getInstance();
     private final Settings settings = SettingsProvider.loadSettings();
 
@@ -43,12 +43,8 @@ public class WeaponSelectionMenu extends FXGLMenu {
         super(MenuType.MAIN_MENU);
 
         // Background music
-        Media media = new Media(getClass().getResource(GameConstants.MAIN_MENU_SOUND).toExternalForm());
-        mainMenuSound = new MediaPlayer(media);
-        mainMenuSound.setVolume(SettingsProvider.loadSettings().getVolume());
-        mainMenuSound.setMute(settings.isMuted());
-        mainMenuSound.play();
-        mainMenuSound.setCycleCount(MediaPlayer.INDEFINITE);
+        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
+        
 
         // background image
         InputStream backGround = getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");
@@ -94,7 +90,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
         backButton.setMinSize(140, 60);
         backButton.setStyle("-fx-font-size: 20px;");
         backButton.setOnAction(event -> {
-            mainMenuSound.stop();
+            AudioManager.getInstance().stopMusic();
             fireResume();
         });
 
@@ -199,6 +195,6 @@ public class WeaponSelectionMenu extends FXGLMenu {
         // Selected weapon in console
         System.out.println("Selected Weapon: " + weaponNumber);
         fireNewGame();
-        mainMenuSound.stop();
+        AudioManager.getInstance().stopMusic();
     }
 }

@@ -11,6 +11,7 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
@@ -28,7 +29,7 @@ public class RedDinoComponent extends Component implements Dinosaur {
     }
 
     private boolean isPaused = false;
-    private boolean isMuted = false;
+    
 
     boolean firstTime = true;
     private LevelManager levelManager;
@@ -58,9 +59,7 @@ public class RedDinoComponent extends Component implements Dinosaur {
         isPaused = paused;
     }
 
-    public void setMuted(boolean muted) {
-        isMuted = muted;
-    }
+    
 
     @Override
     public void onAdded() {
@@ -106,9 +105,9 @@ public class RedDinoComponent extends Component implements Dinosaur {
      */
     @Override
     public void shoot() {
-        if (!isMuted) {
-            FXGL.play(GameConstants.ENEMY_SHOOT_SOUND);
-        }
+     
+            AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
+        
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() + 90 + random(-45, 45));
         spawn("basicEnemyProjectile",

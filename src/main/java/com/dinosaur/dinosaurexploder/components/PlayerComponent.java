@@ -103,9 +103,7 @@ public class PlayerComponent extends Component implements Player {
      * player and spawning of the new bullet
      */
     public void shoot(boolean muted) {
-        if (!muted) {
-            FXGL.play(GameConstants.SHOOT_SOUND);
-        }
+        FXGL.play(GameConstants.SHOOT_SOUND);
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
         System.out.println("Shoot with selected weapon: " + selectedWeapon);

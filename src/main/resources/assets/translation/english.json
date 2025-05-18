@@ -12,6 +12,8 @@
   "back": "Back",
   "quit_game": "Quit Game",
   "controls": "Controls",
+  "audio": "Audio",
+  "sound_effects_volume": "Sound Effects Volume",
   "move_up": "Move spaceship up",
   "move_down": "Move spaceship down",
   "move_right": "Move spaceship right",

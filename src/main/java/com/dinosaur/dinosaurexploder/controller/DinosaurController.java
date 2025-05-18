@@ -93,9 +93,8 @@ public class DinosaurController {
         bossSpawner = new BossSpawner(settings, levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
-        if (!settings.isMuted()) {
-            FXGL.play(GameConstants.BACKGROUND_SOUND);
-        }
+        FXGL.play(GameConstants.BACKGROUND_SOUND);
+        FXGL.getSettings().setGlobalMusicVolume(settings.isVfxMuted() ? 0.0 : settings.getVolumeVFX());
 
         new CountdownAnimation(3).startCountdown(() -> {
             resumeEnemySpawning();
@@ -133,7 +132,7 @@ public class DinosaurController {
             } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
                     Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
-                    greenDino.getComponent(GreenDinoComponent.class).setMuted(settings.isMuted());
+                    greenDino.getComponent(GreenDinoComponent.class);
                 }
             }
         }, seconds(levelManager.getEnemySpawnRate()));
@@ -245,9 +244,7 @@ public class DinosaurController {
             if (random(0, 100) < 5) {
                 spawn("heart", greenDino.getX(), greenDino.getY());
             }
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
-            }
+            FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
             projectile.removeFromWorld();
             greenDino.removeFromWorld();
             if (collisionHandler.isLevelUpAfterHitDino(score.getComponent(ScoreComponent.class))) {
@@ -268,9 +265,7 @@ public class DinosaurController {
         onCollisionBegin(EntityType.PROJECTILE, EntityType.RED_DINO, (projectile, redDino) -> {
             spawn("explosion", redDino.getX() - 25, redDino.getY() - 30);
             projectile.removeFromWorld();
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
-            }
+            FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
             collisionHandler.handleHitBoss(redDino.getComponent(RedDinoComponent.class));
 
             if (redDino.getComponent(RedDinoComponent.class).getLives() == 0) {
@@ -294,43 +289,33 @@ public class DinosaurController {
 
         onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMY_PROJECTILE, (projectile, enemyProjectile) -> {
             spawn("explosion", enemyProjectile.getX() - 25, enemyProjectile.getY() - 30);
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
-            }
+            FXGL.play(GameConstants.ENEMY_EXPLODE_SOUND);
             projectile.removeFromWorld();
             enemyProjectile.removeFromWorld();
         });
 
         onCollisionBegin(EntityType.ENEMY_PROJECTILE, EntityType.PLAYER, (projectile, player) -> {
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.PLAYER_HIT_SOUND);
-            }
+            FXGL.play(GameConstants.PLAYER_HIT_SOUND);
             projectile.removeFromWorld();
             System.out.println("You got hit !\n");
             damagePlayer();
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.GREEN_DINO, (player, greenDino) -> {
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.PLAYER_HIT_SOUND);
-            }
+            FXGL.play(GameConstants.PLAYER_HIT_SOUND);
             greenDino.removeFromWorld();
             System.out.println("You touched a dino !");
             damagePlayer();
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.RED_DINO, (player, redDino) -> {
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.PLAYER_HIT_SOUND);
-            }
+            FXGL.play(GameConstants.PLAYER_HIT_SOUND);
             System.out.println("You touched a red dino !");
             damagePlayer();
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.COIN, (player, coin) -> {
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.COIN_GAIN);
-            }
+            FXGL.play(GameConstants.COIN_GAIN);
             coin.removeFromWorld();
             System.out.println("You touched a coin!");
             BombComponent bombComponent = null;
@@ -339,9 +324,7 @@ public class DinosaurController {
         });
 
         onCollisionBegin(EntityType.PLAYER, EntityType.HEART, (player, heart) -> {
-            if (!settings.isMuted()) {
-                FXGL.play(GameConstants.HEART_HIT_SOUND);
-            }
+            FXGL.play(GameConstants.HEART_HIT_SOUND);
             heart.removeFromWorld();
             System.out.println("You touched a heart!");
             life.getComponent(LifeComponent.class).increaseLife(1);

@@ -106,9 +106,7 @@ public class RedDinoComponent extends Component implements Dinosaur {
      */
     @Override
     public void shoot() {
-        if (!isMuted) {
-            FXGL.play(GameConstants.ENEMY_SHOOT_SOUND);
-        }
+        FXGL.play(GameConstants.ENEMY_SHOOT_SOUND);
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() + 90 + random(-45, 45));
         spawn("basicEnemyProjectile",

@@ -20,14 +20,8 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     double verticalSpeed = 1.5;
     private final LocalTimer timer = FXGL.newLocalTimer();
     private boolean isPaused = false;
-    private boolean isMuted = false;
-
     public void setPaused(boolean paused) {
         isPaused = paused;
-    }
-
-    public void setMuted(boolean muted) {
-        isMuted = muted;
     }
 
     @Override
@@ -61,9 +55,7 @@ public class GreenDinoComponent extends Component implements Dinosaur {
      */
     @Override
     public void shoot() {
-        if(!isMuted) {
-            FXGL.play(GameConstants.ENEMY_SHOOT_SOUND);
-        }
+        FXGL.play(GameConstants.ENEMY_SHOOT_SOUND);
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() +90);
         spawn("basicEnemyProjectile",

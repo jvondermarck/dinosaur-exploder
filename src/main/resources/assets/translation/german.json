@@ -14,6 +14,7 @@
   "controls": "Steuerung",
   "audio": "Audioeinstellungen",
   "sound_effects_volume": "Lautstärke der Soundeffekte",
+  "background_volume": "Hintergrundlautstärke",
   "move_up": "nach oben bewegen",
   "move_down": "nach unten bewegen",
   "move_right": "nach rechts bewegen",

@@ -14,6 +14,7 @@
   "controls": "Controls",
   "audio": "Audio",
   "sound_effects_volume": "Sound Effects Volume",
+  "background_volume": "Background Volume",
   "move_up": "Move spaceship up",
   "move_down": "Move spaceship down",
   "move_right": "Move spaceship right",

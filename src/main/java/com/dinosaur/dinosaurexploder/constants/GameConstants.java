@@ -40,7 +40,7 @@ public class GameConstants {
     public static final String ENEMY_SHOOT_SOUND = "enemyShoot.wav";
     public static final String SHOOT_SOUND = "shoot.wav";
     public static final String MAIN_MENU_SOUND = "/assets/sounds/mainMenu.wav";
-    public static final String BACKGROUND_SOUND ="gameBackground.wav";
+    public static final String BACKGROUND_SOUND ="/assets/sounds/gameBackground.wav";
     public static final String ENEMY_EXPLODE_SOUND = "enemyExplode.wav";
     public static final String PLAYER_HIT_SOUND = "playerHit.wav";
     public static final String COIN_GAIN = "coinHit.wav";

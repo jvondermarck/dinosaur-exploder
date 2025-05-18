@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.controller;
 
+import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
@@ -16,6 +17,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+
+import java.net.URL;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -93,8 +96,10 @@ public class DinosaurController {
         bossSpawner = new BossSpawner(settings, levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
-        FXGL.play(GameConstants.BACKGROUND_SOUND);
-        FXGL.getSettings().setGlobalMusicVolume(settings.isVfxMuted() ? 0.0 : settings.getVolumeVFX());
+        URL musicUrl = getClass().getResource(GameConstants.BACKGROUND_SOUND);
+        Music music = FXGL.getAssetLoader().loadMusic(musicUrl);
+        FXGL.getAudioPlayer().loopMusic(music);
+        FXGL.getSettings().setGlobalMusicVolume(settings.isMuted() ? 0.0 : settings.getVolume());
 
         new CountdownAnimation(3).startCountdown(() -> {
             resumeEnemySpawning();

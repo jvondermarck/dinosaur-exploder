@@ -68,7 +68,7 @@ public class SettingsProvider {
         defaultSettings.setVolume(1.0);
         defaultSettings.setMuted(false);
         defaultSettings.setVolumeVFX(1.0);
-        defaultSettings.setVfxMuted(true);
+        defaultSettings.setVfxMuted(false);
         defaultSettings.setLanguage("English");
 
         return defaultSettings;

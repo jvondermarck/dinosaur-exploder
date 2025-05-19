@@ -44,6 +44,12 @@ public class DinosaurMenu extends FXGLMenu {
     private Settings settings;
     private AudioManager audioManager;
 
+    private final Slider volumeSlider;
+    private final Label volumeLabel;
+    private ImageView imageViewPlaying;
+    private Image audioOn;
+    private Image muted;
+
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
         
@@ -91,7 +97,7 @@ public class DinosaurMenu extends FXGLMenu {
 
         // Assuming 'root' is the layout for the menu
 
-        Slider volumeSlider = new Slider(0, 1, 1);
+        volumeSlider = new Slider(0, 1, 1);
         volumeSlider.adjustValue(settings.getMusicVolume().getVolume());
         volumeSlider.setBlockIncrement(0.01);
 
@@ -99,12 +105,12 @@ public class DinosaurMenu extends FXGLMenu {
                 .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
 
         // Sets the volume label
-        Label volumeLabel = new Label(String.format("%.0f%%", settings.getMusicVolume().getVolume() * 100));
+        volumeLabel = new Label(formatVolumeLabel(settings.getMusicVolume().getVolume()));
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        audioManager.setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
-        settings.getMusicVolume().setVolume(newValue.doubleValue());
-        SettingsProvider.saveSettings(settings);
-        volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
+            audioManager.setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
+            settings.getMusicVolume().setVolume(newValue.doubleValue());
+            SettingsProvider.saveSettings(settings);
+            volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
         });
 
         try {
@@ -150,10 +156,10 @@ public class DinosaurMenu extends FXGLMenu {
             imageView.setPreserveRatio(true);
 
             // adding image to manually mute music
-            Image mute = new Image(muteButton);
+            muted = new Image(muteButton);
 
-            Image audioOn = new Image(soundButton);
-            ImageView imageViewPlaying = new ImageView(settings.getMusicVolume().isMuted() ? mute : audioOn);
+            audioOn = new Image(soundButton);
+            imageViewPlaying = new ImageView(settings.getMusicVolume().isMuted() ? muted : audioOn);
             imageViewPlaying.setFitHeight(50);
             imageViewPlaying.setFitWidth(60);
             imageViewPlaying.setX(470);
@@ -205,7 +211,7 @@ public class DinosaurMenu extends FXGLMenu {
                 boolean newMutedState = !audioManager.isMuted();
                 audioManager.setMuted(newMutedState); // <--- THIS LINE IS IMPORTANT
                 settings.getMusicVolume().setMuted(newMutedState);
-                imageViewPlaying.setImage(newMutedState ? mute : audioOn);
+                imageViewPlaying.setImage(newMutedState ? muted : audioOn);
                 SettingsProvider.saveSettings(settings);
             });
 
@@ -252,6 +258,10 @@ public class DinosaurMenu extends FXGLMenu {
     public void onEnteredFrom(Scene prevState) {
         super.onEnteredFrom(prevState);
         startAudio();
+        volumeSlider.setValue(settings.getMusicVolume().getVolume());
+        volumeLabel.setText(formatVolumeLabel(settings.getMusicVolume().getVolume()));
+
+        imageViewPlaying.setImage(settings.getMusicVolume().isMuted() ? muted : audioOn);
     }
 
     private void startAudio() {
@@ -262,5 +272,9 @@ public class DinosaurMenu extends FXGLMenu {
         audioManager.setMuted(settings.getMusicVolume().isMuted());
         audioManager.setVolume(settings.getMusicVolume().getVolume());
         audioManager.playMusic(GameConstants.MAIN_MENU_SOUND);
+    }
+
+    private String formatVolumeLabel(double volume) {
+        return String.format("%.0f%%", volume * 100);
     }
 }

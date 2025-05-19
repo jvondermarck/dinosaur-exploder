@@ -1,6 +1,7 @@
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.model.Settings;
+import com.dinosaur.dinosaurexploder.model.VolumeControl;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -9,8 +10,10 @@ import java.util.Properties;
 public class SettingsProvider {
 
     public static final String SETTINGS_FILE = "settings.properties";
-    public static final String SETTING_VOLUME = "soundVolume";
-    public static final String SETTINGS_MUTED = "soundMuted";
+    public static final String SETTING_MUSIC_VOLUME = "musicVolume";
+    public static final String SETTINGS_MUSIC_MUTED = "musicMuted";
+    public static final String SETTING_SOUND_VOLUME = "soundVolume";
+    public static final String SETTINGS_SOUND_MUTED = "soundMuted";
     public static final String SETTINGS_LANGUAGE = "selectedLanguage";
 
     public static Settings loadSettings() {
@@ -41,8 +44,11 @@ public class SettingsProvider {
 
     private static Settings createSettingsFromProperties(Properties props){
         Settings settings = new Settings();
-        settings.setVolume(Double.parseDouble(props.getProperty(SETTING_VOLUME)));
-        settings.setMuted(Boolean.parseBoolean(props.getProperty(SETTINGS_MUTED)));
+
+        VolumeControl musicControl = new VolumeControl(Double.parseDouble(props.getProperty(SETTING_MUSIC_VOLUME)), Boolean.parseBoolean(props.getProperty(SETTINGS_MUSIC_MUTED)));
+        VolumeControl soundControl = new VolumeControl(Double.parseDouble(props.getProperty(SETTING_SOUND_VOLUME)), Boolean.parseBoolean(props.getProperty(SETTINGS_SOUND_MUTED)));
+        settings.setMusicVolume(musicControl);
+        settings.setSoundVolume(soundControl);
         settings.setLanguage(props.getProperty(SETTINGS_LANGUAGE));
 
         return settings;
@@ -50,8 +56,10 @@ public class SettingsProvider {
 
     private static Properties createPropertiesFormSettings(Settings settings){
         Properties properties = new Properties();
-        properties.put(SETTING_VOLUME, String.valueOf(settings.getVolume()));
-        properties.put(SETTINGS_MUTED, String.valueOf(settings.isMuted()));
+        properties.put(SETTING_MUSIC_VOLUME, String.valueOf(settings.getMusicVolume().getVolume()));
+        properties.put(SETTINGS_MUSIC_MUTED, String.valueOf(settings.getMusicVolume().isMuted()));
+        properties.put(SETTING_SOUND_VOLUME, String.valueOf(settings.getSoundVolume().getVolume()));
+        properties.put(SETTINGS_SOUND_MUTED, String.valueOf(settings.getSoundVolume().isMuted()));
         properties.put(SETTINGS_LANGUAGE, settings.getLanguage());
 
         return properties;
@@ -59,8 +67,8 @@ public class SettingsProvider {
 
     private static Settings generateDefaultSettings(){
         Settings defaultSettings = new Settings();
-        defaultSettings.setVolume(1.0);
-        defaultSettings.setMuted(false);
+        defaultSettings.setMusicVolume(new VolumeControl());
+        defaultSettings.setSoundVolume(new VolumeControl());
         defaultSettings.setLanguage("English");
 
         return defaultSettings;

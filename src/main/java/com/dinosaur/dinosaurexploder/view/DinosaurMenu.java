@@ -102,18 +102,18 @@ public class DinosaurMenu extends FXGLMenu {
         // Assuming 'root' is the layout for the menu
 
         Slider volumeSlider = new Slider(0, 1, 1);
-        volumeSlider.adjustValue(settings.getVolume());
+        volumeSlider.adjustValue(settings.getMusicVolume().getVolume());
         volumeSlider.setBlockIncrement(0.01);
 
         volumeSlider.getStylesheets()
                 .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
 
         // Sets the volume label
-        Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
+        Label volumeLabel = new Label(String.format("%.0f%%", settings.getMusicVolume().getVolume() * 100));
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
         AudioManager.getInstance().setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
         mainMenuSound.setVolume(newValue.doubleValue());
-        settings.setVolume(newValue.doubleValue());
+        settings.getMusicVolume().setVolume(newValue.doubleValue());
         SettingsProvider.saveSettings(settings);
         volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
         });
@@ -164,7 +164,7 @@ public class DinosaurMenu extends FXGLMenu {
             Image mute = new Image(muteButton);
 
             Image audioOn = new Image(soundButton);
-            ImageView imageViewPlaying = new ImageView(settings.isMuted() ? mute : audioOn);
+            ImageView imageViewPlaying = new ImageView(settings.getMusicVolume().isMuted() ? mute : audioOn);
             imageViewPlaying.setFitHeight(50);
             imageViewPlaying.setFitWidth(60);
             imageViewPlaying.setX(470);
@@ -216,7 +216,7 @@ public class DinosaurMenu extends FXGLMenu {
                 boolean newMutedState = !AudioManager.getInstance().isMuted();
                 AudioManager.getInstance().setMuted(newMutedState); // <--- THIS LINE IS IMPORTANT
                 mainMenuSound.setMute(newMutedState);
-                settings.setMuted(newMutedState);
+                settings.getMusicVolume().setMuted(newMutedState);
                 imageViewPlaying.setImage(newMutedState ? mute : audioOn);
                 SettingsProvider.saveSettings(settings);
             });

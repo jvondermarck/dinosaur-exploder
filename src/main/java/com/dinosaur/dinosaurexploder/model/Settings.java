@@ -2,24 +2,24 @@ package com.dinosaur.dinosaurexploder.model;
 
 public class Settings {
 
-    private double volume;
-    private boolean muted;
+    private VolumeControl musicVolume;
+    private VolumeControl soundVolume;
     private String language;
 
-    public double getVolume() {
-        return volume;
+    public VolumeControl getMusicVolume() {
+        return musicVolume;
     }
 
-    public void setVolume(double volume) {
-        this.volume = volume;
+    public void setMusicVolume(VolumeControl musicVolume) {
+        this.musicVolume = musicVolume;
     }
 
-    public boolean isMuted() {
-        return muted;
+    public VolumeControl getSoundVolume() {
+        return soundVolume;
     }
 
-    public void setMuted(boolean muted) {
-        this.muted = muted;
+    public void setSoundVolume(VolumeControl soundVolume) {
+        this.soundVolume = soundVolume;
     }
 
     public String getLanguage() {

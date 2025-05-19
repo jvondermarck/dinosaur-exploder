@@ -14,6 +14,7 @@
   "controls": "Commandes",
   "audio": "Paramètres audio",
   "sound_effects_volume": "Volume des effets sonores",
+  "background_volume": "Volume de fond",
   "move_up": "Déplacer le vaisseau spatial",
   "move_down": "Déplacer le vaisseau spatial",
   "move_right": "Déplacer le vaisseau spatial à droite",

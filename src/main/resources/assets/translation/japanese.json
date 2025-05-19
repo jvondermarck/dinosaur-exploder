@@ -14,6 +14,7 @@
   "controls": "コントロール",
   "audio": "オーディオ設定",
   "sound_effects_volume": "効果音の音量",
+  "background_volume": "バックグラウンド音量",
   "move_up": "宇宙船を上に移動します",
   "move_down": "宇宙船を下に移動します",
   "move_right": "宇宙船を右に移動します",

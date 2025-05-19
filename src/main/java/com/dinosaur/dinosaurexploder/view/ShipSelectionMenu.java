@@ -22,8 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -103,7 +101,7 @@ public class ShipSelectionMenu extends FXGLMenu {
         backButton.setMinSize(140, 60);
         backButton.setStyle("-fx-font-size: 20px;");
         backButton.setOnAction(event -> {
-            AudioManager.getInstance().stopMusic();
+            AudioManager.getInstance().stopAllMusic();
             fireResume();
         });
 

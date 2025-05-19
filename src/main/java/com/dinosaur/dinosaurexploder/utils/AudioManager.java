@@ -1,19 +1,14 @@
 package com.dinosaur.dinosaurexploder.utils;
 
+import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.dsl.FXGL;
 import com.dinosaur.dinosaurexploder.model.VolumeControl;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AudioManager {
     private static AudioManager instance;
     private final VolumeControl musicVolume = new VolumeControl(1.0, false);
     private final VolumeControl soundVolume = new VolumeControl(1.0, false);
-    private final List<MediaPlayer> activePlayers = new ArrayList<>();
-    private MediaPlayer backgroundPlayer;
 
     private AudioManager() {}
 
@@ -25,11 +20,9 @@ public class AudioManager {
     }
 
     public void setMuted(boolean muted) {
-        this.musicVolume.setMuted(muted);
-        if (backgroundPlayer != null) backgroundPlayer.setMute(muted);
-        // Mute/unmute all active sound effects
-        for (MediaPlayer player : activePlayers) {
-            player.setMute(muted);
+        if (this.musicVolume.isMuted() != muted) {
+            this.musicVolume.setMuted(muted);
+            updateMusicVolume();
         }
     }
 
@@ -38,11 +31,9 @@ public class AudioManager {
     }
 
     public void setVolume(double volume) {
-        this.musicVolume.setVolume(volume);
-        if (backgroundPlayer != null) backgroundPlayer.setVolume(volume);
-        // Update volume for all currently playing sound effects
-        for (MediaPlayer player : activePlayers) {
-            player.setVolume(volume);
+        if (this.musicVolume.getVolume() != volume) {
+            this.musicVolume.setVolume(volume);
+            updateMusicVolume();
         }
     }
 
@@ -69,6 +60,11 @@ public class AudioManager {
         FXGL.getSettings().setGlobalSoundVolume(effectiveVolume);
     }
 
+    private void updateMusicVolume() {
+        double effectiveVolume = this.musicVolume.isMuted() ? 0.0 : this.musicVolume.getVolume();
+        FXGL.getSettings().setGlobalMusicVolume(effectiveVolume);
+    }
+
     public void playSound(String soundFile) {
         try {
             String resourcePath = "/assets/sounds/" + soundFile;
@@ -87,7 +83,6 @@ public class AudioManager {
     }
 
     public void playMusic(String soundFile) {
-        stopMusic();
         try {
             String resourcePath = "/assets/sounds/" + soundFile;
             var url = getClass().getResource(resourcePath);
@@ -95,31 +90,20 @@ public class AudioManager {
                 System.err.println("Music resource not found: " + resourcePath);
                 return;
             }
-            backgroundPlayer = new MediaPlayer(new Media(url.toExternalForm()));
-            backgroundPlayer.setMute(this.musicVolume.isMuted());
-            backgroundPlayer.setVolume(this.musicVolume.getVolume());
-            backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            backgroundPlayer.play();
+            Music music = FXGL.getAssetLoader().loadMusic(url);
+            FXGL.getAudioPlayer().playMusic(music);
+            FXGL.getSettings().setGlobalMusicVolume(this.musicVolume.isMuted() ? 0.0 : this.musicVolume.getVolume());
         } catch (Exception e) {
             System.err.println("Could not play music: " + soundFile);
             e.printStackTrace();
         }
     }
 
-    public void stopMusic() {
-        if (backgroundPlayer != null) {
-            backgroundPlayer.stop();
-            backgroundPlayer.dispose();
-            backgroundPlayer = null;
-        }
+    public void stopAllMusic() {
+        FXGL.getAudioPlayer().stopAllMusic();
     }
 
     public void stopAllSounds() {
-        stopMusic();
-        for (MediaPlayer player : new ArrayList<>(activePlayers)) {
-            player.stop();
-            player.dispose();
-        }
-        activePlayers.clear();
+        FXGL.getAudioPlayer().stopAllSounds();
     }
 }

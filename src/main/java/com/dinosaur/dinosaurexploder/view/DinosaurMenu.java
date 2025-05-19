@@ -23,8 +23,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -39,29 +37,21 @@ import java.util.Objects;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 
 public class DinosaurMenu extends FXGLMenu {
-    private final MediaPlayer mainMenuSound;
     LanguageManager languageManager = LanguageManager.getInstance();
     private final Button startButton = new Button("Start Game");
     private final Button quitButton = new Button("Quit");
     private final Label languageLabel = new Label("Select Language:");
-
-    private final Settings settings = SettingsProvider.loadSettings();
+    private Settings settings;
+    private AudioManager audioManager;
 
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
         
-        mainMenuSound = new MediaPlayer(
-            new Media(Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav")).toExternalForm())
-        );
-
         // Listen for language changes and update menu text
         languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> updateTexts());
 
         // Load the main menu sound
-        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
-        AudioManager.getInstance().stopMusic();
-
-        
+        startAudio();
 
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.BLACK);
 
@@ -111,8 +101,7 @@ public class DinosaurMenu extends FXGLMenu {
         // Sets the volume label
         Label volumeLabel = new Label(String.format("%.0f%%", settings.getMusicVolume().getVolume() * 100));
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        AudioManager.getInstance().setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
-        mainMenuSound.setVolume(newValue.doubleValue());
+        audioManager.setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
         settings.getMusicVolume().setVolume(newValue.doubleValue());
         SettingsProvider.saveSettings(settings);
         volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
@@ -209,13 +198,12 @@ public class DinosaurMenu extends FXGLMenu {
 
             startButton.setOnAction(event -> {
                 FXGL.getSceneService().pushSubScene(new ShipSelectionMenu());
-                mainMenuSound.stop();
+                audioManager.stopAllMusic();
             });
 
             imageViewPlaying.setOnMouseClicked(mouseEvent -> {
-                boolean newMutedState = !AudioManager.getInstance().isMuted();
-                AudioManager.getInstance().setMuted(newMutedState); // <--- THIS LINE IS IMPORTANT
-                mainMenuSound.setMute(newMutedState);
+                boolean newMutedState = !audioManager.isMuted();
+                audioManager.setMuted(newMutedState); // <--- THIS LINE IS IMPORTANT
                 settings.getMusicVolume().setMuted(newMutedState);
                 imageViewPlaying.setImage(newMutedState ? mute : audioOn);
                 SettingsProvider.saveSettings(settings);
@@ -263,9 +251,16 @@ public class DinosaurMenu extends FXGLMenu {
     @Override
     public void onEnteredFrom(Scene prevState) {
         super.onEnteredFrom(prevState);
-        FXGL.getAudioPlayer().stopAllSounds();
-        mainMenuSound.play();
-        mainMenuSound.setMute(AudioManager.getInstance().isMuted()); // Optional: sync menu music with global mute
-        mainMenuSound.setVolume(AudioManager.getInstance().getVolume()); // Optional: sync menu music with global volume
-        }
+        startAudio();
+    }
+
+    private void startAudio() {
+        settings = SettingsProvider.loadSettings();
+        audioManager = AudioManager.getInstance();
+        audioManager.stopAllMusic();
+        audioManager.stopAllSounds();
+        audioManager.setMuted(settings.getMusicVolume().isMuted());
+        audioManager.setVolume(settings.getMusicVolume().getVolume());
+        audioManager.playMusic(GameConstants.MAIN_MENU_SOUND);
+    }
 }

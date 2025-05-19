@@ -14,6 +14,7 @@
   "controls": "Controles",
   "audio": "Configuración de audio",
   "sound_effects_volume": "Volumen de efectos de sonido",
+  "background_volume": "Volumen de fondo",
   "move_up": "Mover arriba",
   "move_down": "Mover abajo",
   "move_right": "Mover derecha",

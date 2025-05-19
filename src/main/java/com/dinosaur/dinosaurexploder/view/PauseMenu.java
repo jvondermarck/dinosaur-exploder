@@ -31,6 +31,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 
 import java.io.InputStream;
+import java.util.function.Consumer;
 
 public class PauseMenu extends FXGLMenu {
     private static final String MUTE_ICON_PATH = "assets/textures/silent.png";
@@ -122,7 +123,7 @@ public class PauseMenu extends FXGLMenu {
 
             controlsBox.getChildren().addAll(
                     btnBackMenu,
-                    this.createVolumeControl()
+                    buildAllAudioControls()
             );
 
             controlsBox.setTranslateX(300);
@@ -268,20 +269,67 @@ public class PauseMenu extends FXGLMenu {
         getDialogService().showBox(languageManager.getTranslation("quit_game"), new VBox(), btnYes, btnNo);
     }
 
-    public VBox createVolumeControl() {
-        Text title = getUIFactoryService().newText(languageManager.getTranslation("sound_effects_volume"), Color.WHITE, 15);
-        ImageView muteButton = createMuteToggleButton();
-        HBox volumeSlider = createVolumeSlider();
+    public VBox buildAudioControl(
+            String translationKey,
+            double initialVolume,
+            boolean isMuted,
+            Consumer<Boolean> onMuteToggle,
+            Consumer<Double> onVolumeChange
+    ) {
+        Text title = getUIFactoryService().newText(languageManager.getTranslation(translationKey), Color.WHITE, 15);
+        ImageView muteButton = createMuteToggleButton(isMuted, onMuteToggle);
+        HBox volumeSlider = createVolumeSlider(initialVolume, onVolumeChange);
 
-        HBox audioControls = new HBox(10, muteButton, volumeSlider);
-        VBox audioContent = new VBox(10, title, audioControls);
-        audioControls.setAlignment(Pos.CENTER);
-        return audioContent;
+        HBox controls = new HBox(10, muteButton, volumeSlider);
+        controls.setAlignment(Pos.CENTER);
+
+        return new VBox(10, title, controls);
     }
 
-    private HBox createVolumeSlider() {
-        Slider volumeSlider = new Slider(0, 1, settings.getSoundVolume().getVolume());
-        Label volumeLabel = new Label(formatVolumeLabel(settings.getSoundVolume().getVolume()));
+    public VBox buildAllAudioControls() {
+        VBox backgroundControl = buildAudioControl(
+                "background_volume",
+                settings.getMusicVolume().getVolume(),
+                settings.getMusicVolume().isMuted(),
+                isMuted -> {
+                    settings.getMusicVolume().setMuted(isMuted);
+                    SettingsProvider.saveSettings(settings);
+                    audioManager.setMuted(isMuted);
+                    FXGL.getSettings().setGlobalMusicVolume(isMuted ? 0.0 : settings.getMusicVolume().getVolume());
+
+                },
+                volume -> {
+                    settings.getMusicVolume().setVolume(volume);
+                    SettingsProvider.saveSettings(settings);
+                    audioManager.setVolume(volume);
+                    FXGL.getSettings().setGlobalMusicVolume(settings.getMusicVolume().isMuted() ? 0.0 : volume);
+                }
+        );
+
+        VBox sfxControl = buildAudioControl(
+                "sound_effects_volume",
+                settings.getSoundVolume().getVolume(),
+                settings.getSoundVolume().isMuted(),
+                isMuted -> {
+                    settings.getSoundVolume().setMuted(isMuted);
+                    SettingsProvider.saveSettings(settings);
+                    audioManager.setSoundMuted(isMuted);
+                },
+                volume -> {
+                    settings.getSoundVolume().setVolume(volume);
+                    SettingsProvider.saveSettings(settings);
+                    audioManager.setSoundVolume(volume);
+                }
+        );
+
+        VBox allControls = new VBox(10, backgroundControl, sfxControl);
+        allControls.setAlignment(Pos.CENTER);
+        return allControls;
+    }
+
+    private HBox createVolumeSlider(double initialVolume, Consumer<Double> onVolumeChange) {
+        Slider volumeSlider = new Slider(0, 1, initialVolume);
+        Label volumeLabel = new Label(formatVolumeLabel(initialVolume));
         volumeLabel.setStyle("-fx-text-fill: #61C181;");
         volumeSlider.setBlockIncrement(0.01);
 
@@ -289,10 +337,8 @@ public class PauseMenu extends FXGLMenu {
 
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             double volume = newVal.doubleValue();
+            onVolumeChange.accept(volume);
             volumeLabel.setText(formatVolumeLabel(volume));
-            audioManager.setSoundVolume(volume);
-            settings.getSoundVolume().setVolume(volume);
-            SettingsProvider.saveSettings(settings);
         });
 
         HBox boxSlider = new HBox(10, volumeSlider, volumeLabel);
@@ -301,21 +347,20 @@ public class PauseMenu extends FXGLMenu {
         return boxSlider;
     }
 
-    private ImageView createMuteToggleButton() {
+    private ImageView createMuteToggleButton(boolean isInitiallyMuted, Consumer<Boolean> onMuteToggle) {
         Image muteImage = loadImage(MUTE_ICON_PATH);
         Image soundImage = loadImage(SOUND_ICON_PATH);
 
-        ImageView buttonIcon = new ImageView(settings.getSoundVolume().isMuted() ? muteImage : soundImage);
+        final boolean[] isMuted = { isInitiallyMuted };
+        ImageView buttonIcon = new ImageView(isMuted[0] ? muteImage : soundImage);
         buttonIcon.setFitHeight(30);
         buttonIcon.setFitWidth(40);
         buttonIcon.setPreserveRatio(true);
 
         buttonIcon.setOnMouseClicked(event -> {
-            boolean newMuteStatus = !settings.getSoundVolume().isMuted();
-            buttonIcon.setImage(newMuteStatus ? muteImage : soundImage);
-            audioManager.setSoundMuted(newMuteStatus);
-            settings.getSoundVolume().setMuted(newMuteStatus);
-            SettingsProvider.saveSettings(settings);
+            isMuted[0] = !isMuted[0];
+            onMuteToggle.accept(isMuted[0]);
+            buttonIcon.setImage(isMuted[0] ? muteImage : soundImage);
         });
 
         return buttonIcon;
@@ -343,7 +388,10 @@ public class PauseMenu extends FXGLMenu {
         settings = SettingsProvider.loadSettings();
         audioManager = AudioManager.getInstance();
         var soundVolume = settings.getSoundVolume();
+        var musicVolume = settings.getMusicVolume();
         audioManager.setSoundMuted(soundVolume.isMuted());
         audioManager.setSoundVolume(soundVolume.getVolume());
+        audioManager.setVolume(musicVolume.getVolume());
+        audioManager.setMuted(musicVolume.isMuted());
     }
 }

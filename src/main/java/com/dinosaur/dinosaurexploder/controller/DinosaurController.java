@@ -43,8 +43,6 @@ public class DinosaurController {
     private BossSpawner bossSpawner;
     private final Settings settings = SettingsProvider.loadSettings();
     private CollisionHandler collisionHandler;
-    private final int startingLevel = 1;
-
 
     /**
      * Summary :
@@ -92,9 +90,6 @@ public class DinosaurController {
 
     public void initGame() {
         levelManager = new LevelManager();
-        for (int i = 1; i < startingLevel; i++){
-            levelManager.nextLevel();
-        }
         initGameEntities();
         collisionHandler = new CollisionHandler(levelManager);
         bossSpawner = new BossSpawner(settings, levelManager);

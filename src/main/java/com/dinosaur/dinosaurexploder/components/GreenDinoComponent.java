@@ -21,7 +21,11 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     double verticalSpeed = 1.5;
     private final LocalTimer timer = FXGL.newLocalTimer();
     private boolean isPaused = false;
-   
+    private int lives = 1;
+
+    public int getLives(){
+        return lives;
+    }
 
     public void setPaused(boolean paused) {
         isPaused = paused;
@@ -68,5 +72,9 @@ public class GreenDinoComponent extends Component implements Dinosaur {
                 new SpawnData(center.getX(), center.getY())
                         .put("direction", direction.toPoint2D() )
         );
+    }
+
+    public void damage(int damage) {
+        lives -= damage;
     }
 }

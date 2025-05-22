@@ -20,6 +20,7 @@ import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
+import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -33,7 +34,7 @@ import javafx.util.Duration;
 
 import java.util.Objects;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.texture;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 /**
  * Summary :
@@ -166,6 +167,20 @@ public class GameEntityFactory implements EntityFactory {
                 .bbox(new HitBox(BoundingShape.box(65, 55)))
                 .collidable()
                 .with(new RedDinoComponent(new FXGLGameTimer()))
+                .build();
+    }
+
+    @Spawns("orangeDino")
+    public Entity newOrangeDino(SpawnData data) {
+        PlayerComponent player;
+        player = getGameWorld().getEntitiesByComponent(PlayerComponent.class).get(0).getComponent(PlayerComponent.class);
+
+        return entityBuilderBase(data, EntityType.ORANGE_DINO)
+                .with(new OffscreenCleanComponent())
+                .view(texture(GameConstants.ORANGE_DINO_IMAGE_FILE, 100, 150))
+                .bbox(new HitBox(BoundingShape.box(65, 55)))
+                .collidable()
+                .with(new OrangeDinoComponent(new FXGLGameTimer(), player))
                 .build();
     }
 

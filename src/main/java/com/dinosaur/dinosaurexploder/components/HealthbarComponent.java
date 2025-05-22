@@ -1,6 +1,7 @@
 package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -11,18 +12,18 @@ import javafx.scene.shape.Rectangle;
 public class HealthbarComponent extends Component {
 
     private int maxHealth;
-    private RedDinoComponent redDinoComponent;
+    private Dinosaur dinoComponent;
     boolean firstTime = true;
     double maxWidht;
 
     private Rectangle healthbar;
 
-    public RedDinoComponent getRedDinoComponent() {
-        return redDinoComponent;
+    public Dinosaur getDinoComponent() {
+        return dinoComponent;
     }
 
-    public void setRedDinoComponent(RedDinoComponent redDinoComponent) {
-        this.redDinoComponent = redDinoComponent;
+    public void setDinoComponent(Dinosaur dinoComponent) {
+        this.dinoComponent = dinoComponent;
     }
 
     @Override
@@ -40,12 +41,12 @@ public class HealthbarComponent extends Component {
      * This method updates the healthbar and gets called when the boss Dino got hit
      */
     public void updateBar() {
-        // the first time the Dino got hit, the maxhealth is set +1 because the redDinoComponent already got hit once
+        // the first time the Dino got hit, the maxhealth is set +1 because the dinoComponent already got hit once
         if(firstTime){
-            maxHealth= redDinoComponent.getLives()+1;
+            maxHealth= dinoComponent.getLives()+1;
             firstTime = false;
         }
-        int currentHealth = redDinoComponent.getLives();
+        int currentHealth = dinoComponent.getLives();
         double percentage = ((double) currentHealth / maxHealth);
         double width = (percentage * maxWidht);
         healthbar.setWidth(width);

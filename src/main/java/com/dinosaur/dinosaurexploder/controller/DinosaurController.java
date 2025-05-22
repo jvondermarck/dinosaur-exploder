@@ -43,6 +43,7 @@ public class DinosaurController {
     private BossSpawner bossSpawner;
     private final Settings settings = SettingsProvider.loadSettings();
     private CollisionHandler collisionHandler;
+    private final int startingLevel = 1;
 
 
     /**
@@ -91,6 +92,9 @@ public class DinosaurController {
 
     public void initGame() {
         levelManager = new LevelManager();
+        for (int i = 1; i < startingLevel; i++){
+            levelManager.nextLevel();
+        }
         initGameEntities();
         collisionHandler = new CollisionHandler(levelManager);
         bossSpawner = new BossSpawner(settings, levelManager);
@@ -129,9 +133,12 @@ public class DinosaurController {
         }
 
         enemySpawnTimer = run(() -> {
-            if (levelManager.getCurrentLevel() % 5 == 0) {
+            if (levelManager.getCurrentLevel() % 10 == 0) {
                 pauseEnemySpawning();
-                bossSpawner.spawnNewBoss();
+                bossSpawner.spawnNewBoss("orange");
+            } else if (levelManager.getCurrentLevel() % 5 == 0) {
+                pauseEnemySpawning();
+                bossSpawner.spawnNewBoss("red");
             } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
                     Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
@@ -302,6 +309,36 @@ public class DinosaurController {
                 bossSpawner.updateHealthBar();
             }
 
+        });
+
+        onCollisionBegin(EntityType.PROJECTILE, EntityType.ORANGE_DINO, (projectile, orangeDino) -> {
+            spawn("explosion", orangeDino.getX() - 25, orangeDino.getY() - 30);
+            projectile.removeFromWorld();
+            AudioManager.getInstance().playSound(GameConstants.ENEMY_EXPLODE_SOUND);
+            collisionHandler.handleHitBoss(orangeDino.getComponent(OrangeDinoComponent.class));
+
+            if (orangeDino.getComponent(OrangeDinoComponent.class).getLives() == 0) {
+                // if the boss is defeated it drops 100% a heart
+                spawn("heart", orangeDino.getX(), orangeDino.getY());
+                // if the boss dino is defeated it drops twice as many coins as the current level
+                for (int i = 0; i < levelManager.getCurrentLevel()*2; i++) {
+                    spawn("coin", orangeDino.getX() + random(-25, 25), orangeDino.getY() + random(-25, 25));
+                }
+                bossSpawner.removeBossEntities();
+
+                collisionHandler.handleBossDefeat(score.getComponent(ScoreComponent.class));
+
+                showLevelMessage();
+                System.out.println("Level up!");
+            } else {
+                bossSpawner.updateHealthBar();
+            }
+        });
+
+        onCollisionBegin(EntityType.PLAYER, EntityType.ORANGE_DINO, (player, orangeDino) -> {
+            AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
+            System.out.println("You touched a orange dino !");
+            damagePlayer();
         });
 
         onCollisionBegin(EntityType.PROJECTILE, EntityType.ENEMY_PROJECTILE, (projectile, enemyProjectile) -> {

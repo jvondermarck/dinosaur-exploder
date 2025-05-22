@@ -6,6 +6,17 @@ package com.dinosaur.dinosaurexploder.interfaces;
  */
 public interface Dinosaur {
     /**
+     * Summary:
+     *          This method returns the lives that the dino has currently.
+     * @return lives
+     */
+    int getLives();
+    /**
+     * Summary:
+     *      This method damages the dino
+     */
+    void damage(int damage);
+    /**
      * Summary :
      *      This method runs for every frame like a continues flow , without any stop until we put stop to it.
      * Parameters :

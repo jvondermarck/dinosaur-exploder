@@ -233,10 +233,7 @@ public class DinosaurMenu extends FXGLMenu {
             quitButton.setOnAction(event -> fireExit());
 
             infoButton.setOnAction(event -> {
-                FXGL.showMessage("Controls:\n\n" +
-                        "Move: Arrow Keys\n" +
-                        "Shoot: SPACE\n" +
-                        "Place Bomb: B");
+                FXGL.showMessage(languageManager.getTranslation("info_controls"));
             });
 
 
@@ -274,6 +271,7 @@ public class DinosaurMenu extends FXGLMenu {
     private void updateTexts() {
         startButton.setText(languageManager.getTranslation("start"));
         quitButton.setText(languageManager.getTranslation("quit"));
+        infoButton.setText(languageManager.getTranslation("info"));
         languageLabel.setText(languageManager.getTranslation("language_label"));
     }
 

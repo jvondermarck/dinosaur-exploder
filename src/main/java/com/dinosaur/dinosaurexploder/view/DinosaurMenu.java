@@ -49,10 +49,8 @@ public class DinosaurMenu extends FXGLMenu {
 
     public DinosaurMenu() {
         super(MenuType.MAIN_MENU);
-        
-//        mainMenuSound = new MediaPlayer(
-//            new Media(Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav")).toExternalForm())
-//        );
+
+        AudioManager.getInstance().setVolume(settings.getVolume());
         AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
         System.out.println("Volume ship selection: "+AudioManager.getInstance().getVolume());
 
@@ -114,8 +112,7 @@ public class DinosaurMenu extends FXGLMenu {
         // Sets the volume label
         Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        AudioManager.getInstance().setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
-        //mainMenuSound.setVolume(newValue.doubleValue());
+            AudioManager.getInstance().setVolume(newValue.doubleValue()); // <--- THIS LINE IS IMPORTANT
             AudioManager.getInstance().setVolume(newValue.doubleValue());
             settings.setVolume(newValue.doubleValue());
             SettingsProvider.saveSettings(settings);
@@ -213,13 +210,11 @@ public class DinosaurMenu extends FXGLMenu {
 
             startButton.setOnAction(event -> {
                 FXGL.getSceneService().pushSubScene(new ShipSelectionMenu());
-                //mainMenuSound.stop();
             });
 
             imageViewPlaying.setOnMouseClicked(mouseEvent -> {
                 boolean newMutedState = !AudioManager.getInstance().isMuted();
                 AudioManager.getInstance().setMuted(newMutedState); // <--- THIS LINE IS IMPORTANT
-                //mainMenuSound.setMute(newMutedState);
                 settings.setMuted(newMutedState);
                 imageViewPlaying.setImage(newMutedState ? mute : audioOn);
                 SettingsProvider.saveSettings(settings);

@@ -44,7 +44,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
 
         // Background music
         AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
-        
+        System.out.println("Volume weapon selection: "+AudioManager.getInstance().getVolume());
 
         // background image
         InputStream backGround = getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");

@@ -22,8 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -45,6 +43,7 @@ public class ShipSelectionMenu extends FXGLMenu {
 
         // Background music
         AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
+        System.out.println("Volume ship selection: "+AudioManager.getInstance().getVolume());
         
 
         // background image

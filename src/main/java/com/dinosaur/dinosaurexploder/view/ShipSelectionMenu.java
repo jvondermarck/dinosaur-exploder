@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
@@ -26,6 +27,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -206,5 +209,12 @@ public class ShipSelectionMenu extends FXGLMenu {
         System.out.println("Selected Spaceship: " + shipNumber);
         FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
       
+    }
+
+    @Override
+    public void onEnteredFrom(@NotNull Scene prevState) {
+        super.onEnteredFrom(prevState);
+        FXGL.getAudioPlayer().stopAllSounds();
+        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
     }
 }

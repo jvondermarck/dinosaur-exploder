@@ -265,12 +265,9 @@ public class DinosaurMenu extends FXGLMenu {
     }
 
     @Override
-    public void onEnteredFrom(Scene prevState) {
+    public void onEnteredFrom(@NotNull Scene prevState) {
         super.onEnteredFrom(prevState);
         FXGL.getAudioPlayer().stopAllSounds();
         AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
-        //mainMenuSound.play();
-        //mainMenuSound.setMute(AudioManager.getInstance().isMuted()); // Optional: sync menu music with global mute
-        //mainMenuSound.setVolume(AudioManager.getInstance().getVolume()); // Optional: sync menu music with global volume
         }
 }

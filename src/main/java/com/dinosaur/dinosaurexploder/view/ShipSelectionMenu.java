@@ -46,8 +46,6 @@ public class ShipSelectionMenu extends FXGLMenu {
 
         // Background music
         AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
-        System.out.println("Volume ship selection: "+AudioManager.getInstance().getVolume());
-        
 
         // background image
         InputStream backGround = getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");

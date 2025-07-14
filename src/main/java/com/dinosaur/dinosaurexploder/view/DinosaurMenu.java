@@ -52,7 +52,6 @@ public class DinosaurMenu extends FXGLMenu {
 
         AudioManager.getInstance().setVolume(settings.getVolume());
         AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
-        System.out.println("Volume ship selection: "+AudioManager.getInstance().getVolume());
 
         // Listen for language changes and update menu text
         languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> updateTexts());

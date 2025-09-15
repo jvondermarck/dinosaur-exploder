@@ -11,6 +11,8 @@ module com.dinosaur.dinosaurexploder {
 
     requires com.fasterxml.jackson.databind;
     requires annotations;
+    requires javafx.base;
+    requires com.almasb.fxgl.entity;
 
     opens assets.textures;
     opens assets.sounds;
@@ -21,4 +23,5 @@ module com.dinosaur.dinosaurexploder {
     opens com.dinosaur.dinosaurexploder.utils to com.almasb.fxgl.core;
     opens com.dinosaur.dinosaurexploder.constants to com.almasb.fxgl.core;
     opens com.dinosaur.dinosaurexploder.interfaces to com.almasb.fxgl.core;
+    opens com.dinosaur.dinosaurexploder.controller.core to com.almasb.fxgl.core;
 }

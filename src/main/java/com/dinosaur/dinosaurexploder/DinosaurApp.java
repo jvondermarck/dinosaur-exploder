@@ -50,7 +50,6 @@ public class DinosaurApp extends GameApplication {
     @Override
     protected void initGame() {
         FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
-        FXGL.set("levelManager", new LevelManager());
         controller.initGame();
     }
 

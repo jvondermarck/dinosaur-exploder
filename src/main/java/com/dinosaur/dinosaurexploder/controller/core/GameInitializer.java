@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.controller.core;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
@@ -62,6 +63,7 @@ public class GameInitializer {
 
     public void initGame() {
         levelManager = new LevelManager();
+        FXGL.set("levelManager", levelManager);
         initGameEntities();
         collisionHandler = new CollisionHandler(levelManager);
         bossSpawner = new BossSpawner(settings, levelManager);

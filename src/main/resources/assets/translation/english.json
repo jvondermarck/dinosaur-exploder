@@ -30,5 +30,7 @@
   "weapon_locked": "The weapon is locked.",
   "unlock_highScore": "Reach a high score of ## to unlock it.",
   "unlock_totalCoins": "Reach a total of ## coins to unlock it.",
-  "ok": "ok"
+  "ok": "ok",
+  "info": "Info",
+  "info_controls": "Controls:\n\nMove: Arrow Keys\nShoot: SPACE\nPlace Bomb: B"
 }

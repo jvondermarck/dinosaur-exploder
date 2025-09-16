@@ -30,5 +30,7 @@
   "weapon_locked": "L'arme est verrouillée.",
   "unlock_highScore": "Atteignez un score élevé de ## pour le débloquer.",
   "unlock_totalCoins": "Atteignez un total de ## pièces pour le débloquer.",
-  "ok": "D'accord"
+  "ok": "D'accord",
+  "info": "Informations",
+  "info_controls": "Commandes :\n\nDéplacement : flèches directionnelles\nTirer : ESPACE\nBombe : B"
 }

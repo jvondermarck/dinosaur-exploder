@@ -18,6 +18,7 @@
         <junit.version>5.13.4</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
+        <jacoco.version>0.8.10</jacoco.version>
     </properties>
     <dependencies>
         <dependency>
@@ -74,6 +75,48 @@
     </pluginRepositories>
     <build>
         <plugins>
+
+            <!-- JaCoCo Plugin for Code Coverage -->
+          <plugin>
+             <groupId>org.jacoco</groupId>
+             <artifactId>jacoco-maven-plugin</artifactId>
+             <version>${jacoco.version}</version>
+             <executions>
+                <execution>
+                   <id>prepare-agent</id>
+                   <goals>
+                      <goal>prepare-agent</goal>
+                   </goals>
+                </execution>
+                <execution>
+                   <id>report</id>
+                   <phase>test</phase>
+                   <goals>
+                      <goal>report</goal>
+                   </goals>
+                </execution>
+                <execution>
+                   <id>check</id>
+                   <goals>
+                      <goal>check</goal>
+                   </goals>
+                   <configuration>
+                      <rules>
+                         <rule>
+                            <element>BUNDLE</element>
+                            <limits>
+                               <limit>
+                                  <counter>INSTRUCTION</counter>
+                                  <value>COVEREDRATIO</value>
+                                  <minimum>0.00</minimum>  <!-- No minimum for student repository -->
+                               </limit>
+                            </limits>
+                         </rule>
+                      </rules>
+                   </configuration>
+                </execution>
+             </executions>
+          </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>

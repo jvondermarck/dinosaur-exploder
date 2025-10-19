@@ -425,7 +425,7 @@ public EnemiesTest() {
             assertEquals("Out of bounds",outputStreamCaptor.toString().trim());
 
         }
-        //LIAM O ALEX == HARAMgggrgv
+        //LIAM O ALEX == HARAMgggrgvnj
 
     }
     

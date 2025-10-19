@@ -415,7 +415,7 @@ public EnemiesTest() {
             assertEquals(5, entity.getX());
         }
         @Test
-        @DisplayName("")
+        @DisplayName("Should system.out.printIn")
         void moveLeft_moveLeft_shouldNotChangeX_whenOutOfBounds(){
             //Arrange
             entity.setX(-10);
@@ -425,7 +425,6 @@ public EnemiesTest() {
             assertEquals("Out of bounds",outputStreamCaptor.toString().trim());
 
         }
-        //LIAM O ALEX == HARAMgggrgvnj
 
     }
     

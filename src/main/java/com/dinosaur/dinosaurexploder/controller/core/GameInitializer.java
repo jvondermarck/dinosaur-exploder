@@ -69,8 +69,6 @@ public class GameInitializer {
         bossSpawner = new BossSpawner(settings, levelManager);
         CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
-        //Stop the music while playing the game
-        AudioManager.getInstance().stopMusic();
 
         new CountdownAnimation(3).startCountdown(() -> {
             enemySpawner.resumeEnemySpawning();

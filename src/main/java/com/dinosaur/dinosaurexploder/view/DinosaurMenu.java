@@ -61,7 +61,8 @@ public class DinosaurMenu extends FXGLMenu {
         boolean muteState = settings.isMuted();
         AudioManager.getInstance().setMuted(muteState);
         mainMenuSound.setMute(muteState);
-        
+        AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
+
 
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.BLACK);
 
@@ -262,8 +263,6 @@ public class DinosaurMenu extends FXGLMenu {
     @Override
     public void onEnteredFrom(Scene prevState) {
         super.onEnteredFrom(prevState);
-        FXGL.getAudioPlayer().stopAllSounds();
-        if ( prevState.toString().equals("FXGLMainMenuDummyScene") ) AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
         mainMenuSound.setMute(AudioManager.getInstance().isMuted()); // Optional: sync menu music with global mute
         mainMenuSound.setVolume(AudioManager.getInstance().getVolume()); // Optional: sync menu music with global volume
         }

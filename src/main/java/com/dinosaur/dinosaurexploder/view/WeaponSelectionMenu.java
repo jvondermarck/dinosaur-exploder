@@ -42,8 +42,6 @@ public class WeaponSelectionMenu extends FXGLMenu {
     public WeaponSelectionMenu() {
         super(MenuType.MAIN_MENU);
 
-        // Background music
-        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
         
 
         // background image
@@ -90,7 +88,6 @@ public class WeaponSelectionMenu extends FXGLMenu {
         backButton.setMinSize(140, 60);
         backButton.setStyle("-fx-font-size: 20px;");
         backButton.setOnAction(event -> {
-            AudioManager.getInstance().stopMusic();
             fireResume();
         });
 
@@ -190,11 +187,10 @@ public class WeaponSelectionMenu extends FXGLMenu {
     }
 
     private void selectWeapon(int weaponNumber) {
-        // Save the selected wapon in GameData
+        // Save the selected weapon in GameData
         GameData.setSelectedWeapon(weaponNumber);
         // Selected weapon in console
         System.out.println("Selected Weapon: " + weaponNumber);
         fireNewGame();
-        AudioManager.getInstance().stopMusic();
     }
 }

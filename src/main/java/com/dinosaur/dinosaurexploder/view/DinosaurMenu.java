@@ -57,11 +57,12 @@ public class DinosaurMenu extends FXGLMenu {
         // Listen for language changes and update menu text
         languageManager.selectedLanguageProperty().addListener((observable, oldValue, newValue) -> updateTexts());
 
-        // Load the main menu sound
-        AudioManager.getInstance().playMusic(GameConstants.MAIN_MENU_SOUND);
-        AudioManager.getInstance().stopMusic();
+        // Read the last saved settings and load the main menu sound
+        boolean muteState = settings.isMuted();
+        AudioManager.getInstance().setMuted(muteState);
+        mainMenuSound.setMute(muteState);
+        AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
 
-        
 
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.BLACK);
 
@@ -209,7 +210,6 @@ public class DinosaurMenu extends FXGLMenu {
 
             startButton.setOnAction(event -> {
                 FXGL.getSceneService().pushSubScene(new ShipSelectionMenu());
-                mainMenuSound.stop();
             });
 
             imageViewPlaying.setOnMouseClicked(mouseEvent -> {
@@ -263,8 +263,6 @@ public class DinosaurMenu extends FXGLMenu {
     @Override
     public void onEnteredFrom(Scene prevState) {
         super.onEnteredFrom(prevState);
-        FXGL.getAudioPlayer().stopAllSounds();
-        mainMenuSound.play();
         mainMenuSound.setMute(AudioManager.getInstance().isMuted()); // Optional: sync menu music with global mute
         mainMenuSound.setVolume(AudioManager.getInstance().getVolume()); // Optional: sync menu music with global volume
         }

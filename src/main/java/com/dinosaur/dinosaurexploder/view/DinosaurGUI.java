@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class DinosaurGUI {
     public static final int WIDTH = 550;
     public static final int HEIGHT = 750;
-    public static final String ARCADE_CLASSIC_FONT = "arcade_classic.ttf";
+    public static final String GAME_FONT = "Geologica-Regular.ttf";
 
     public void initSettings(GameSettings settings) {
         settings.setWidth(WIDTH);
@@ -35,8 +35,9 @@ public class DinosaurGUI {
 
         settings.setVersion(GameConstants.VERSION);
         settings.setTicksPerSecond(60); // check info : settings.setProfilingEnabled(true);
-        settings.setFontText(ARCADE_CLASSIC_FONT);
-        settings.setFontGame(ARCADE_CLASSIC_FONT);
-        settings.setFontMono(ARCADE_CLASSIC_FONT);
+        settings.setFontText(GAME_FONT);
+        settings.setFontGame(GAME_FONT);
+        settings.setFontMono(GAME_FONT);
+        settings.setFontUI(GAME_FONT);
     }
 }

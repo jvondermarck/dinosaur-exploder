@@ -32,7 +32,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         // Create UI elements
         coinText = new Text();
         coinText.setFill(Color.PURPLE);
-        coinText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
+        coinText.setFont(Font.font(GameConstants.GAME_FONTNAME, 20));
         coinText.setLayoutX(0);
         coinText.setLayoutY(0);
 

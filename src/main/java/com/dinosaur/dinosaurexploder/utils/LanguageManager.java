@@ -93,7 +93,7 @@ public class LanguageManager {
     // Load language files from the resources folder (for non-JAR environment)
     private List<String> loadLanguagesFromResources() {
         List<String> languages = new ArrayList<>();
-        String[] availableLanguages = {"english", "french", "german", "spanish", "japanese", "russian", "portuguese"};
+        String[] availableLanguages = {"english", "french", "german", "spanish", "japanese", "russian", "portuguese", "greek"};
         for (String lang : availableLanguages) {
             String filePath = TRANSLATION_PATH + lang + ".json";
             if (getClass().getResourceAsStream(filePath) != null) {

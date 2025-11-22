@@ -45,7 +45,7 @@ public class LifeComponent extends Component implements Life {
 
         // Style the text
         lifeText.setFill(Color.RED);
-        lifeText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
+        lifeText.setFont(Font.font(GameConstants.GAME_FONTNAME, 20));
 
         // Listen for language changes and update UI automatically
         languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());

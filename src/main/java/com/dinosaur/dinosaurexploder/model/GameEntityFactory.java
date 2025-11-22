@@ -218,7 +218,7 @@ public class GameEntityFactory implements EntityFactory {
     public Entity newScore(SpawnData data) {
         Text scoreText = new Text("");
         scoreText.setFill(Color.GREEN);
-        scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
+        scoreText.setFont(Font.font(GameConstants.GAME_FONTNAME, 20));
         return entityBuilderBase(data, EntityType.SCORE)
                 .view(scoreText)
                 .with(new ScoreComponent())
@@ -291,7 +291,7 @@ public class GameEntityFactory implements EntityFactory {
         levelText.setFill(Color.LIGHTBLUE);
         levelText.setTranslateX(10);
         levelText.setFont(
-                Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
+                Font.font(GameConstants.GAME_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
         return entityBuilderBase(data, EntityType.LEVEL)
                 .view(levelText)
                 .build();

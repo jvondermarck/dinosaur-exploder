@@ -1,18 +1,29 @@
-<h1 align="center"><img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6072475_960_720.png" width="224px"/><br/>
+<h1 align="center">
+  <img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6077047_1280.png" width="150" alt="Dinosaur Icon">
+  <br>
   Dinosaur Exploder
 </h1>
-<p align="center">Dinosaur Exploder is a free, open source shoot 'em up video game <br> written in Java using JavaFX and the FXGL game development library 🦖.</p>
+
+<p align="center">
+  Dinosaur Exploder is a free, open source shoot 'em up video game <br>
+  written in Java using JavaFX and the FXGL game development library 🦖.
+</p>
 
 <div align="center">
-  <img align="center" src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/forks/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <br><p></p>
-  <img align="center" src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/actions/workflow/status/jvondermarck/dinosaur-exploder/maven-build.yml?label=BUILD&style=for-the-badge">
- <img >
+
+  <img src="https://img.shields.io/discord/946130675034095667?label=Discord">
+  <img src="https://img.shields.io/github/forks/jvondermarck/dinosaur-exploder">
+  <img src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder">
+  <br><br>
+
+  <img src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder">
+  <img src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder">
+  <img src="https://img.shields.io/github/actions/workflow/status/jvondermarck/dinosaur-exploder/maven.yml">
+
 </div>
+
+
+
 
 ## 📃 Table of content
 

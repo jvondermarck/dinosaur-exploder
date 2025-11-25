@@ -52,6 +52,8 @@ public class GameInitializer {
         onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
 
         onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
+        // Shield activation
+        onKeyDown(KeyCode.E, () -> player.getComponent(PlayerComponent.class).activateShield());
 
         onKey(KeyCode.W, () -> player.getComponent(PlayerComponent.class).moveUp());
         onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
@@ -85,6 +87,8 @@ public class GameInitializer {
         score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
         life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() + 290);
         bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 280);
+        // Shield HUD
+        spawn("Shield", getAppCenter().getX() - 260, getAppCenter().getY() - 200);
         Entity coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 235);
         collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
         bomb.addComponent(new BombComponent());

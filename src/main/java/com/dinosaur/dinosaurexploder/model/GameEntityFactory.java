@@ -239,6 +239,19 @@ public class GameEntityFactory implements EntityFactory {
                 .with(new OffscreenCleanComponent()).build();
     }
 
+        @Spawns("Shield")
+        public Entity newShield(SpawnData data) {
+                Text shieldText = new Text("Shield: READY");
+                shieldText.setFill(Color.LIME);
+                shieldText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 18));
+                return entityBuilderBase(data, EntityType.SHIELD)
+                                .from(data)
+                                .view(shieldText)
+                                .with(new ShieldUIComponent(shieldText))
+                                .with(new OffscreenCleanComponent())
+                                .build();
+        }
+
     @Spawns("Bomb")
     public Entity newBomb(SpawnData data) {
         Text bombText = new Text("Bombs: 3");

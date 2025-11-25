@@ -15,8 +15,14 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 
 import javafx.geometry.Point2D;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import com.almasb.fxgl.time.TimerAction;
+import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
+
 
 import java.util.Objects;
 
@@ -27,6 +33,15 @@ public class PlayerComponent extends Component implements Player {
     String weaponImagePath = "/assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
     int movementSpeed = 8;
     private boolean isInvincible = false;
+    // Shield ability
+    private boolean shieldActive = false;
+    private double shieldTimeLeft = 0;
+    private double shieldDuration = 3.0; // seconds
+    private double shieldCooldownLeft = 0;
+    private double shieldCooldown = 8.0; // seconds
+    private TimerAction shieldTimerAction;
+    private TimerAction shieldCooldownAction;
+    private Circle shieldVisual;
 
     public void setInvincible(boolean invincible) {
         this.isInvincible = invincible;
@@ -39,6 +54,59 @@ public class PlayerComponent extends Component implements Player {
 
     public boolean isInvincible() {
         return isInvincible;
+    }
+
+    public boolean isShieldActive() { return shieldActive; }
+    public double getShieldTimeLeft() { return shieldTimeLeft; }
+    public double getShieldCooldownLeft() { return shieldCooldownLeft; }
+
+    /**
+     * Activate shield ability if ready
+     */
+    public void activateShield() {
+        if (shieldActive || shieldCooldownLeft > 0) {
+            return; // not ready
+        }
+        // activate
+        shieldActive = true;
+        shieldTimeLeft = shieldDuration;
+        setInvincible(true);
+
+        // create visual - add to entity view so it follows the player
+        shieldVisual = new Circle(getEntity().getWidth() / 2 + 10);
+        shieldVisual.setFill(Color.color(0.2, 0.6, 1.0, 0.15));
+        shieldVisual.setStroke(Color.color(0.2, 0.8, 1.0, 0.9));
+        shieldVisual.setStrokeWidth(4);
+        shieldVisual.setEffect(new DropShadow(20, Color.CYAN));
+        // position relative to entity center
+        shieldVisual.setTranslateX(getEntity().getWidth() / 2);
+        shieldVisual.setTranslateY(getEntity().getHeight() / 2);
+        getEntity().getViewComponent().addChild(shieldVisual);
+
+        // start shield timer: update every 0.1s
+        shieldTimerAction = getGameTimer().runAtInterval(() -> {
+            shieldTimeLeft -= 0.1;
+            if (shieldTimeLeft <= 0) {
+                // expire shield
+                shieldTimerAction.expire();
+                shieldActive = false;
+                setInvincible(false);
+                // remove visual
+                if (shieldVisual != null) {
+                    getEntity().getViewComponent().removeChild(shieldVisual);
+                    shieldVisual = null;
+                }
+                // start cooldown
+                shieldCooldownLeft = shieldCooldown;
+                shieldCooldownAction = getGameTimer().runAtInterval(() -> {
+                    shieldCooldownLeft -= 0.1;
+                    if (shieldCooldownLeft <= 0) {
+                        shieldCooldownAction.expire();
+                        shieldCooldownLeft = 0;
+                    }
+                }, Duration.seconds(0.1));
+            }
+        }, Duration.seconds(0.1));
     }
 
     // entity is not initialized anywhere because it is linked in the factory

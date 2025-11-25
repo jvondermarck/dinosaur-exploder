@@ -1,13 +1,20 @@
 package com.dinosaur.dinosaurexploder.view;
 
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 
 import static com.almasb.fxgl.dsl.FXGL.getDialogService;
 import static com.almasb.fxgl.dsl.FXGL.getGameController;
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class GameOverDialog {
@@ -37,7 +44,26 @@ public class GameOverDialog {
         // when button is pressed
         btnNo.setOnAction(backToMenuEvent);
 
-        getDialogService().showBox(languageManager.getTranslation("new_game"), new VBox(), btnYes, btnNo);
+        // Try to fetch final score from ScoreComponent in the game world
+        int finalScore = 0;
+        try {
+            var scoreEntities = getGameWorld().getEntitiesByComponent(ScoreComponent.class);
+            if (!scoreEntities.isEmpty()) {
+                var scoreEntity = scoreEntities.iterator().next();
+                ScoreComponent sc = scoreEntity.getComponent(ScoreComponent.class);
+                finalScore = sc.getScore();
+            }
+        } catch (Exception ignored) {
+            // If anything goes wrong, leave finalScore as 0
+        }
+
+        Text scoreText = new Text(languageManager.getTranslation("score") + ": " + finalScore);
+        scoreText.setFill(Color.YELLOW);
+        scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
+        VBox content = new VBox(10, scoreText);
+        content.setAlignment(Pos.CENTER);
+
+        getDialogService().showBox(languageManager.getTranslation("new_game"), content, btnYes, btnNo);
     }
 
 }

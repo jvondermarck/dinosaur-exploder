@@ -22,6 +22,12 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     private final LocalTimer timer = FXGL.newLocalTimer();
     private boolean isPaused = false;
     private int lives = 1;
+    private boolean firstTime = true;
+    private LevelManager levelManager;
+
+    public void setLevelManager(LevelManager levelManager) {
+        this.levelManager = levelManager;
+    }
 
     public int getLives(){
         return lives;
@@ -35,8 +41,9 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     @Override
     public void onAdded(){
         //Get the current enemy speed from the level manager
-        LevelManager levelManager = FXGL.geto("levelManager");
-        verticalSpeed = levelManager.getEnemySpeed();
+        //LevelManager levelManager = FXGL.geto("levelManager");
+        //verticalSpeed = levelManager.getEnemySpeed();
+        firstTime = true;
     }
     /**
      * Summary :
@@ -47,6 +54,13 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     @Override
     public void onUpdate(double ptf) {
         if(isPaused) return;
+
+        if (firstTime) {
+            System.out.println("level: " + levelManager.getCurrentLevel());
+            verticalSpeed = levelManager.getEnemySpeed();
+            lives = levelManager.getCurrentLevel() * 2;
+            firstTime = false;
+        }
 
         entity.translateY(verticalSpeed);
 

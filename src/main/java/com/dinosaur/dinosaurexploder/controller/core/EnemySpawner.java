@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.controller.core;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
+import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 
@@ -41,6 +42,7 @@ public class EnemySpawner {
             } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
                     Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                    greenDino.getComponent(GreenDinoComponent.class).setLevelManager(levelManager);
                 }
             }
         }, seconds(levelManager.getEnemySpawnRate()));

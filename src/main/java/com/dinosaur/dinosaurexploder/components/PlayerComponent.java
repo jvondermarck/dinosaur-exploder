@@ -107,7 +107,7 @@ public class PlayerComponent extends Component implements Player {
         AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
         Point2D center = entity.getCenter();
         Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-        System.out.println("Shoot with selected weapon: " + selectedWeapon);
+        //System.out.println("Shoot with selected weapon: " + selectedWeapon);
         Image projImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
 
         spawn("basicProjectile",

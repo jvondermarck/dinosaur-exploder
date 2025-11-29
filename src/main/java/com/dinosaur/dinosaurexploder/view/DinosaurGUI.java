@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class DinosaurGUI {
     public static final int WIDTH = 550;
     public static final int HEIGHT = 750;
-    public static final String GAME_FONT = "Geologica-Regular.ttf";
+    public static final String GAME_FONT = "arcade_classic.ttf";
 
     public void initSettings(GameSettings settings) {
         settings.setWidth(WIDTH);

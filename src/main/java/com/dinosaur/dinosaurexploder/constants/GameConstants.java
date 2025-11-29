@@ -34,7 +34,7 @@ public class GameConstants {
     *CONSTANTS FOR FONTS
     */
 
-    public static final String GAME_FONTNAME = "Geologica-Regular";
+    public static final String GAME_FONTNAME = "arcade_classic";
 
     /*
     * SOUNDS

@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.ui.FontFactory;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import javafx.beans.binding.Bindings;
@@ -14,12 +15,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import java.util.Set;
 
 public class PauseMenu extends FXGLMenu {
     LanguageManager languageManager = LanguageManager.getInstance();
@@ -80,6 +82,20 @@ public class PauseMenu extends FXGLMenu {
 
         var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
         var title = FXGL.getUIFactoryService().newText(GameConstants.GAME_NAME, Color.WHITE, FontType.MONO, 35);
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr24Font = baseCyrFont.newFont(24);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade24Font = baseArcadeFont.newFont(24);
+        Text btnControlsLabelText = btnControls.getTextNode();
+
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            btnControlsLabelText.fontProperty().unbind();
+            btnControlsLabelText.setFont(cyr24Font);
+        } else {
+            btnControlsLabelText.fontProperty().unbind();
+            btnControlsLabelText.setFont(arcade24Font);
+        }
         var box = new VBox(15,
                 btnBack,
                 btnControls,
@@ -114,6 +130,10 @@ public class PauseMenu extends FXGLMenu {
         }
         public void setText(String newText) {
             text.setText(newText);
+        }
+
+        public Text getTextNode() {
+            return text;
         }
     }
 
@@ -172,6 +192,10 @@ public class PauseMenu extends FXGLMenu {
         public void setText(String newText) {
             text.setText(newText);
         }
+
+        public Text getTextNode() {
+            return text;
+        }
     }
 
     private static class ControlButton extends StackPane {
@@ -204,6 +228,10 @@ public class PauseMenu extends FXGLMenu {
             text.setText(newText);
         }
 
+        public Text getTextNode() {
+            return text;
+        }
+
         public void setControlAction(Runnable action) {
             this.action = action;
 
@@ -233,8 +261,19 @@ public class PauseMenu extends FXGLMenu {
 
             getChildren().addAll(text);
         }
+
     }
     private void updateTexts() {
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+
+        FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr24Font = baseCyrFont.newFont(24);
+        Font cyr14Font = baseCyrFont.newFont(14);
+
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade24Font = baseArcadeFont.newFont(24);
+        Font arcade14Font = baseArcadeFont.newFont(14);
+
         btnBack.setText(languageManager.getTranslation("back"));
         btnQuitGame.setText(languageManager.getTranslation("quit"));
         btnControls.setText(languageManager.getTranslation("controls"));
@@ -245,11 +284,76 @@ public class PauseMenu extends FXGLMenu {
         btnPauseGame.setText(languageManager.getTranslation("pause_game"));
         btnShoot.setText(languageManager.getTranslation("shoot"));
         btnBomb.setText("B: " + languageManager.getTranslation("bomb"));
+
+        Text btnQuitLabelText = btnQuitGame.getTextNode();
+        Text btnBackLabelText = btnBack.getTextNode();
+        Text btnControlsLabelText = btnControls.getTextNode();
+        Text btnMoveUpLabelText = btnMoveUp.getTextNode();
+        Text btnMoveDownLabelText = btnMoveDown.getTextNode();
+        Text btnMoveRightLabelText = btnMoveRight.getTextNode();
+        Text btnMoveLeftLabelText = btnMoveLeft.getTextNode();
+        Text btnPauseGameLabelText = btnPauseGame.getTextNode();
+        Text btnShootLabelText = btnShoot.getTextNode();
+        Text btnBombLabelText = btnBomb.getTextNode();
+
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            btnQuitLabelText.fontProperty().unbind();
+            btnQuitLabelText.setFont(cyr24Font);
+            btnBackLabelText.fontProperty().unbind();
+            btnBackLabelText.setFont(cyr24Font);
+            btnControlsLabelText.fontProperty().unbind();
+            btnControlsLabelText.setFont(cyr24Font);
+            btnMoveUpLabelText.fontProperty().unbind();
+            btnMoveUpLabelText.setFont(cyr14Font);
+            btnMoveDownLabelText.fontProperty().unbind();
+            btnMoveDownLabelText.setFont(cyr14Font);
+            btnMoveRightLabelText.fontProperty().unbind();
+            btnMoveRightLabelText.setFont(cyr14Font);
+            btnMoveLeftLabelText.fontProperty().unbind();
+            btnMoveLeftLabelText.setFont(cyr14Font);
+            btnPauseGameLabelText.fontProperty().unbind();
+            btnPauseGameLabelText.setFont(cyr14Font);
+            btnShootLabelText.fontProperty().unbind();
+            btnShootLabelText.setFont(cyr14Font);
+            btnBombLabelText.fontProperty().unbind();
+            btnBombLabelText.setFont(cyr14Font);
+        } else {
+            btnQuitLabelText.fontProperty().unbind();
+            btnQuitLabelText.setFont(arcade24Font);
+            btnBackLabelText.fontProperty().unbind();
+            btnBackLabelText.setFont(arcade24Font);
+            btnControlsLabelText.fontProperty().unbind();
+            btnControlsLabelText.setFont(arcade24Font);
+            btnMoveUpLabelText.fontProperty().unbind();
+            btnMoveUpLabelText.setFont(arcade14Font);
+            btnMoveDownLabelText.fontProperty().unbind();
+            btnMoveDownLabelText.setFont(arcade14Font);
+            btnMoveRightLabelText.fontProperty().unbind();
+            btnMoveRightLabelText.setFont(arcade14Font);
+            btnMoveLeftLabelText.fontProperty().unbind();
+            btnMoveLeftLabelText.setFont(arcade14Font);
+            btnPauseGameLabelText.fontProperty().unbind();
+            btnPauseGameLabelText.setFont(arcade14Font);
+            btnShootLabelText.fontProperty().unbind();
+            btnShootLabelText.setFont(arcade14Font);
+            btnBombLabelText.fontProperty().unbind();
+            btnBombLabelText.setFont(arcade14Font);
+        }
+
     }
 
     public void exit() {
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+
+        FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr20Font = baseCyrFont.newFont(20);
+
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade20Font = baseArcadeFont.newFont(20);
+
         Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
         btnYes.setPrefWidth(200);
+
         btnYes.defaultButtonProperty();
         // action event for the yes Button
         EventHandler<ActionEvent> backToHomeEvent = e -> getGameController().gotoMainMenu();
@@ -265,6 +369,18 @@ public class PauseMenu extends FXGLMenu {
 
         // when button is pressed
         btnNo.setOnAction(resumeEvent);
+
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            btnYes.fontProperty().unbind();
+            btnYes.setFont(cyr20Font);
+            btnNo.fontProperty().unbind();
+            btnNo.setFont(cyr20Font);
+        } else {
+            btnYes.fontProperty().unbind();
+            btnYes.setFont(arcade20Font);
+            btnNo.fontProperty().unbind();
+            btnNo.setFont(arcade20Font);
+        }
 
         getDialogService().showBox(languageManager.getTranslation("quit_game"), new VBox(), btnYes, btnNo);
     }

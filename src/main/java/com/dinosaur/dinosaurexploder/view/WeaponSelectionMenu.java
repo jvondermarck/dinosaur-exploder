@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.ui.FontFactory;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
@@ -26,10 +27,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -64,9 +67,17 @@ public class WeaponSelectionMenu extends FXGLMenu {
         translateTransition.setAutoReverse(true);
         translateTransition.play();
 
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr35Font = basecyrFont.newFont(35);
+
         // Title
         var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_weapon"), Color.LIME,
                 FontType.MONO, 35);
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            title.fontProperty().unbind();
+            title.setFont(cyr35Font);
+        }
 
         // GridPane for weapons
         GridPane weaponGrid = new GridPane();

@@ -4,7 +4,7 @@ import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
 
 public interface DataProvider {
-    HighScore getHighScore();
+  HighScore getHighScore();
 
-    TotalCoins getTotalCoins();
+  TotalCoins getTotalCoins();
 }

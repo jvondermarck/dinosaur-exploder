@@ -171,4 +171,12 @@ public class PlayerComponent extends Component implements Player {
         weaponHeat = Math.max(0.0, weaponHeat - (COOLING_RATE_PER_SECOND * tpf));
     }
 
+    // Getter for weapon heat for fron end feature
+    public double getWeaponHeat() {
+        return weaponHeat; 
+    }
+    public double getWeaponHeatPercentage() {
+        return (weaponHeat / MAX_WEAPON_HEAT) * 100.0;
+    }
+
 }

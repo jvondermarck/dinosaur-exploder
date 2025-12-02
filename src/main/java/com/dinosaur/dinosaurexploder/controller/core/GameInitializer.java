@@ -1,11 +1,6 @@
 package com.dinosaur.dinosaurexploder.controller.core;
 
 import com.almasb.fxgl.dsl.FXGL;
-import static com.almasb.fxgl.dsl.FXGL.getAppCenter;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGL.onKey;
-import static com.almasb.fxgl.dsl.FXGL.onKeyDown;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
@@ -21,8 +16,12 @@ import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
-
 import javafx.scene.input.KeyCode;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGL.getAppCenter;
+import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 public class GameInitializer {
 
@@ -91,8 +90,7 @@ public class GameInitializer {
         collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
         bomb.addComponent(new BombComponent());
         levelProgressBar = spawn("levelProgressBar", new SpawnData(getAppCenter().getX() - 170, getAppCenter().getY() + 340).put("levelManager", levelManager));
-
-        spawn("weaponHeat", new SpawnData(getAppCenter().getX() + 170, getAppCenter().getY() + 340));
+        spawn("weaponHeat", new SpawnData(getAppCenter().getX() + 170, getAppCenter().getY() + 340).put("playerComponent", player.getComponent(PlayerComponent.class)));
     }
 
     public EnemySpawner getEnemySpawner() {

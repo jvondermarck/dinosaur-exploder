@@ -1,7 +1,11 @@
 package com.dinosaur.dinosaurexploder.model;
 
+import java.util.Objects;
+
 import com.almasb.fxgl.dsl.EntityBuilder;
 import com.almasb.fxgl.dsl.FXGL;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.texture;
 import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -14,13 +18,23 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
-import com.dinosaur.dinosaurexploder.components.*;
-
+import com.dinosaur.dinosaurexploder.components.BombComponent;
+import com.dinosaur.dinosaurexploder.components.CoinComponent;
+import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
+import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
+import com.dinosaur.dinosaurexploder.components.HealthbarComponent;
+import com.dinosaur.dinosaurexploder.components.Heart;
+import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
+import com.dinosaur.dinosaurexploder.components.LifeComponent;
+import com.dinosaur.dinosaurexploder.components.OrangeDinoComponent;
+import com.dinosaur.dinosaurexploder.components.PlayerComponent;
+import com.dinosaur.dinosaurexploder.components.RedDinoComponent;
+import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
-import com.dinosaur.dinosaurexploder.components.PlayerComponent;
+
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -31,10 +45,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
-import java.util.Objects;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 /**
  * Summary :
@@ -320,6 +330,20 @@ public class GameEntityFactory implements EntityFactory {
                 .with(new LevelProgressBarComponent(filled, levelManager))
                 .build();
     }
+    @Spawns("weaponHeat")
+    public Entity newWeaponHeat(SpawnData data) {
+    // TEMPORARY: Just a visible rectangle to test positioning
+    Rectangle background = new Rectangle(100, 15, Color.DARKGRAY);
+    Rectangle fill = new Rectangle(50, 13, Color.ORANGE);  // 50% filled for visibility
+    fill.setLayoutX(1);
+    fill.setLayoutY(1);
+    Group heatBar = new Group(background, fill);
+
+    return entityBuilderBase(data, EntityType.WEAPON_HEAT)
+            .view(heatBar)
+            // NO component yet - just testing visual placement
+            .build();
+}
 
     /**
      * Summary :

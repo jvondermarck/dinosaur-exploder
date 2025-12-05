@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class SettingsProviderTest {
 
-    @Test
-    public void testLoadSettings(){
-        Settings settings = SettingsProvider.loadSettings();
-        Assertions.assertNotNull(settings, "Settings should always be available. At least the default settings");
-    }
-
+  @Test
+  public void testLoadSettings() {
+    Settings settings = SettingsProvider.loadSettings();
+    Assertions.assertNotNull(
+        settings, "Settings should always be available. At least the default settings");
+  }
 }

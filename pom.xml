@@ -9,12 +9,12 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <source.version>11</source.version>
+        <source.version>17</source.version>
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <maven.shade.version>3.6.1</maven.shade.version>
         <jfx.maven.plugin.version>0.0.8</jfx.maven.plugin.version>
         <jpro.version>2025.1.0</jpro.version>
-        <fxgl.version>21.1</fxgl.version>
+        <fxgl.version>17.3</fxgl.version>
         <junit.version>6.0.1</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
@@ -74,6 +74,36 @@
     </pluginRepositories>
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+                <configuration>
+                    <java>
+                        <!-- Explicit, but optional: defaults already hit these dirs -->
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+
+                        <!-- Use Google Java Style -->
+                        <googleJavaFormat/>
+
+                        <!-- Nice extras -->
+                        <importOrder/>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Run Spotless check during 'verify' so CI fails on bad format -->
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>

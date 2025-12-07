@@ -72,6 +72,10 @@ public class ShipSelectionMenu extends FXGLMenu {
         FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
         Font cyr35Font = basecyrFont.newFont(35);
         Font cyr20Font = basecyrFont.newFont(25);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade35Font = baseArcadeFont.newFont(35);
+        Font arcade20Font = baseArcadeFont.newFont(25);
+
 
         // Title
         var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_ship"), Color.LIME,
@@ -98,7 +102,13 @@ public class ShipSelectionMenu extends FXGLMenu {
             highScore.setFont(cyr20Font);
             totalCoins.fontProperty().unbind();
             totalCoins.setFont(cyr20Font);
-
+        } else {
+            title.fontProperty().unbind();
+            title.setFont(arcade35Font);
+            highScore.fontProperty().unbind();
+            highScore.setFont(arcade20Font);
+            totalCoins.fontProperty().unbind();
+            totalCoins.setFont(arcade20Font);
         }
 
         // GridPane for ships

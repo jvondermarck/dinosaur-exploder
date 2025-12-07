@@ -70,6 +70,8 @@ public class WeaponSelectionMenu extends FXGLMenu {
         Set<String> cyrLangs = Set.of("Greek","Russian");
         FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
         Font cyr35Font = basecyrFont.newFont(35);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade35Font = baseArcadeFont.newFont(35);
 
         // Title
         var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_weapon"), Color.LIME,
@@ -77,6 +79,9 @@ public class WeaponSelectionMenu extends FXGLMenu {
         if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
             title.fontProperty().unbind();
             title.setFont(cyr35Font);
+        } else {
+            title.fontProperty().unbind();
+            title.setFont(arcade35Font);
         }
 
         // GridPane for weapons

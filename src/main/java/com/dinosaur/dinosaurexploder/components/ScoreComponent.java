@@ -1,6 +1,8 @@
 package com.dinosaur.dinosaurexploder.components;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
 import com.dinosaur.dinosaurexploder.model.HighScore;
@@ -14,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.io.*;
+import java.util.Set;
 
 /**
  * Handles the score component of the player.
@@ -62,8 +65,19 @@ public class ScoreComponent extends Component implements Score {
 
     private Text createText() {
         Text text = new Text();
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr20Font = basecyrFont.newFont(GameConstants.TEXT_SIZE_GAME_DETAILS);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade20Font = baseArcadeFont.newFont(GameConstants.TEXT_SIZE_GAME_DETAILS);
         text.setFill(Color.YELLOW);
-        text.setFont(Font.font(GameConstants.GAME_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            text.fontProperty().unbind();
+            text.setFont(cyr20Font);
+        } else {
+            text.fontProperty().unbind();
+            text.setFont(arcade20Font);
+        }
         return text;
     }
 

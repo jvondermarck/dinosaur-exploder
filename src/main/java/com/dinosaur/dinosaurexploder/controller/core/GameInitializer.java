@@ -89,6 +89,7 @@ public class GameInitializer {
         collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
         bomb.addComponent(new BombComponent());
         levelProgressBar = spawn("levelProgressBar", new SpawnData(getAppCenter().getX() - 170, getAppCenter().getY() + 340).put("levelManager", levelManager));
+        spawn("weaponHeat", new SpawnData(getAppCenter().getX() + 170, getAppCenter().getY() + 340).put("playerComponent", player.getComponent(PlayerComponent.class)));
     }
 
     public EnemySpawner getEnemySpawner() {

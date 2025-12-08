@@ -7,7 +7,8 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.time.LocalTimer;
+import com.dinosaur.dinosaurexploder.utils.GameTimer;
+import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.almasb.fxgl.texture.Texture;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Player;
@@ -35,7 +36,17 @@ public class PlayerComponent extends Component implements Player {
     int movementSpeed = 8;
     private boolean isInvincible = false;
     private double weaponHeat = 0.0;
-    private final LocalTimer shootTimer = FXGL.newLocalTimer();
+    private final GameTimer shootTimer;
+
+    // Default constructor used by the game (will create an FXGL-backed timer)
+    public PlayerComponent() {
+        this.shootTimer = new FXGLGameTimer();
+    }
+
+    // Test-friendly constructor to inject a mock GameTimer
+    public PlayerComponent(GameTimer shootTimer) {
+        this.shootTimer = shootTimer;
+    }
 
     public void setInvincible(boolean invincible) {
         this.isInvincible = invincible;
@@ -154,7 +165,7 @@ public class PlayerComponent extends Component implements Player {
 
     private boolean canShoot() {
         if (weaponHeat >= SLOWDOWN_THRESHOLD) {
-            return shootTimer.elapsed(Duration.seconds(SLOWED_SHOT_COOLDOWN_SECONDS));
+            return shootTimer.isElapsed(Duration.seconds(SLOWED_SHOT_COOLDOWN_SECONDS));
         }
         return true;
     }

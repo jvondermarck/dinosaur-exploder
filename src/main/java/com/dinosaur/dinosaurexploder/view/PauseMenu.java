@@ -35,6 +35,7 @@ public class PauseMenu extends FXGLMenu {
     OptionsButton btnPauseGame = new OptionsButton(languageManager.getTranslation("pause_game"));
     OptionsButton btnShoot = new OptionsButton(languageManager.getTranslation("shoot"));
     OptionsButton btnBomb = new OptionsButton("B: " + languageManager.getTranslation("bomb"));
+    OptionsButton btnShield = new OptionsButton("E: " + languageManager.getTranslation("shield"));
 
     public PauseMenu() {
         super(MenuType.GAME_MENU);
@@ -62,7 +63,8 @@ public class PauseMenu extends FXGLMenu {
                     btnMoveLeft,
                     btnPauseGame,
                     btnShoot,
-                    btnBomb
+                    btnBomb,
+                    btnShield
             );
 
             controlsBox.setTranslateX(300);
@@ -245,6 +247,7 @@ public class PauseMenu extends FXGLMenu {
         btnPauseGame.setText(languageManager.getTranslation("pause_game"));
         btnShoot.setText(languageManager.getTranslation("shoot"));
         btnBomb.setText("B: " + languageManager.getTranslation("bomb"));
+        btnShield.setText("E: " + languageManager.getTranslation("shield"));
     }
 
     public void exit() {

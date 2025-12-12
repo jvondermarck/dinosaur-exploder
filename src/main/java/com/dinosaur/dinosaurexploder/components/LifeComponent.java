@@ -1,6 +1,8 @@
 package com.dinosaur.dinosaurexploder.components;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Life;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -12,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Summary :
@@ -44,8 +47,19 @@ public class LifeComponent extends Component implements Life {
         lifeText = new Text(languageManager.getTranslation("lives"));
 
         // Style the text
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr20Font = basecyrFont.newFont(20);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade20Font = baseArcadeFont.newFont(20);
         lifeText.setFill(Color.RED);
-        lifeText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            lifeText.fontProperty().unbind();
+            lifeText.setFont(cyr20Font);
+        } else {
+            lifeText.fontProperty().unbind();
+            lifeText.setFont(arcade20Font);
+        }
 
         // Listen for language changes and update UI automatically
         languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());

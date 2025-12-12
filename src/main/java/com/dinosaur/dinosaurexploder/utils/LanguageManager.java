@@ -102,7 +102,7 @@ public class LanguageManager {
   private List<String> loadLanguagesFromResources() {
     List<String> languages = new ArrayList<>();
     String[] availableLanguages = {
-      "english", "french", "german", "spanish", "japanese", "russian", "portuguese"
+      "english", "french", "german", "spanish", "japanese", "russian", "portuguese", "greek"
     };
     for (String lang : availableLanguages) {
       String filePath = TRANSLATION_PATH + lang + ".json";
@@ -129,37 +129,8 @@ public class LanguageManager {
     }
   }
 
-    // Load language files from the resources folder (for non-JAR environment)
-    private List<String> loadLanguagesFromResources() {
-        List<String> languages = new ArrayList<>();
-        String[] availableLanguages = {"english", "french", "german", "spanish", "japanese", "russian", "portuguese", "greek"};
-        for (String lang : availableLanguages) {
-            String filePath = TRANSLATION_PATH + lang + ".json";
-            if (getClass().getResourceAsStream(filePath) != null) {
-                languages.add(capitalizeFirstLetter(lang));
-            }
-        }
-        return languages;
-    }
-
-    // Load the translations for the selected language
-    public Map<String, String> loadTranslations(String language) {
-        String filePath = TRANSLATION_PATH + language.toLowerCase() + ".json";
-        try (InputStream inputStream = getClass().getResourceAsStream(filePath)) {
-            if (inputStream == null) {
-                throw new RuntimeException("Translation file not found: " + filePath);
-            }
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(inputStream, Map.class);
-        } catch (IOException e) {
-            System.err.println("Error loading translation " + language + " :" + e.getMessage());
-            return Collections.emptyMap();
-        }
-    }
-
-    // Get a translated string by key
-    public String getTranslation(String key) {
-        return translations.getOrDefault(key, key); // Default to key if translation not found
-    }
+  // Get a translated string by key
+  public String getTranslation(String key) {
+    return translations.getOrDefault(key, key); // Default to key if translation not found
+  }
 }

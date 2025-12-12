@@ -50,13 +50,10 @@ public class GameOverDialog {
         btnNo.setOnAction(e -> getGameController().gotoMainMenu());
 
         // ---- FONT SELECTION ----
-        if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-            btnYes.setFont(cyr20Font);
-            btnNo.setFont(cyr20Font);
-        } else {
-            btnYes.setFont(arcade20Font);
-            btnNo.setFont(arcade20Font);
-        }
+// ---- FONT SIZE (FXGL-safe) ----
+        btnYes.setStyle("-fx-font-size: 20px;");
+        btnNo.setStyle("-fx-font-size: 20px;");
+
 
         // ---- GET FINAL SCORE ----
         int finalScore = 0;
@@ -70,7 +67,8 @@ public class GameOverDialog {
 
         Text scoreText = new Text(languageManager.getTranslation("score") + ": " + finalScore);
         scoreText.setFill(Color.YELLOW);
-        scoreText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
+        scoreText.setFont(arcade20Font);
+
 
         VBox box = new VBox(10, scoreText);
         box.setAlignment(Pos.CENTER);

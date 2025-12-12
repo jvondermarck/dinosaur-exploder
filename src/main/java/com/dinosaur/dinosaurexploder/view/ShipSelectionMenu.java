@@ -6,6 +6,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.ui.FontFactory;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -28,46 +29,64 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.io.InputStream;
+import java.util.Objects;
+import java.util.Set;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class ShipSelectionMenu extends FXGLMenu {
+  
+    private final LanguageManager languageManager = LanguageManager.getInstance();
+    private final Settings settings = SettingsProvider.loadSettings();
 
-  private final LanguageManager languageManager = LanguageManager.getInstance();
-  private final Settings settings = SettingsProvider.loadSettings();
+    public ShipSelectionMenu() {
+        super(MenuType.MAIN_MENU);
 
-  public ShipSelectionMenu() {
-    super(MenuType.MAIN_MENU);
 
-    // background image
-    InputStream backGround =
-        getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");
-    Image Background = new Image(backGround);
-    ImageView imageViewB = new ImageView(Background);
-    imageViewB.setFitHeight(DinosaurGUI.HEIGHT);
-    imageViewB.setX(0);
-    imageViewB.setY(0);
-    imageViewB.setPreserveRatio(true);
 
-    // Background animation
-    TranslateTransition translateTransition = new TranslateTransition();
-    translateTransition.setNode(imageViewB);
-    translateTransition.setDuration(Duration.seconds(50));
-    translateTransition.setFromX(0);
-    translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8);
-    translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
-    translateTransition.setInterpolator(Interpolator.LINEAR);
-    translateTransition.setAutoReverse(true);
-    translateTransition.play();
 
-    // Title
-    var title =
-        FXGL.getUIFactoryService()
-            .newText(languageManager.getTranslation("select_ship"), Color.LIME, FontType.MONO, 35);
+        // background image
+        InputStream backGround = getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");
+        Image Background = new Image(backGround);
+        ImageView imageViewB = new ImageView(Background);
+        imageViewB.setFitHeight(DinosaurGUI.HEIGHT);
+        imageViewB.setX(0);
+        imageViewB.setY(0);
+        imageViewB.setPreserveRatio(true);
 
-    // High Score display
-    var highScore =
-        FXGL.getUIFactoryService()
-            .newText(
+        // Background animation
+        TranslateTransition translateTransition = new TranslateTransition();
+        translateTransition.setNode(imageViewB);
+        translateTransition.setDuration(Duration.seconds(50));
+        translateTransition.setFromX(0);
+        translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8);
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        translateTransition.setInterpolator(Interpolator.LINEAR);
+        translateTransition.setAutoReverse(true);
+        translateTransition.play();
+
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr35Font = basecyrFont.newFont(35);
+        Font cyr20Font = basecyrFont.newFont(25);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade35Font = baseArcadeFont.newFont(35);
+        Font arcade20Font = baseArcadeFont.newFont(25);
+
+
+        // Title
+        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_ship"), Color.LIME,
+                FontType.MONO, 35);
+
+
+
+        // High Score display
+        var highScore = FXGL.getUIFactoryService().newText(
                 languageManager.getTranslation("high_score") + ": " + GameData.getHighScore(),
                 Color.LIME,
                 FontType.MONO,
@@ -79,32 +98,45 @@ public class ShipSelectionMenu extends FXGLMenu {
             .newText(
                 languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins(),
                 Color.LIME,
-                FontType.MONO,
-                25);
+                FontType.MONO, 25);
 
-    // GridPane for ships
-    GridPane shipGrid = new GridPane();
-    shipGrid.setAlignment(Pos.CENTER);
-    shipGrid.setHgap(20);
-    shipGrid.setVgap(20);
-    shipGrid.setPrefWidth(getAppWidth());
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            title.fontProperty().unbind();
+            title.setFont(cyr35Font);
+            highScore.fontProperty().unbind();
+            highScore.setFont(cyr20Font);
+            totalCoins.fontProperty().unbind();
+            totalCoins.setFont(cyr20Font);
+        } else {
+            title.fontProperty().unbind();
+            title.setFont(arcade35Font);
+            highScore.fontProperty().unbind();
+            highScore.setFont(arcade20Font);
+            totalCoins.fontProperty().unbind();
+            totalCoins.setFont(arcade20Font);
+        }
 
-    // Columns and rows for the GridPane
-    int columns = 4;
-    double imageSize = getAppWidth() * 0.15; // 15% of the screen width
+        // GridPane for ships
+        GridPane shipGrid = new GridPane();
+        shipGrid.setAlignment(Pos.CENTER);
+        shipGrid.setHgap(20);
+        shipGrid.setVgap(20);
+        shipGrid.setPrefWidth(getAppWidth());
 
-    showSelectionButton(imageSize, columns, shipGrid);
+        // Columns and rows for the GridPane
+        int columns = 4;
+        double imageSize = getAppWidth() * 0.15; // 15% of the screen width
 
-    // Back button
-    var backButton = new Button(languageManager.getTranslation("back"));
-    backButton
-        .getStylesheets()
-        .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
-    backButton.setMinSize(140, 60);
-    backButton.setStyle("-fx-font-size: 20px;");
-    backButton.setOnAction(
-        event -> {
-          fireResume();
+        showSelectionButton(imageSize, columns, shipGrid);
+
+        // Back button
+        var backButton = new Button(languageManager.getTranslation("back"));
+        backButton.getStylesheets()
+                .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+        backButton.setMinSize(140, 60);
+        backButton.setStyle("-fx-font-size: 20px;");
+        backButton.setOnAction(event -> {
+            fireResume();
         });
 
     // Invisible spacer to push the title and ships to the top

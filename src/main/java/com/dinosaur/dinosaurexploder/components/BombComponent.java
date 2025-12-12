@@ -3,9 +3,11 @@ package com.dinosaur.dinosaurexploder.components;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.core.math.Vec2;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -18,6 +20,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.util.Set;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 public class BombComponent extends Component implements Bomb {
   private int bombCount = 3;
@@ -131,20 +137,52 @@ public class BombComponent extends Component implements Bomb {
     } else {
       System.out.println("No bombs left!");
     }
-  }
 
-  /**
-   * Summary : This method spawns a row of bullets from the player's position. Parameters : Entity
-   * player - The player entity from which to spawn the bullets
-   */
-  protected void spawnBombBullets(Entity player) {
-    Point2D center = player.getCenter();
-    Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
+    // Declaring 3 Bomb
+    ImageView bomb1;
+    ImageView bomb2;
+    ImageView bomb3;
+    // Declaring Bomb Text
+    private Text bombText;
 
-    if (selectedShip != 0) {
-      String shipImagePath = "/assets/textures/spaceship" + selectedShip + ".png";
-      System.out.println("Selected spaceship: " + selectedShip);
-      this.spcshpImg = new Image(shipImagePath);
+
+    private Node bombUI;
+
+    private final LanguageManager languageManager = LanguageManager.getInstance();
+
+    @Override
+    public void onAdded() {
+        Image bomb = new Image(GameConstants.BOMB_IMAGE_PATH);
+        bomb1 = new ImageView(bomb);
+        bomb2 = new ImageView(bomb);
+        bomb3 = new ImageView(bomb);
+
+        // Initialize bombText with the translated string
+        bombText = new Text(languageManager.getTranslation("bombs_left") + ": " + bombCount);
+
+        // Style the text
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr20Font = basecyrFont.newFont(20);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade20Font = baseArcadeFont.newFont(20);
+        bombText.setFill(Color.ORANGE);
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            bombText.fontProperty().unbind();
+            bombText.setFont(cyr20Font);
+        } else {
+            bombText.fontProperty().unbind();
+            bombText.setFont(arcade20Font);
+        }
+        bombText.setLayoutX(0);
+        bombText.setLayoutY(0);
+
+        // Listen for language changes and update UI automatically
+        languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
+
+        // Initial bomb UI setup
+        bombUI = createBombUI();
+        entity.getViewComponent().addChild(bombUI);
     }
 
     for (int i = -5; i <= 5; i++) {

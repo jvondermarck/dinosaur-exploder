@@ -6,6 +6,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.ui.FontFactory;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -28,9 +29,104 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
+import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.io.InputStream;
+import java.util.Objects;
+import java.util.Set;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class WeaponSelectionMenu extends FXGLMenu {
+    
+    LanguageManager languageManager = LanguageManager.getInstance();
+    private final Settings settings = SettingsProvider.loadSettings();
+
+    public WeaponSelectionMenu() {
+        super(MenuType.MAIN_MENU);
+
+        
+
+        // background image
+        InputStream backGround = getClass().getClassLoader().getResourceAsStream("assets/textures/background.png");
+        Image Background = new Image(backGround);
+        ImageView imageViewB = new ImageView(Background);
+        imageViewB.setFitHeight(DinosaurGUI.HEIGHT);
+        imageViewB.setX(0);
+        imageViewB.setY(0);
+        imageViewB.setPreserveRatio(true);
+
+        // Background animation
+        TranslateTransition translateTransition = new TranslateTransition();
+        translateTransition.setNode(imageViewB);
+        translateTransition.setDuration(Duration.seconds(50)); // Duración del ciclo
+        translateTransition.setFromX(0);
+        translateTransition.setToX(-Background.getWidth() + DinosaurGUI.WIDTH * 3.8);
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        translateTransition.setInterpolator(Interpolator.LINEAR);
+        translateTransition.setAutoReverse(true);
+        translateTransition.play();
+
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr35Font = basecyrFont.newFont(35);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade35Font = baseArcadeFont.newFont(35);
+
+        // Title
+        var title = FXGL.getUIFactoryService().newText(languageManager.getTranslation("select_weapon"), Color.LIME,
+                FontType.MONO, 35);
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            title.fontProperty().unbind();
+            title.setFont(cyr35Font);
+        } else {
+            title.fontProperty().unbind();
+            title.setFont(arcade35Font);
+        }
+
+        // GridPane for weapons
+        GridPane weaponGrid = new GridPane();
+        weaponGrid.setAlignment(Pos.CENTER);
+        weaponGrid.setHgap(20);
+        weaponGrid.setVgap(20);
+        weaponGrid.setPrefWidth(getAppWidth());
+
+        // Columns and rows for the GridPane
+        int columns = 4;
+        double imageSize = getAppWidth() * 0.15; // 15% of the screen width
+
+        showSelectionButton(imageSize, columns, weaponGrid);
+
+        // Back button
+        var backButton = new Button(languageManager.getTranslation("back"));
+        backButton.getStylesheets()
+                .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+        backButton.setMinSize(140, 60);
+        backButton.setStyle("-fx-font-size: 20px;");
+        backButton.setOnAction(event -> {
+            fireResume();
+        });
+
+        // Invisible spacer to push the title and weapons to the top
+        Rectangle spacer = new Rectangle();
+        spacer.setHeight(50);
+        spacer.setWidth(getAppWidth());
+        spacer.setOpacity(0);
+
+        // Vbox layout
+        VBox layout = new VBox(20, spacer, title, weaponGrid, backButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setAlignment(Pos.CENTER);
+        layout.setSpacing(50); // 50px spacing between nodes
+
+        VBox.setVgrow(weaponGrid, Priority.ALWAYS);
+        VBox.setVgrow(backButton, Priority.NEVER);
+
+        // Maxing the layout to the screen size
+        layout.setMaxWidth(getAppWidth());
+        layout.setMaxHeight(getAppHeight());
 
   LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();

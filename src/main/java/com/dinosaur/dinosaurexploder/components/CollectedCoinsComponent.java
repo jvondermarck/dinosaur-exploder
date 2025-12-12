@@ -1,6 +1,8 @@
 package com.dinosaur.dinosaurexploder.components;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
@@ -13,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import java.io.*;
+import java.util.Set;
 
 public class CollectedCoinsComponent extends Component implements CollectedCoins {
   private int coin = 0;
@@ -29,12 +33,23 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   public void onAdded() {
     loadTotalCoins(); // Deserialize once when the component is added
 
-    // Create UI elements
-    coinText = new Text();
-    coinText.setFill(Color.PURPLE);
-    coinText.setFont(Font.font(GameConstants.ARCADE_CLASSIC_FONTNAME, 20));
-    coinText.setLayoutX(0);
-    coinText.setLayoutY(0);
+        // Create UI elements
+        Set<String> cyrLangs = Set.of("Greek","Russian");
+        FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr20Font = basecyrFont.newFont(20);
+        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade20Font = baseArcadeFont.newFont(20);
+        coinText = new Text();
+        coinText.setFill(Color.PURPLE);
+        if ( cyrLangs.contains(languageManager.selectedLanguageProperty().getValue()) ) {
+            coinText.fontProperty().unbind();
+            coinText.setFont(cyr20Font);
+        } else {
+            coinText.fontProperty().unbind();
+            coinText.setFont(arcade20Font);
+        }
+        coinText.setLayoutX(0);
+        coinText.setLayoutY(0);
 
     coinUI = createCoinUI();
     entity.getViewComponent().addChild(coinUI);

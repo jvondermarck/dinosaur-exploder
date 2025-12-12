@@ -320,6 +320,24 @@ public class GameEntityFactory implements EntityFactory {
                 .with(new LevelProgressBarComponent(filled, levelManager))
                 .build();
     }
+    @Spawns("weaponHeat")
+    public Entity newWeaponHeat(SpawnData data) {
+        PlayerComponent playerComponent = data.get("playerComponent");
+
+        Rectangle background = new Rectangle(100, 15, Color.DARKGRAY);
+        background.setStroke(Color.GRAY);
+        background.setStrokeWidth(1);
+
+        Rectangle fill = new Rectangle(0, 13, Color.LIMEGREEN);  // ← Start at 0 width
+        fill.setLayoutX(1);
+        fill.setLayoutY(1);
+        Group heatBar = new Group(background, fill);
+
+        return entityBuilderBase(data, EntityType.WEAPON_HEAT)
+                .view(heatBar)
+                .with(new WeaponHeatComponent(fill, playerComponent))  // ← Add component
+                .build();
+}
 
     /**
      * Summary :

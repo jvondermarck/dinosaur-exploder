@@ -6,46 +6,46 @@ package com.dinosaur.dinosaurexploder.utils;
  * check if the player can advance to the next level.
  */
 public class LevelManager {
-    private int currentLevel = 1;
-    private int enemiesToDefeat = 5;
-    private int defeatedEnemies = 0;
-    private double enemySpawnRate = 0.75;
-    private double enemySpeed = 1.5;
+  private int currentLevel = 1;
+  private int enemiesToDefeat = 5;
+  private int defeatedEnemies = 0;
+  private double enemySpawnRate = 0.75;
+  private double enemySpeed = 1.5;
 
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
+  public int getCurrentLevel() {
+    return currentLevel;
+  }
 
-    public double getEnemySpawnRate() {
-        return enemySpawnRate;
-    }
+  public double getEnemySpawnRate() {
+    return enemySpawnRate;
+  }
 
-    public double getEnemySpeed() {
-        return enemySpeed;
-    }
+  public double getEnemySpeed() {
+    return enemySpeed;
+  }
 
-    public float getLevelProgress() {
-        return (float) defeatedEnemies / enemiesToDefeat;
-    }
+  public float getLevelProgress() {
+    return (float) defeatedEnemies / enemiesToDefeat;
+  }
 
-    public void incrementDefeatedEnemies() {
-        defeatedEnemies++;
-    }
+  public void incrementDefeatedEnemies() {
+    defeatedEnemies++;
+  }
 
-    public boolean shouldAdvanceLevel() {
-        return defeatedEnemies >= enemiesToDefeat;
-    }
+  public boolean shouldAdvanceLevel() {
+    return defeatedEnemies >= enemiesToDefeat;
+  }
 
-    public void nextLevel() {
-        currentLevel++;
-        defeatedEnemies = 0;
-        enemiesToDefeat += 5;
+  public void nextLevel() {
+    currentLevel++;
+    defeatedEnemies = 0;
+    enemiesToDefeat += 5;
 
-        enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
-        enemySpeed += 0.2;
-    }
+    enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
+    enemySpeed += 0.2;
+  }
 
-    public int getEnemiesToDefeat() {
-        return enemiesToDefeat;
-    }
+  public int getEnemiesToDefeat() {
+    return enemiesToDefeat;
+  }
 }

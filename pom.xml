@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.github.almasb</groupId>
             <artifactId>fxgl</artifactId>
-            <version>${fxgl.version}</version>
+            <version>17.3</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -74,6 +74,37 @@
     </pluginRepositories>
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+                <configuration>
+                    <java>
+                        <!-- Explicit, but optional: defaults already hit these dirs -->
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+
+                        <!-- Use Google Java Style -->
+                        <googleJavaFormat/>
+
+                        <!-- Nice extras -->
+                        <importOrder/>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Run Spotless check during 'verify' so CI fails on bad format -->
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>
@@ -127,6 +158,21 @@
                 <version>${jpro.version}</version>
                 <configuration>
                     <mainClassName>${mainClassJProName}</mainClassName>
+                </configuration>
+            </plugin>
+
+             <!-- PMD linter for static analysis checks -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.23.0</version>
+                <configuration>
+                    <!-- failOnViolation is actually true by default, but can be disabled -->
+                    <failOnViolation>true</failOnViolation>
+                    <!-- this is the minimum priority needed to cause the build to fail on Violation -->
+                    <minimumPriority>2</minimumPriority>
+                    <!-- printFailingErrors is pretty useful -->
+                    <printFailingErrors>true</printFailingErrors>
                 </configuration>
             </plugin>
         </plugins>

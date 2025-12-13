@@ -17,7 +17,6 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.dinosaur.dinosaurexploder.components.*;
-import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
@@ -45,7 +44,8 @@ public class GameEntityFactory implements EntityFactory {
     Image img =
         new Image(
             Objects.requireNonNull(
-                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGE_PATH)).toString()));
+                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGE_PATH))
+                    .toString()));
 
     return FXGL.entityBuilder()
         .view(new SelfScrollingBackgroundView(img, 3000, 1500, Orientation.VERTICAL, -50))
@@ -213,18 +213,20 @@ public class GameEntityFactory implements EntityFactory {
         .with(new OffscreenCleanComponent())
         .build();
   }
-        @Spawns("Shield")
-        public Entity newShield(SpawnData data) {
-                Text shieldText = new Text("Shield: READY");
-                shieldText.setFill(Color.LIME);
-                shieldText.setFont(Font.font(GameConstants.GAME_FONTNAME, 18));
-                return entityBuilderBase(data, EntityType.SHIELD)
-                                .from(data)
-                                .view(shieldText)
-                                .with(new ShieldUIComponent(shieldText))
-                                .with(new OffscreenCleanComponent())
-                                .build();
-        }
+
+  @Spawns("Shield")
+  public Entity newShield(SpawnData data) {
+    Text shieldText = new Text("Shield: READY");
+    shieldText.setFill(Color.LIME);
+    // Use default font for non-Cyrillic languages
+    return entityBuilderBase(data, EntityType.SHIELD)
+        .from(data)
+        .view(shieldText)
+        .with(new ShieldUIComponent(shieldText))
+        .with(new OffscreenCleanComponent())
+        .build();
+  }
+
   @Spawns("Bomb")
   public Entity newBomb(SpawnData data) {
     Text bombText = new Text("Bombs: 3");
@@ -313,5 +315,4 @@ public class GameEntityFactory implements EntityFactory {
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder().type(type).from(data);
   }
-
 }

@@ -1,0 +1,19 @@
+services:
+  dinosaur-game:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dinosaur-game-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - MAVEN_OPTS=-Xmx2g -XX:+UseContainerSupport -XX:MaxRAMPercentage=80.0  # Plus de mémoire
+      - JAVA_OPTS=-Dprism.order=sw -Dprism.verbose=true  # Optimisations rendering
+    deploy:
+      resources:
+        limits:
+          cpus: '4'  # Plus de CPUs
+          memory: 4G  # Plus de RAM
+        reservations:
+          memory: 1G
+    restart: unless-stopped

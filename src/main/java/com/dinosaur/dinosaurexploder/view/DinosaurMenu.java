@@ -8,6 +8,7 @@ import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import com.dinosaur.dinosaurexploder.utils.AudioWrapper;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.io.FileNotFoundException;
@@ -32,22 +33,19 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class DinosaurMenu extends FXGLMenu {
-  private final MediaPlayer mainMenuSound;
+  //private final MediaPlayer mainMenuSound;
   LanguageManager languageManager = LanguageManager.getInstance();
   private final Button startButton = new Button("Start Game");
   private final Button quitButton = new Button("Quit");
   private final Label languageLabel = new Label("Select Language:");
 
   private final Settings settings = SettingsProvider.loadSettings();
+  private final AudioWrapper mainMenuSound;  // au lieu de MediaPlayer
 
   public DinosaurMenu() {
     super(MenuType.MAIN_MENU);
 
-    mainMenuSound =
-        new MediaPlayer(
-            new Media(
-                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav"))
-                    .toExternalForm()));
+    mainMenuSound = new AudioWrapper("/assets/sounds/mainMenu.wav");  // <--- CHANGÉ ICI
 
     // Listen for language changes and update menu text
     languageManager

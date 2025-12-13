@@ -28,4 +28,5 @@ module com.dinosaur.dinosaurexploder {
       com.almasb.fxgl.core;
   opens com.dinosaur.dinosaurexploder.controller.core to
       com.almasb.fxgl.core;
+  exports com.dinosaur.dinosaurexploder.utils;
 }

@@ -1,0 +1,47 @@
+# Build artifacts
+target/
+*. jar
+*.war
+*.ear
+
+# IDE
+.idea/
+.vscode/
+*. iml
+*. ipr
+*.iws
+.project
+.classpath
+. settings/
+
+# Git
+.git/
+. gitignore
+.gitattributes
+
+# Documentation
+*.md
+README.md
+docs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temp files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Node (si vous en avez)
+node_modules/
+package-lock.json
+
+# Env files
+.env
+.env. local

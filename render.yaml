@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: dinosaur-game
+    plan: starter
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        sync: false
+      - key: MAVEN_OPTS
+        value: "-Xmx1g -XX:+UseContainerSupport"
+    healthCheckPath: /

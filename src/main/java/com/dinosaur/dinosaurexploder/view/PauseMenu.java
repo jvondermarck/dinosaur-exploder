@@ -25,373 +25,214 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class PauseMenu extends FXGLMenu {
-  LanguageManager languageManager = LanguageManager.getInstance();
-  PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
-  PauseButton btnQuitGame = new PauseButton(languageManager.getTranslation("quit"), this::exit);
-  ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
 
-  // Store OptionButtons as fields so they can be updated
-  OptionsButton btnMoveUp =
-      new OptionsButton("↑ / W : " + languageManager.getTranslation("move_up"));
-  OptionsButton btnMoveDown =
-      new OptionsButton("↓ / S : " + languageManager.getTranslation("move_down"));
-  OptionsButton btnMoveRight =
-      new OptionsButton("→ / D : " + languageManager.getTranslation("move_right"));
-  OptionsButton btnMoveLeft =
-      new OptionsButton("← / A : " + languageManager.getTranslation("move_left"));
-  OptionsButton btnPauseGame = new OptionsButton(languageManager.getTranslation("pause_game"));
-  OptionsButton btnShoot = new OptionsButton(languageManager.getTranslation("shoot"));
-  OptionsButton btnBomb = new OptionsButton("B: " + languageManager.getTranslation("bomb"));
+    LanguageManager languageManager = LanguageManager.getInstance();
+    PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
+    PauseButton btnQuitGame = new PauseButton(languageManager.getTranslation("quit"), this::exit);
+    ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
 
-  public PauseMenu() {
-    super(MenuType.GAME_MENU);
+    // Options buttons (controls list)
+    OptionsButton btnMoveUp = new OptionsButton("↑ / W : " + languageManager.getTranslation("move_up"));
+    OptionsButton btnMoveDown = new OptionsButton("↓ / S : " + languageManager.getTranslation("move_down"));
+    OptionsButton btnMoveRight = new OptionsButton("→ / D : " + languageManager.getTranslation("move_right"));
+    OptionsButton btnMoveLeft = new OptionsButton("← / A : " + languageManager.getTranslation("move_left"));
+    OptionsButton btnPauseGame = new OptionsButton(languageManager.getTranslation("pause_game"));
+    OptionsButton btnShoot = new OptionsButton(languageManager.getTranslation("shoot"));
+    OptionsButton btnBomb = new OptionsButton("B: " + languageManager.getTranslation("bomb"));
+    OptionsButton btnShield = new OptionsButton("E: " + languageManager.getTranslation("shield")); // <-- your new feature
 
-    updateTexts();
+    public PauseMenu() {
+        super(MenuType.GAME_MENU);
 
-    // Listen for language changes and update UI automatically
-    languageManager
-        .selectedLanguageProperty()
-        .addListener((observable, oldValue, newValue) -> updateTexts());
+        updateTexts();
 
-    btnControls.setControlAction(
-        () -> {
-          var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
-          var controlsBox = new VBox(15);
+        // Auto-update UI when language changes
+        languageManager.selectedLanguageProperty().addListener((obs, oldValue, newValue) -> updateTexts());
 
-          controlsBox
-              .getChildren()
-              .addAll(
-                  new PauseButton(
-                      languageManager.getTranslation("back"),
-                      () -> {
-                        controlsBox.getChildren().removeAll(controlsBox.getChildren());
+        // Controls button action → Opens controls overlay
+        btnControls.setControlAction(() -> {
+            var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
+            var controlsBox = new VBox(15);
+
+            controlsBox.getChildren().addAll(
+                    new PauseButton(languageManager.getTranslation("back"), () -> {
+                        controlsBox.getChildren().clear();
                         removeChild(bg);
                         btnBack.enable();
                         btnQuitGame.enable();
                         btnControls.enable();
-                      }),
-                  btnMoveUp,
-                  btnMoveDown,
-                  btnMoveRight,
-                  btnMoveLeft,
-                  btnPauseGame,
-                  btnShoot,
-                  btnBomb);
+                    }),
+                    btnMoveUp,
+                    btnMoveDown,
+                    btnMoveRight,
+                    btnMoveLeft,
+                    btnPauseGame,
+                    btnShoot,
+                    btnBomb,
+                    btnShield   // <-- your new control
+            );
 
-          controlsBox.setTranslateX(300);
-          controlsBox.setTranslateY(getAppWidth() / 2.0);
+            controlsBox.setTranslateX(300);
+            controlsBox.setTranslateY(getAppWidth() / 2.0);
 
-          btnBack.disable();
-          btnQuitGame.disable();
-          btnControls.disable();
+            btnBack.disable();
+            btnQuitGame.disable();
+            btnControls.disable();
 
-          getContentRoot().getChildren().addAll(bg, controlsBox);
+            getContentRoot().getChildren().addAll(bg, controlsBox);
         });
 
-    var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
-    var title =
-        FXGL.getUIFactoryService().newText(GameConstants.GAME_NAME, Color.WHITE, FontType.MONO, 35);
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-    FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr24Font = baseCyrFont.newFont(24);
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade24Font = baseArcadeFont.newFont(24);
-    Text btnControlsLabelText = btnControls.getTextNode();
+        // Background
+        var bg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.5));
 
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      btnControlsLabelText.fontProperty().unbind();
-      btnControlsLabelText.setFont(cyr24Font);
-    } else {
-      btnControlsLabelText.fontProperty().unbind();
-      btnControlsLabelText.setFont(arcade24Font);
-    }
-    var box = new VBox(15, btnBack, btnControls, btnQuitGame);
-    var version =
-        FXGL.getUIFactoryService().newText(GameConstants.VERSION, Color.WHITE, FontType.MONO, 20);
+        // Title
+        var title = FXGL.getUIFactoryService()
+                .newText(GameConstants.GAME_NAME, Color.WHITE, FontType.MONO, 35);
 
-    title.setTranslateX(getAppWidth() / 2.0 - 175);
-    title.setTranslateY(150);
+        title.setTranslateX(getAppWidth() / 2.0 - 175);
+        title.setTranslateY(150);
 
-    box.setTranslateX(100);
-    box.setTranslateY(getAppWidth() / 2.0 + 100);
+        // Cyrillic font setup
+        Set<String> cyrLangs = Set.of("Greek", "Russian");
+        FontFactory cyrFontFactory = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr24 = cyrFontFactory.newFont(24);
 
-    version.setTranslateX(10);
-    version.setTranslateY(getAppHeight() - 10);
+        FontFactory arcadeFactory = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade24 = arcadeFactory.newFont(24);
 
-    getContentRoot().getChildren().addAll(bg, title, version, box);
-  }
+        Text controlsLabel = btnControls.getTextNode();
+        if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
+            controlsLabel.fontProperty().unbind();
+            controlsLabel.setFont(cyr24);
+        } else {
+            controlsLabel.fontProperty().unbind();
+            controlsLabel.setFont(arcade24);
+        }
 
-  private static class OptionsButton extends StackPane {
+        // Main menu buttons
+        var box = new VBox(15, btnBack, btnControls, btnQuitGame);
+        box.setTranslateX(100);
+        box.setTranslateY(getAppWidth() / 2.0 + 100);
 
-    private final String description;
-    private final Text text;
+        var version = FXGL.getUIFactoryService()
+                .newText(GameConstants.VERSION, Color.WHITE, FontType.MONO, 20);
 
-    public OptionsButton(String description) {
-      this.description = description;
+        version.setTranslateX(10);
+        version.setTranslateY(getAppHeight() - 10);
 
-      text = getUIFactoryService().newText(description, Color.WHITE, 14.0);
-      setAlignment(Pos.CENTER_LEFT);
-      getChildren().addAll(text);
+        getContentRoot().getChildren().addAll(bg, title, version, box);
     }
 
-    public void setText(String newText) {
-      text.setText(newText);
+    // ------------------- BUTTON CLASSES -----------------------
+
+    private static class OptionsButton extends StackPane {
+        private final Text text;
+
+        public OptionsButton(String desc) {
+            text = getUIFactoryService().newText(desc, Color.WHITE, 14.0);
+            setAlignment(Pos.CENTER_LEFT);
+            getChildren().add(text);
+        }
+
+        public void setText(String newText) { text.setText(newText); }
+
+        public Text getTextNode() { return text; }
     }
 
-    public Text getTextNode() {
-      return text;
-    }
-  }
+    private static class PauseButton extends StackPane {
+        private static final Color SELECTED = Color.WHITE;
+        private static final Color NOT_SELECTED = Color.GRAY;
 
-  private static class PauseButton extends StackPane {
+        private Runnable action;
+        private boolean disabled = false;
+        private final Text text;
 
-    private static final Color SELECTED_COLOR = Color.WHITE;
-    private static final Color NOT_SELECTED_COLOR = Color.GRAY;
-    private String name;
-    private Runnable action;
+        public PauseButton(String name, Runnable action) {
+            this.action = action;
+            text = getUIFactoryService().newText(name, Color.WHITE, 24.0);
 
-    private Text text;
-    private Rectangle selector;
+            text.strokeProperty().bind(Bindings.when(focusedProperty())
+                    .then(SELECTED).otherwise(NOT_SELECTED));
+            text.setStrokeWidth(0.5);
 
-    private boolean disable = false;
+            setAlignment(Pos.CENTER_LEFT);
+            setFocusTraversable(true);
 
-    public void disable() {
-      disable = true;
-    }
+            setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.ENTER && !disabled) action.run();
+            });
 
-    public void enable() {
-      disable = false;
-    }
+            setOnMouseClicked(e -> { if (!disabled) action.run(); });
 
-    public PauseButton(String name, Runnable action) {
-      this.name = name;
-      this.action = action;
+            setOnMouseEntered(e -> text.setFill(Color.RED));
+            setOnMouseExited(e -> text.setFill(SELECTED));
 
-      text = getUIFactoryService().newText(name, Color.WHITE, 24.0);
+            getChildren().add(text);
+        }
 
-      text.strokeProperty()
-          .bind(
-              Bindings.when(focusedProperty()).then(SELECTED_COLOR).otherwise(NOT_SELECTED_COLOR));
-      text.setStrokeWidth(0.5);
-
-      setAlignment(Pos.CENTER_LEFT);
-      setFocusTraversable(true);
-
-      setOnKeyPressed(
-          e -> {
-            if (e.getCode() == KeyCode.ENTER && !disable) {
-              action.run();
-            }
-          });
-
-      setOnMouseClicked(
-          event -> {
-            if (!disable) {
-              action.run();
-            }
-          });
-
-      setOnMouseEntered(event -> text.setFill(Color.RED));
-      setOnMouseExited(event -> text.setFill(SELECTED_COLOR));
-
-      getChildren().addAll(text);
+        public void disable() { disabled = true; }
+        public void enable() { disabled = false; }
+        public void setText(String newText) { text.setText(newText); }
+        public Text getTextNode() { return text; }
     }
 
-    public void setText(String newText) {
-      text.setText(newText);
+    private static class ControlButton extends PauseButton {
+        private Runnable action;
+
+        public ControlButton(String name) {
+            super(name, null);
+        }
+
+        public void setControlAction(Runnable action) {
+            this.action = action;
+            setOnMouseClicked(e -> { if (!super.disabled) action.run(); });
+        }
     }
 
-    public Text getTextNode() {
-      return text;
-    }
-  }
+    // ------------------- UPDATE TEXT FOR LANG CHANGE -----------------------
 
-  private static class ControlButton extends StackPane {
+    private void updateTexts() {
+        btnBack.setText(languageManager.getTranslation("back"));
+        btnQuitGame.setText(languageManager.getTranslation("quit"));
+        btnControls.setText(languageManager.getTranslation("controls"));
 
-    private static final Color SELECTED_COLOR = Color.WHITE;
-    private static final Color NOT_SELECTED_COLOR = Color.GRAY;
-    private String name;
-    private Runnable action;
-
-    private Text text;
-    private Rectangle selector;
-
-    private boolean disable = false;
-
-    public void disable() {
-      disable = true;
+        btnMoveUp.setText("↑ / W : " + languageManager.getTranslation("move_up"));
+        btnMoveDown.setText("↓ / S : " + languageManager.getTranslation("move_down"));
+        btnMoveRight.setText("→ / D : " + languageManager.getTranslation("move_right"));
+        btnMoveLeft.setText("← / A : " + languageManager.getTranslation("move_left"));
+        btnPauseGame.setText(languageManager.getTranslation("pause_game"));
+        btnShoot.setText(languageManager.getTranslation("shoot"));
+        btnBomb.setText("B: " + languageManager.getTranslation("bomb"));
+        btnShield.setText("E: " + languageManager.getTranslation("shield"));  // <-- added
     }
 
-    public void enable() {
-      disable = false;
+    // ------------------- QUIT POPUP -----------------------
+
+    public void exit() {
+        Set<String> cyrLangs = Set.of("Greek", "Russian");
+
+        FontFactory cyr = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
+        Font cyr20 = cyr.newFont(20);
+
+        FontFactory arcade = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
+        Font arcade20 = arcade.newFont(20);
+
+        Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
+        btnYes.setPrefWidth(200);
+        btnYes.setOnAction(e -> getGameController().gotoMainMenu());
+
+        Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
+        btnNo.setPrefWidth(200);
+        btnNo.setOnAction(e -> getGameController().resumeEngine());
+
+        if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
+            btnYes.setFont(cyr20);
+            btnNo.setFont(cyr20);
+        } else {
+            btnYes.setFont(arcade20);
+            btnNo.setFont(arcade20);
+        }
+
+        getDialogService().showBox(languageManager.getTranslation("quit_game"), new VBox(), btnYes, btnNo);
     }
-
-    public ControlButton(String name) {
-      this.name = name;
-      text = getUIFactoryService().newText(name, Color.WHITE, 24.0);
-    }
-
-    public void setText(String newText) {
-      text.setText(newText);
-    }
-
-    public Text getTextNode() {
-      return text;
-    }
-
-    public void setControlAction(Runnable action) {
-      this.action = action;
-
-      text = getUIFactoryService().newText(name, Color.WHITE, 24.0);
-
-      text.strokeProperty()
-          .bind(
-              Bindings.when(focusedProperty()).then(SELECTED_COLOR).otherwise(NOT_SELECTED_COLOR));
-      text.setStrokeWidth(0.5);
-
-      setAlignment(Pos.CENTER_LEFT);
-      setFocusTraversable(true);
-
-      setOnKeyPressed(
-          e -> {
-            if (e.getCode() == KeyCode.ENTER & !disable) {
-              action.run();
-            }
-          });
-
-      setOnMouseClicked(
-          event -> {
-            if (!disable) {
-              action.run();
-            }
-          });
-
-      setOnMouseEntered(event -> text.setFill(Color.RED));
-      setOnMouseExited(event -> text.setFill(SELECTED_COLOR));
-
-      getChildren().addAll(text);
-    }
-  }
-
-  private void updateTexts() {
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-
-    FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr24Font = baseCyrFont.newFont(24);
-    Font cyr14Font = baseCyrFont.newFont(14);
-
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade24Font = baseArcadeFont.newFont(24);
-    Font arcade14Font = baseArcadeFont.newFont(14);
-
-    btnBack.setText(languageManager.getTranslation("back"));
-    btnQuitGame.setText(languageManager.getTranslation("quit"));
-    btnControls.setText(languageManager.getTranslation("controls"));
-    btnMoveUp.setText("↑ / W : " + languageManager.getTranslation("move_up"));
-    btnMoveDown.setText("↓ / S : " + languageManager.getTranslation("move_down"));
-    btnMoveRight.setText("→ / D : " + languageManager.getTranslation("move_right"));
-    btnMoveLeft.setText("← / A : " + languageManager.getTranslation("move_left"));
-    btnPauseGame.setText(languageManager.getTranslation("pause_game"));
-    btnShoot.setText(languageManager.getTranslation("shoot"));
-    btnBomb.setText("B: " + languageManager.getTranslation("bomb"));
-
-    Text btnQuitLabelText = btnQuitGame.getTextNode();
-    Text btnBackLabelText = btnBack.getTextNode();
-    Text btnControlsLabelText = btnControls.getTextNode();
-    Text btnMoveUpLabelText = btnMoveUp.getTextNode();
-    Text btnMoveDownLabelText = btnMoveDown.getTextNode();
-    Text btnMoveRightLabelText = btnMoveRight.getTextNode();
-    Text btnMoveLeftLabelText = btnMoveLeft.getTextNode();
-    Text btnPauseGameLabelText = btnPauseGame.getTextNode();
-    Text btnShootLabelText = btnShoot.getTextNode();
-    Text btnBombLabelText = btnBomb.getTextNode();
-
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      btnQuitLabelText.fontProperty().unbind();
-      btnQuitLabelText.setFont(cyr24Font);
-      btnBackLabelText.fontProperty().unbind();
-      btnBackLabelText.setFont(cyr24Font);
-      btnControlsLabelText.fontProperty().unbind();
-      btnControlsLabelText.setFont(cyr24Font);
-      btnMoveUpLabelText.fontProperty().unbind();
-      btnMoveUpLabelText.setFont(cyr14Font);
-      btnMoveDownLabelText.fontProperty().unbind();
-      btnMoveDownLabelText.setFont(cyr14Font);
-      btnMoveRightLabelText.fontProperty().unbind();
-      btnMoveRightLabelText.setFont(cyr14Font);
-      btnMoveLeftLabelText.fontProperty().unbind();
-      btnMoveLeftLabelText.setFont(cyr14Font);
-      btnPauseGameLabelText.fontProperty().unbind();
-      btnPauseGameLabelText.setFont(cyr14Font);
-      btnShootLabelText.fontProperty().unbind();
-      btnShootLabelText.setFont(cyr14Font);
-      btnBombLabelText.fontProperty().unbind();
-      btnBombLabelText.setFont(cyr14Font);
-    } else {
-      btnQuitLabelText.fontProperty().unbind();
-      btnQuitLabelText.setFont(arcade24Font);
-      btnBackLabelText.fontProperty().unbind();
-      btnBackLabelText.setFont(arcade24Font);
-      btnControlsLabelText.fontProperty().unbind();
-      btnControlsLabelText.setFont(arcade24Font);
-      btnMoveUpLabelText.fontProperty().unbind();
-      btnMoveUpLabelText.setFont(arcade14Font);
-      btnMoveDownLabelText.fontProperty().unbind();
-      btnMoveDownLabelText.setFont(arcade14Font);
-      btnMoveRightLabelText.fontProperty().unbind();
-      btnMoveRightLabelText.setFont(arcade14Font);
-      btnMoveLeftLabelText.fontProperty().unbind();
-      btnMoveLeftLabelText.setFont(arcade14Font);
-      btnPauseGameLabelText.fontProperty().unbind();
-      btnPauseGameLabelText.setFont(arcade14Font);
-      btnShootLabelText.fontProperty().unbind();
-      btnShootLabelText.setFont(arcade14Font);
-      btnBombLabelText.fontProperty().unbind();
-      btnBombLabelText.setFont(arcade14Font);
-    }
-  }
-
-  public void exit() {
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-
-    FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr20Font = baseCyrFont.newFont(20);
-
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade20Font = baseArcadeFont.newFont(20);
-
-    Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
-    btnYes.setPrefWidth(200);
-
-    btnYes.defaultButtonProperty();
-    // action event for the yes Button
-    EventHandler<ActionEvent> backToHomeEvent = e -> getGameController().gotoMainMenu();
-
-    // when button is pressed
-    btnYes.setOnAction(backToHomeEvent);
-
-    Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
-    btnNo.setPrefWidth(200);
-
-    // action event for the no Button
-    EventHandler<ActionEvent> resumeEvent = e -> getGameController().resumeEngine();
-
-    // when button is pressed
-    btnNo.setOnAction(resumeEvent);
-
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      btnYes.fontProperty().unbind();
-      btnYes.setFont(cyr20Font);
-      btnNo.fontProperty().unbind();
-      btnNo.setFont(cyr20Font);
-    } else {
-      btnYes.fontProperty().unbind();
-      btnYes.setFont(arcade20Font);
-      btnNo.fontProperty().unbind();
-      btnNo.setFont(arcade20Font);
-    }
-
-    getDialogService()
-        .showBox(languageManager.getTranslation("quit_game"), new VBox(), btnYes, btnNo);
-  }
 }

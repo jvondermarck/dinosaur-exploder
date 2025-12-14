@@ -3,7 +3,7 @@ package com.dinosaur.dinosaurexploder.constants;
 /** This holds every constant in the project */
 public class GameConstants {
 
-  public static final String VERSION = "1.2.1";
+  public static final String VERSION = "1.2.2";
   public static final String GAME_NAME = "Dinosaur Exploder";
 
   /*
@@ -11,20 +11,16 @@ public class GameConstants {
    */
   public static final String BACKGROUND_IMAGE_PATH = "/assets/textures/background.png";
   public static final String BASE_PROJECTILE_IMAGE_PATH = "assets/textures/basicProjectile.png";
-  public static final String BASE_PROJECTILE_IMAGE_FILE = "basicProjectile.png";
   public static final String ENEMY_PROJECTILE_IMAGE_FILE = "enemyProjectile.png";
   public static final String GREEN_DINO_IMAGE_PATH = "assets/textures/greenDino.png";
   public static final String GREEN_DINO_IMAGE_FILE = "greenDino.png";
-  public static final String RED_DINO_IMAGE_PATH = "assets/textures/redDino.png";
   public static final String RED_DINO_IMAGE_FILE = "redDino.png";
-  public static final String ORANGE_DINO_IMAGE_PATH = "assets/textures/orangeDino.png";
   public static final String ORANGE_DINO_IMAGE_FILE = "orangeDino.png";
   public static final String COIN_IMAGE_PATH = "assets/textures/coin.png";
   public static final String COIN_IMAGE_FILE = "coin.png";
   public static final String HEART_IMAGE_PATH = "assets/textures/life.png";
   public static final String HEART_IMAGE_FILE = "life.png";
   public static final String HEART_LOST_IMAGE_PATH = "assets/textures/lifeLost.png";
-  public static final String HEART_LOST_IMAGE_FILE = "lifeLost.png";
   public static final String BOMB_IMAGE_PATH = "assets/textures/bomb.png";
   public static final String GAME_ICON_DINOSAUR = "icon.png";
 

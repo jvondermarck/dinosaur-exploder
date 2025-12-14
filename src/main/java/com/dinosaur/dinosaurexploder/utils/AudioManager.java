@@ -1,9 +1,9 @@
 package com.dinosaur.dinosaurexploder.utils;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class AudioManager {
     private static AudioManager instance;
@@ -14,23 +14,23 @@ public class AudioManager {
     private final List<MediaPlayer> activePlayers = new ArrayList<>();
     private MediaPlayer backgroundPlayer;
 
-    private AudioManager() {}
+  private AudioManager() {}
 
-    public static AudioManager getInstance() {
-        if (instance == null) {
-            instance = new AudioManager();
-        }
-        return instance;
+  public static AudioManager getInstance() {
+    if (instance == null) {
+      instance = new AudioManager();
     }
+    return instance;
+  }
 
-    public void setMuted(boolean muted) {
-        this.isMuted = muted;
-        if (backgroundPlayer != null) backgroundPlayer.setMute(muted);
-        // Mute/unmute all active sound effects
-        for (MediaPlayer player : activePlayers) {
-            player.setMute(muted);
-        }
+  public void setMuted(boolean muted) {
+    this.isMuted = muted;
+    if (backgroundPlayer != null) backgroundPlayer.setMute(muted);
+    // Mute/unmute all active sound effects
+    for (MediaPlayer player : activePlayers) {
+      player.setMute(muted);
     }
+  }
 
     public void setSfxMuted(boolean muted) {
         isSfxMuted = muted;
@@ -52,6 +52,7 @@ public class AudioManager {
             player.setVolume(volume);
         }
     }
+  }
 
     public void setSfxVolume(double volume) {
         this.sfxVolume = volume;
@@ -88,41 +89,42 @@ public class AudioManager {
             e.printStackTrace();
         }
     }
+  }
 
-    public void playMusic(String soundFile) {
-        stopMusic();
-        try {
-            String resourcePath = "/assets/sounds/" + soundFile;
-            var url = getClass().getResource(resourcePath);
-            if (url == null) {
-                System.err.println("Music resource not found: " + resourcePath);
-                return;
-            }
-            backgroundPlayer = new MediaPlayer(new Media(url.toExternalForm()));
-            backgroundPlayer.setMute(isMuted);
-            backgroundPlayer.setVolume(volume);
-            backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            backgroundPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Could not play music: " + soundFile);
-            e.printStackTrace();
-        }
+  public void playMusic(String soundFile) {
+    stopMusic();
+    try {
+      String resourcePath = "/assets/sounds/" + soundFile;
+      var url = getClass().getResource(resourcePath);
+      if (url == null) {
+        System.err.println("Music resource not found: " + resourcePath);
+        return;
+      }
+      backgroundPlayer = new MediaPlayer(new Media(url.toExternalForm()));
+      backgroundPlayer.setMute(isMuted);
+      backgroundPlayer.setVolume(volume);
+      backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+      backgroundPlayer.play();
+    } catch (Exception e) {
+      System.err.println("Could not play music: " + soundFile);
+      e.printStackTrace();
     }
+  }
 
-    public void stopMusic() {
-        if (backgroundPlayer != null) {
-            backgroundPlayer.stop();
-            backgroundPlayer.dispose();
-            backgroundPlayer = null;
-        }
+  public void stopMusic() {
+    if (backgroundPlayer != null) {
+      backgroundPlayer.stop();
+      backgroundPlayer.dispose();
+      backgroundPlayer = null;
     }
+  }
 
-    public void stopAllSounds() {
-        stopMusic();
-        for (MediaPlayer player : new ArrayList<>(activePlayers)) {
-            player.stop();
-            player.dispose();
-        }
-        activePlayers.clear();
+  public void stopAllSounds() {
+    stopMusic();
+    for (MediaPlayer player : new ArrayList<>(activePlayers)) {
+      player.stop();
+      player.dispose();
     }
+    activePlayers.clear();
+  }
 }

@@ -100,6 +100,7 @@ Play the game with these controls:
 - ➡️ <kbd>Right Arrow</kbd>: move spaceship right.
 - ⏸️ <kbd>Escape</kbd>: pause the game.
 - 🔫 <kbd>Space</kbd>: shoot.
+- 🛡️ <kbd>E</kbd>: shield to protect the spaceship during few seconds.
 - 💥 <kbd>B</kbd>: eliminate all the dinosaurs on the screen using a bomb.
 
 ## 🎥 Gameplay

@@ -18,7 +18,6 @@ FROM eclipse-temurin:21-jdk-jammy
 
 WORKDIR /app
 
-# Installer les dépendances nécessaires pour JavaFX + économiser RAM
 RUN apt-get update && apt-get install -y \
     maven \
     curl \
@@ -30,29 +29,24 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=build /app/pom.xml .
 COPY --from=build /app/target ./target
-COPY --from=build /root/. m2/repository/root/.m2/repository
+COPY --from=build /root/.m2/repository /root/.m2/repository
 COPY --from=build /app/src ./src
 
 ENV PORT=10000
 
 EXPOSE $PORT
 
-# Configuration mémoire pour Render Free (512MB total)
-# Maven: 128MB, JPro/App: 350MB, Système:  ~34MB
+# Optimisé pour 512MB avec fix du timeout Maven
 CMD sh -c 'echo "=========================================" && \
   echo "🦖 Dinosaur Game - JPro Server" && \
   echo "=========================================" && \
-  echo "Port:  ${PORT}" && \
-  echo "Memory: Optimized for 512MB" && \
+  echo "Port: ${PORT}" && \
   echo "=========================================" && \
-  echo "" && \
-  export MAVEN_OPTS="-Xmx128m -XX:+UseSerialGC" && \
-  exec mvn jpro:run \
+  export MAVEN_OPTS="-Xmx96m -XX:+UseSerialGC -XX:TieredStopAtLevel=1" && \
+  (mvn jpro:run \
     -Djpro.port=${PORT} \
     -Djpro.openURLOnStartup=false \
-    -Djpro.jvmArgs="-Xms128m -Xmx350m -XX:+UseSerialGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:+UseContainerSupport" \
-    -Dprism.order=sw \
-    -Dprism.text=t2k \
-    -Dprism.poolstats=false \
-    -Djavafx.pulseLogger=false \
-    -Dprism.verbose=false'
+    -Djpro.jvmArgs="-Xms256m -Xmx400m -XX:+UseSerialGC -XX:+UseContainerSupport -XX:TieredStopAtLevel=1 -Djava.awt.headless=true -Dmonocle.platform=Headless -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k" \
+    > /tmp/jpro.log 2>&1 & \
+  echo $! > /tmp/jpro.pid && \
+  tail -f /tmp/jpro.log)'

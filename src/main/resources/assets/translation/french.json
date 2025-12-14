@@ -30,5 +30,8 @@
   "weapon_locked": "L'arme est verrouillée.",
   "unlock_highScore": "Atteignez un score élevé de ## pour le débloquer.",
   "unlock_totalCoins": "Atteignez un total de ## pièces pour le débloquer.",
-  "ok": "D'accord"
+  "ok": "D'accord",
+  "sound": "Son",
+  "sound_main": "Arrière-plan",
+  "sound_sfx": "Effets sonores"
 }

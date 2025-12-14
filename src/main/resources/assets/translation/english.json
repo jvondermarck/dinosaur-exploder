@@ -30,5 +30,8 @@
   "weapon_locked": "The weapon is locked.",
   "unlock_highScore": "Reach a high score of ## to unlock it.",
   "unlock_totalCoins": "Reach a total of ## coins to unlock it.",
-  "ok": "ok"
+  "ok": "ok",
+  "sound": "Sound",
+  "sound_main": "Background",
+  "sound_sfx": "Sound effects"
 }

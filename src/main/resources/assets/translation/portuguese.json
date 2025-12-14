@@ -30,5 +30,8 @@
   "weapon_locked": "Arma bloqueada.",
   "unlock_highScore": "Alcance uma pontuação de ## para desbloquear.",
   "unlock_totalCoins": "Conquiste ## moedas no total para desbloquear.",
-  "ok": "OK"
+  "ok": "OK",
+  "sound": "Som",
+  "sound_main": "Plano de fundo",
+  "sound_sfx": "Efeitos sonoros"
 }

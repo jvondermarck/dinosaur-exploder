@@ -239,13 +239,11 @@ public class GameEntityFactory implements EntityFactory {
   /** spawn total earned coin view on the window */
   @Spawns("Coins")
   public Entity newCoins(SpawnData data) {
-    Text coinText = new Text("Coins: 0");
     return entityBuilderBase(data, EntityType.COIN)
-        .from(data)
-        .view(coinText)
-        .with(new CollectedCoinsComponent())
-        .with(new OffscreenCleanComponent())
-        .build();
+            .from(data)
+            .with(new CollectedCoinsComponent())
+            .with(new OffscreenCleanComponent())
+            .build();
   }
 
   /** Summary : Animation of an explosion will be handled in below Entity */

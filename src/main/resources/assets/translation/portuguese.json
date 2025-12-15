@@ -31,5 +31,8 @@
   "unlock_highScore": "Alcance uma pontuação de ## para desbloquear.",
   "unlock_totalCoins": "Conquiste ## moedas no total para desbloquear.",
   "ok": "OK",
-  "shield": "Escudo"
+  "shield": "Escudo",
+  "sound": "Som",
+  "sound_main": "Plano de fundo",
+  "sound_sfx": "Efeitos sonoros"
 }

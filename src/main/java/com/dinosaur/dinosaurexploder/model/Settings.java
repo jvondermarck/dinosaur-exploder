@@ -2,9 +2,11 @@ package com.dinosaur.dinosaurexploder.model;
 
 public class Settings {
 
-  private double volume;
-  private boolean muted;
-  private String language;
+    private double volume;
+    private double sfxVolume;
+    private boolean muted;
+    private boolean sfxMuted;
+    private String language;
 
   public double getVolume() {
     return volume;
@@ -29,4 +31,20 @@ public class Settings {
   public void setLanguage(String language) {
     this.language = language;
   }
+
+    public double getSfxVolume() {
+        return sfxVolume;
+    }
+
+    public void setSfxVolume(double sfxVolume) {
+        this.sfxVolume = sfxVolume;
+    }
+
+    public boolean isSfxMuted() {
+        return sfxMuted;
+    }
+
+    public void setSfxMuted(boolean sfxMuted) {
+        this.sfxMuted = sfxMuted;
+    }
 }

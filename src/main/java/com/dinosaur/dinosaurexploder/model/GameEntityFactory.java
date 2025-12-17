@@ -45,7 +45,8 @@ public class GameEntityFactory implements EntityFactory {
     Image img =
         new Image(
             Objects.requireNonNull(
-                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGE_PATH)).toString()));
+                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGE_PATH))
+                    .toString()));
 
     return FXGL.entityBuilder()
         .view(new SelfScrollingBackgroundView(img, 3000, 1500, Orientation.VERTICAL, -50))
@@ -213,18 +214,20 @@ public class GameEntityFactory implements EntityFactory {
         .with(new OffscreenCleanComponent())
         .build();
   }
-        @Spawns("Shield")
-        public Entity newShield(SpawnData data) {
-                Text shieldText = new Text("Shield: READY");
-                shieldText.setFill(Color.LIME);
-                shieldText.setFont(Font.font(GameConstants.GAME_FONTNAME, 18));
-                return entityBuilderBase(data, EntityType.SHIELD)
-                                .from(data)
-                                .view(shieldText)
-                                .with(new ShieldUIComponent(shieldText))
-                                .with(new OffscreenCleanComponent())
-                                .build();
-        }
+
+  @Spawns("Shield")
+  public Entity newShield(SpawnData data) {
+    Text shieldText = new Text("Shield: READY");
+    shieldText.setFill(Color.LIME);
+    shieldText.setFont(Font.font(GameConstants.GAME_FONTNAME, 18));
+    return entityBuilderBase(data, EntityType.SHIELD)
+        .from(data)
+        .view(shieldText)
+        .with(new ShieldUIComponent(shieldText))
+        .with(new OffscreenCleanComponent())
+        .build();
+  }
+
   @Spawns("Bomb")
   public Entity newBomb(SpawnData data) {
     Text bombText = new Text("Bombs: 3");
@@ -240,10 +243,10 @@ public class GameEntityFactory implements EntityFactory {
   @Spawns("Coins")
   public Entity newCoins(SpawnData data) {
     return entityBuilderBase(data, EntityType.COIN)
-            .from(data)
-            .with(new CollectedCoinsComponent())
-            .with(new OffscreenCleanComponent())
-            .build();
+        .from(data)
+        .with(new CollectedCoinsComponent())
+        .with(new OffscreenCleanComponent())
+        .build();
   }
 
   /** Summary : Animation of an explosion will be handled in below Entity */
@@ -311,5 +314,4 @@ public class GameEntityFactory implements EntityFactory {
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder().type(type).from(data);
   }
-
 }

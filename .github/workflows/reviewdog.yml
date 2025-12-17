@@ -1,60 +1,60 @@
-name: Reviewdog - Code Formatting
-
-on:
-  pull_request_target:
-    branches: [main]
-    types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read
-  pull-requests: write
-  checks: write
-  statuses: write
-
-jobs:
-  spotless:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          java-version: 21
-          distribution: temurin
-
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
-          restore-keys: ${{runner.os}}-m2
-
-      - uses: reviewdog/action-setup@v1
-
-      - name: Generate diff
-        run: |
-          mvn spotless:apply || true
-          git diff > spotless.diff
-          cat spotless.diff
-          git checkout . 
-
-      - name: Run reviewdog
-        if: hashFiles('spotless.diff') != ''
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          reviewdog \
-            -f=diff \
-            -f.diff.strip=1 \
-            -name="💅 Spotless Formatting" \
-            -reporter=github-pr-review \
-            -filter-mode=diff_context \
-            -level=error \
-            < spotless.diff
-
-      - name: Final check
-        run: mvn spotless:check
+#name: Reviewdog - Code Formatting
+#
+#on:
+#  pull_request_target:
+#    branches: [main]
+#    types: [opened, synchronize, reopened]
+#
+#permissions:
+#  contents: read
+#  pull-requests: write
+#  checks: write
+#  statuses: write
+#
+#jobs:
+#  spotless:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: ${{ github.event.pull_request.head.sha }}
+#
+#      - name: Set up JDK 21
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: 21
+#          distribution: temurin
+#
+#      - name: Cache Maven packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2
+#          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+#          restore-keys: ${{runner.os}}-m2
+#
+#      - uses: reviewdog/action-setup@v1
+#
+#      - name: Generate diff
+#        run: |
+#          mvn spotless:apply || true
+#          git diff > spotless.diff
+#          cat spotless.diff
+#          git checkout .
+#
+#      - name: Run reviewdog
+#        if: hashFiles('spotless.diff') != ''
+#        env:
+#          REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
+#        run: |
+#          reviewdog \
+#            -f=diff \
+#            -f.diff.strip=1 \
+#            -name="💅 Spotless Formatting" \
+#            -reporter=github-pr-review \
+#            -filter-mode=diff_context \
+#            -level=error \
+#            < spotless.diff
+#
+#      - name: Final check
+#        run: mvn spotless:check

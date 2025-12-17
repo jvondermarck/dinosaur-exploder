@@ -32,7 +32,7 @@ public class SettingsProvider {
     try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
       properties.store(writer, "store properties");
     } catch (Exception ex) {
-      System.err.println("Error saving settings " + ex. getMessage());
+      System.err.println("Error saving settings " + ex.getMessage());
     }
   }
 

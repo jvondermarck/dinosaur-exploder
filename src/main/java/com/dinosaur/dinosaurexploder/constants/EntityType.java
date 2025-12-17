@@ -4,13 +4,7 @@ package com.dinosaur.dinosaurexploder.constants;
 public enum EntityType {
   PLAYER,
 
-
-
-
-
-
-  
-GREEN_DINO,
+  GREEN_DINO,
   RED_DINO,
   ORANGE_DINO,
   PROJECTILE,

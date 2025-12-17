@@ -1,29 +1,28 @@
 package com.dinosaur.dinosaurexploder.model;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ScoreComponentTest {
 
-    @Test
-    void checkGetSetScore() {
-        var scoreComponent = new ScoreComponent();
+  @Test
+  void checkGetSetScore() {
+    var scoreComponent = new ScoreComponent();
 
-        scoreComponent.setScore(5);
+    scoreComponent.setScore(5);
 
-        assertEquals(5, scoreComponent.getScore());
-    }
+    assertEquals(5, scoreComponent.getScore());
+  }
 
-    @Test
-    void checkIncrementProperly() {
-        var scoreComponent = new ScoreComponent();
+  @Test
+  void checkIncrementProperly() {
+    var scoreComponent = new ScoreComponent();
 
-        scoreComponent.setScore(4);
+    scoreComponent.setScore(4);
 
-        scoreComponent.incrementScore(1);
-        assertEquals(5, scoreComponent.getScore());
-    }
-
+    scoreComponent.incrementScore(1);
+    assertEquals(5, scoreComponent.getScore());
+  }
 }

@@ -10,6 +10,7 @@ on:
 permissions:
   pull-requests: write  # Pour commenter les PRs
   contents: read
+  checks: write
 
 jobs:
   sonarcloud:

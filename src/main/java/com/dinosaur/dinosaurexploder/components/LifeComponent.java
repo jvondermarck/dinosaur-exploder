@@ -93,7 +93,7 @@ public class LifeComponent extends Component implements Life {
       }
 
       currentHeart.setLayoutY(10);
-      currentHeart.setLayoutX((MAX_LIVES - i) * 30);
+      currentHeart.setLayoutX((MAX_LIVES - i) * 30.0);
       setEntity(currentHeart);
     }
 

@@ -128,7 +128,7 @@ public class PauseMenu extends FXGLMenu {
         FXGL.getUIFactoryService().newText(GameConstants.VERSION, Color.WHITE, FontType.MONO, 20);
 
     version.setTranslateX(10);
-    version.setTranslateY(getAppHeight() - 10);
+    version.setTranslateY(getAppHeight() - 10.0);
 
     getContentRoot().getChildren().addAll(bg, title, version, box);
   }

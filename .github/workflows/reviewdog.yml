@@ -3,7 +3,7 @@ name: Reviewdog - Code Formatting
 on:
   pull_request:
     branches: [ main ]
-    types: [ opened, synchronize, reopened ]  # ← Trigger sur reopen et update
+    types: [ opened, synchronize, reopened ]
 
 permissions:
   contents: read
@@ -24,32 +24,33 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      - name: Cache Maven packages
+      - name:  Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom. xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Setup reviewdog
       - name: Setup reviewdog
         uses: reviewdog/action-setup@v1
         with:
           reviewdog_version: latest
 
       # Génère le diff avec les corrections Spotless
-      - name: Generate Spotless formatting diff
+      - name:  Generate Spotless formatting diff
         run: |
-          # Applique Spotless et génère un unified diff
-          mvn spotless: apply || true
-          git diff -U0 > spotless. diff
+          # Applique Spotless (SANS ESPACE!)
+          mvn spotless:apply || true
+          
+          # Génère un unified diff des changements
+          git diff -U0 --no-color > spotless.diff
           
           # Affiche le diff pour debug
           echo "=== Spotless diff preview ==="
-          cat spotless. diff
-          echo "==========================="
+          cat spotless.diff || echo "No diff generated"
+          echo "=== End diff ==="
           
-          # Restore les fichiers originaux
+          # Restore les fichiers originaux pour que reviewdog puisse commenter
           git checkout . 
 
       # Run reviewdog avec les suggestions
@@ -58,13 +59,14 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -s spotless.diff ]; then
+            echo "📝 Formatting issues found, posting suggestions..."
             cat spotless.diff | reviewdog \
               -f=diff \
-              -f. diff. strip=0 \
+              -f.diff.strip=0 \
               -name="Spotless" \
               -reporter=github-pr-review \
               -filter-mode=added \
-              -fail-on-error=true \
+              -fail-level=error \
               -level=error
           else
             echo "✅ No formatting issues found!"

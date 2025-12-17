@@ -1,60 +1,148 @@
-#name: Reviewdog - Code Formatting
-#
-#on:
-#  pull_request_target:
-#    branches: [main]
-#    types: [opened, synchronize, reopened]
-#
-#permissions:
-#  contents: read
-#  pull-requests: write
-#  checks: write
-#  statuses: write
-#
-#jobs:
-#  spotless:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          ref: ${{ github.event.pull_request.head.sha }}
-#
-#      - name: Set up JDK 21
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: 21
-#          distribution: temurin
-#
-#      - name: Cache Maven packages
-#        uses: actions/cache@v4
-#        with:
-#          path: ~/.m2
-#          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
-#          restore-keys: ${{runner.os}}-m2
-#
-#      - uses: reviewdog/action-setup@v1
-#
-#      - name: Generate diff
-#        run: |
-#          mvn spotless:apply || true
-#          git diff > spotless.diff
-#          cat spotless.diff
-#          git checkout .
-#
-#      - name: Run reviewdog
-#        if: hashFiles('spotless.diff') != ''
-#        env:
-#          REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
-#        run: |
-#          reviewdog \
-#            -f=diff \
-#            -f.diff.strip=1 \
-#            -name="💅 Spotless Formatting" \
-#            -reporter=github-pr-review \
-#            -filter-mode=diff_context \
-#            -level=error \
-#            < spotless.diff
-#
-#      - name: Final check
-#        run: mvn spotless:check
+name: Code Formatting Check
+
+on:
+  pull_request_target:
+    branches: [main]
+    types:  [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  spotless:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
+
+      - uses: reviewdog/action-setup@v1
+
+      - name: Generate formatting diff
+        id: spotless
+        run: |
+          mvn spotless:apply || true
+          git diff > spotless.diff
+          FILES_COUNT=$(git diff --name-only | wc -l)
+          echo "FILES_COUNT=$FILES_COUNT" >> "$GITHUB_OUTPUT"
+          cat spotless.diff
+          git checkout .  
+
+      # 🎨 Poste les suggestions avec un message simple
+      - name: Post suggestions
+        if: hashFiles('spotless.diff') != ''
+        continue-on-error: true
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          cat spotless.diff | reviewdog \
+            -f=diff \
+            -f.diff.strip=1 \
+            -name="💄 Spotless - Fix code formatting" \
+            -reporter=github-pr-review \
+            -filter-mode=diff_context \
+            -level=error
+
+      # 🤖 BOT COMMENT
+      - name: Find previous bot comment
+        if: always()
+        id: find-comment
+        uses:  peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github. event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes:  '<!-- spotless-check-comment -->'
+
+      - name: Post success comment
+        if: steps.spotless.outputs.FILES_COUNT == '0'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number:  ${{ github.event.pull_request.number }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |-
+            <!-- spotless-check-comment -->
+            
+            ## ✅ Code Formatting Check Passed!  
+            
+            ![badge](https://img.shields.io/badge/Spotless-Passed-success?logo=checkmarx&style=for-the-badge)
+            
+            **Great job!** 🎉 Your code follows the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+            
+            No formatting issues detected!  ✨
+            
+            ---
+            
+            🤖 _The DinoBot Team_ 🦖
+
+      - name:  Post failure comment
+        if: steps.spotless.outputs.FILES_COUNT != '0'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-id:  ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |-
+            <!-- spotless-check-comment -->
+            
+            ## 🎨 Code Formatting Issues Detected
+            
+            ![badge](https://img.shields.io/badge/Spotless-Failed-critical?logo=checkmarx&style=for-the-badge)
+            
+            **Thanks for your contribution!** ❤️
+            
+            Your code doesn't follow the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+            
+            ### 📋 Summary
+            
+            - 📁 **Files affected**: ${{ steps.spotless.outputs.FILES_COUNT }}
+            - 🔧 **Action required**: Fix formatting issues
+            
+            ### 💡 How to fix
+            
+            **Option 1: Use inline suggestions** ⭐ _(easiest)_
+            1. Go to the **"Files changed"** tab
+            2. Find the **[Spotless]** suggestions on affected lines
+            3. Click **`✅ Commit suggestion`** to auto-fix
+            4. Done! ✨
+            
+            **Option 2: Fix locally**
+            ```bash
+            mvn spotless:apply
+            git add -A
+            git commit -m "style: apply Spotless formatting"
+            git push
+            ```
+            
+            **Option 3: Auto-format in your IDE**
+            - **IntelliJ IDEA**: Install [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
+            - **VS Code**: [Configure Java formatting](https://code.visualstudio.com/docs/java/java-linting)
+            
+            ---
+            
+            📚 [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html) · 🔧 [Spotless Docs](https://github.com/diffplug/spotless)
+            
+            Happy coding! 🦖
+            
+            ---
+            
+            🤖 _The DinoBot Team_ 🦖
+
+      - name:  Fail if formatting issues
+        if: steps.spotless.outputs.FILES_COUNT != '0'
+        run: |
+          echo "::error::Code formatting issues detected. Please fix them before merging."
+          exit 1

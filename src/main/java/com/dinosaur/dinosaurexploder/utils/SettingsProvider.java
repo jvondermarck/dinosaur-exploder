@@ -15,10 +15,8 @@ public class SettingsProvider {
   public static Settings loadSettings() {
     Properties properties = new Properties();
 
-    try {
-      FileInputStream in = new FileInputStream(SETTINGS_FILE);
+    try (FileInputStream in = new FileInputStream(SETTINGS_FILE)) {
       properties.load(in);
-      in.close();
     } catch (Exception ex) {
       Settings defaultSettings = generateDefaultSettings();
       saveSettings(defaultSettings);
@@ -31,10 +29,10 @@ public class SettingsProvider {
   public static void saveSettings(Settings settings) {
     Properties properties = createPropertiesFormSettings(settings);
 
-    try {
-      properties.store(new FileWriter(SETTINGS_FILE), "store properties");
+    try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
+      properties.store(writer, "store properties");
     } catch (Exception ex) {
-      System.err.println("Error saving settings " + ex.getMessage());
+      System.err.println("Error saving settings " + ex. getMessage());
     }
   }
 

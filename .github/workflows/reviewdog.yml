@@ -39,18 +39,11 @@ jobs:
       # Génère le diff avec les corrections Spotless
       - name:  Generate Spotless formatting diff
         run: |
-          # Applique Spotless (SANS ESPACE!)
           mvn spotless:apply || true
-          
-          # Génère un unified diff des changements
           git diff -U0 --no-color > spotless.diff
-          
-          # Affiche le diff pour debug
           echo "=== Spotless diff preview ==="
           cat spotless.diff || echo "No diff generated"
           echo "=== End diff ==="
-          
-          # Restore les fichiers originaux pour que reviewdog puisse commenter
           git checkout . 
 
       # Run reviewdog avec les suggestions

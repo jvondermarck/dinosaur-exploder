@@ -1,6 +1,3 @@
-
-
-
 package com.dinosaur.dinosaurexploder.constants;
 
 /** This handles with all the entities in the game like lives, player projectile etc. */

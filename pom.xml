@@ -18,6 +18,9 @@
         <junit.version>6.0.1</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
+        <sonar.projectKey>jvondermarck_dinosaur-exploder</sonar.projectKey>
+        <sonar.organization>jvondermarck</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
         <dependency>

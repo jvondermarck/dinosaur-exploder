@@ -1,7 +1,6 @@
 package com.dinosaur.dinosaurexploder.constants;
 
-/** Thi
-s handles with all the entities in the game like lives, player projectile etc. */
+/** Thi s handles with all the entities in the game like lives, player projectile etc. */
 public enum EntityType {
 
   

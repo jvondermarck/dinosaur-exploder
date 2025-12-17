@@ -11,10 +11,6 @@ public enum EntityType {
   RED_DINO,
   ORANGE_DINO,
 
-
-
-
-  
   PROJECTILE,
   ENEMY_PROJECTILE,
   SCORE,

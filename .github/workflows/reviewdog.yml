@@ -2,8 +2,8 @@ name: Reviewdog - Code Formatting
 
 on:
   pull_request:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened ]
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -22,49 +22,37 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 21
-          distribution: 'temurin'
+          distribution: temurin
 
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path:  ~/.m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
 
-      - name: Setup reviewdog
-        uses: reviewdog/action-setup@v1
-        with:
-          reviewdog_version: latest
+      - uses: reviewdog/action-setup@v1
 
-      # Génère le diff avec les corrections Spotless
-      - name:  Generate Spotless formatting diff
+      - name: Generate diff
         run: |
           mvn spotless:apply || true
-          git diff -U0 --no-color > spotless.diff
-          echo "=== Spotless diff preview ==="
-          cat spotless.diff || echo "No diff generated"
-          echo "=== End diff ==="
+          git diff > spotless.diff
+          cat spotless.diff
           git checkout . 
 
-      # Run reviewdog avec les suggestions
-      - name: Run reviewdog with suggestions
+      - name: Run reviewdog
+        if: hashFiles('spotless.diff') != ''
         env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          if [ -s spotless.diff ]; then
-            echo "📝 Formatting issues found, posting suggestions..."
-            cat spotless.diff | reviewdog \
-              -f=diff \
-              -f.diff.strip=0 \
-              -name="Spotless" \
-              -reporter=github-pr-review \
-              -filter-mode=added \
-              -fail-level=error \
-              -level=error
-          else
-            echo "✅ No formatting issues found!"
-          fi
+          reviewdog \
+            -f=diff \
+            -f.diff.strip=1 \
+            -name=Spotless \
+            -reporter=github-pr-review \
+            -filter-mode=diff_context \
+            -level=error \
+            < spotless.diff
 
-      # Vérification finale Spotless
-      - name: Final Spotless check
+      - name: Final check
         run: mvn spotless:check

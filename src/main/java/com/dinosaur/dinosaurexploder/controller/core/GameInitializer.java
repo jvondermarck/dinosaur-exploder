@@ -83,36 +83,42 @@ public class GameInitializer {
   }
 
   private void initGameEntities() {
-
     spawn("background", 0, 0);
 
     player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
 
-    levelDisplay = spawn("Level", getAppCenter().getX() - 270, getAppCenter().getY() + 350);
+    // ============ TOP LEFT ZONE (Score, Bomb, Coins, Shield) ============
+    double topLeftX = getAppCenter().getX() - 260;
+    double startY = getAppCenter().getY() - 350;
 
-    score = spawn("Score", getAppCenter().getX() - 270, getAppCenter().getY() - 350);
-    life = spawn("Life", getAppCenter().getX() - 260, getAppCenter().getY() + 290);
-    bomb = spawn("Bomb", getAppCenter().getX() - 260, getAppCenter().getY() - 280);
+    score = spawn("Score", topLeftX, startY);
+    bomb = spawn("Bomb", topLeftX, startY + 60);
 
-    Entity coin = spawn("Coins", getAppCenter().getX() - 260, getAppCenter().getY() - 235);
+    Entity coin = spawn("Coins", topLeftX, startY + 110);
     collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
 
+    spawn("Shield", topLeftX, startY + 160);
+
     bomb.addComponent(new BombComponent());
+
+    // ============ BOTTOM LEFT ZONE (Life, Level) ============
+    double bottomLeftX = getAppCenter().getX() - 260;
+    double bottomLeftStartY = getAppCenter().getY() + 250;
+
+    life = spawn("Life", bottomLeftX, bottomLeftStartY);
+
+    levelDisplay = spawn("Level", bottomLeftX - 10, bottomLeftStartY + 60);
 
     levelProgressBar =
         spawn(
             "levelProgressBar",
-            new SpawnData(getAppCenter().getX() - 170, getAppCenter().getY() + 340)
-                .put("levelManager", levelManager));
+            new SpawnData(bottomLeftX, bottomLeftStartY + 85).put("levelManager", levelManager));
 
-    // Weapon heat HUD (main branch feature)
+    // ============ TOP RIGHT (Weapon Heat) ============
     spawn(
         "weaponHeat",
         new SpawnData(getAppCenter().getX() + 170, getAppCenter().getY() + 340)
             .put("playerComponent", player.getComponent(PlayerComponent.class)));
-
-    // Shield HUD (your feature)
-    spawn("Shield", getAppCenter().getX() - 260, getAppCenter().getY() - 200);
   }
 
   public EnemySpawner getEnemySpawner() {

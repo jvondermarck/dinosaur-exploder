@@ -46,7 +46,9 @@ public class GameActions {
   public void updateLevelDisplay() {
     Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
     levelText.setText(
-        languageManager.getTranslation("level") + ": " + levelManager.getCurrentLevel());
+        languageManager.getTranslation("level").toUpperCase()
+            + ": "
+            + levelManager.getCurrentLevel());
 
     // Regenerate bombs when level changes
     if (bomb.hasComponent(BombComponent.class)) {
@@ -109,7 +111,9 @@ public class GameActions {
     Text levelText =
         getUIFactoryService()
             .newText(
-                languageManager.getTranslation("level") + levelManager.getCurrentLevel(),
+                languageManager.getTranslation("level").toUpperCase()
+                    + " "
+                    + levelManager.getCurrentLevel(),
                 Color.WHITE,
                 24);
     levelText.setStroke(Color.BLACK);

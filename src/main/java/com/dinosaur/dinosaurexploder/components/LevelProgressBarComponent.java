@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 /** Summary: This class extends Component and handles filling the level progress bar */
 public class LevelProgressBarComponent extends Component {
-  private static final double MAX_WIDTH = 148;
+  private static final double MAX_WIDTH = 99;
   private static final Duration UPDATE_DURATION = Duration.seconds(0.3);
   private static final Duration RESET_DURATION = Duration.seconds(0.5);
 

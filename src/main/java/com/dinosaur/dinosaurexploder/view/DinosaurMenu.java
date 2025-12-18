@@ -30,6 +30,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -83,14 +84,14 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView muteIcon = createMuteIcon();
     VBox languageBox = createLanguageSelector();
     Slider volumeSlider = createVolumeSlider();
-    Label volumeLabel = createVolumeLabel(volumeSlider);
+    Text volumeText = createVolumeText(volumeSlider);
 
     // Configure buttons
     configureButtons();
 
     // Add all components to scene
     addComponentsToScene(
-        backgroundView, titlePane, dinoImage, muteIcon, languageBox, volumeSlider, volumeLabel);
+        backgroundView, titlePane, dinoImage, muteIcon, languageBox, volumeSlider, volumeText);
 
     // Setup button centering
     setupButtonCentering();
@@ -212,34 +213,32 @@ public class DinosaurMenu extends FXGLMenu {
     Slider volumeSlider = new Slider(0, 1, 1);
     volumeSlider.adjustValue(settings.getVolume());
     volumeSlider.setBlockIncrement(0.01);
-    volumeSlider.setStyle("-fx-padding: 10px;");
-    volumeSlider.setTranslateY(25);
-    volumeSlider.setTranslateX(10);
+    volumeSlider.setTranslateY(10);
+    volumeSlider.setTranslateX(75);
 
     applyStylesheet(volumeSlider);
 
     return volumeSlider;
   }
 
-  private Label createVolumeLabel(Slider volumeSlider) {
-    Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
-    volumeLabel.setTranslateX(20);
-    volumeLabel.setTranslateY(20);
-    volumeLabel.setStyle("-fx-text-fill:  #61C181;");
+  private Text createVolumeText(Slider volumeSlider) {
+    var volumeText =
+        getUIFactoryService()
+            .newText(
+                String.format("%.0f%%", settings.getVolume() * 100),
+                Color.LIME,
+                GameConstants.TEXT_SIZE_GAME_INFO);
+
+    volumeText.setTranslateX(20);
+    volumeText.setTranslateY(35);
 
     volumeSlider
         .valueProperty()
         .addListener(
-            (obs, oldVal, newVal) -> {
-              double volume = newVal.doubleValue();
-              AudioManager.getInstance().setVolume(volume);
-              mainMenuSound.setVolume(volume);
-              settings.setVolume(volume);
-              SettingsProvider.saveSettings(settings);
-              volumeLabel.setText(String.format("%.0f%%", volume * 100));
-            });
+            (obs, oldVal, newVal) ->
+                volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100)));
 
-    return volumeLabel;
+    return volumeText;
   }
 
   private void configureButtons() {
@@ -292,11 +291,11 @@ public class DinosaurMenu extends FXGLMenu {
       ImageView mute,
       VBox language,
       Slider volume,
-      Label volumeLabel) {
+      Text volumeText) {
     getContentRoot()
         .getChildren()
         .addAll(
-            background, title, startButton, quitButton, dino, mute, volumeLabel, volume, language);
+            background, title, startButton, quitButton, dino, mute, volumeText, volume, language);
   }
 
   private void setupButtonCentering() {

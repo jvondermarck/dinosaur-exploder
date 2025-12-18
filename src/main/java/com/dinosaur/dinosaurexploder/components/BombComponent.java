@@ -1,32 +1,29 @@
 package com.dinosaur.dinosaurexploder.components;
 
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.core.math.Vec2;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-import java.util.Set;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class BombComponent extends Component implements Bomb {
   private int bombCount = 3;
-  private int maxBombCount = 3;
-  private Image spcshpImg;
-  private int selectedShip;
+  private Image spaceshipImage;
+  private final int selectedShip;
 
   // Tracking variables for regeneration
   private int lastLevel = 1;
@@ -37,9 +34,6 @@ public class BombComponent extends Component implements Bomb {
   public BombComponent() {
     // Selected spaceship from GameData
     this.selectedShip = GameData.getSelectedShip();
-
-    //  Set the image of SelectedShip using the spaceship number
-
   }
 
   // Declaring 3 Bomb
@@ -48,8 +42,6 @@ public class BombComponent extends Component implements Bomb {
   ImageView bomb3;
   // Declaring Bomb Text
   private Text bombText;
-
-  private Node bombUI;
 
   private final LanguageManager languageManager = LanguageManager.getInstance();
 
@@ -60,41 +52,19 @@ public class BombComponent extends Component implements Bomb {
     bomb2 = new ImageView(bomb);
     bomb3 = new ImageView(bomb);
 
-    // Initialize bombText with the translated string
-    bombText = new Text(languageManager.getTranslation("bombs_left") + ": " + bombCount);
+    bombText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("bombs_left").toUpperCase() + ": " + bombCount,
+                Color.ORANGE,
+                GameConstants.TEXT_SIZE_GAME_INFO);
 
-    // Style the text
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-    FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr20Font = basecyrFont.newFont(20);
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade20Font = baseArcadeFont.newFont(20);
-    bombText.setFill(Color.ORANGE);
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      bombText.fontProperty().unbind();
-      bombText.setFont(cyr20Font);
-    } else {
-      bombText.fontProperty().unbind();
-      bombText.setFont(arcade20Font);
-    }
-    bombText.setLayoutX(0);
-    bombText.setLayoutY(0);
-
-    // Listen for language changes and update UI automatically
+    // Listen for language changes
     languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
 
     // Initial bomb UI setup
-    bombUI = createBombUI();
+    Node bombUI = createBombUI();
     entity.getViewComponent().addChild(bombUI);
-  }
-
-  @Override
-  public void onUpdate(double tpf) {
-    updateBombUI(); // Update the bomb UI every frame based on bombCount
-  }
-
-  private void updateTexts() {
-    bombText.setText(languageManager.getTranslation("bombs_left") + ": " + bombCount);
   }
 
   /**
@@ -103,18 +73,22 @@ public class BombComponent extends Component implements Bomb {
    * @return Node - The created bomb UI node
    */
   private Node createBombUI() {
-    var container = new Pane();
+    HBox bombIconsBox = new HBox(5, bomb1, bomb2, bomb3);
+    bombIconsBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-    bomb1.setLayoutY(10);
-    bomb2.setLayoutY(10);
-    bomb3.setLayoutY(10);
-    bomb2.setLayoutX(30);
-    bomb3.setLayoutX(60);
-
-    container.getChildren().addAll(bomb1, bomb2, bomb3);
-    container.getChildren().add(bombText);
+    VBox container = new VBox(5, bombText, bombIconsBox);
+    container.setAlignment(javafx.geometry.Pos.TOP_LEFT);
 
     return container;
+  }
+
+  @Override
+  public void onUpdate(double tpf) {
+    updateBombUI(); // Update the bomb UI every frame based on bombCount
+  }
+
+  private void updateTexts() {
+    bombText.setText(languageManager.getTranslation("bombs_left").toUpperCase() + ": " + bombCount);
   }
 
   /** Updates the bomb UI based on the current bomb count. */
@@ -123,7 +97,7 @@ public class BombComponent extends Component implements Bomb {
     bomb2.setVisible(bombCount >= 2);
     bomb3.setVisible(bombCount >= 3);
     // Update bomb text with the remaining bombs
-    bombText.setText(languageManager.getTranslation("bombs_left") + ": " + bombCount);
+    bombText.setText(languageManager.getTranslation("bombs_left").toUpperCase() + ": " + bombCount);
   }
 
   /** Summary: This method returns the current number of bombs. */
@@ -158,7 +132,7 @@ public class BombComponent extends Component implements Bomb {
     if (selectedShip != 0) {
       String shipImagePath = "/assets/textures/spaceship" + selectedShip + ".png";
       System.out.println("Selected spaceship: " + selectedShip);
-      this.spcshpImg = new Image(shipImagePath);
+      this.spaceshipImage = new Image(shipImagePath);
     }
 
     for (int i = -5; i <= 5; i++) {
@@ -168,7 +142,7 @@ public class BombComponent extends Component implements Bomb {
           "basicProjectile",
           new SpawnData(
                   center.getX() - (projImg.getWidth() / 2) + 3,
-                  center.getY() - spcshpImg.getHeight() / 2)
+                  center.getY() - spaceshipImage.getHeight() / 2)
               .put("direction", direction.toPoint2D()));
     }
     System.out.println("Bomb used! " + getBombCount() + " bombs left!");
@@ -183,7 +157,7 @@ public class BombComponent extends Component implements Bomb {
   public void checkLevelForBombRegeneration(int currentLevel) {
     if (currentLevel > lastLevel) {
       // Player has advanced to a new level, regenerate one bomb
-      regenerateBomb(1);
+      regenerateBomb();
       lastLevel = currentLevel;
       System.out.println("Level up! Regenerated a bomb. Current bombs: " + bombCount);
     }
@@ -197,7 +171,7 @@ public class BombComponent extends Component implements Bomb {
     coinCounter++;
     if (coinCounter >= COINS_NEEDED_FOR_BOMB) {
       // Player has collected enough coins, regenerate one bomb
-      regenerateBomb(1);
+      regenerateBomb();
       coinCounter = 0; // Reset counter
       System.out.println(
           "Collected "
@@ -207,13 +181,10 @@ public class BombComponent extends Component implements Bomb {
     }
   }
 
-  /**
-   * Regenerates the specified number of bombs, not exceeding the maximum.
-   *
-   * @param count The number of bombs to regenerate
-   */
-  private void regenerateBomb(int count) {
-    bombCount = Math.min(bombCount + count, maxBombCount);
+  /** Regenerates the specified number of bombs, not exceeding the maximum. */
+  private void regenerateBomb() {
+    int maxBombCount = 3;
+    bombCount = Math.min(bombCount + 1, maxBombCount);
     updateBombUI();
   }
 

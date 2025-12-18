@@ -45,7 +45,8 @@ public class GameEntityFactory implements EntityFactory {
     Image img =
         new Image(
             Objects.requireNonNull(
-                Objects.requireNonNull(getClass().getResource(GameConstants.BACKGROUND_IMAGE_PATH))
+                Objects.requireNonNull(
+                        getClass().getResource("/" + GameConstants.BACKGROUND_IMAGE_PATH))
                     .toString()));
 
     return FXGL.entityBuilder()
@@ -195,7 +196,8 @@ public class GameEntityFactory implements EntityFactory {
   public Entity newScore(SpawnData data) {
     Text scoreText = new Text("");
     scoreText.setFill(Color.GREEN);
-    scoreText.setFont(Font.font(GameConstants.GAME_FONTNAME, 20));
+    scoreText.setFont(
+        Font.font(GameConstants.GAME_FONT_NAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
     return entityBuilderBase(data, EntityType.SCORE)
         .view(scoreText)
         .with(new ScoreComponent())
@@ -217,9 +219,9 @@ public class GameEntityFactory implements EntityFactory {
 
   @Spawns("Shield")
   public Entity newShield(SpawnData data) {
-    Text shieldText = new Text("Shield: READY");
-    shieldText.setFill(Color.LIME);
-    shieldText.setFont(Font.font(GameConstants.GAME_FONTNAME, 18));
+    Text shieldText =
+        getUIFactoryService()
+            .newText("Shield: READY", Color.LIME, GameConstants.TEXT_SIZE_GAME_INFO);
     return entityBuilderBase(data, EntityType.SHIELD)
         .from(data)
         .view(shieldText)
@@ -263,10 +265,10 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : Creates level text that shows the current level of the game. */
   @Spawns("Level")
   public Entity newLevel(SpawnData data) {
-    Text levelText = new Text("Level: 1");
-    levelText.setFill(Color.LIGHTBLUE);
+    Text levelText =
+        getUIFactoryService()
+            .newText("Level: 1".toUpperCase(), Color.LIGHTBLUE, GameConstants.TEXT_SIZE_GAME_INFO);
     levelText.setTranslateX(10);
-    levelText.setFont(Font.font(GameConstants.GAME_FONTNAME, GameConstants.TEXT_SIZE_GAME_DETAILS));
     return entityBuilderBase(data, EntityType.LEVEL).view(levelText).build();
   }
 
@@ -275,7 +277,7 @@ public class GameEntityFactory implements EntityFactory {
   public Entity newLevelProgressBar(SpawnData data) {
     LevelManager levelManager = data.get("levelManager");
 
-    Rectangle background = new Rectangle(150, 10, Color.DARKGRAY);
+    Rectangle background = new Rectangle(100, 10, Color.DARKGRAY);
     background.setStroke(Color.GRAY);
     background.setStrokeWidth(1);
 

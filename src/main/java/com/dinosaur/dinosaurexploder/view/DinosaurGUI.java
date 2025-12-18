@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 public class DinosaurGUI {
   public static final int WIDTH = 550;
   public static final int HEIGHT = 750;
-  public static final String GAME_FONT = "arcade_classic.ttf";
 
   public void initSettings(GameSettings settings) {
     settings.setWidth(WIDTH);
@@ -34,9 +33,9 @@ public class DinosaurGUI {
 
     settings.setVersion(GameConstants.VERSION);
     settings.setTicksPerSecond(60); // check info : settings.setProfilingEnabled(true);
-    settings.setFontText(GAME_FONT);
-    settings.setFontGame(GAME_FONT);
-    settings.setFontMono(GAME_FONT);
-    settings.setFontUI(GAME_FONT);
+    settings.setFontText(GameConstants.GAME_FONT_NAME);
+    settings.setFontGame(GameConstants.GAME_FONT_NAME);
+    settings.setFontMono(GameConstants.GAME_FONT_NAME);
+    settings.setFontUI(GameConstants.GAME_FONT_NAME);
   }
 }

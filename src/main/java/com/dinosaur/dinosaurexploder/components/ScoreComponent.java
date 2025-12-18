@@ -2,23 +2,19 @@ package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
-import java.util.Set;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-/** Handles the score component of the player. */
 public class ScoreComponent extends Component implements Score {
   private int score = 0;
   private static HighScore highScore = new HighScore();
@@ -38,50 +34,33 @@ public class ScoreComponent extends Component implements Score {
 
   @Override
   public void onUpdate(double tpf) {
-    updateTexts(); // Could be optimized to update only when score changes
+    updateTexts();
   }
 
   private void createScoreUI() {
-    scoreText = createText();
-    highScoreText = createText();
+    // ✅ Utilise FXGL UI Factory pour la police
+    scoreText =
+        FXGL.getUIFactoryService().newText("", Color.YELLOW, GameConstants.TEXT_SIZE_GAME_INFO);
+
+    highScoreText =
+        FXGL.getUIFactoryService().newText("", Color.YELLOW, GameConstants.TEXT_SIZE_GAME_INFO);
 
     ImageView dinoIcon =
         new ImageView(new Image(GameConstants.GREEN_DINO_IMAGE_PATH, 25, 20, false, false));
 
-    // Group scoreText and icon together
     HBox scoreBox = new HBox(5, scoreText, dinoIcon);
     scoreBox.setAlignment(Pos.CENTER_LEFT);
 
-    GridPane gridPane = new GridPane();
-    gridPane.setHgap(10);
-    gridPane.add(scoreBox, 1, 0);
-    gridPane.add(highScoreText, 1, 1);
+    VBox layout = new VBox(5, scoreBox, highScoreText);
+    layout.setAlignment(Pos.TOP_LEFT);
 
-    entity.getViewComponent().addChild(gridPane);
-  }
-
-  private Text createText() {
-    Text text = new Text();
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-    FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr20Font = basecyrFont.newFont(GameConstants.TEXT_SIZE_GAME_DETAILS);
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade20Font = baseArcadeFont.newFont(GameConstants.TEXT_SIZE_GAME_DETAILS);
-    text.setFill(Color.YELLOW);
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      text.fontProperty().unbind();
-      text.setFont(cyr20Font);
-    } else {
-      text.fontProperty().unbind();
-      text.setFont(arcade20Font);
-    }
-    return text;
+    entity.getViewComponent().addChild(layout);
   }
 
   private void updateTexts() {
-    scoreText.setText(languageManager.getTranslation("score") + ": " + score);
+    scoreText.setText(languageManager.getTranslation("score").toUpperCase() + ": " + score);
     highScoreText.setText(
-        languageManager.getTranslation("high_score") + ": " + highScore.getHigh());
+        languageManager.getTranslation("high_score").toUpperCase() + ": " + highScore.getHigh());
   }
 
   private void loadHighScore() {
@@ -89,7 +68,7 @@ public class ScoreComponent extends Component implements Score {
         new ObjectInputStream(new FileInputStream(GameConstants.HIGH_SCORE_FILE))) {
       highScore = (HighScore) in.readObject();
     } catch (IOException | ClassNotFoundException e) {
-      highScore = new HighScore(); // Defaults to 0 if file is missing or corrupted
+      highScore = new HighScore();
     }
   }
 

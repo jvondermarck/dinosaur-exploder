@@ -29,13 +29,14 @@ public class ShieldUIComponent extends Component {
 
     if (playerComp.isShieldActive()) {
       text.setFill(Color.AQUA);
-      text.setText(String.format("Shield: %.1fs", playerComp.getShieldTimeLeft()));
+      text.setText(String.format("Shield: %.1fs", playerComp.getShieldTimeLeft()).toUpperCase());
     } else if (playerComp.getShieldCooldownLeft() > 0) {
       text.setFill(Color.ORANGE);
-      text.setText(String.format("Shield: CD %.1fs", playerComp.getShieldCooldownLeft()));
+      text.setText(
+          String.format("Shield: CD %.1fs", playerComp.getShieldCooldownLeft()).toUpperCase());
     } else {
       text.setFill(Color.LIME);
-      text.setText("Shield: READY");
+      text.setText("Shield: READY".toUpperCase());
     }
   }
 }

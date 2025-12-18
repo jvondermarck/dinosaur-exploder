@@ -1,18 +1,16 @@
 package com.dinosaur.dinosaurexploder.components;
 
-import com.almasb.fxgl.dsl.FXGL;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Life;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.util.List;
-import java.util.Set;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -43,22 +41,12 @@ public class LifeComponent extends Component implements Life {
     heart3 = new ImageView(heart);
 
     // Initialize lifeText with the translated string
-    lifeText = new Text(languageManager.getTranslation("lives"));
-
-    // Style the text
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-    FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr20Font = basecyrFont.newFont(20);
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade20Font = baseArcadeFont.newFont(20);
-    lifeText.setFill(Color.RED);
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      lifeText.fontProperty().unbind();
-      lifeText.setFont(cyr20Font);
-    } else {
-      lifeText.fontProperty().unbind();
-      lifeText.setFont(arcade20Font);
-    }
+    lifeText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("lives").toUpperCase(),
+                Color.RED,
+                GameConstants.TEXT_SIZE_GAME_INFO);
 
     // Listen for language changes and update UI automatically
     languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
@@ -73,7 +61,7 @@ public class LifeComponent extends Component implements Life {
   }
 
   private void updateTexts() {
-    lifeText.setText(languageManager.getTranslation("lives") + ": " + life);
+    lifeText.setText(languageManager.getTranslation("lives").toUpperCase() + ": " + life);
   }
 
   private void updateLifeDisplay() {
@@ -98,7 +86,7 @@ public class LifeComponent extends Component implements Life {
     }
 
     // Display the lifeText component
-    lifeText.setText(languageManager.getTranslation("lives") + ": " + life);
+    lifeText.setText(languageManager.getTranslation("lives").toUpperCase() + ": " + life);
     setEntity(lifeText);
   }
 

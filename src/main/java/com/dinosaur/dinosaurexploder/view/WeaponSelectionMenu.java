@@ -12,6 +12,8 @@ import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.InputStream;
 import java.util.Objects;
+
+import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -164,33 +166,13 @@ public class WeaponSelectionMenu extends FXGLMenu {
   }
 
   private ImageView createWeaponImageView(Image image, double size, boolean isLocked) {
-    ImageView imageView = new ImageView(image);
-    imageView.setRotate(-90);
-    imageView.setFitHeight(size);
-    imageView.setFitWidth(size);
-
-    if (isLocked) {
-      ColorAdjust darkFilter = new ColorAdjust();
-      darkFilter.setBrightness(-0.5);
-      imageView.setEffect(darkFilter);
-    }
-
-    return imageView;
+    ImageView view = MenuHelper.createItemImageView(image, size, isLocked);
+    view.setRotate(-90);
+    return view;
   }
 
   private ImageView createLockIcon(boolean isLocked) {
-    Image lockImage =
-        new Image(
-            Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/lock.png")));
-
-    ImageView lockIcon = new ImageView(lockImage);
-    lockIcon.setFitWidth(30);
-    lockIcon.setFitHeight(30);
-    lockIcon.setMouseTransparent(true);
-    lockIcon.setOpacity(0.6);
-    lockIcon.setVisible(isLocked);
-
-    return lockIcon;
+    return MenuHelper.createLockIcon(isLocked);
   }
 
   private Button createClickableWeaponButton(ImageView weaponView, int weaponNumber) {
@@ -239,26 +221,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
   }
 
   private void showLockedWeaponDialog(LockedWeaponException exception) {
-    Button okButton = getUIFactoryService().newButton(languageManager.getTranslation("ok"));
-    okButton.setMinWidth(250);
-    okButton.setPrefWidth(300);
-
-    String fullErrorMessage = exception.getMessage();
-
-    var textNode =
-        getUIFactoryService().newText(fullErrorMessage, Color.LIME, GameConstants.TEXT_SUB_DETAILS);
-
-    textNode.setWrappingWidth(450);
-    textNode.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-    textNode.setLineSpacing(10);
-
-    VBox content = new VBox(textNode);
-    content.setAlignment(Pos.CENTER);
-    content.setSpacing(25);
-    content.setPadding(new javafx.geometry.Insets(20));
-    content.setMinWidth(500);
-
-    getDialogService().showBox(languageManager.getTranslation("locked"), content, okButton);
+    MenuHelper.showLockedDialog(exception.getMessage());
   }
 
   private void selectWeapon(int weaponNumber) {

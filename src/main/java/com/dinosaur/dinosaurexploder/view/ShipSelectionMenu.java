@@ -11,9 +11,7 @@ import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
-import java.io.InputStream;
 import java.util.Objects;
-import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -24,7 +22,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
-import javafx.util.Duration;
 
 public class ShipSelectionMenu extends FXGLMenu {
 
@@ -49,67 +46,22 @@ public class ShipSelectionMenu extends FXGLMenu {
   // ============ MENU BUILDING ============
 
   private void buildMenu() {
-    ImageView background = createAnimatedBackground();
-    VBox headerZone = createHeaderZone();
-    GridPane shipGridZone = createShipGridZone();
-    Button backButton = createBackButton();
-
-    VBox layout = new VBox(ZONE_SPACING, headerZone, shipGridZone, backButton);
-    layout.setAlignment(Pos.CENTER);
-
-    StackPane container = new StackPane(layout);
-    container.setPrefSize(getAppWidth(), getAppHeight());
-    container.setAlignment(Pos.CENTER);
-
-    getContentRoot().getChildren().addAll(background, container);
-  }
-
-  // ============ BACKGROUND ============
-
-  private ImageView createAnimatedBackground() {
-    InputStream backgroundStream =
-        getClass().getClassLoader().getResourceAsStream(GameConstants.BACKGROUND_IMAGE_PATH);
-    Image backgroundImage = new Image(backgroundStream);
-
-    ImageView backgroundView = new ImageView(backgroundImage);
-    backgroundView.setFitHeight(DinosaurGUI.HEIGHT);
-    backgroundView.setX(0);
-    backgroundView.setY(0);
-    backgroundView.setPreserveRatio(true);
-
-    TranslateTransition transition = createBackgroundAnimation(backgroundView, backgroundImage);
-    transition.play();
-
-    return backgroundView;
-  }
-
-  private TranslateTransition createBackgroundAnimation(ImageView imageView, Image background) {
-    TranslateTransition transition = new TranslateTransition();
-    transition.setNode(imageView);
-    transition.setDuration(Duration.seconds(50));
-    transition.setFromX(0);
-    transition.setToX(-background.getWidth() + DinosaurGUI.WIDTH * 3.8);
-    transition.setCycleCount(TranslateTransition.INDEFINITE);
-    transition.setInterpolator(javafx.animation.Interpolator.LINEAR);
-    transition.setAutoReverse(true);
-    return transition;
+    MenuHelper.setupSelectionMenu(
+        this,
+        createHeaderZone(),
+        createShipGridZone(),
+        createBackButton(),
+        ZONE_SPACING,
+        getAppWidth(),
+        getAppHeight());
   }
 
   // ============ ZONE 1: HEADER ============
   private VBox createHeaderZone() {
-    var title =
-        getUIFactoryService()
-            .newText(
-                languageManager.getTranslation("select_ship").toUpperCase(),
-                Color.LIME,
-                FontType.MONO,
-                GameConstants.MAIN_TITLES);
-
-    // ✅ Wrap le Text
-    TextFlow titleFlow = new TextFlow(title);
-    titleFlow.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-    titleFlow.setMaxWidth(getAppWidth() * 0.8);
-    titleFlow.setLineSpacing(5);
+    // ✅ Utilisation du Helper pour le titre
+    TextFlow titleFlow =
+        MenuHelper.createTitleFlow(
+            languageManager.getTranslation("select_ship"), getAppWidth() * 0.8);
 
     var highScore =
         getUIFactoryService()
@@ -129,10 +81,8 @@ public class ShipSelectionMenu extends FXGLMenu {
                 FontType.MONO,
                 GameConstants.TEXT_SUB_DETAILS);
 
-    // ✅ Change l'espacement de 10 à 25 (ou plus si besoin)
     VBox headerZone = new VBox(25, titleFlow, highScore, totalCoins);
     headerZone.setAlignment(Pos.CENTER);
-
     return headerZone;
   }
 

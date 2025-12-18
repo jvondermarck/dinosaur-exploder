@@ -94,7 +94,7 @@ public class GameInitializer {
     score = spawn("Score", topLeftX, startY);
     bomb = spawn("Bomb", topLeftX, startY + 60);
 
-    Entity coin = spawn("Coins", topLeftX, startY + 115);
+    Entity coin = spawn("Coins", topLeftX, startY + 110);
     collectedCoinsComponent = coin.getComponent(CollectedCoinsComponent.class);
 
     spawn("Shield", topLeftX, startY + 160);

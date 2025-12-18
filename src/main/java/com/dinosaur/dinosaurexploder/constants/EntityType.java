@@ -1,3 +1,5 @@
+
+
 package com.dinosaur.dinosaurexploder.constants;
 
 /** Thi s handles with all the entities in the game like lives, player projectile etc. */
@@ -14,10 +16,14 @@ public enum EntityType {
   LIFE,
   BOMB,
   COIN,
+
+
+
+  
   HEART,
   LEVEL,
   HEALTHBAR,
   LEVEL_PROGRESS_BAR,
-  WEAPON_HEAT,
+  WEAPON_HEAT    ,
   SHIELD
-}
+        }

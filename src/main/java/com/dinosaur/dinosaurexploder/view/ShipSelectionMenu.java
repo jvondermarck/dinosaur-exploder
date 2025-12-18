@@ -1,6 +1,5 @@
 package com.dinosaur.dinosaurexploder.view;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
@@ -11,14 +10,12 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.io.InputStream;
 import java.util.Objects;
-
-import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -37,15 +37,15 @@ public class AudioManager {
   }
 
   public void setSfxMuted(boolean muted) {
-      isSfxMuted = muted;
+    isSfxMuted = muted;
   }
 
   public boolean isSfxMuted() {
-      return isSfxMuted;
+    return isSfxMuted;
   }
 
   public void setSfxVolume(double volume) {
-      this.sfxVolume = volume;
+    this.sfxVolume = volume;
   }
 
   public void setVolume(double volume) {

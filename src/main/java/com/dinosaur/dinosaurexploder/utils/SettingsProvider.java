@@ -1,7 +1,6 @@
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.model.Settings;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -20,23 +19,23 @@ public class SettingsProvider {
     Properties properties = new Properties();
 
     try {
-        FileInputStream in = new FileInputStream(SETTINGS_FILE);
-        properties.load(in);
-        in.close();
+      FileInputStream in = new FileInputStream(SETTINGS_FILE);
+      properties.load(in);
+      in.close();
     } catch (Exception ex) {
-        Settings defaultSettings = generateDefaultSettings();
-        saveSettings(defaultSettings);
-        return defaultSettings;
+      Settings defaultSettings = generateDefaultSettings();
+      saveSettings(defaultSettings);
+      return defaultSettings;
     }
 
     try { // handling missing properties from settings.properties file
-        return createSettingsFromProperties(properties);
+      return createSettingsFromProperties(properties);
     } catch (Exception e) {
-        File file = new File(SETTINGS_FILE);
-        if(file.delete()) loadSettings();
+      File file = new File(SETTINGS_FILE);
+      if (file.delete()) loadSettings();
     }
     return null;
-}
+  }
 
   public static void saveSettings(Settings settings) {
     Properties properties = createPropertiesFormSettings(settings);

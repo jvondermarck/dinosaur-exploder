@@ -33,18 +33,18 @@ public class Settings {
   }
 
   public double getSfxVolume() {
-      return sfxVolume;
+    return sfxVolume;
   }
 
   public void setSfxVolume(double sfxVolume) {
-      this.sfxVolume = sfxVolume;
+    this.sfxVolume = sfxVolume;
   }
 
   public boolean isSfxMuted() {
-      return sfxMuted;
+    return sfxMuted;
   }
 
   public void setSfxMuted(boolean sfxMuted) {
-      this.sfxMuted = sfxMuted;
+    this.sfxMuted = sfxMuted;
   }
 }

@@ -32,5 +32,8 @@
     "unlock_highScore" : "To Unlock it, achieve a highscore of ##.",
     "unlock_totalCoins": "To unlock, reach a total of ## coins.",
     "ok" : "Ok",
-    "shield": "Shield"
+    "shield": "Shield",
+    "sound": "Sound",
+    "sound_main": "Background",
+    "sound_sfx": "Sound effects"
   }

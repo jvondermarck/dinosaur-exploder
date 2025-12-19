@@ -31,6 +31,9 @@
     "unlock_highScore" : "Pour le déverrouiller, atteignez un score élevé de ##.",
     "unlock_totalCoins": "Pour le déverrouiller, atteignez un total de ## pièces.",
     "ok" : "D'accord",
-    "shield": "Bouclier"
+    "shield": "Bouclier",
+    "sound": "Son",
+    "sound_main": "Arrière-plan",
+    "sound_sfx": "Effets sonores"
   }
   

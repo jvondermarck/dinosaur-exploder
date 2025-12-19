@@ -29,9 +29,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Objects;
 
 public class PauseMenu extends FXGLMenu {
   private final MediaPlayer mainMenuSound;

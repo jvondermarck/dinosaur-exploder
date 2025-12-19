@@ -38,6 +38,7 @@ public class PauseMenu extends FXGLMenu {
   private final Settings settings = SettingsProvider.loadSettings();
   private ImageView imageViewPlayingMenuSound;
   private ImageView imageViewPlayingSfxSounds;
+  private static final String LABEL_FORMAT = "%.0f%%";
 
   LanguageManager languageManager = LanguageManager.getInstance();
   PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
@@ -94,9 +95,8 @@ public class PauseMenu extends FXGLMenu {
         .getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
 
-    String labelFormat = "%.0f%%";
     // Sets the music volume label
-    Label volumeLabel = new Label(String.format(labelFormat, settings.getVolume() * 100));
+    Label volumeLabel = new Label(String.format(LABEL_FORMAT, settings.getVolume() * 100));
     volumeLabel.setStyle("-fx-text-fill: #61C181;");
     volumeSlider
         .valueProperty()
@@ -106,11 +106,11 @@ public class PauseMenu extends FXGLMenu {
               mainMenuSound.setVolume(newValue.doubleValue());
               settings.setVolume(newValue.doubleValue());
               SettingsProvider.saveSettings(settings);
-              volumeLabel.setText(String.format(labelFormat, newValue.doubleValue() * 100));
+              volumeLabel.setText(String.format(LABEL_FORMAT, newValue.doubleValue() * 100));
             });
 
     // Sets the sfx volume label
-    Label sfxVolumeLabel = new Label(String.format(labelFormat, settings.getSfxVolume() * 100));
+    Label sfxVolumeLabel = new Label(String.format(LABEL_FORMAT, settings.getSfxVolume() * 100));
     sfxVolumeLabel.setStyle("-fx-text-fill: #61C181;");
     sfxVolumeSlider
         .valueProperty()
@@ -119,7 +119,7 @@ public class PauseMenu extends FXGLMenu {
               AudioManager.getInstance().setSfxVolume(newValue.doubleValue());
               settings.setSfxVolume(newValue.doubleValue());
               SettingsProvider.saveSettings(settings);
-              sfxVolumeLabel.setText(String.format(labelFormat, newValue.doubleValue() * 100));
+              sfxVolumeLabel.setText(String.format(LABEL_FORMAT, newValue.doubleValue() * 100));
             });
     try {
       InputStream muteButton =

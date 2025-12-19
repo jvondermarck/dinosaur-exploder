@@ -12,6 +12,9 @@ import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Objects;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,9 +32,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Objects;
 
 public class PauseMenu extends FXGLMenu {
   private final MediaPlayer mainMenuSound;
@@ -64,9 +64,11 @@ public class PauseMenu extends FXGLMenu {
   public PauseMenu() {
     super(MenuType.GAME_MENU);
 
-    mainMenuSound = new MediaPlayer(
-            new Media(Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav")).toExternalForm())
-    );
+    mainMenuSound =
+        new MediaPlayer(
+            new Media(
+                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav"))
+                    .toExternalForm()));
 
     // Read the last saved settings and load the main menu sound
     boolean muteState = settings.isMuted();
@@ -79,82 +81,95 @@ public class PauseMenu extends FXGLMenu {
     volumeSlider.adjustValue(settings.getVolume());
     volumeSlider.setBlockIncrement(0.01);
 
-    volumeSlider.getStylesheets()
-            .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+    volumeSlider
+        .getStylesheets()
+        .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
 
     // Init sfx Slider
     Slider sfxVolumeSlider = new Slider(0, 1, 1);
     sfxVolumeSlider.adjustValue(settings.getSfxVolume());
     sfxVolumeSlider.setBlockIncrement(0.01);
 
-    sfxVolumeSlider.getStylesheets()
-            .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+    sfxVolumeSlider
+        .getStylesheets()
+        .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
 
+    String labelFormat = "%.0f%%";
     // Sets the music volume label
-    Label volumeLabel = new Label(String.format("%.0f%%", settings.getVolume() * 100));
+    Label volumeLabel = new Label(String.format(labelFormat, settings.getVolume() * 100));
     volumeLabel.setStyle("-fx-text-fill: #61C181;");
-    volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        AudioManager.getInstance().setVolume(newValue.doubleValue());
-        mainMenuSound.setVolume(newValue.doubleValue());
-        settings.setVolume(newValue.doubleValue());
-        SettingsProvider.saveSettings(settings);
-        volumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
-    });
+    volumeSlider
+        .valueProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              AudioManager.getInstance().setVolume(newValue.doubleValue());
+              mainMenuSound.setVolume(newValue.doubleValue());
+              settings.setVolume(newValue.doubleValue());
+              SettingsProvider.saveSettings(settings);
+              volumeLabel.setText(String.format(labelFormat, newValue.doubleValue() * 100));
+            });
 
     // Sets the sfx volume label
-    Label sfxVolumeLabel = new Label(String.format("%.0f%%", settings.getSfxVolume() * 100));
+    Label sfxVolumeLabel = new Label(String.format(labelFormat, settings.getSfxVolume() * 100));
     sfxVolumeLabel.setStyle("-fx-text-fill: #61C181;");
-    sfxVolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        AudioManager.getInstance().setSfxVolume(newValue.doubleValue());
-        settings.setSfxVolume(newValue.doubleValue());
-        SettingsProvider.saveSettings(settings);
-        sfxVolumeLabel.setText(String.format("%.0f%%", newValue.doubleValue() * 100));
-    });
+    sfxVolumeSlider
+        .valueProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              AudioManager.getInstance().setSfxVolume(newValue.doubleValue());
+              settings.setSfxVolume(newValue.doubleValue());
+              SettingsProvider.saveSettings(settings);
+              sfxVolumeLabel.setText(String.format(labelFormat, newValue.doubleValue() * 100));
+            });
     try {
-        InputStream muteButton = getClass().getClassLoader().getResourceAsStream("assets/textures/silent.png");
-        if (muteButton == null) {
-            throw new FileNotFoundException("Resource not found: assets/textures/silent.png");
-        }
-        InputStream soundButton = getClass().getClassLoader().getResourceAsStream("assets/textures/playing.png");
-        if (soundButton == null) {
-            throw new FileNotFoundException("Resource not found: assets/textures/playing.png");
-        }
-        // adding image to manually mute music
-        Image mute = new Image(muteButton);
+      InputStream muteButton =
+          getClass().getClassLoader().getResourceAsStream("assets/textures/silent.png");
+      if (muteButton == null) {
+        throw new FileNotFoundException("Resource not found: assets/textures/silent.png");
+      }
+      InputStream soundButton =
+          getClass().getClassLoader().getResourceAsStream("assets/textures/playing.png");
+      if (soundButton == null) {
+        throw new FileNotFoundException("Resource not found: assets/textures/playing.png");
+      }
+      // adding image to manually mute music
+      Image mute = new Image(muteButton);
 
-        // Sets music on/off functionality
-        Image audioOn = new Image(soundButton);
-        imageViewPlayingMenuSound = new ImageView(settings.isMuted() ? mute : audioOn);
-        imageViewPlayingMenuSound.setFitHeight(50);
-        imageViewPlayingMenuSound.setFitWidth(60);
-        imageViewPlayingMenuSound.setX(470);
-        imageViewPlayingMenuSound.setY(20);
-        imageViewPlayingMenuSound.setPreserveRatio(true);
-        imageViewPlayingMenuSound.setOnMouseClicked(mouseEvent -> {
+      // Sets music on/off functionality
+      Image audioOn = new Image(soundButton);
+      imageViewPlayingMenuSound = new ImageView(settings.isMuted() ? mute : audioOn);
+      imageViewPlayingMenuSound.setFitHeight(50);
+      imageViewPlayingMenuSound.setFitWidth(60);
+      imageViewPlayingMenuSound.setX(470);
+      imageViewPlayingMenuSound.setY(20);
+      imageViewPlayingMenuSound.setPreserveRatio(true);
+      imageViewPlayingMenuSound.setOnMouseClicked(
+          mouseEvent -> {
             boolean newMutedState = !AudioManager.getInstance().isMuted();
             AudioManager.getInstance().setMuted(newMutedState);
             mainMenuSound.setMute(newMutedState);
             settings.setMuted(newMutedState);
             imageViewPlayingMenuSound.setImage(newMutedState ? mute : audioOn);
             SettingsProvider.saveSettings(settings);
-        });
+          });
 
-        // Sets Sound effects on/off functionality
-        imageViewPlayingSfxSounds = new ImageView(settings.isSfxMuted() ? mute : audioOn);
-        imageViewPlayingSfxSounds.setFitHeight(50);
-        imageViewPlayingSfxSounds.setFitWidth(60);
-        imageViewPlayingSfxSounds.setX(470);
-        imageViewPlayingSfxSounds.setY(20);
-        imageViewPlayingSfxSounds.setPreserveRatio(true);
-        imageViewPlayingSfxSounds.setOnMouseClicked(mouseEvent -> {
+      // Sets Sound effects on/off functionality
+      imageViewPlayingSfxSounds = new ImageView(settings.isSfxMuted() ? mute : audioOn);
+      imageViewPlayingSfxSounds.setFitHeight(50);
+      imageViewPlayingSfxSounds.setFitWidth(60);
+      imageViewPlayingSfxSounds.setX(470);
+      imageViewPlayingSfxSounds.setY(20);
+      imageViewPlayingSfxSounds.setPreserveRatio(true);
+      imageViewPlayingSfxSounds.setOnMouseClicked(
+          mouseEvent -> {
             boolean newMutedState = !AudioManager.getInstance().isSfxMuted();
             AudioManager.getInstance().setSfxMuted(newMutedState);
             settings.setSfxMuted(newMutedState);
             imageViewPlayingSfxSounds.setImage(newMutedState ? mute : audioOn);
             SettingsProvider.saveSettings(settings);
-        });
+          });
     } catch (FileNotFoundException e) {
-        System.out.println("File not found" + e.getMessage());
+      System.out.println("File not found" + e.getMessage());
     }
 
     updateTexts();
@@ -220,52 +235,54 @@ public class PauseMenu extends FXGLMenu {
         });
 
     // Adjust sound menu
-    btnSound.setControlAction(() -> {
-        volumeSlider.adjustValue(settings.getVolume());
-        sfxVolumeSlider.adjustValue(settings.getSfxVolume());
+    btnSound.setControlAction(
+        () -> {
+          volumeSlider.adjustValue(settings.getVolume());
+          sfxVolumeSlider.adjustValue(settings.getSfxVolume());
 
-        var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
+          var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
 
-        var controlsBox = new VBox(10);
-        controlsBox.setAlignment(Pos.CENTER);
-        controlsBox.setMaxWidth(getAppWidth() * 0.7);
+          var controlsBox = new VBox(10);
+          controlsBox.setAlignment(Pos.CENTER);
+          controlsBox.setMaxWidth(getAppWidth() * 0.7);
 
-        StackPane controlsContainer = new StackPane(controlsBox);
-        controlsContainer.setPrefSize(getAppWidth(), getAppHeight());
-        controlsContainer.setAlignment(Pos.CENTER);
+          StackPane controlsContainer = new StackPane(controlsBox);
+          controlsContainer.setPrefSize(getAppWidth(), getAppHeight());
+          controlsContainer.setAlignment(Pos.CENTER);
 
-        PauseButton btnBackFromSounds =
-                new PauseButton(
-                      languageManager.getTranslation("back"),
-                      () -> {
-                        getContentRoot().getChildren().removeAll(controlsBg, controlsContainer);
-                        btnBack.enable();
-                        btnSound.enable();
-                        btnQuitGame.enable();
-                        btnControls.enable();
-                      });
+          PauseButton btnBackFromSounds =
+              new PauseButton(
+                  languageManager.getTranslation("back"),
+                  () -> {
+                    getContentRoot().getChildren().removeAll(controlsBg, controlsContainer);
+                    btnBack.enable();
+                    btnSound.enable();
+                    btnQuitGame.enable();
+                    btnControls.enable();
+                  });
 
-        VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
+          VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
 
-        controlsBox.getChildren().addAll(
-                btnBackFromSounds,
-                btnSoundMain,
-                volumeLabel,
-                volumeSlider,
-                imageViewPlayingMenuSound,
-                btnSoundSfx,
-                sfxVolumeLabel,
-                sfxVolumeSlider,
-                imageViewPlayingSfxSounds
-        );
+          controlsBox
+              .getChildren()
+              .addAll(
+                  btnBackFromSounds,
+                  btnSoundMain,
+                  volumeLabel,
+                  volumeSlider,
+                  imageViewPlayingMenuSound,
+                  btnSoundSfx,
+                  sfxVolumeLabel,
+                  sfxVolumeSlider,
+                  imageViewPlayingSfxSounds);
 
-        btnBack.disable();
-        btnSound.disable();
-        btnQuitGame.disable();
-        btnControls.disable();
+          btnBack.disable();
+          btnSound.disable();
+          btnQuitGame.disable();
+          btnControls.disable();
 
-        getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
-    });
+          getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
+        });
 
     // --- MISE EN PAGE DU MENU PRINCIPAL ---
 
@@ -403,7 +420,7 @@ public class PauseMenu extends FXGLMenu {
 
   private void updateTexts() {
     btnBack.setText(languageManager.getTranslation("back").toUpperCase());
-    btnSound.setText(languageManager.getTranslation("sound"));
+    btnSound.setText(languageManager.getTranslation("sound").toUpperCase());
     btnSoundMain.setText(languageManager.getTranslation("sound_main"));
     btnSoundSfx.setText(languageManager.getTranslation("sound_sfx"));
     btnQuitGame.setText(languageManager.getTranslation("quit").toUpperCase());

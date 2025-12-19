@@ -5,74 +5,68 @@ import static com.almasb.fxgl.dsl.FXGL.getGameController;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-import java.util.Set;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class GameOverDialog {
 
-    private final LanguageManager languageManager;
+  private final LanguageManager languageManager;
 
-    public GameOverDialog(LanguageManager languageManager) {
-        this.languageManager = languageManager;
+  public GameOverDialog(LanguageManager languageManager) {
+    this.languageManager = languageManager;
+  }
+
+  public void createDialog() {
+    Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
+    btnYes.setMinWidth(200);
+    btnYes.setOnAction(e -> getGameController().startNewGame());
+
+    Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
+    btnNo.setMinWidth(200);
+    btnNo.setOnAction(e -> getGameController().gotoMainMenu());
+
+    // Get score
+    int finalScore = 0;
+    try {
+      var scoreEntities = getGameWorld().getEntitiesByComponent(ScoreComponent.class);
+      if (!scoreEntities.isEmpty()) {
+        ScoreComponent sc = scoreEntities.get(0).getComponent(ScoreComponent.class);
+        finalScore = sc.getScore();
+      }
+    } catch (Exception ignored) {
     }
 
-    public void createDialog() {
+    // Display question text
+    var questionText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("new_game"),
+                Color.WHITE,
+                GameConstants.TEXT_SUB_DETAILS);
+    questionText.setWrappingWidth(450);
+    questionText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+    questionText.setLineSpacing(8);
 
-        // Languages requiring Cyrillic font
-        Set<String> cyrLangs = Set.of("Greek", "Russian");
+    // Display text score
+    Text scoreText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("score") + ": " + finalScore,
+                Color.YELLOW,
+                GameConstants.TEXT_SUB_DETAILS);
 
-        FontFactory baseCyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-        Font cyr20Font = baseCyrFont.newFont(20);
+    VBox box = new VBox(20, questionText, scoreText);
+    box.setAlignment(Pos.CENTER);
+    box.setPadding(new javafx.geometry.Insets(20));
+    box.setMinWidth(500);
 
-        FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-        Font arcade20Font = baseArcadeFont.newFont(20);
-
-        // YES BUTTON
-        Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
-        btnYes.setPrefWidth(200);
-        btnYes.setOnAction(e -> getGameController().startNewGame());
-
-        // NO BUTTON
-        Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
-        btnNo.setPrefWidth(200);
-        btnNo.setOnAction(e -> getGameController().gotoMainMenu());
-
-        // ---- FONT SELECTION ----
-// ---- FONT SIZE (FXGL-safe) ----
-        btnYes.setStyle("-fx-font-size: 20px;");
-        btnNo.setStyle("-fx-font-size: 20px;");
-
-
-        // ---- GET FINAL SCORE ----
-        int finalScore = 0;
-        try {
-            var scoreEntities = getGameWorld().getEntitiesByComponent(ScoreComponent.class);
-            if (!scoreEntities.isEmpty()) {
-                ScoreComponent sc = scoreEntities.get(0).getComponent(ScoreComponent.class);
-                finalScore = sc.getScore();
-            }
-        } catch (Exception ignored) {}
-
-        Text scoreText = new Text(languageManager.getTranslation("score") + ": " + finalScore);
-        scoreText.setFill(Color.YELLOW);
-        scoreText.setFont(arcade20Font);
-
-
-        VBox box = new VBox(10, scoreText);
-        box.setAlignment(Pos.CENTER);
-
-        getDialogService().showBox(languageManager.getTranslation("new_game"), box, btnYes, btnNo);
-    }
+    getDialogService()
+        .showBox(languageManager.getTranslation("game_over").toUpperCase(), box, btnYes, btnNo);
+  }
 }

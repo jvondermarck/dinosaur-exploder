@@ -1,20 +1,19 @@
 package com.dinosaur.dinosaurexploder.components;
 
-import com.almasb.fxgl.dsl.FXGL;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.ui.FontFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
-import java.util.Set;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class CollectedCoinsComponent extends Component implements CollectedCoins {
@@ -33,20 +32,14 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
     loadTotalCoins(); // Deserialize once when the component is added
 
     // Create UI elements
-    Set<String> cyrLangs = Set.of("Greek", "Russian");
-    FontFactory basecyrFont = FXGL.getAssetLoader().loadFont("Geologica-Regular.ttf");
-    Font cyr20Font = basecyrFont.newFont(20);
-    FontFactory baseArcadeFont = FXGL.getAssetLoader().loadFont("arcade_classic.ttf");
-    Font arcade20Font = baseArcadeFont.newFont(20);
-    coinText = new Text();
+    coinText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("coin").toUpperCase() + ": " + coin,
+                Color.ORANGE,
+                GameConstants.TEXT_SIZE_GAME_INFO);
     coinText.setFill(Color.PURPLE);
-    if (cyrLangs.contains(languageManager.selectedLanguageProperty().getValue())) {
-      coinText.fontProperty().unbind();
-      coinText.setFont(cyr20Font);
-    } else {
-      coinText.fontProperty().unbind();
-      coinText.setFont(arcade20Font);
-    }
+
     coinText.setLayoutX(0);
     coinText.setLayoutY(0);
 
@@ -55,14 +48,16 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   protected void updateText() {
-    coinText.setText(languageManager.getTranslation("coin") + ": " + coin);
+    coinText.setText(languageManager.getTranslation("coin").toUpperCase() + ": " + coin);
   }
 
   private Node createCoinUI() {
-    var container = new HBox(5);
     Image image = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
     ImageView imageView = new ImageView(image);
-    container.getChildren().addAll(coinText, imageView);
+
+    HBox container = new HBox(5, coinText, imageView);
+    container.setAlignment(Pos.CENTER_LEFT);
+
     return container;
   }
 

@@ -2,13 +2,45 @@ name: Publish Artifact on Release
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 permissions:
   contents: write
 
 jobs:
+  update-version:
+    # Needs to be run only for full releases (not drafts or pre-releases)
+    if: github.event.release.prerelease == false && github.event.release.draft == false
+    runs-on:  ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          # Extrait la version du tag (ex: v1.2.1 -> 1.2.1)
+          VERSION="${GITHUB_REF#refs/tags/}"
+          VERSION="${VERSION#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name:  Update GameConstants.java
+        run: |
+          sed -i 's/public static final String VERSION = ".*";/public static final String VERSION = "${{ steps.get_version.outputs.version }}";/' src/main/java/com/dinosaur/dinosaurexploder/constants/GameConstants.java
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/main/java/com/dinosaur/dinosaurexploder/constants/GameConstants.java
+          git diff --staged --quiet || git commit -m "chore:  update version to ${{ steps.get_version.outputs.version }} [skip ci]"
+          git push origin HEAD:${{ github.event.release.target_commitish }}
+
   build:
+    needs: update-version
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

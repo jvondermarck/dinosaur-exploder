@@ -3,43 +3,42 @@ package com.dinosaur.dinosaurexploder.constants;
 /** This holds every constant in the project */
 public class GameConstants {
 
-  public static final String VERSION = "1.2.1";
+  public static final String VERSION = "1.2.2";
   public static final String GAME_NAME = "Dinosaur Exploder";
 
   /*
    * CONSTANTS FOR IMAGES
    */
-  public static final String BACKGROUND_IMAGE_PATH = "/assets/textures/background.png";
+  public static final String BACKGROUND_IMAGE_PATH = "assets/textures/background.png";
   public static final String BASE_PROJECTILE_IMAGE_PATH = "assets/textures/basicProjectile.png";
-  public static final String BASE_PROJECTILE_IMAGE_FILE = "basicProjectile.png";
   public static final String ENEMY_PROJECTILE_IMAGE_FILE = "enemyProjectile.png";
   public static final String GREEN_DINO_IMAGE_PATH = "assets/textures/greenDino.png";
   public static final String GREEN_DINO_IMAGE_FILE = "greenDino.png";
-  public static final String RED_DINO_IMAGE_PATH = "assets/textures/redDino.png";
   public static final String RED_DINO_IMAGE_FILE = "redDino.png";
-  public static final String ORANGE_DINO_IMAGE_PATH = "assets/textures/orangeDino.png";
   public static final String ORANGE_DINO_IMAGE_FILE = "orangeDino.png";
   public static final String COIN_IMAGE_PATH = "assets/textures/coin.png";
   public static final String COIN_IMAGE_FILE = "coin.png";
   public static final String HEART_IMAGE_PATH = "assets/textures/life.png";
   public static final String HEART_IMAGE_FILE = "life.png";
   public static final String HEART_LOST_IMAGE_PATH = "assets/textures/lifeLost.png";
-  public static final String HEART_LOST_IMAGE_FILE = "lifeLost.png";
   public static final String BOMB_IMAGE_PATH = "assets/textures/bomb.png";
   public static final String GAME_ICON_DINOSAUR = "icon.png";
+  public static final String SILENT_IMAGE_PATH = "assets/textures/silent.png";
+  public static final String PLAYING_IMAGE_PATH = "assets/textures/playing.png";
+  public static final String GAME_LOGO_DINOSAUR = "assets/textures/dinomenu.png";
 
   /*
    *CONSTANTS FOR FONTS
    */
 
-  public static final String GAME_FONTNAME = "arcade_classic";
+  public static final String GAME_FONT_NAME = "publicpixel.ttf";
 
   /*
    * SOUNDS
    */
   public static final String ENEMY_SHOOT_SOUND = "enemyShoot.wav";
   public static final String SHOOT_SOUND = "shoot.wav";
-  public static final String MAIN_MENU_SOUND = "mainMenu.wav";
+  public static final String MAIN_MENU_SOUND = "/assets/sounds/mainMenu.wav";
   public static final String BACKGROUND_SOUND = "gameBackground.wav";
   public static final String ENEMY_EXPLODE_SOUND = "enemyExplode.wav";
   public static final String PLAYER_HIT_SOUND = "playerHit.wav";
@@ -49,7 +48,11 @@ public class GameConstants {
   /*
    * CONSTANTS FOR UI
    */
+  public static final double MAIN_TITLES = 25;
   public static final double TEXT_SIZE_GAME_DETAILS = 20;
+  public static final double TEXT_SUB_DETAILS = 15;
+  public static final double TEXT_SIZE_GAME_INFO = 12;
+  public static final String STYLESHEET_PATH = "/styles/styles.css";
 
   /*
    * CONSTANTS FOR SAVED FILES

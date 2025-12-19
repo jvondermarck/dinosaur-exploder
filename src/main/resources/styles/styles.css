@@ -1,9 +1,20 @@
 /* Style for the slider track */
+@font-face {
+    font-family: 'PublicPixel';
+    src: url('/assets/ui/fonts/publicpixel.ttf');
+}
 
+/* Labels */
+.label {
+    -fx-font-family: 'Public Pixel';
+    -fx-font-size: 16px;
+    -fx-text-fill: #61C181;
+}
 
 .slider {
     -fx-pref-height: 40px;
 }
+
 .slider .track {
     -fx-background-color: linear-gradient(to right, #0499B0, #44BB82, #7DD858);
     -fx-pref-height: 15px;
@@ -16,6 +27,8 @@
 }
 
 .button {
+    -fx-font-family: 'Public Pixel';
+    -fx-font-size: 15px;
     -fx-background-color: linear-gradient(to bottom, #2a2a2a, #1a1a1a),
     linear-gradient(to bottom, rgba(0, 220, 0, 0.9), rgba(0, 200, 255, 0.6));
     -fx-background-radius: 37;
@@ -23,7 +36,6 @@
     -fx-border-width: 2;
     -fx-border-radius: 37;
     -fx-text-fill: white;
-    -fx-font-size: 16px;
     -fx-effect: dropshadow(gaussian, rgba(0, 220, 0, 0.7), 10, 0.5, 0, 0),
     dropshadow(gaussian, rgba(0, 200, 255, 0.5), 20, 0.3, 0, 0);
     -fx-padding: 5 15 5 15;
@@ -35,5 +47,66 @@
     -fx-border-color: rgba(0, 255, 0, 1), rgba(0, 220, 255, 0.8);
     -fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.9), 15, 0.6, 0, 0),
     dropshadow(gaussian, rgba(0, 220, 255, 0.7), 25, 0.4, 0, 0);
+}
 
+/* ✅ ComboBox styling amélioré */
+.combo-box {
+    -fx-font-family: 'Public Pixel';
+    -fx-font-size:  14px;
+    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(0, 220, 0, 0.8);
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 220, 0, 0.5), 8, 0.3, 0, 0);
+}
+
+. combo-box:hover {
+    -fx-border-color: rgba(0, 255, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.7), 12, 0.5, 0, 0);
+}
+
+/* Le texte dans le ComboBox */
+.combo-box .list-cell {
+    -fx-font-family: 'Public Pixel';
+    -fx-font-size: 14px;
+    -fx-text-fill: #61C181;
+    -fx-background-color: transparent;
+}
+
+/* La flèche du ComboBox */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 20 20 0;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #61C181;
+}
+
+/* Les items dans la liste déroulante */
+.combo-box-popup .list-view {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: rgba(0, 220, 0, 0.8);
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 220, 0, 0.7), 15, 0.5, 0, 0);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-font-family: 'Public Pixel';
+    -fx-font-size: 14px;
+    -fx-text-fill: #61C181;
+    -fx-background-color: transparent;
+    -fx-padding: 8 15 8 15;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: rgba(0, 220, 0, 0.2);
+    -fx-text-fill: #00FF00;
+}
+
+. combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: rgba(0, 220, 0, 0.4);
+    -fx-text-fill: #FFFFFF;
 }

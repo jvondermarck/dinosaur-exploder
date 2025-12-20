@@ -11,6 +11,8 @@
   <img align="center" src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge">
   <img align="center" src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder?style=for-the-badge">
   <img align="center" src="https://img.shields.io/github/actions/workflow/status/jvondermarck/dinosaur-exploder/maven-build.yml?label=BUILD&style=for-the-badge">
+    <br><p></p>
+    <img align="center" src="https://img.shields.io/badge/OpenSSF--Best--Practices-passing-brightgreen?logo=opensourceinitiative&style=for-the-badge">
  <img >
 </div>
 
@@ -100,6 +102,7 @@ Play the game with these controls:
 - ➡️ <kbd>Right Arrow</kbd>: move spaceship right.
 - ⏸️ <kbd>Escape</kbd>: pause the game.
 - 🔫 <kbd>Space</kbd>: shoot.
+- 🛡️ <kbd>E</kbd>: shield to protect the spaceship during few seconds.
 - 💥 <kbd>B</kbd>: eliminate all the dinosaurs on the screen using a bomb.
 
 ## 🎥 Gameplay

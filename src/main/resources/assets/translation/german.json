@@ -30,5 +30,9 @@
   "weapon_locked": "Die Waffe ist verriegelt..",
   "unlock_highScore": "Erreiche eine Punktzahl von ## um es freizuschalten.",
   "unlock_totalCoins": "Erreiche insgesamt ## Münzen, um es freizuschalten.",
-  "ok": "Okay"
+  "ok": "Okay",
+  "shield": "Schild",
+  "sound": "Klang",
+  "sound_main": "Hintergrund",
+  "sound_sfx": "Soundeffekte"
 }

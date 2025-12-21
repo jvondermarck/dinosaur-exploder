@@ -1,7 +1,11 @@
 <h1 align="center"><img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6072475_960_720.png" width="224px"/><br/>
   Dinosaur Exploder
 </h1>
-<p align="center">Dinosaur Exploder is a free, open source shoot 'em up video game <br> written in Java using JavaFX and the FXGL game development library 🦖.</p>
+<p align="center">
+  Dinosaur Exploder is a free, open source shoot 'em up video game <br>
+  written in Java using JavaFX and the FXGL game development library 🦖.<br>
+  <b>Now featuring a companion website built with Next.js 🎉</b>
+</p>
 
 <div align="center">
   <img align="center" src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge">
@@ -19,6 +23,7 @@
 ## 📃 Table of content
 
 - [🚀 Goal of the project](#-goal-of-the-project)
+- [🌐 Project Website](#-project-website)
 - [🧑‍💻 Installation](#-installation)
   - [🛠 Installation on Windows / Linux](#-installation-on-windows--linux)
   - [💻 Installation Locally](#-installation-locally)
@@ -33,6 +38,27 @@
 
 > [!NOTE]
 > I initially developed a very basic game in 2022 and created multiple issues to encourage contributions from the community. The main goal of this repository is not just to build a game, but to provide an open-source project where everyone can contribute step by step.
+
+## 🌐 Project Website
+
+Explore our modern Next.js website [here](https://dinosaur-exploder.vercel.app/)!
+
+While this project is primarily about Java and FXGL, we've added a web front-end to welcome more contributors and showcase the game.  
+
+The website features:
+- 📑 Game documentation  
+- 🖼️ Image galleries  
+- 📰 Latest news
+- 💻 And, most importantly: **spaces to contribute to the web front-end!** rather than just Java
+
+> You can also check the `/website` folder in the repo to run it locally.
+
+### 🚀 Get started locally
+```bash
+cd website
+npm install
+npm run dev
+```
 
 ## 🧑‍💻 Installation
 

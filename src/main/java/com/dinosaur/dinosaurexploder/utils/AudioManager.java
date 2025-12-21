@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.utils;
 
+import com.dinosaur.dinosaurexploder.model.Settings;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.media.Media;
@@ -14,7 +15,11 @@ public class AudioManager {
   private final List<MediaPlayer> activePlayers = new ArrayList<>();
   private MediaPlayer backgroundPlayer;
 
-  private AudioManager() {}
+  private AudioManager() {
+    Settings saved = SettingsProvider.loadSettings();
+    this.volume = saved.getVolume();
+    this.isMuted = saved.isMuted();
+  }
 
   public static AudioManager getInstance() {
     if (instance == null) {

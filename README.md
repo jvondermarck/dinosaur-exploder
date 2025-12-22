@@ -52,6 +52,7 @@ The website features:
 - 💻 And, most importantly: **spaces to contribute to the web front-end!** rather than just Java
 
 > You can also check the `/website` folder in the repo to run it locally.
+> I would suggest to use Visual Studio Code to work on the website rather than IntelliJ IDEA
 
 ### 🚀 Get started locally
 ```bash

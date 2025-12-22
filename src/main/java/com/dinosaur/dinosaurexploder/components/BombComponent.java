@@ -11,6 +11,8 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;

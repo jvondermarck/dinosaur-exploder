@@ -33,6 +33,9 @@
     "unlock_totalCoins": "To unlock, reach a total of ## coins.",
     "ok" : "Ok",
     "shield": "Shield",
+    "shield_ready": "Ready",
+    "shield_cooldown": "Cooldown",
+    "shield_active": "Active",
     "sound": "Sound",
     "sound_main": "Background",
     "sound_sfx": "Sound effects"

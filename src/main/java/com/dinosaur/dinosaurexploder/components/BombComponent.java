@@ -193,5 +193,4 @@ public class BombComponent extends Component implements Bomb {
     bombCount = Math.min(bombCount + 1, maxBombCount);
     updateBombUI();
   }
-
 }

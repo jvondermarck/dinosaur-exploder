@@ -103,7 +103,8 @@ public class BombComponent extends Component implements Bomb {
     bomb2.setVisible(bombCount >= 2);
     bomb3.setVisible(bombCount >= 3);
     // Update bomb text with the remaining bombs
-    bombText.setText(languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
+    bombText.setText(
+        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
   }
 
   /** Summary: This method returns the current number of bombs. */

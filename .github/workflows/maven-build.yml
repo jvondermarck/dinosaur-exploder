@@ -3,8 +3,12 @@ name: Maven Build
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'website/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - 'website/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

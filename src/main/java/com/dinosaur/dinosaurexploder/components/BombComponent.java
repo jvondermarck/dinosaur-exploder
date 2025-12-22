@@ -58,7 +58,9 @@ public class BombComponent extends Component implements Bomb {
     bombText =
         getUIFactoryService()
             .newText(
-                languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount,
+                languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase()
+                    + ": "
+                    + bombCount,
                 Color.ORANGE,
                 GameConstants.TEXT_SIZE_GAME_INFO);
 

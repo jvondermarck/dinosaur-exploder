@@ -180,7 +180,10 @@ public class BombComponent extends Component implements Bomb {
       // Player has collected enough coins, regenerate one bomb
       regenerateBomb();
       coinCounter = 0; // Reset counter
-      logger.log(Level.INFO, "Collected {0} coins! Regenerated a bomb. Current bombs: {1}", new Object[]{COINS_NEEDED_FOR_BOMB, bombCount});
+      logger.log(
+          Level.INFO,
+          "Collected {0} coins! Regenerated a bomb. Current bombs: {1}",
+          new Object[] {COINS_NEEDED_FOR_BOMB, bombCount});
     }
   }
 

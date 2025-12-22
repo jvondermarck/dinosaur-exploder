@@ -93,7 +93,8 @@ public class BombComponent extends Component implements Bomb {
   }
 
   private void updateTexts() {
-    bombText.setText(languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
+    bombText.setText(
+        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
   }
 
   /** Updates the bomb UI based on the current bomb count. */

@@ -32,6 +32,9 @@
     "unlock_totalCoins": "Pour le déverrouiller, atteignez un total de ## pièces.",
     "ok" : "D'accord",
     "shield": "Bouclier",
+    "shield_ready": "Prêt",
+    "shield_cooldown": "Recharge",
+    "shield_active": "Actif",
     "sound": "Son",
     "sound_main": "Arrière-plan",
     "sound_sfx": "Effets sonores"

@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-arcade: var(--font-press-start-2p);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +27,6 @@ body {
 }
 
 .font-retro {
-  font-family: 'Press Start 2P', Arial, monospace;
+  font-family: var(--font-arcade);
   letter-spacing: 2px;
 }

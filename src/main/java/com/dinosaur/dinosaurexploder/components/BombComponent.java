@@ -11,6 +11,8 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -43,6 +45,9 @@ public class BombComponent extends Component implements Bomb {
   // Declaring Bomb Text
   private Text bombText;
 
+  // Logging
+  Logger logger = Logger.getLogger(BombComponent.class.getName());
+
   private final LanguageManager languageManager = LanguageManager.getInstance();
 
   @Override
@@ -55,7 +60,9 @@ public class BombComponent extends Component implements Bomb {
     bombText =
         getUIFactoryService()
             .newText(
-                languageManager.getTranslation("bombs_left").toUpperCase() + ": " + bombCount,
+                languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase()
+                    + ": "
+                    + bombCount,
                 Color.ORANGE,
                 GameConstants.TEXT_SIZE_GAME_INFO);
 
@@ -88,7 +95,8 @@ public class BombComponent extends Component implements Bomb {
   }
 
   private void updateTexts() {
-    bombText.setText(languageManager.getTranslation("bombs_left").toUpperCase() + ": " + bombCount);
+    bombText.setText(
+        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
   }
 
   /** Updates the bomb UI based on the current bomb count. */
@@ -97,7 +105,8 @@ public class BombComponent extends Component implements Bomb {
     bomb2.setVisible(bombCount >= 2);
     bomb3.setVisible(bombCount >= 3);
     // Update bomb text with the remaining bombs
-    bombText.setText(languageManager.getTranslation("bombs_left").toUpperCase() + ": " + bombCount);
+    bombText.setText(
+        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
   }
 
   /** Summary: This method returns the current number of bombs. */
@@ -117,7 +126,7 @@ public class BombComponent extends Component implements Bomb {
       updateBombUI();
       spawnBombBullets(player);
     } else {
-      System.out.println("No bombs left!");
+      logger.info("No bombs left!");
     }
   }
 
@@ -131,7 +140,7 @@ public class BombComponent extends Component implements Bomb {
 
     if (selectedShip != 0) {
       String shipImagePath = "/assets/textures/spaceship" + selectedShip + ".png";
-      System.out.println("Selected spaceship: " + selectedShip);
+      logger.log(Level.INFO, "Selected spaceship: {0}", selectedShip);
       this.spaceshipImage = new Image(shipImagePath);
     }
 
@@ -145,7 +154,7 @@ public class BombComponent extends Component implements Bomb {
                   center.getY() - spaceshipImage.getHeight() / 2)
               .put("direction", direction.toPoint2D()));
     }
-    System.out.println("Bomb used! " + getBombCount() + " bombs left!");
+    logger.log(Level.INFO, "Bomb used! {0} bombs left!", getBombCount());
   }
 
   /**
@@ -159,7 +168,7 @@ public class BombComponent extends Component implements Bomb {
       // Player has advanced to a new level, regenerate one bomb
       regenerateBomb();
       lastLevel = currentLevel;
-      System.out.println("Level up! Regenerated a bomb. Current bombs: " + bombCount);
+      logger.log(Level.INFO, "Level up! Regenerated a bomb. Current bombs: {0}", bombCount);
     }
   }
 
@@ -173,11 +182,10 @@ public class BombComponent extends Component implements Bomb {
       // Player has collected enough coins, regenerate one bomb
       regenerateBomb();
       coinCounter = 0; // Reset counter
-      System.out.println(
-          "Collected "
-              + COINS_NEEDED_FOR_BOMB
-              + " coins! Regenerated a bomb. Current bombs: "
-              + bombCount);
+      logger.log(
+          Level.INFO,
+          "Collected {0} coins! Regenerated a bomb. Current bombs: {1}",
+          new Object[] {COINS_NEEDED_FOR_BOMB, bombCount});
     }
   }
 
@@ -186,9 +194,5 @@ public class BombComponent extends Component implements Bomb {
     int maxBombCount = 3;
     bombCount = Math.min(bombCount + 1, maxBombCount);
     updateBombUI();
-  }
-
-  public int getCoinCounter() {
-    return coinCounter;
   }
 }

@@ -12,6 +12,7 @@ module com.dinosaur.dinosaurexploder {
   requires annotations;
   requires javafx.base;
   requires com.almasb.fxgl.entity;
+  requires java.logging;
 
   opens assets.textures;
   opens assets.sounds;

@@ -32,6 +32,9 @@
   "unlock_totalCoins": "Alcanzar un total de ## monedas para desbloquearlo.",
   "ok": "Está bien",
   "shield": "Escudo",
+  "shield_ready": "Listo",
+  "shield_cooldown": "En enfriamiento",
+  "shield_active": "Activo",
   "sound": "Sonido",
   "sound_main": "Fondo",
   "sound_sfx": "Efectos de sonido"

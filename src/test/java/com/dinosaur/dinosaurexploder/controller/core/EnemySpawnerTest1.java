@@ -8,7 +8,6 @@ import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import javafx.util.Duration;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,80 +18,64 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class EnemySpawnerPauseResumeTest {
 
-    @Mock
-    GameInitializer gameInitializer;
+  @Mock GameInitializer gameInitializer;
 
-    @Mock
-    LevelManager levelManager;
+  @Mock LevelManager levelManager;
 
-    @Mock
-    BossSpawner bossSpawner;
+  @Mock BossSpawner bossSpawner;
 
-    @Mock
-    TimerAction timerAction;
+  @Mock TimerAction timerAction;
 
-    private EnemySpawner enemySpawner;
+  private EnemySpawner enemySpawner;
 
-    @BeforeEach
-    public void setup() {
-        when(gameInitializer.getLevelManager()).thenReturn(levelManager);
-        when(gameInitializer.getBossSpawner()).thenReturn(bossSpawner);
-        when(levelManager.getEnemySpawnRate()).thenReturn(1.0);
+  @BeforeEach
+  public void setup() {
+    when(gameInitializer.getLevelManager()).thenReturn(levelManager);
+    when(gameInitializer.getBossSpawner()).thenReturn(bossSpawner);
+    when(levelManager.getEnemySpawnRate()).thenReturn(1.0);
 
-        enemySpawner = new EnemySpawner(gameInitializer);
+    enemySpawner = new EnemySpawner(gameInitializer);
+  }
+
+  @Test
+  public void pauseEnemySpawning_shouldPauseTimer_ifTimerExists() {
+    try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
+
+      fxgl.when(() -> FXGL.run(any(Runnable.class), any(Duration.class))).thenReturn(timerAction);
+
+      enemySpawner.spawnEnemies();
+
+      enemySpawner.pauseEnemySpawning();
+
+      verify(timerAction).pause();
     }
+  }
 
-    @Test
-    public void pauseEnemySpawning_shouldPauseTimer_ifTimerExists() {
-        try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
+  @Test
+  public void resumeEnemySpawning_shouldResumeTimer_ifTimerExists() {
+    try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
 
-            fxgl.when(() -> FXGL.run(any(Runnable.class), any(Duration.class)))
-                    .thenReturn(timerAction);
+      fxgl.when(() -> FXGL.run(any(Runnable.class), any(Duration.class))).thenReturn(timerAction);
 
+      enemySpawner.spawnEnemies();
 
-            enemySpawner.spawnEnemies();
+      enemySpawner.pauseEnemySpawning();
 
+      enemySpawner.resumeEnemySpawning();
 
-            enemySpawner.pauseEnemySpawning();
-
-
-            verify(timerAction).pause();
-        }
+      verify(timerAction).resume();
     }
+  }
 
-    @Test
-    public void resumeEnemySpawning_shouldResumeTimer_ifTimerExists() {
-        try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
+  @Test
+  public void resumeEnemySpawning_shouldCallSpawnEnemies_ifTimerIsNull() {
+    try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
 
-            fxgl.when(() -> FXGL.run(any(Runnable.class), any(Duration.class)))
-                    .thenReturn(timerAction);
+      fxgl.when(() -> FXGL.run(any(Runnable.class), any(Duration.class))).thenReturn(timerAction);
 
+      assertDoesNotThrow(() -> enemySpawner.resumeEnemySpawning());
 
-            enemySpawner.spawnEnemies();
-
-
-            enemySpawner.pauseEnemySpawning();
-
-
-            enemySpawner.resumeEnemySpawning();
-
-
-            verify(timerAction).resume();
-        }
+      fxgl.verify(() -> FXGL.run(any(Runnable.class), any(Duration.class)));
     }
-
-    @Test
-    public void resumeEnemySpawning_shouldCallSpawnEnemies_ifTimerIsNull() {
-        try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
-
-            fxgl.when(() -> FXGL.run(any(Runnable.class), any(Duration.class)))
-                    .thenReturn(timerAction);
-
-
-            assertDoesNotThrow(() -> enemySpawner.resumeEnemySpawning());
-
-
-            fxgl.verify(() -> FXGL.run(any(Runnable.class), any(Duration.class)));
-        }
-    }
+  }
 }

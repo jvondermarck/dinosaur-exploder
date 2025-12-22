@@ -20,9 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class BombComponent extends Component implements Bomb {
   private int bombCount = 3;
   private Image spaceshipImage;

@@ -3,6 +3,9 @@ package com.dinosaur.dinosaurexploder.constants;
 /** This holds every constant in the project */
 public class GameConstants {
 
+  private GameConstants() {
+  }
+
   public static final String VERSION = "1.2.2";
   public static final String GAME_NAME = "Dinosaur Exploder";
 
@@ -36,7 +39,6 @@ public class GameConstants {
   /*
    * SOUNDS
    */
-  public static final String ENEMY_SHOOT_SOUND = "enemyShoot.wav";
   public static final String SHOOT_SOUND = "shoot.wav";
   public static final String MAIN_MENU_SOUND = "/assets/sounds/mainMenu.wav";
   public static final String BACKGROUND_SOUND = "gameBackground.wav";
@@ -59,4 +61,9 @@ public class GameConstants {
    */
   public static final String HIGH_SCORE_FILE = "highScore.ser";
   public static final String TOTAL_COINS_FILE = "totalCoins.ser";
+
+  /*
+   * CONSTANTS FOR TEXT
+   */
+  public static final String BOMBS_LEFT = "bombs_left";
 }

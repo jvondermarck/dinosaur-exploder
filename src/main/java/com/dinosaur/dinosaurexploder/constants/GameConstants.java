@@ -65,4 +65,6 @@ public class GameConstants {
    * CONSTANTS FOR TEXT
    */
   public static final String BOMBS_LEFT = "bombs_left";
+  public static final String LIVES = "lives";
+  public static final String OUT_OF_BOUNDS = "Out of bounds";
 }

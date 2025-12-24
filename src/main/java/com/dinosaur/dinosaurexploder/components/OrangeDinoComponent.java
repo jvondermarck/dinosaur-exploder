@@ -15,6 +15,8 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import javafx.geometry.Point2D;
 
+import java.util.logging.Logger;
+
 /**
  * Summary : This class extends Component and Implements the Dinosaur Classes and Handles Updating
  * the Dino This Dino is an orange Boss who appears every ten levels. He doesn't shoot but follows
@@ -26,6 +28,9 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
   private final GameTimer gameTimer;
   private final PlayerComponent playerComponent;
   Point2D playerPosition;
+
+  // Logging
+  private static final Logger LOGGER = Logger.getLogger(OrangeDinoComponent.class.getName());
 
   public OrangeDinoComponent(GameTimer gameTimer, PlayerComponent playerComponent) {
     this.gameTimer = gameTimer;
@@ -64,7 +69,6 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
   @Override
   public void onAdded() {
     // Get the current enemy speed from the level manager
-    // levelManager = FXGL.geto("levelManager");
     firstTime = true;
   }
 
@@ -79,7 +83,7 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
     if (isPaused) return;
 
     if (firstTime) {
-      System.out.println("level: " + levelManager.getCurrentLevel());
+      LOGGER.info("level: {0}" + levelManager.getCurrentLevel());
       movementSpeed = levelManager.getEnemySpeed() / 2;
       lives = levelManager.getCurrentLevel() * 3;
       firstTime = false;
@@ -165,7 +169,7 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
 
   public void moveUp() {
     if (entity.getY() < 0) {
-      System.out.println("Out of bounds");
+      LOGGER.info(GameConstants.OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(-movementSpeed);
@@ -173,8 +177,8 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
 
   /** Summary : This method is overriding the superclass method to limit the downSide movement. */
   public void moveDown() {
-    if (!(entity.getY() < DinosaurGUI.HEIGHT - entity.getHeight())) {
-      System.out.println("Out of bounds");
+    if (entity.getY() >= (DinosaurGUI.HEIGHT - entity.getHeight())) {
+      LOGGER.info(GameConstants.OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(movementSpeed);
@@ -182,8 +186,8 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
 
   /** Summary : This method is overriding the superclass method to limit the rightSide movement. */
   public void moveRight() {
-    if (!(entity.getX() < DinosaurGUI.WIDTH - entity.getWidth())) {
-      System.out.println("Out of bounds");
+    if (entity.getX() >= (DinosaurGUI.WIDTH - entity.getWidth())) {
+      LOGGER.info(GameConstants.OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(movementSpeed);
@@ -192,7 +196,7 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
   /** Summary : This method is overriding the superclass method to limit the leftSide movement. */
   public void moveLeft() {
     if (entity.getX() < 0) {
-      System.out.println("Out of bounds");
+      LOGGER.info(GameConstants.OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(-movementSpeed);

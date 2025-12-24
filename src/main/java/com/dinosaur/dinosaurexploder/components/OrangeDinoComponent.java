@@ -16,6 +16,7 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import javafx.geometry.Point2D;
 
 import java.util.logging.Logger;
+import javafx.geometry.Point2D;
 
 /**
  * Summary : This class extends Component and Implements the Dinosaur Classes and Handles Updating

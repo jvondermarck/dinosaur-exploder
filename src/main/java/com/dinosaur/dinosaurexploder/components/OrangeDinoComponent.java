@@ -13,8 +13,6 @@ import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import javafx.geometry.Point2D;
-
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 

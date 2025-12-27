@@ -21,7 +21,6 @@ public class LifeComponent extends Component implements Life {
 
   private static final int MAX_LIVES = 3;
   private Image heart;
-  private Image heartLost;
   private int life = MAX_LIVES;
 
   // Declaring Lives Text
@@ -44,7 +43,7 @@ public class LifeComponent extends Component implements Life {
     lifeText =
         getUIFactoryService()
             .newText(
-                languageManager.getTranslation("lives").toUpperCase(),
+                languageManager.getTranslation(GameConstants.LIVES).toUpperCase(),
                 Color.RED,
                 GameConstants.TEXT_SIZE_GAME_INFO);
 
@@ -61,11 +60,12 @@ public class LifeComponent extends Component implements Life {
   }
 
   private void updateTexts() {
-    lifeText.setText(languageManager.getTranslation("lives").toUpperCase() + ": " + life);
+    lifeText.setText(
+        languageManager.getTranslation(GameConstants.LIVES).toUpperCase() + ": " + life);
   }
 
   private void updateLifeDisplay() {
-    heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
+    Image heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
     // Clear previous entities
     clearEntity();
 
@@ -86,7 +86,8 @@ public class LifeComponent extends Component implements Life {
     }
 
     // Display the lifeText component
-    lifeText.setText(languageManager.getTranslation("lives").toUpperCase() + ": " + life);
+    lifeText.setText(
+        languageManager.getTranslation(GameConstants.LIVES).toUpperCase() + ": " + life);
     setEntity(lifeText);
   }
 

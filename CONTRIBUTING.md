@@ -13,7 +13,6 @@ If you haven't developed using JavaFX and FXGL, please watch this [video first](
 
 We accept the following types of contributions:
 
-Contribution By : Shivam Sharma (https://github.com/shivam98)
 ### Issues
 
 If you've found a bug in the game itself or something else (e.g. documentation), you can [open an issue](https://github.com/dylan-power/dinosaur-exploder/issues/new/choose) to let the community know.

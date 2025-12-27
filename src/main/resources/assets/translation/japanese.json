@@ -32,6 +32,9 @@
   "unlock_totalCoins": "合計##枚のコインに達するとロックが解除されます。",
   "ok" : "オッケー",
   "shield": "シールド",
+  "shield_ready": "準備完了",
+  "shield_cooldown": "クールダウン中",
+  "shield_active": "有効",
   "sound": "音",
   "sound_main": "バックグラウンド",
   "sound_sfx": "効果音"

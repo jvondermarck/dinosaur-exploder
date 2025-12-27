@@ -32,6 +32,9 @@
   "unlock_totalCoins": "Erreiche insgesamt ## Münzen, um es freizuschalten.",
   "ok": "Okay",
   "shield": "Schild",
+  "shield_ready": "Bereit",
+  "shield_cooldown": "Abklingzeit",
+  "shield_active": "Aktiv",
   "sound": "Klang",
   "sound_main": "Hintergrund",
   "sound_sfx": "Soundeffekte"

@@ -31,6 +31,10 @@
   "unlock_highScore": "Απαιτούνται ## πόντοι για ξεκλείδωμα.",
   "unlock_totalCoins": "Απαιτούνται ## νομίσματα για ξεκλείδωμα.",
   "ok": "Εντάξει",
+  "shield": "Ασπίδα έτοιμη",
+  "shield_ready": "Έτοιμη",
+  "shield_cooldown": "Επαναφόρτιση",
+  "shield_active": "Ενεργή",
   "sound": "Ήχος",
   "sound_main": "Υπόβαθρο",
   "sound_sfx": "Ηχητικά εφέ"

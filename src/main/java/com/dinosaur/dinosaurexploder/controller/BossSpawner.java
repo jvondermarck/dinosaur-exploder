@@ -30,7 +30,7 @@ public class BossSpawner {
 
       redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
 
-      healthBar = spawn("healthBar", getAppWidth() - 215, 15);
+      healthBar = spawn("healthBar", getAppWidth() - (double)215, 15);
       healthBar
           .getComponent(HealthbarComponent.class)
           .setDinoComponent(redDino.getComponent(RedDinoComponent.class));
@@ -39,7 +39,7 @@ public class BossSpawner {
 
       orangeDino.getComponent(OrangeDinoComponent.class).setLevelManager(levelManager);
 
-      healthBar = spawn("healthBar", getAppWidth() - 215, 15);
+      healthBar = spawn("healthBar", getAppWidth() - (double)215, 15);
       healthBar
           .getComponent(HealthbarComponent.class)
           .setDinoComponent(orangeDino.getComponent(OrangeDinoComponent.class));

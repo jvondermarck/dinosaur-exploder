@@ -22,6 +22,7 @@ public class DinosaurController {
   public void initGame() {
     gameInitializer.initGame();
     gameActions = new GameActions(gameInitializer);
+    gameActions.updateLevelDisplay();
   }
 
   public void initInput() {

@@ -236,10 +236,10 @@ public class DinosaurMenu extends FXGLMenu {
         .valueProperty()
         .addListener(
             (obs, oldVal, newVal) -> {
-                AudioManager.getInstance().setVolume(newVal.doubleValue());
-                settings.setVolume(newVal.doubleValue());
-                SettingsProvider.saveSettings(settings);
-                volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100));
+              AudioManager.getInstance().setVolume(newVal.doubleValue());
+              settings.setVolume(newVal.doubleValue());
+              SettingsProvider.saveSettings(settings);
+              volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100));
             });
 
     return volumeText;

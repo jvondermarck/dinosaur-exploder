@@ -85,7 +85,6 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView dinoImage = createDinoImage();
     ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
-    System.out.println("Credits badge created at X=" + creditsBadge.getTranslateX() + " Y=" + creditsBadge.getTranslateY()); // ADD THIS
     VBox languageBox = createLanguageSelector();
     Slider volumeSlider = createVolumeSlider();
     Text volumeText = createVolumeText(volumeSlider);

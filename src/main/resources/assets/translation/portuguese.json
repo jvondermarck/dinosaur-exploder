@@ -34,5 +34,6 @@
   "shield": "Escudo",
   "sound": "Som",
   "sound_main": "Plano de fundo",
-  "sound_sfx": "Efeitos sonoros"
+  "sound_sfx": "Efeitos sonoros",
+  "ready": "Pronto"
 }

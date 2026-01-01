@@ -35,5 +35,10 @@
   "sound": "音",
   "sound_main": "バックグラウンド",
   "sound_sfx": "効果音",
-  "ready": "準備完了"
+  "ready": "準備完了",
+  "credits": "クレジット",
+  "loading": "読み込み中",
+  "commits": "コミット",
+  "error_loading_contributors": "貢献者を読み込めません。インターネット接続を確認してください。",
+  "credits_subtitle": "すべての貢献者の皆様に感謝します"
 }

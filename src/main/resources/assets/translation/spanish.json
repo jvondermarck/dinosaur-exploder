@@ -35,5 +35,10 @@
   "sound": "Sonido",
   "sound_main": "Fondo",
   "sound_sfx": "Efectos de sonido",
-  "ready": "Listo"
+  "ready": "Listo",
+  "credits": "Créditos",
+  "loading": "Cargando",
+  "commits": "commits",
+  "error_loading_contributors": "No se pudieron cargar los colaboradores. Por favor, revisa tu conexión a Internet.",
+  "credits_subtitle": "Gracias a todos nuestros colaboradores"  
 }

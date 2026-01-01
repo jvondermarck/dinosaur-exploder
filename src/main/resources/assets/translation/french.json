@@ -34,6 +34,10 @@
     "shield": "Bouclier",
     "sound": "Son",
     "sound_main": "Arrière-plan",
-    "sound_sfx": "Effets sonores"
-  }
-  
+    "sound_sfx": "Effets sonores",
+    "credits": "Crédits",
+    "loading": "Chargement",
+    "commits": "commits",
+    "error_loading_contributors": "Impossible de charger les contributeurs. Veuillez vérifier votre connexion Internet.",
+    "credits_subtitle": "Merci à tous nos contributeurs"
+}

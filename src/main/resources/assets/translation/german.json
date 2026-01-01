@@ -34,5 +34,10 @@
   "shield": "Schild",
   "sound": "Klang",
   "sound_main": "Hintergrund",
-  "sound_sfx": "Soundeffekte"
+  "sound_sfx": "Soundeffekte",
+  "credits": "Mitwirkende",
+  "loading": "Lädt",
+  "commits": "Commits",
+  "error_loading_contributors": "Mitwirkende konnten nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung.",
+  "credits_subtitle": "Danke an alle Mitwirkenden"
 }

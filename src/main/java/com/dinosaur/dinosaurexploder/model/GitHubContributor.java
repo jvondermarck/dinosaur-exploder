@@ -1,8 +1,8 @@
 package com.dinosaur.dinosaurexploder.model;
 
 /**
- * Model class representing a GitHub contributor.
- * Immutable data object following clean architecture principles.
+ * Model class representing a GitHub contributor. Immutable data object following clean architecture
+ * principles.
  */
 public class GitHubContributor {
   private final String login;

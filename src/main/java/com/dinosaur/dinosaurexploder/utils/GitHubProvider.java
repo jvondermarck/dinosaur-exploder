@@ -14,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Service provider for fetching GitHub repository contributors.
- * Handles asynchronous API communication with proper error handling.
+ * Service provider for fetching GitHub repository contributors. Handles asynchronous API
+ * communication with proper error handling.
  */
 public class GitHubProvider {
   private static final Logger LOGGER = Logger.getLogger(GitHubProvider.class.getName());

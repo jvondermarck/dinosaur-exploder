@@ -28,7 +28,7 @@ export default function Home() {
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
           <h1 className="font-retro text-4xl lg:text-6xl font-extrabold text-green-800 mb-6 leading-tight">
             Retro Arcade<br />
-            <span className="text-black bg-green-200 px-2 rounded">Shoot 'em up</span>
+            <span className="text-black bg-green-200 px-2 rounded">Shoot &apos;em up </span>
           </h1>
           <p className="text-lg mb-6 max-w-xl text-green-900 font-mono bg-white/80 rounded-lg border-l-4 border-green-700 py-4 px-4 shadow-md">
             <b>Dinosaur Exploder</b> is an open-source, classic arcade shooter.<br />Made with Java, JavaFX & FXGL.<br />Pure pixel action. Pure fun!
@@ -49,23 +49,23 @@ export default function Home() {
       {/* Sponsor Section (Card) */}
       <section className="w-full flex justify-center pb-8">
         <div className="overflow-auto rounded-xl shadow-xl bg-white/90 p-2 max-w-full">
-            <iframe
+          <iframe
             src="https://github.com/sponsors/jvondermarck/card"
             title="Sponsor jvondermarck"
             width="600"
             height="200"
             style={{
-                minWidth: "280px",
-                minHeight: "200px",
-                border: 0,
-                borderRadius: "1rem",
-                background: "transparent"
+              minWidth: "280px",
+              minHeight: "200px",
+              border: 0,
+              borderRadius: "1rem",
+              background: "transparent"
             }}
             className="max-w-full max-h-full"
             allow="payment"
-            />
+          />
         </div>
-        </section>
+      </section>
 
       {/* Features */}
       <FeatureSection />

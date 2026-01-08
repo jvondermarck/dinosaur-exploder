@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,7 @@ import javafx.beans.property.StringProperty;
 public class LanguageManager {
   private final StringProperty selectedLanguage = new SimpleStringProperty("English");
   private static final String TRANSLATION_PATH = "/assets/translation/";
+  private static final String TRANSLATION_PATH_NO_SLASH = "assets/translation/";
   private static final String JSON_FILE_EXTENSION = ".json";
   private Map<String, String> translations = new HashMap<>();
   private static final Logger LOGGER = Logger.getLogger(LanguageManager.class.getName());
@@ -59,7 +61,8 @@ public class LanguageManager {
 
   // Check if the application is running inside a JAR
   private boolean isRunningInsideJar() {
-    try (InputStream is = getClass().getClassLoader().getResourceAsStream(TRANSLATION_PATH)) {
+    try (InputStream is =
+        getClass().getClassLoader().getResourceAsStream(TRANSLATION_PATH_NO_SLASH)) {
       return is == null;
     } catch (IOException e) {
       LOGGER.log(Level.WARNING, "Error checking JAR environment: ", e);
@@ -81,7 +84,10 @@ public class LanguageManager {
       try (JarFile jarFile = new JarFile(jarPath)) {
         jarFile.stream()
             .map(JarEntry::getName)
-            .filter(name -> name.startsWith(TRANSLATION_PATH) && name.endsWith(JSON_FILE_EXTENSION))
+            .filter(
+                name ->
+                    name.startsWith(TRANSLATION_PATH_NO_SLASH)
+                        && name.endsWith(JSON_FILE_EXTENSION))
             .forEach(name -> languages.add(extractLanguageName(name)));
       }
     } catch (IOException e) {
@@ -96,7 +102,7 @@ public class LanguageManager {
   private String extractLanguageName(String path) {
     String lang =
         path.substring(
-            TRANSLATION_PATH.length() - 1,
+            TRANSLATION_PATH_NO_SLASH.length() - 1,
             path.length() - 5); // Remove "assets/translation/" and ".json"
     return capitalizeFirstLetter(lang);
   }
@@ -138,11 +144,11 @@ public class LanguageManager {
     String filePath = TRANSLATION_PATH + language.toLowerCase() + JSON_FILE_EXTENSION;
     try (InputStream inputStream = getClass().getResourceAsStream(filePath)) {
       if (inputStream == null) {
-        throw new RuntimeException("Translation file not found: " + filePath);
+        throw new RuntimeException("Translation file not found:  " + filePath);
       }
 
       ObjectMapper objectMapper = new ObjectMapper();
-      return objectMapper.readValue(inputStream, Map.class);
+      return objectMapper.readValue(inputStream, new TypeReference<>() {});
     } catch (IOException e) {
       LOGGER.log(
           Level.INFO,

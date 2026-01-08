@@ -12,6 +12,7 @@ import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -44,6 +45,7 @@ public class CreditsMenu extends FXGLMenu {
   private GridPane contributorsGrid;
   private VBox loadingIndicator;
   private Text errorText;
+  private ScrollPane scrollPane;
 
   public CreditsMenu() {
     super(MenuType.MAIN_MENU);
@@ -83,7 +85,14 @@ public class CreditsMenu extends FXGLMenu {
     loadingIndicator = createLoadingIndicator();
     errorText = createErrorText();
     contributorsGrid = createContributorsGrid();
-    ScrollPane scrollPane = createScrollPane();
+    scrollPane = createScrollPane();
+
+    // Initially, only loading indicator is visible and managed
+    errorText. setVisible(false);
+    errorText.setManaged(false); // ← Don't take up space
+
+    scrollPane.setVisible(false);
+    scrollPane.setManaged(false);  // ← Don't take up space
 
     VBox contentBox = new VBox(20, loadingIndicator, errorText, scrollPane);
     contentBox.setAlignment(Pos.CENTER);
@@ -167,7 +176,7 @@ public class CreditsMenu extends FXGLMenu {
 
     scrollPane
         .getStylesheets()
-        .add(getClass().getResource("/assets/ui/scrollbar.css").toExternalForm());
+        .add(Objects.requireNonNull(getClass().getResource("/styles/scrollbar.css")).toExternalForm());
 
     return scrollPane;
   }
@@ -183,16 +192,14 @@ public class CreditsMenu extends FXGLMenu {
     CompletableFuture<List<GitHubContributor>> future = gitHubProvider.fetchContributorsAsync();
 
     future.thenAccept(
-        contributors -> {
-          Platform.runLater(
-              () -> {
-                if (contributors != null && !contributors.isEmpty()) {
-                  displayContributors(contributors);
-                } else {
-                  showError();
-                }
-              });
-        });
+        contributors -> Platform.runLater(
+            () -> {
+              if (contributors != null && !contributors.isEmpty()) {
+                displayContributors(contributors);
+              } else {
+                showError();
+              }
+            }));
 
     future.exceptionally(
         throwable -> {
@@ -202,13 +209,23 @@ public class CreditsMenu extends FXGLMenu {
   }
 
   private void displayContributors(List<GitHubContributor> contributors) {
+    // Hide and remove from layout
     loadingIndicator.setVisible(false);
+    loadingIndicator.setManaged(false);
+
     errorText.setVisible(false);
+    errorText.setManaged(false);
+
+    // Show ScrollPane and grid
+    scrollPane.setVisible(true);  // ← Show ScrollPane
+    scrollPane.setManaged(true);  // ← Take up space
+
     contributorsGrid.setVisible(true);
+    contributorsGrid.setManaged(true);
 
     contributorsGrid.getChildren().clear();
 
-    for (int i = 0; i < contributors.size(); i++) {
+    for (int i = 0; i < contributors. size(); i++) {
       GitHubContributor contributor = contributors.get(i);
       VBox contributorBox = createContributorBox(contributor);
 
@@ -220,9 +237,19 @@ public class CreditsMenu extends FXGLMenu {
   }
 
   private void showError() {
+    // Hide and remove from layout
     loadingIndicator.setVisible(false);
-    errorText.setVisible(true);
+    loadingIndicator.setManaged(false);
+
+    scrollPane.setVisible(false);  // ← Hide ScrollPane
+    scrollPane.setManaged(false);  // ← Don't take up space
+
     contributorsGrid.setVisible(false);
+    contributorsGrid.setManaged(false);
+
+    // Show and add to layout
+    errorText. setVisible(true);
+    errorText.setManaged(true);
   }
 
   private VBox createContributorBox(GitHubContributor contributor) {

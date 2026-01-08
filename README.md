@@ -51,8 +51,30 @@ The website features:
 - 📰 Latest news
 - 💻 And, most importantly: **spaces to contribute to the web front-end!** rather than just Java
 
+The website also includes several contribution-friendly pages such as:
+- 📘 **How the game works** – explains gameplay mechanics and controls
+- 🙌 **Credits** – shows contributors using the GitHub API
+- 📬 **Contact** – provides community and support links
+
 > You can also check the `/website` folder in the repo to run it locally.
 > I would suggest to use Visual Studio Code to work on the website rather than IntelliJ IDEA
+
+### 🤝 How to Contribute to the Website
+
+Contributing to the website is simple and does not require any knowledge of Java or FXGL. The website is built with **Next.js** and is intended to be beginner-friendly.
+
+To start contributing:
+1. Fork the repository and clone it locally.
+2. Navigate to the `website` folder.
+3. Follow the steps described in the **Get started locally** section to run the website.
+
+You can contribute by:
+- Improving website content or documentation
+- Adding or updating pages
+- Fixing UI or layout issues
+- Writing or improving unit tests for website components
+
+No changes to the Java game are required to contribute to the website.
 
 ### 🚀 Get started locally
 ```bash

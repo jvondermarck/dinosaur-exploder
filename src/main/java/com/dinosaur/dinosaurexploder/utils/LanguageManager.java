@@ -15,8 +15,8 @@ import javafx.beans.property.StringProperty;
 
 public class LanguageManager {
   private final StringProperty selectedLanguage = new SimpleStringProperty("English");
-  private static final String TRANSLATION_PATH = "/assets/translation/";
   private static final String TRANSLATION_PATH_NO_SLASH = "assets/translation/";
+  private static final String TRANSLATION_PATH = "/" + TRANSLATION_PATH_NO_SLASH;
   private static final String JSON_FILE_EXTENSION = ".json";
   private Map<String, String> translations = new HashMap<>();
   private static final Logger LOGGER = Logger.getLogger(LanguageManager.class.getName());

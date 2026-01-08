@@ -235,8 +235,12 @@ public class DinosaurMenu extends FXGLMenu {
     volumeSlider
         .valueProperty()
         .addListener(
-            (obs, oldVal, newVal) ->
-                volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100)));
+            (obs, oldVal, newVal) -> {
+              AudioManager.getInstance().setVolume(newVal.doubleValue());
+              settings.setVolume(newVal.doubleValue());
+              SettingsProvider.saveSettings(settings);
+              volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100));
+            });
 
     return volumeText;
   }

@@ -11,6 +11,7 @@ import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -45,6 +46,7 @@ public class CreditsMenu extends FXGLMenu {
     private GridPane contributorsGrid;
     private VBox loadingIndicator;
     private Text errorText;
+    private ScrollPane scrollPane;
 
     public CreditsMenu() {
         super(MenuType.MAIN_MENU);
@@ -80,19 +82,25 @@ public class CreditsMenu extends FXGLMenu {
         getContentRoot().getChildren().addAll(background, mainLayout);
     }
 
+  private VBox createContent() {
+    loadingIndicator = createLoadingIndicator();
+    errorText = createErrorText();
+    contributorsGrid = createContributorsGrid();
+    scrollPane = createScrollPane();
 
-    private VBox createContent() {
-        loadingIndicator = createLoadingIndicator();
-        errorText = createErrorText();
-        contributorsGrid = createContributorsGrid();
-        ScrollPane scrollPane = createScrollPane();
+    // Initially, only loading indicator is visible and managed
+    errorText. setVisible(false);
+    errorText.setManaged(false); // ← Don't take up space
 
-        VBox contentBox = new VBox(20, loadingIndicator, errorText, scrollPane);
-        contentBox.setAlignment(Pos.CENTER);
-        contentBox.setPrefWidth(getAppWidth());
+    scrollPane.setVisible(false);
+    scrollPane.setManaged(false);  // ← Don't take up space
 
-        return contentBox;
-    }
+    VBox contentBox = new VBox(20, loadingIndicator, errorText, scrollPane);
+    contentBox.setAlignment(Pos.CENTER);
+    contentBox.setPrefWidth(getAppWidth());
+
+    return contentBox;
+  }
 
     private VBox createLoadingIndicator() {
         Text loadingText = getUIFactoryService()
@@ -167,63 +175,81 @@ public class CreditsMenu extends FXGLMenu {
 
         scrollPane
         .getStylesheets()
-        .add(getClass().getResource("/assets/ui/scrollbar.css").toExternalForm());
-        
-        return scrollPane;
+        .add(Objects.requireNonNull(getClass().getResource("/styles/scrollbar.css")).toExternalForm());
+
+    return scrollPane;
+  }
+
+  private Button createBackButton() {
+    // Use the new MenuHelper method to create a styled button
+    Button backButton = MenuHelper.createStyledButton(languageManager.getTranslation("back"));
+    backButton.setOnAction(event -> fireResume());
+    return backButton;
+  }
+
+  private void loadContributors() {
+    CompletableFuture<List<GitHubContributor>> future = gitHubProvider.fetchContributorsAsync();
+
+    future.thenAccept(
+        contributors -> Platform.runLater(
+            () -> {
+              if (contributors != null && !contributors.isEmpty()) {
+                displayContributors(contributors);
+              } else {
+                showError();
+              }
+            }));
+
+    future.exceptionally(
+        throwable -> {
+          Platform.runLater(this::showError);
+          return null;
+        });
+  }
+
+  private void displayContributors(List<GitHubContributor> contributors) {
+    // Hide and remove from layout
+    loadingIndicator.setVisible(false);
+    loadingIndicator.setManaged(false);
+
+    errorText.setVisible(false);
+    errorText.setManaged(false);
+
+    // Show ScrollPane and grid
+    scrollPane.setVisible(true);  // ← Show ScrollPane
+    scrollPane.setManaged(true);  // ← Take up space
+
+    contributorsGrid.setVisible(true);
+    contributorsGrid.setManaged(true);
+
+    contributorsGrid.getChildren().clear();
+
+    for (int i = 0; i < contributors. size(); i++) {
+      GitHubContributor contributor = contributors.get(i);
+      VBox contributorBox = createContributorBox(contributor);
+
+      int row = i / CONTRIBUTORS_PER_ROW;
+      int col = i % CONTRIBUTORS_PER_ROW;
+
+      contributorsGrid.add(contributorBox, col, row);
     }
+  }
+  
+  private void showError() {
+    // Hide and remove from layout
+    loadingIndicator.setVisible(false);
+    loadingIndicator.setManaged(false);
 
-    private Button createBackButton() {
-        // Use the new MenuHelper method to create a styled button
-        Button backButton = MenuHelper.createStyledButton(languageManager.getTranslation("back"));
-        backButton.setOnAction(event -> fireResume());
-        return backButton;
-    }
+    scrollPane.setVisible(false);  // ← Hide ScrollPane
+    scrollPane.setManaged(false);  // ← Don't take up space
 
-    private void loadContributors() {
-        CompletableFuture<List<GitHubContributor>> future = gitHubProvider.fetchContributorsAsync();
+    contributorsGrid.setVisible(false);
+    contributorsGrid.setManaged(false);
 
-        future.thenAccept(
-                contributors -> {
-                    Platform.runLater(
-                            () -> {
-                                if (contributors != null && !contributors.isEmpty()) {
-                                    displayContributors(contributors);
-                                } else {
-                                    showError();
-                                }
-                            });
-                });
-
-        future.exceptionally(
-                throwable -> {
-                    Platform.runLater(this::showError);
-                    return null;
-                });
-    }
-
-    private void displayContributors(List<GitHubContributor> contributors) {
-        loadingIndicator.setVisible(false);
-        errorText.setVisible(false);
-        contributorsGrid.setVisible(true);
-
-        contributorsGrid.getChildren().clear();
-
-        for (int i = 0; i < contributors.size(); i++) {
-            GitHubContributor contributor = contributors.get(i);
-            VBox contributorBox = createContributorBox(contributor);
-
-            int row = i / CONTRIBUTORS_PER_ROW;
-            int col = i % CONTRIBUTORS_PER_ROW;
-
-            contributorsGrid.add(contributorBox, col, row);
-        }
-    }
-
-    private void showError() {
-        loadingIndicator.setVisible(false);
-        errorText.setVisible(true);
-        contributorsGrid.setVisible(false);
-    }
+    // Show and add to layout
+    errorText. setVisible(true);
+    errorText.setManaged(true);
+  }
 
     private VBox createContributorBox(GitHubContributor contributor) {
         ImageView avatar = createAvatar(contributor.getAvatarUrl());
@@ -339,4 +365,5 @@ public class CreditsMenu extends FXGLMenu {
         }
         return null;
     }
+  
 }

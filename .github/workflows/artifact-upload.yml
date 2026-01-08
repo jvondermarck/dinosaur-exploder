@@ -40,7 +40,7 @@ jobs:
       - name: Rename jar
         run: |
           mkdir output
-          cp target/dinosaur-exploder-1.0.jar output/Dinosaur-Exploder-${{ matrix.platform }}.jar
+          cp target/dinosaur-exploder-*.jar output/Dinosaur-Exploder-${{ matrix.platform }}.jar
 
       - name: Upload single jar artifact
         uses: actions/upload-artifact@v4

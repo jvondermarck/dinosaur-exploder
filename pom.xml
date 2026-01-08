@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dinosaur</groupId>
     <artifactId>dinosaur-exploder</artifactId>
-    <version>1.0</version>
+    <version>1.2.2</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <source.version>21</source.version>

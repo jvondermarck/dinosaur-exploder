@@ -45,23 +45,23 @@ export default function HowGameWorksPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-t border-green-200">
+                <tr className="border-t border-green-200 text-black">
                   <td className="py-2 pr-3">↑ ↓ ← →</td>
                   <td className="py-2">Move the spaceship</td>
                 </tr>
-                <tr className="border-t border-green-200">
+                <tr className="border-t border-green-200 text-black">
                   <td className="py-2 pr-3">Space</td>
                   <td className="py-2">Shoot</td>
                 </tr>
-                <tr className="border-t border-green-200">
+                <tr className="border-t border-green-200 text-black">
                   <td className="py-2 pr-3">E</td>
                   <td className="py-2">Activate shield (short duration)</td>
                 </tr>
-                <tr className="border-t border-green-200">
+                <tr className="border-t border-green-200 text-black">
                   <td className="py-2 pr-3">B</td>
                   <td className="py-2">Bomb (eliminates all dinosaurs on screen)</td>
                 </tr>
-                <tr className="border-t border-green-200">
+                <tr className="border-t border-green-200 text-black">
                   <td className="py-2 pr-3">Esc</td>
                   <td className="py-2">Pause</td>
                 </tr>
@@ -77,7 +77,7 @@ export default function HowGameWorksPage() {
 
           <video
             className="w-full max-h-[420px] object-contain rounded-lg border border-green-700"
-            autoPlay
+            autoPlay={false}
             loop
             controls
             preload="metadata"

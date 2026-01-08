@@ -128,8 +128,10 @@ npm run dev
   ```  
 - **Run the game**:
   ```console
-  $ java -jar target/dinosaur-exploder-1.0.jar
+  $ java -jar target/dinosaur-exploder-<version>.jar
   ```  
+
+> Check the `target/` directory for the generated JAR file to know the exact version.
 
 ➡️ **Run in the Browser**
 - Start a local web server:

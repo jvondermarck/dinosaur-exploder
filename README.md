@@ -39,6 +39,16 @@
 > [!NOTE]
 > I initially developed a very basic game in 2022 and created multiple issues to encourage contributions from the community. The main goal of this repository is not just to build a game, but to provide an open-source project where everyone can contribute step by step.
 
+> [!IMPORTANT]
+> ⭐ **Support this project - it takes just 2 seconds!**
+> 
+> Starring the project, will make increase the visibility, to make it visible to new contributors.
+> 
+> 1. Click the **⭐ Star** button at the top-right of this page
+> 2. That's it! You're done 🎉
+> 
+> <pre><img width="90%" alt="banner-star" src="https://github.com/user-attachments/assets/518c4e7f-2498-4603-8f9b-2ad58e4ec745" />
+
 ## 🌐 Project Website
 
 Explore our modern Next.js website [here](https://dinosaur-exploder.vercel.app/)!

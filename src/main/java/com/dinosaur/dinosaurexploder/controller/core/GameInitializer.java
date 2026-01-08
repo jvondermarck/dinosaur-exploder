@@ -85,7 +85,7 @@ public class GameInitializer {
   private void initGameEntities() {
     spawn("background", 0, 0);
 
-    player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - 200);
+    player = spawn("player", getAppCenter().getX() - 45, getAppHeight() - (double) 200);
 
     // ============ TOP LEFT ZONE (Score, Bomb, Coins, Shield) ============
     double topLeftX = getAppCenter().getX() - 260;

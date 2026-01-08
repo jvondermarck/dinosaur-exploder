@@ -34,6 +34,7 @@
     "shield": "Bouclier",
     "sound": "Son",
     "sound_main": "Arrière-plan",
-    "sound_sfx": "Effets sonores"
+    "sound_sfx": "Effets sonores",
+    "ready": "Prêt"
   }
   

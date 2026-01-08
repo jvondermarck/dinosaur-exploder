@@ -34,5 +34,6 @@
   "shield": "Schild",
   "sound": "Klang",
   "sound_main": "Hintergrund",
-  "sound_sfx": "Soundeffekte"
+  "sound_sfx": "Soundeffekte",
+  "ready": "Bereit"
 }

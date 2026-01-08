@@ -21,8 +21,11 @@ import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -39,6 +42,8 @@ import javafx.util.Duration;
  * Explosion
  */
 public class GameEntityFactory implements EntityFactory {
+  private static final Logger logger = Logger.getLogger(GameEntityFactory.class.getName());
+
   /** Summary : New Background creation will be handled in below Entity */
   @Spawns("background")
   public Entity newBackground(SpawnData data) {
@@ -61,10 +66,11 @@ public class GameEntityFactory implements EntityFactory {
     // Get the selected ship
     int selectedShip = GameData.getSelectedShip();
     String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
-    System.out.println("Nave seleccionada en newPlayer: " + selectedShip);
+    logger.log(Level.INFO, "Spaceship selected in newPlayer: {0}", selectedShip);
 
     // Set Ship Image
-    Image shipImage = new Image(getClass().getResourceAsStream("/" + shipImagePath));
+    Image shipImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + shipImagePath)));
 
     // Ship dimension
     double width = shipImage.getWidth();
@@ -88,7 +94,8 @@ public class GameEntityFactory implements EntityFactory {
     String weaponImagePath =
         "assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
 
-    Image projectileImage = new Image(getClass().getResourceAsStream("/" + weaponImagePath));
+    Image projectileImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + weaponImagePath)));
     return entityBuilderBase(data, EntityType.PROJECTILE)
         // The OffscreenCleanComponent is used because when the projectiles move, if
         // they
@@ -129,7 +136,7 @@ public class GameEntityFactory implements EntityFactory {
   /** spawn random coin on the window */
   @Spawns("coin")
   public Entity newCoin(SpawnData data) {
-    System.out.println("Loading coin texture: " + GameConstants.COIN_IMAGE_FILE);
+    logger.log(Level.INFO, "Loading coin texture: {0}", GameConstants.COIN_IMAGE_FILE);
     return entityBuilderBase(data, EntityType.COIN)
         .with(new OffscreenCleanComponent())
         .view(texture(GameConstants.COIN_IMAGE_FILE, 40, 40))
@@ -156,7 +163,7 @@ public class GameEntityFactory implements EntityFactory {
     player =
         getGameWorld()
             .getEntitiesByComponent(PlayerComponent.class)
-            .get(0)
+            .getFirst()
             .getComponent(PlayerComponent.class);
 
     return entityBuilderBase(data, EntityType.ORANGE_DINO)
@@ -181,7 +188,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : Spawn of a heart in the window will be handled in below Entity */
   @Spawns("heart")
   public Entity newHeart(SpawnData data) {
-    System.out.println("Loading heart texture: " + GameConstants.HEART_IMAGE_FILE);
+    logger.log(Level.INFO, "Loading heart texture: {0}", GameConstants.HEART_IMAGE_FILE);
     return entityBuilderBase(data, EntityType.HEART)
         .with(new OffscreenCleanComponent())
         .view(texture(GameConstants.HEART_IMAGE_FILE))
@@ -210,7 +217,6 @@ public class GameEntityFactory implements EntityFactory {
   public Entity newLife(SpawnData data) {
     Text lifeText = new Text("Lives: 3");
     return entityBuilderBase(data, EntityType.LIFE)
-        .from(data)
         .view(lifeText)
         .with(new LifeComponent())
         .with(new OffscreenCleanComponent())
@@ -223,7 +229,6 @@ public class GameEntityFactory implements EntityFactory {
         getUIFactoryService()
             .newText("Shield: READY", Color.LIME, GameConstants.TEXT_SIZE_GAME_INFO);
     return entityBuilderBase(data, EntityType.SHIELD)
-        .from(data)
         .view(shieldText)
         .with(new ShieldUIComponent(shieldText))
         .with(new OffscreenCleanComponent())
@@ -234,7 +239,6 @@ public class GameEntityFactory implements EntityFactory {
   public Entity newBomb(SpawnData data) {
     Text bombText = new Text("Bombs: 3");
     return entityBuilderBase(data, EntityType.BOMB)
-        .from(data)
         .view(bombText)
         .with(new BombComponent())
         .with(new OffscreenCleanComponent())
@@ -245,7 +249,6 @@ public class GameEntityFactory implements EntityFactory {
   @Spawns("Coins")
   public Entity newCoins(SpawnData data) {
     return entityBuilderBase(data, EntityType.COIN)
-        .from(data)
         .with(new CollectedCoinsComponent())
         .with(new OffscreenCleanComponent())
         .build();
@@ -267,7 +270,11 @@ public class GameEntityFactory implements EntityFactory {
   public Entity newLevel(SpawnData data) {
     Text levelText =
         getUIFactoryService()
-            .newText("Level: 1".toUpperCase(), Color.LIGHTBLUE, GameConstants.TEXT_SIZE_GAME_INFO);
+            .newText(
+                String.format(
+                    "%s: 1", LanguageManager.getInstance().getTranslation("level").toUpperCase()),
+                Color.LIGHTBLUE,
+                GameConstants.TEXT_SIZE_GAME_INFO);
     levelText.setTranslateX(10);
     return entityBuilderBase(data, EntityType.LEVEL).view(levelText).build();
   }
@@ -314,6 +321,6 @@ public class GameEntityFactory implements EntityFactory {
 
   /** Summary : Reusable part of every entity */
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
-    return FXGL.entityBuilder().type(type).from(data);
+    return FXGL.entityBuilder(data).type(type);
   }
 }

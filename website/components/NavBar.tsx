@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -56,6 +56,24 @@ export default function NavBar() {
               className="px-4 py-2 w-full xs:w-auto rounded border border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white font-semibold font-mono transition duration-150 text-center"
             >
               GitHub
+            </a>
+
+            <a
+              href="https://github.com/jvondermarck/dinosaur-exploder/stargazers"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 w-full xs:w-auto rounded border border-yellow-500 text-yellow-700 bg-white hover:bg-yellow-500 hover:text-white font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
+              </svg>
+              Star
             </a>
 
             <a

@@ -36,5 +36,10 @@
     "sound": "Sound",
     "sound_main": "Background",
     "sound_sfx": "Sound effects",
-    "ready": "Ready"
-  }
+    "ready": "Ready",
+    "credits": "Credits",
+    "loading": "Loading",
+    "commits": "commits",
+    "error_loading_contributors": "Unable to load contributors. Please check your internet connection.",
+    "credits_subtitle": "Thank you to all our contributors"
+}

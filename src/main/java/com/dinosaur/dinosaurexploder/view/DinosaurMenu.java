@@ -19,10 +19,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -171,7 +168,24 @@ public class DinosaurMenu extends FXGLMenu {
       changeLanguage(settings.getLanguage());
     }
 
-    applyStylesheet(languageComboBox);
+        //Define what text is drawn, keeping orignal item value (Draws text->"Français" while item value->"French"
+      languageComboBox.setCellFactory(cb -> new ListCell<>() {
+          @Override
+          protected void updateItem(String item, boolean empty) {
+              super.updateItem(item, empty);
+              setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+          }
+      });
+
+      languageComboBox.setButtonCell(new ListCell<>() {
+          @Override
+          protected void updateItem(String item, boolean empty) {
+              super.updateItem(item, empty);
+              setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+          }
+      });
+
+      applyStylesheet(languageComboBox);
     languageComboBox.setOnAction(
         event -> {
           changeLanguage(languageComboBox.getValue());

@@ -16,18 +16,17 @@ import javafx.beans.property.StringProperty;
 public class LanguageManager {
   private final StringProperty selectedLanguage = new SimpleStringProperty("English");
   private Map<String, String> translations = new HashMap<>();
-    private static final Map<String, String> NATIVE_LANGUAGE_NAMES =
-            Map.of(
-                    "English", "English",
-                    "French", "Français",
-                    "German", "Deutsch",
-                    "Spanish", "Español",
-                    "Japanese", "日本語",
-                    "Russian", "Русский",
-                    "Portuguese", "Português",
-                    "Greek", "Ελληνικά",
-                    "Bulgarian", "Български"
-            );
+  private static final Map<String, String> NATIVE_LANGUAGE_NAMES =
+      Map.of(
+          "English", "English",
+          "French", "Français",
+          "German", "Deutsch",
+          "Spanish", "Español",
+          "Japanese", "日本語",
+          "Russian", "Русский",
+          "Portuguese", "Português",
+          "Greek", "Ελληνικά",
+          "Bulgarian", "Български");
 
   private static final String RESOURCE_PATH_SEPARATOR = "/"; // Always forward slash for classpath
   private static final String TRANSLATION_PATH_NO_SLASH = "assets/translation/";
@@ -74,10 +73,11 @@ public class LanguageManager {
     return languages;
   }
 
-  //Returns the language name in the native word (ex. English->English, Spanish->Español). Default returns word in english
-    public String getNativeLanguageName(String language) {
-        return NATIVE_LANGUAGE_NAMES.getOrDefault(language, language);
-    }
+  // Returns the language name in the native word (ex. English->English, Spanish->Español). Default
+  // returns word in english
+  public String getNativeLanguageName(String language) {
+    return NATIVE_LANGUAGE_NAMES.getOrDefault(language, language);
+  }
 
   // Check if the application is running inside a JAR
   private boolean isRunningInsideJar() {

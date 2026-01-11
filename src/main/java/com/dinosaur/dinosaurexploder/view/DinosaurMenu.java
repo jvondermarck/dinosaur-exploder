@@ -168,24 +168,28 @@ public class DinosaurMenu extends FXGLMenu {
       changeLanguage(settings.getLanguage());
     }
 
-        //Define what text is drawn, keeping orignal item value (Draws text->"Français" while item value->"French"
-      languageComboBox.setCellFactory(cb -> new ListCell<>() {
+    // Define what text is drawn, keeping orignal item value (Draws text->"Français" while item
+    // value->"French"
+    languageComboBox.setCellFactory(
+        cb ->
+            new ListCell<>() {
+              @Override
+              protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+              }
+            });
+
+    languageComboBox.setButtonCell(
+        new ListCell<>() {
           @Override
           protected void updateItem(String item, boolean empty) {
-              super.updateItem(item, empty);
-              setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+            super.updateItem(item, empty);
+            setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
           }
-      });
+        });
 
-      languageComboBox.setButtonCell(new ListCell<>() {
-          @Override
-          protected void updateItem(String item, boolean empty) {
-              super.updateItem(item, empty);
-              setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
-          }
-      });
-
-      applyStylesheet(languageComboBox);
+    applyStylesheet(languageComboBox);
     languageComboBox.setOnAction(
         event -> {
           changeLanguage(languageComboBox.getValue());

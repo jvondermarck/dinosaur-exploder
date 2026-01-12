@@ -35,6 +35,10 @@
     "sound": "Son",
     "sound_main": "Arrière-plan",
     "sound_sfx": "Effets sonores",
-    "ready": "Prêt"
-  }
-  
+    "ready": "Prêt",
+    "credits": "Crédits",
+    "loading": "Chargement",
+    "commits": "commits",
+    "error_loading_contributors": "Impossible de charger les contributeurs. Veuillez vérifier votre connexion Internet.",
+    "credits_subtitle": "Merci à tous nos contributeurs"
+}

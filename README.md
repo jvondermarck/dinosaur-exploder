@@ -1,204 +1,254 @@
-<h1 align="center"><img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6072475_960_720.png" width="224px"/><br/>
+<h1 align="center">
+  <img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6072475_960_720.png" width="224px"/><br/>
   Dinosaur Exploder
 </h1>
+
 <p align="center">
-  Dinosaur Exploder is a free, open source shoot 'em up video game <br>
-  written in Java using JavaFX and the FXGL game development library 🦖.<br>
-  <b>Now featuring a companion website built with Next.js 🎉</b>
+  <b>An open-source learning platform disguised as a shoot 'em up game 🦖</b><br>
+  Built with Java/FXGL and Next.js • Perfect for your first (or next) contribution
 </p>
 
 <div align="center">
-  <img align="center" src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/forks/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <br><p></p>
-  <img align="center" src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img align="center" src="https://img.shields.io/github/actions/workflow/status/jvondermarck/dinosaur-exploder/maven-build.yml?label=BUILD&style=for-the-badge">
-    <br><p></p>
-    <img align="center" src="https://img.shields.io/badge/OpenSSF--Best--Practices-passing-brightgreen?logo=opensourceinitiative&style=for-the-badge">
- <img >
+  <img src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder?style=for-the-badge">
+  <img src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge">
+  <img src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge">
+  <img src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder?style=for-the-badge">
+  <br><br>
+  <a href="#-quick-start-for-contributors"><b>🚀 Start Contributing</b></a> • 
+  <a href="https://github.com/jvondermarck/dinosaur-exploder/issues">📋 Browse Issues</a> • 
+  <a href="https://discord.com/invite/nkmCRnXbWm">💬 Join Discord</a> •
+  <a href="https://dinosaur-exploder.vercel.app/">🌐 Website</a>
 </div>
 
-## 📃 Table of content
+---
 
-- [🚀 Goal of the project](#-goal-of-the-project)
-- [🌐 Project Website](#-project-website)
-- [🧑‍💻 Installation](#-installation)
-  - [🛠 Installation on Windows / Linux](#-installation-on-windows--linux)
-  - [💻 Installation Locally](#-installation-locally)
-- [🎮 How to Play](#-how-to-play)
-- [🎥 Gameplay](#-gameplay)
-- [🙏Contributing](#contributing)
-- [🌍 Support](#-support)
-- [✍️ Licence](#-licence)
-- [👨 Creators](#-author)
+## 🎯 Why Contribute Here?
 
-## 🚀 Goal of the project
+This isn't just a game—it's a **real-world project designed for learning and collaboration**. Whether you're looking to: 
 
-> [!NOTE]
-> I initially developed a very basic game in 2022 and created multiple issues to encourage contributions from the community. The main goal of this repository is not just to build a game, but to provide an open-source project where everyone can contribute step by step.
+- ✅ Make your first open-source contribution
+- ✅ Build experience with Java game development (JavaFX, FXGL)
+- ✅ Work with modern web tech (Next.js, TypeScript, React)
+- ✅ Practice Git workflows, CI/CD, and testing
+- ✅ Join a friendly community that helps each other learn
 
-> [!IMPORTANT]
-> ⭐ **Support this project - it takes just 2 seconds!**
-> 
-> Starring the project, will make increase the visibility, to make it visible to new contributors.
-> 
-> 1. Click the **⭐ Star** button at the top-right of this page
-> 2. That's it! You're done 🎉
-> 
-> <pre><img width="90%" alt="banner-star" src="https://github.com/user-attachments/assets/518c4e7f-2498-4603-8f9b-2ad58e4ec745" />
+**You're in the right place!** 🎉
 
-## 🌐 Project Website
+> ⭐ **Like what you see?** Star the repo to help others discover it!
 
-Explore our modern Next.js website [here](https://dinosaur-exploder.vercel.app/)!
+---
 
-While this project is primarily about Java and FXGL, we've added a web front-end to welcome more contributors and showcase the game.  
-
-The website features:
-- 📑 Game documentation  
-- 🖼️ Image galleries  
-- 📰 Latest news
-- 💻 And, most importantly: **spaces to contribute to the web front-end!** rather than just Java
-
-The website also includes several contribution-friendly pages such as:
-- 📘 **How the game works** – explains gameplay mechanics and controls
-- 🙌 **Credits** – shows contributors using the GitHub API
-- 📬 **Contact** – provides community and support links
-
-> You can also check the `/website` folder in the repo to run it locally.
-> I would suggest to use Visual Studio Code to work on the website rather than IntelliJ IDEA
-
-### 🤝 How to Contribute to the Website
-
-Contributing to the website is simple and does not require any knowledge of Java or FXGL. The website is built with **Next.js** and is intended to be beginner-friendly.
-
-To start contributing:
-1. Fork the repository and clone it locally.
-2. Navigate to the `website` folder.
-3. Follow the steps described in the **Get started locally** section to run the website.
-
-You can contribute by:
-- Improving website content or documentation
-- Adding or updating pages
-- Fixing UI or layout issues
-- Writing or improving unit tests for website components
-
-No changes to the Java game are required to contribute to the website.
-
-### 🚀 Get started locally
-```bash
-cd website
-npm install
-npm run dev
-```
-
-## 🧑‍💻 Installation
-
-> [!IMPORTANT]
-> Be aware to download the version of [Open JDK 21](https://jdk.java.net/archive/) before installing. I bet you can download any JDK you want, it just needs to be version 21.
-> Run the command `java --version` to make sure Java 21 is installed.
-
-### 🛠 Installation on Windows / Linux / Mac
-
-🚀 **Quick Start**:
-1. **Download the latest release** ➡️ [Click here](https://github.com/jvondermarck/dinosaur-exploder/tags) and grab the appropriate JAR for your platform:
-   - 🪟 `dinosaur-exploder-win-<version>.jar`
-   - 🐧 `dinosaur-exploder-linux-<version>.jar`
-   - 🍎 `dinosaur-exploder-mac-<version>.jar`
-2. **Run the game** by executing the following command in your terminal:
-   ```console
-   $ java -jar dinosaur-exploder-<platform>-<version>.jar
-   ```
-
-### 💻 Installation Locally
-
-💡 **No need to install** [JavaFX](https://openjfx.io/openjfx-docs/#introduction) or FXGL manually—Maven will handle dependencies automatically!
-
-#### 📥 Clone the repository
-1. **Fork** the repository ➡️ [`Click here`](https://github.com/jvondermarck/dinosaur-exploder/fork).
-2. In your terminal, run:
-   ```console
-   $ git clone git@github.com:<your-username>/dinosaur-exploder.git
-   ```
-
-#### 🏗️ Build & Run
-
-➡️ **Using an IDE (Recommended)**
-- Open the project in **IntelliJ IDEA** (or any Java IDE).
-- Sync the Maven project.
-- Run the main class:
-  - Locate `com.dinosaur.dinosaurexploder.DinosaurApp`.
-  - Hit **Run** ▶️
-
-➡️ **Using the Command Line**
-- **Generate the JAR**:
-  ```console
-  $ mvn package
-  ```  
-- **Run the game**:
-  ```console
-  $ java -jar target/dinosaur-exploder-<version>.jar
-  ```  
-
-> Check the `target/` directory for the generated JAR file to know the exact version.
-
-➡️ **Run in the Browser**
-- Start a local web server:
-  ```console
-  $ mvn jpro:run
-  ```  
-- Open **http://localhost:8080/** 🌐
-
-> 📖 **Need more details?**  
-> Check out our **[installation guide](https://github.com/jvondermarck/dinosaur-exploder/wiki/Documentation#dinosaur-exploder-documentation)** for in-depth instructions!
-
-## 🎮 How to Play
-
-Play the game with these controls:
-
-- ⬆️ <kbd>Up Arrow</kbd>: move spaceship up.
-- ⬇️ <kbd>Down Arrow</kbd>: move spaceship down.
-- ⬅️ <kbd>Left Arrow</kbd>: move spaceship left.
-- ➡️ <kbd>Right Arrow</kbd>: move spaceship right.
-- ⏸️ <kbd>Escape</kbd>: pause the game.
-- 🔫 <kbd>Space</kbd>: shoot.
-- 🛡️ <kbd>E</kbd>: shield to protect the spaceship during few seconds.
-- 💥 <kbd>B</kbd>: eliminate all the dinosaurs on the screen using a bomb.
-
-## 🎥 Gameplay
-
-> Here is a demo of the actual game. Dare to play it now 🎮 !
+## 🎥 What We're Building
 
 https://github.com/user-attachments/assets/4f505240-2d6d-4523-8a93-7e9ffebe4145
 
-## 🙏 Contributing
+A classic arcade shooter with:
+- 🎮 **Java game engine** (JavaFX + FXGL)
+- 🌐 **Next.js website** for docs, galleries, and community features
+- 🔄 **CI/CD pipeline** with GitHub Actions
+- 🧪 **Unit tests** and best practices
+- 🔓 **Open architecture** for easy contributions
 
-> [!TIP]
-> I am very much open to contributions - please read our [code of conduct](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/jvondermarck/dinosaur-exploder/blob/main/CONTRIBUTING.md) first.
+---
 
-## 🌍 Support
+## 🚀 Quick Start for Contributors
 
-**Any question ? 🦖 Feel free to write us something :**
+### Step 1: Pick Your Tech Stack
 
-- You can ask any question on [GitHub Discussion](https://github.com/jvondermarck/dinosaur-exploder/discussions).
-- To be updated of everything, follow us on [Twitter](https://twitter.com/DinosaurExplod1).
-- You can post an article on our [Website blog](https://dinosaur-exploder.freecluster.eu/forum).
-- For quick communication, feel free to join our [Discord server](https://discord.com/invite/nkmCRnXbWm).
+<table>
+<tr>
+<td width="50%">
 
-## ✍️ Licence
+### 🎮 **Java Game Development**
+**Tech:** Java 21, JavaFX, FXGL, Maven
 
-> This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/jvondermarck/dinosaur-exploder/blob/main/LICENSE) file for details.
+**Great if you want to learn:**
+- Game development fundamentals
+- Entity systems and game loops
+- Collision detection
+- Audio/visual effects
 
-## 👨 Author
+**Browse:** [Game issues →](https://github.com/jvondermarck/dinosaur-exploder/labels/java)
 
-Initially, the project was a collaboration between three creators : Dylan, Maxime, and myself—as part of a school project at the University of Cork in 2022. However, after the semester ended, I took over full responsibility for the project, while my teammates moved on to other endeavors.
+</td>
+<td width="50%">
 
-<table align="center">
-  <tr>
-    <th><img src="https://avatars.githubusercontent.com/u/62793491?v=4?size=115" width="115"><br><strong>@jvondermarck</strong></th>
-  </tr>
-  <tr align="center">
-    <td>I am responsible for all aspects of the project, including project management, documentation, web development, and game programming.</td>
-  </tr>
+### 🌐 **Website Development**
+**Tech:** Next.js, TypeScript, React, Tailwind CSS
+
+**Great if you want to learn:**
+- Modern React patterns
+- Server-side rendering
+- API integration (GitHub API)
+- Responsive design
+
+**Browse:** [Website issues →](https://github.com/jvondermarck/dinosaur-exploder/issues?q=state%3Aopen%20label%3ANext.js)
+
+</td>
+</tr>
 </table>
+
+### Step 2: Set Up Your Environment
+
+<details>
+<summary><b>🎮 Java Setup (Click to expand)</b></summary>
+
+#### Prerequisites
+- **Java >=21** ([Download](https://jdk.java.net/archive/))
+  - You can download the Java [Open JDK 21](https://jdk.java.net/archive/). You can download any JDK you want, it just needs to be version 21 or greater.
+  - Run the command `java --version` to make sure Java >= 21 is installed.
+  - The environment variable `JAVA_HOME` must be set (either you're on MacOS, Windows, Linux). You can check with the command `echo $JAVA_HOME`.
+- Git
+- IDE (IntelliJ IDEA recommended)
+
+#### Installation
+```bash
+# 1. Fork the repo on GitHub
+# 2. Clone your fork
+git clone git@github.com:<your-username>/dinosaur-exploder.git
+cd dinosaur-exploder
+
+# 3. Build and run
+mvn clean install
+mvn javafx:run
+
+# Or using an IDE: 
+# - Open project in IntelliJ
+# - Run com.dinosaur.dinosaurexploder.DinosaurApp or hit the run button at the top right
+```
+
+#### Testing
+```bash
+mvn test
+```
+
+#### Browser Version (Optional)
+```bash
+mvn jpro:run
+# Open http://localhost:8080
+```
+
+📖 **More details:** [Java Setup Guide](https://github.com/jvondermarck/dinosaur-exploder/wiki/Java-Installation-Guide)
+
+</details>
+
+<details>
+<summary><b>🌐 Website Setup (Click to expand)</b></summary>
+
+#### Prerequisites
+- **Node.js >=20** ([Download](https://nodejs.org/))
+- Git
+- IDE (VS Code recommended for Next.js)
+
+#### Installation
+```bash
+# 1. Fork the repo on GitHub
+# 2. Clone your fork
+git clone git@github.com:<your-username>/dinosaur-exploder.git
+cd dinosaur-exploder/website
+
+# 3. Install and run
+npm install
+npm run dev
+
+# Open http://localhost:3000
+```
+
+#### Testing
+```bash
+npm test
+npm run lint
+```
+
+📖 **More details:** [Website Setup Guide](https://github.com/jvondermarck/dinosaur-exploder/wiki/Node.js-Installation-Guide)
+
+</details>
+
+### Step 3: Find an Issue
+
+**New to open source?** Start here:
+- [`good first issue`](https://github.com/jvondermarck/dinosaur-exploder/labels/good%20first%20issue) - Perfect for beginners
+- [`help wanted`](https://github.com/jvondermarck/dinosaur-exploder/issues?q=state%3Aopen%20label%3A%22status%3A%20help-wanted%22) - We'd love help with these
+- [`documentation`](https://github.com/jvondermarck/dinosaur-exploder/issues?q=state%3Aopen%20label%3A%22type%3A%20documentation%22) - No coding required
+
+**Ready for more?** Check: 
+- [`enhancement`](https://github.com/jvondermarck/dinosaur-exploder/issues?q=state%3Aopen%20label%3A%22type%3A%20enhancement%22) - New features
+- [`bug`](https://github.com/jvondermarck/dinosaur-exploder/issues?q=state%3Aopen%20label%3A%22type%3A%20bug%22) - Fix something broken
+
+**Have your own idea?** [Open a discussion](https://github.com/jvondermarck/dinosaur-exploder/discussions) first!
+
+### Step 4: Make Your Contribution
+
+1. **Create a branch**:  `git checkout -b feature/your-feature-name`
+2. **Make your changes** (don't forget tests!)
+3. **Commit**: `git commit -m "Add: description of your change"`
+4. **Push**: `git push origin feature/your-feature-name`
+5. **Open a Pull Request** on GitHub
+
+📖 **Full guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+## 📚 Documentation & Resources
+
+- 📘 [Wiki](https://github.com/jvondermarck/dinosaur-exploder/wiki) - Architecture, guides, and tutorials
+- 🎨 [Project Website](https://dinosaur-exploder.vercel.app/) - Game info and community content
+- 🤝 [Code of Conduct](CODE_OF_CONDUCT.md) - Our community standards
+- 📋 [Contributing Guide](CONTRIBUTING.md) - Detailed contribution workflow
+
+---
+
+## 💬 Community & Support
+
+**Get help, share ideas, or just hang out:**
+
+- 💬 **[Discord](https://discord.com/invite/nkmCRnXbWm)** - Real-time chat with the community (most active!)
+- 🗨️ **[GitHub Discussions](https://github.com/jvondermarck/dinosaur-exploder/discussions)** - Q&A, ideas, and announcements
+- 🐦 **[Twitter](https://twitter.com/DinosaurExplod1)** - Project updates
+
+**Stuck?** Don't hesitate to ask!  We're here to help you learn. 🦖
+
+---
+
+## 🎮 Want to Just Play?
+
+**Requirements:** Java 21
+
+Download the latest release:
+- [🪟 Windows](https://github.com/jvondermarck/dinosaur-exploder/releases) 
+- [🐧 Linux](https://github.com/jvondermarck/dinosaur-exploder/releases)
+- [🍎 macOS](https://github.com/jvondermarck/dinosaur-exploder/releases)
+
+```bash
+java -jar dinosaur-exploder-<platform>-<version>.jar
+```
+
+**Controls:** Arrow keys (move) • Space (shoot) • E (shield) • B (bomb) • Esc (pause)
+
+---
+
+## 🏗️ Project Background
+
+I created this project in 2022 at Munster Technological University (MTU Cork) as a school assignment with two classmates. After the semester ended, I decided to transform it into something bigger:  **a welcoming space where developers can gain real-world experience through meaningful contributions**.
+
+The goal isn't perfection—it's **learning by doing**. Every issue is an opportunity, and every contributor makes this project better.
+
+---
+
+## 📊 Project Stats
+
+![Alt](https://repobeats.axiom.co/api/embed/f0e2627d3bca4c04bde531f392f027e8e2697ccc.svg "Repobeats analytics image")
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+<div align="center">
+  Made with ❤️ by <a href="https://github.com/jvondermarck">@jvondermarck</a> and our amazing <a href="https://github.com/jvondermarck/dinosaur-exploder/graphs/contributors">contributors</a>
+  <br><br>
+  <sub>⭐ Star us on GitHub — it helps more developers find this project!</sub>
+</div>

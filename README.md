@@ -170,7 +170,7 @@ Play the game with these controls:
 
 > Here is a demo of the actual game. Dare to play it now 🎮 !
 
-https://github.com/user-attachments/assets/4b5a6ed4-2e68-4e12-a9c8-8a6c33178c5e
+https://github.com/user-attachments/assets/4f505240-2d6d-4523-8a93-7e9ffebe4145
 
 ## 🙏 Contributing
 

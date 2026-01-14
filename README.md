@@ -1,34 +1,35 @@
-<h1 align="center">
-  <img width="60%" alt="image" src="https://github.com/user-attachments/assets/71df300c-c44a-4eea-8a36-1ec8716fd590" />
-  
-  <br/>
-  Dinosaur Exploder
 <!--
+<h1 align="center">
+  <img width="70%"  alt="image" src="https://github.com/user-attachments/assets/2623c200-16a4-4cca-9a56-4a506b519f41" />
   <img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6072475_960_720.png" width="224px"/><br/>
   Dinosaur Exploder
-  -->
 </h1>
-
-
-<p align="center">
-  <b>An open-source learning platform disguised as a shoot 'em up game 🦖</b><br>
-  Built with Java/FXGL and Next.js • Perfect for your first (or next) contribution
-</p>
-
+-->
 <div align="center">
-  <img src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <img src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge">
-  <img src="https://img.shields.io/github/license/jvondermarck/dinosaur-exploder?style=for-the-badge">
-  <br><br>
-  <a href="#-quick-start-for-contributors"><b>🚀 Start Contributing</b></a> • 
-  <a href="https://github.com/jvondermarck/dinosaur-exploder/issues">📋 Browse Issues</a> • 
-  <a href="https://discord.com/invite/nkmCRnXbWm">💬 Join Discord</a> •
-  <a href="https://dinosaur-exploder.vercel.app/">🌐 Website</a>
+  <a href="https://github.com/jvondermarck/dinosaur-exploder">
+    <img width="70%" alt="Dinosaur Exploder - Classic Arcade Shooter" src="https://github.com/user-attachments/assets/2623c200-16a4-4cca-9a56-4a506b519f41" />
+  </a>
+
+  <h3>🦖 Dinosaur Exploder</h3>
+  
+  <p>
+    <b>An open-source learning platform disguised as a shoot 'em up game</b><br>
+    Built with Java/FXGL and Next.js • Perfect for your first (or next) contribution
+  </p>
+
+  <kbd><a href="#-quick-start-for-contributors"><b>🚀 Quick Start</b></a></kbd>
+  <kbd><a href="https://github.com/jvondermarck/dinosaur-exploder/issues"><b>📋 Browse Issues</b></a></kbd>
+  <kbd><a href="https://discord.com/invite/nkmCRnXbWm"><b>💬 Discord</b></a></kbd>
+  <kbd><a href="https://dinosaur-exploder.vercel.app/"><b>🌐 Website</b></a></kbd>
+
+  <img src="https://img.shields.io/github/contributors/jvondermarck/dinosaur-exploder?style=for-the-badge&color=4CAF50">
+  <img src="https://img.shields.io/github/issues/jvondermarck/dinosaur-exploder?style=for-the-badge&color=2196F3">
+  <img src="https://img.shields.io/github/forks/jvondermarck/dinosaur-exploder?style=for-the-badge&color=FFA726">
+  <img src="https://img.shields.io/github/stars/jvondermarck/dinosaur-exploder?style=for-the-badge&color=FFD700">
+  <img src="https://img.shields.io/discord/946130675034095667?label=DISCORD&style=for-the-badge&logo=discord&logoColor=white&color=7289DA">  
 </div>
 
 ---
-
 ## 🎯 Why Contribute Here?
 
 This isn't just a game—it's a **real-world project designed for learning and collaboration**. Whether you're looking to: 

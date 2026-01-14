@@ -7,7 +7,7 @@
 -->
 <div align="center">
   <a href="https://github.com/jvondermarck/dinosaur-exploder">
-    <img width="70%" alt="Dinosaur Exploder - Classic Arcade Shooter" src="https://github.com/user-attachments/assets/2623c200-16a4-4cca-9a56-4a506b519f41" />
+    <img width="70%" alt="Dinosaur Exploder - Classic Arcade Shooter" src="https://github.com/user-attachments/assets/978572a9-cc8d-4233-804f-f8b3e16186a3" />
   </a>
 
   <h3>🦖 Dinosaur Exploder</h3>

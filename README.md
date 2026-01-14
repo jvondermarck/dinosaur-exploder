@@ -1,7 +1,14 @@
 <h1 align="center">
+  <img width="60%" alt="image" src="https://github.com/user-attachments/assets/71df300c-c44a-4eea-8a36-1ec8716fd590" />
+  
+  <br/>
+  Dinosaur Exploder
+<!--
   <img src="https://cdn.pixabay.com/photo/2021/03/05/22/44/dinosaur-6072475_960_720.png" width="224px"/><br/>
   Dinosaur Exploder
+  -->
 </h1>
+
 
 <p align="center">
   <b>An open-source learning platform disguised as a shoot 'em up game 🦖</b><br>

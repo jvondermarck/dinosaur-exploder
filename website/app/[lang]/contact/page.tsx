@@ -1,45 +1,47 @@
 import type { Metadata } from "next";
+import { getDictionary } from "@/getDictionary";
+import {Locale} from "../../../i18n-config";
 
 export const metadata: Metadata = {
   title: "Contact · Dinosaur Exploder",
   description: "How to reach the Dinosaur Exploder community and maintainers.",
 };
 
-const links = [
-  {
-    title: "GitHub Discussions",
-    description: "Ask questions, propose ideas, and get help.",
-    href: "https://github.com/jvondermarck/dinosaur-exploder/discussions",
-  },
-  {
-    title: "Discord",
-    description: "Quick chat with the community.",
-    href: "https://discord.com/invite/nkmCRnXbWm",
-  },
-  {
-    title: "Twitter",
-    description: "Follow updates and announcements.",
-    href: "https://twitter.com/DinosaurExplod1",
-  },
-  {
-    title: "Sponsor",
-    description: "Support development if you like the project.",
-    href: "https://github.com/sponsors/jvondermarck",
-  },
-];
+export default async function ContactPage({params,}: {params: Promise<{lang: string}>;}) {
+  const {lang} = await params;
+  const dict = await getDictionary(lang as Locale);
+  const { contact } = dict;
 
-export default function ContactPage() {
+  const contactLinks = [
+    {
+      ...contact.links.github,
+      href: "https://github.com/jvondermarck/dinosaur-exploder/discussions",
+    },
+    {
+      ...contact.links.discord,
+      href: "https://discord.com/invite/nkmCRnXbWm",
+    },
+    {
+      ...contact.links.twitter,
+      href: "https://twitter.com/DinosaurExplod1",
+    },
+    {
+      ...contact.links.sponsor,
+      href: "https://github.com/sponsors/jvondermarck",
+    },
+  ];
+  
   return (
     <div className="max-w-4xl mx-auto w-full px-4 md:px-8 py-10">
       <h1 className="font-retro text-3xl md:text-4xl text-green-800 mb-3">
-        Contact
+        {contact.title}
       </h1>
       <p className="font-mono text-green-950 mb-8">
-        The fastest way to reach us is through the community channels below.
+        {contact.description}
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {links.map((l) => (
+        {contactLinks.map((l) => (
           <a
             key={l.title}
             href={l.href}
@@ -58,9 +60,9 @@ export default function ContactPage() {
       </div>
 
       <div className="mt-10 bg-black/80 rounded-xl border-2 border-green-700 p-5 shadow-sm">
-        <h2 className="font-retro text-xl text-green-300 mb-2">Contribute</h2>
+        <h2 className="font-retro text-xl text-green-300 mb-2"> {contact.contribute.title} </h2>
         <p className="font-mono text-green-100">
-          Want to help? Pick an issue on GitHub, or contribute to the website in the <code>/website</code> folder.
+          {contact.contribute.description}
         </p>
       </div>
     </div>

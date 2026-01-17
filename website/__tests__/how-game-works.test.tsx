@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import HowGameWorksPage from "../app/how-game-works/page";
+import HowGameWorksPage from "../app/[lang]/how-game-works/page";
 
 describe("HowGameWorksPage", () => {
   it("renders the main heading", () => {

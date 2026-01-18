@@ -13,11 +13,10 @@ public class CollisionHandler {
     private final LevelManager levelManager;
     private final AchievementManager achievementManager;
 
-    public CollisionHandler(LevelManager levelManager,
-                            AchievementManager achievementManager) {
-        this.levelManager = levelManager;
-        this.achievementManager = achievementManager;
-    }
+  public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
+    this.levelManager = levelManager;
+    this.achievementManager = achievementManager;
+  }
 
   public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
     this.levelManager = levelManager;

@@ -60,12 +60,10 @@ public class CollisionHandler {
     lifeComponent.increaseLife(1);
   }
 
-    private boolean adjustLevel() {
-        if (levelManager.shouldAdvanceLevel()) {
-            levelManager.nextLevel();
-            return true;
-        }
-        return false;
+  private boolean adjustLevel() {
+    if (levelManager.shouldAdvanceLevel()) {
+      levelManager.nextLevel();
+      return true;
     }
     return false;
   }

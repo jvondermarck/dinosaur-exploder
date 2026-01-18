@@ -47,6 +47,7 @@ public class AchievementManager {
             achievement.onDinosaurKilled();
         }
     }
+  }
 
     public List<Achievement> getActiveAchievements() {
         return activeAchievements;

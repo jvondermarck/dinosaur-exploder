@@ -20,7 +20,6 @@ import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.scene.input.KeyCode;
-import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 
 public class GameInitializer {
 

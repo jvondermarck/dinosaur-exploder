@@ -24,12 +24,12 @@ public class CollisionHandler {
     this.achievementManager = achievementManager;
   }
 
-    public boolean isLevelUpAfterHitDino(
-            ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
-        scoreComponent.incrementScore(1);
-        levelManager.incrementDefeatedEnemies();
-        achievementManager.notifyDinosaurKilled();
-        levelProgressBarComponent.updateProgress();
+  public boolean isLevelUpAfterHitDino(
+      ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+    scoreComponent.incrementScore(1);
+    levelManager.incrementDefeatedEnemies();
+    achievementManager.notifyDinosaurKilled();
+    levelProgressBarComponent.updateProgress();
 
     return adjustLevel();
   }

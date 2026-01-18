@@ -7,8 +7,6 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.DinosaurController;
 import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
-
 
 /**
  * Summary : The Factory handles the DinosaurApp,Physics,Settings and Input of all entities in the

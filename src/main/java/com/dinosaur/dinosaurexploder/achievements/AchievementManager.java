@@ -52,11 +52,9 @@ public class AchievementManager {
         return activeAchievements;
     }
 
-    public Achievement getActiveAchievement() {
-        if (activeAchievements.isEmpty()) {
-            return null;
-        }
-        return activeAchievements.get(0);
+  public Achievement getActiveAchievement() {
+    if (activeAchievements.isEmpty()) {
+      return null;
     }
 
 }

@@ -20,4 +20,7 @@ public interface Achievement {
         // optional override
     }
 
+  default void onDinosaurKilled() {
+    // optional override
+  }
 }

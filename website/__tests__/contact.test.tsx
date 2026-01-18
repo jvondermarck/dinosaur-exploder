@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import ContactPage from "../app/contact/page";
+import ContactPage from "../app/[lang]/contact/page";
 
 describe("ContactPage", () => {
   it("renders the Contact heading", () => {

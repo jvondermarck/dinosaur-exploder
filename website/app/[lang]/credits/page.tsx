@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getDictionary } from "@/getDictionary";
+import {Locale} from "../../../i18n-config";
 
 type Contributor = {
   id: number;
@@ -30,22 +32,24 @@ async function getContributors(): Promise<Contributor[]> {
   return res.json();
 }
 
-export default async function CreditsPage() {
+export default async function CreditsPage({params,}: {params: Promise<{lang: string}>;}) {
   const contributors = await getContributors();
+  const {lang} = await params;
+  const dict = await getDictionary(lang as Locale);
 
   return (
     <div className="max-w-5xl mx-auto w-full px-4 md:px-8 py-10">
       <h1 className="font-retro text-3xl md:text-4xl text-green-800 mb-3">
-        Credits
+        {dict.credits.title}
       </h1>
       <p className="font-mono text-green-950 mb-8">
-        This project exists thanks to the community. Here are the GitHub contributors ❤️
+        {dict.credits.description}
       </p>
 
       {contributors.length === 0 ? (
         <div className="bg-white/80 rounded-xl border border-green-200 p-5 shadow-sm">
           <p className="font-mono text-green-950">
-            Couldn&apos;t load contributors right now (GitHub API limit or network). Please try again later.
+            {dict.credits.error}
           </p>
         </div>
       ) : (
@@ -71,7 +75,7 @@ export default async function CreditsPage() {
                     {c.login}
                   </div>
                   <div className="font-mono text-xs text-green-950 opacity-80">
-                    {c.contributions} contribution{c.contributions === 1 ? "" : "s"}
+                    {c.contributions} {c.contributions === 1 ? dict.credits.single : dict.credits.plural}
                   </div>
                 </div>
               </div>
@@ -81,9 +85,9 @@ export default async function CreditsPage() {
       )}
 
       <div className="mt-10 bg-black/80 rounded-xl border-2 border-green-700 p-5 shadow-sm">
-        <h2 className="font-retro text-xl text-green-300 mb-2">Add your name here</h2>
+        <h2 className="font-retro text-xl text-green-300 mb-2"> {dict.credits.addName.title} </h2>
         <p className="font-mono text-green-100">
-          Want to appear on this list? Make a PR (game or website), and GitHub will automatically include you.
+          {dict.credits.addName.description}
         </p>
       </div>
     </div>

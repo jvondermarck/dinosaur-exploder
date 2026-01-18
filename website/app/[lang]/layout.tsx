@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Press_Start_2P } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
+import { getDictionary } from "@/getDictionary";
+import {Locale} from "../../i18n-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,18 +31,24 @@ export const metadata: Metadata = {
     description: "Open source retro shoot 'em up game.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
         children,
+        params,
     }: {
     children: React.ReactNode;
+    params: Promise<{ lang: string }>;
 }) {
+    const {lang} = await params;
+    const dict = await getDictionary(lang as Locale);
+
     return (
-        <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable}`}>
+        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable}`}>
             <body className="antialiased">
                 <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-100 via-white to-green-50">
-                    <NavBar />
+                    <LocaleSwitcher />
+                    <NavBar lang={lang} dict={dict}/>
                     <main className="flex-1 flex flex-col">{children}</main>
-                    <Footer />
+                    <Footer text={dict.footer}/>
                 </div>
             </body>
         </html>

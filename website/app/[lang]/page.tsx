@@ -1,7 +1,11 @@
 import FeatureSection from "@/components/FeatureSection";
 import Image from "next/image";
+import { getDictionary } from "@/getDictionary";
 
-export default function Home() {
+export default async function Home({params}: {params: Promise<{lang: string}>}) {
+  const {lang} = await params;
+  const dict = await getDictionary(lang as any);
+
   return (
     <div className="flex flex-col">
       {/* Hero */}
@@ -31,7 +35,13 @@ export default function Home() {
             <span className="text-black bg-green-200 px-2 rounded">Shoot &apos;em up </span>
           </h1>
           <p className="text-lg mb-6 max-w-xl text-green-900 font-mono bg-white/80 rounded-lg border-l-4 border-green-700 py-4 px-4 shadow-md">
-            <b>Dinosaur Exploder</b> is an open-source, classic arcade shooter.<br />Made with Java, JavaFX & FXGL.<br />Pure pixel action. Pure fun!
+           {dict.homePage.description.map((line: string, index: number) => (
+    <span key={index}>
+      {line}
+      {/* add line change (<br />), except from last row */}
+      {index !== dict.homePage.description.length - 1 && <br />}
+    </span>
+  ))}
           </p>
           <div className="flex gap-4 flex-wrap justify-center md:justify-start mb-2">
             <a
@@ -40,7 +50,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="inline-block font-retro px-7 py-3 rounded-full bg-green-700 hover:bg-green-600 text-white text-lg shadow-lg transition hover:scale-110"
             >
-              View on GitHub
+              {dict.homePage.button}
             </a>
           </div>
         </div>
@@ -68,7 +78,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <FeatureSection />
+      <FeatureSection dict={dict.features}/>
     </div>
   );
 }

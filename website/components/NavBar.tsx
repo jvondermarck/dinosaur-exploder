@@ -1,22 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 
-const navItems = [
-  { href: "/how-game-works", label: "How game works" },
-  { href: "/credits", label: "Credits" },
-  { href: "/contact", label: "Contact" },
-];
-
-export default function NavBar() {
+export default function NavBar({lang, dict}: {lang: string; dict: any}) {
   const pathname = usePathname();
+  const navItems = [
+    { href: "/how-game-works", label: dict.NavBar.howGameWorks},
+    { href: "/credits", label: dict.NavBar.credits },
+    { href: "/contact", label: dict.NavBar.contact },
+  ];
+
   return (
     <nav className="w-full px-2 sm:px-6 py-4 bg-transparent">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
         {/* Title */}
         <Link
-          href="/"
+          href={`/${lang}`}
           className="font-retro text-green-700 text-2xl drop-shadow-sm tracking-wide text-center sm:text-left hover:opacity-90"
         >
           DINOSAUR EXPLODER
@@ -28,12 +28,13 @@ export default function NavBar() {
           {/* Internal links */}
           <div className="flex flex-col xs:flex-row gap-2 justify-center">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const localisedHref = `/${lang}${item.href}`;
+              const isActive = pathname === localisedHref;
 
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={localisedHref}
                   className={
                     "px-4 py-2 w-full xs:w-auto rounded border font-semibold font-mono transition duration-150 text-center " +
                     (isActive

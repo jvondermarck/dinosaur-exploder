@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import CreditsPage from "../app/credits/page";
+import CreditsPage from "../app/[lang]/credits/page";
 
 // Mock next/image for Jest (no `any`)
 jest.mock("next/image", () => ({

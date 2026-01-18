@@ -43,11 +43,11 @@ public class CollisionHandler {
         return lifeComponent.decreaseLife(1);
     }
 
-    public void onPlayerGetCoin(
-            CollectedCoinsComponent collectedCoinsComponent,
-            ScoreComponent scoreComponent,
-            @Nullable BombComponent bombComponent) {
-        collectedCoinsComponent.incrementCoin();
+  public void onPlayerGetCoin(
+      CollectedCoinsComponent collectedCoinsComponent,
+      ScoreComponent scoreComponent,
+      @Nullable BombComponent bombComponent) {
+    collectedCoinsComponent.incrementCoin();
 
         scoreComponent.incrementScore(2);
         // Check for bomb regeneration when coin is collected

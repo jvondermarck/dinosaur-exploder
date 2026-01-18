@@ -4,8 +4,8 @@ public interface Achievement {
     // Short description shown to the player
     String getDescription();
 
-    // Called every frame to check if achievement is completed
-    boolean isCompleted();
+  // Called every frame to check if achievement is completed
+  boolean isCompleted();
 
     // Logic check (kills, time, survival, etc.)
     void update(double tpf);

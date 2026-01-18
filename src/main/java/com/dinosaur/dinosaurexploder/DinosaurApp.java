@@ -15,9 +15,9 @@ import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
  * game
  */
 public class DinosaurApp extends GameApplication {
-    DinosaurGUI gui = new DinosaurGUI();
-    DinosaurController controller = new DinosaurController();
-    private AchievementManager achievementManager;
+  DinosaurGUI gui = new DinosaurGUI();
+  DinosaurController controller = new DinosaurController();
+  private AchievementManager achievementManager;
 
 
   /**

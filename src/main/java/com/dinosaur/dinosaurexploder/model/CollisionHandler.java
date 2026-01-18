@@ -11,15 +11,23 @@ import org.jetbrains.annotations.Nullable;
 
 public class CollisionHandler {
   private final LevelManager levelManager;
+  private final AchievementManager achievementManager;
 
-  public CollisionHandler(LevelManager levelManager) {
+  public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
     this.levelManager = levelManager;
+    this.achievementManager = achievementManager;
+  }
+
+  public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
+    this.levelManager = levelManager;
+    this.achievementManager = achievementManager;
   }
 
   public boolean isLevelUpAfterHitDino(
       ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
     scoreComponent.incrementScore(1);
     levelManager.incrementDefeatedEnemies();
+    achievementManager.notifyDinosaurKilled();
     levelProgressBarComponent.updateProgress();
 
     return adjustLevel();

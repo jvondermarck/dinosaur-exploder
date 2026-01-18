@@ -65,8 +65,11 @@ public class GameInitializer {
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();
+    AchievementManager achievementManager = new AchievementManager();
+    achievementManager.init();
 
-    collisionHandler = new CollisionHandler(levelManager);
+    collisionHandler = new CollisionHandler(levelManager, achievementManager);
+
     bossSpawner = new BossSpawner(settings, levelManager);
 
     CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);

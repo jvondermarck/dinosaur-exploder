@@ -15,14 +15,7 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 public class DinosaurApp extends GameApplication {
   DinosaurGUI gui = new DinosaurGUI();
   DinosaurController controller = new DinosaurController();
-
-  /** Summary : This method for the setting the Game GUI Parameters : GameSettings */
-  @Override
-  protected void initSettings(GameSettings settings) {
-    gui.initSettings(settings);
-    settings.setAppIcon(GameConstants.GAME_ICON_DINOSAUR);
-    settings.setTitle(GameConstants.GAME_NAME);
-  }
+  private AchievementManager achievementManager;
 
   /**
    * Summary : This method is overriding the superclass method to EventHandling for the keyboard
@@ -35,12 +28,17 @@ public class DinosaurApp extends GameApplication {
     controller.initInput();
   }
 
-  /** Summary : This method is overriding the superclass method to initialize the game */
-  @Override
-  protected void initGame() {
-    FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
-    controller.initGame();
-  }
+    /**
+     * Summary : This method is overriding the superclass method to initialize the game
+     */
+    @Override
+    protected void initGame() {
+        FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
+        controller.initGame();
+        achievementManager = new AchievementManager();
+        achievementManager.init();
+        FXGL.getWorldProperties().setValue("achievementManager", achievementManager);
+    }
 
   /**
    * Summary : This method is overriding the superclass method to initialize the physics to the game
@@ -49,6 +47,12 @@ public class DinosaurApp extends GameApplication {
   protected void initPhysics() {
     controller.initPhysics();
   }
+
+  @Override
+  protected void onUpdate(double tpf) {
+    if (achievementManager != null) {
+      achievementManager.update(tpf);
+    }
 
   /**
    * Summary : This method launches the game as it is the main method of the class Parameters :

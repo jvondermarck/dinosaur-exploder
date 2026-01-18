@@ -34,9 +34,9 @@ public class CollisionHandler {
     return adjustLevel();
   }
 
-    public void handleHitBoss(Dinosaur dinoComponent) {
-        dinoComponent.damage(1);
-    }
+  public void handleHitBoss(Dinosaur dinoComponent) {
+    dinoComponent.damage(1);
+  }
 
     public void handleBossDefeat(ScoreComponent scoreComponent) {
         scoreComponent.incrementScore(levelManager.getCurrentLevel());

@@ -13,12 +13,8 @@ public interface Achievement {
   // What happens when achievement is completed
   void onComplete();
 
-    // Reward for completing achievement
-    int getRewardCoins();
-
-    default void onDinosaurKilled() {
-        // optional override
-    }
+  // Reward for completing achievement
+  int getRewardCoins();
 
   default void onDinosaurKilled() {
     // optional override

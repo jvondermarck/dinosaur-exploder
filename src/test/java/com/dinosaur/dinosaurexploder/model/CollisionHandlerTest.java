@@ -37,6 +37,8 @@ class CollisionHandlerTest {
     AchievementManager achievementManager = new AchievementManager();
     achievementManager.init();
 
+    collisionHandler = new CollisionHandler(levelManager, achievementManager);
+  }
 
   @Test
   void projectileHitDino_thenLevelUp() {

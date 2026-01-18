@@ -10,8 +10,8 @@ public interface Achievement {
     // Logic check (kills, time, survival, etc.)
     void update(double tpf);
 
-    // What happens when achievement is completed
-    void onComplete();
+  // What happens when achievement is completed
+  void onComplete();
 
     // Reward for completing achievement
     int getRewardCoins();

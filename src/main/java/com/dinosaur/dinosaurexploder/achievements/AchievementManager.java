@@ -22,6 +22,7 @@ public class AchievementManager {
         Collections.shuffle(allAchievements);
         activeAchievements.add(allAchievements.get(0));
     }
+  }
 
     // Called every frame
     public void update(double tpf) {

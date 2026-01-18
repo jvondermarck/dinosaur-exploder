@@ -48,11 +48,10 @@ public class DinosaurApp extends GameApplication {
     controller.initPhysics();
   }
 
-    @Override
-    protected void onUpdate(double tpf) {
-        if (achievementManager != null) {
-            achievementManager.update(tpf);
-        }
+  @Override
+  protected void onUpdate(double tpf) {
+    if (achievementManager != null) {
+      achievementManager.update(tpf);
     }
 
 

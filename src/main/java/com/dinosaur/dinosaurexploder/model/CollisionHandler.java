@@ -19,6 +19,10 @@ public class CollisionHandler {
         this.achievementManager = achievementManager;
     }
 
+  public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
+    this.levelManager = levelManager;
+    this.achievementManager = achievementManager;
+  }
 
     public boolean isLevelUpAfterHitDino(
             ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {

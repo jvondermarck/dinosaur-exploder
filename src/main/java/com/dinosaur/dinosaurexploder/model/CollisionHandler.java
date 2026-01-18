@@ -49,11 +49,10 @@ public class CollisionHandler {
       @Nullable BombComponent bombComponent) {
     collectedCoinsComponent.incrementCoin();
 
-        scoreComponent.incrementScore(2);
-        // Check for bomb regeneration when coin is collected
-        if (bombComponent != null) {
-            bombComponent.trackCoinForBombRegeneration();
-        }
+    scoreComponent.incrementScore(2);
+    // Check for bomb regeneration when coin is collected
+    if (bombComponent != null) {
+      bombComponent.trackCoinForBombRegeneration();
     }
   }
 

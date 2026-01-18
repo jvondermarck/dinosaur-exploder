@@ -26,13 +26,9 @@ class CollisionHandlerTest {
 
   CollisionHandler collisionHandler;
   LevelManager levelManager;
-
-    @BeforeEach
-    void setUp() {
-        levelManager = new LevelManager();
-
-        AchievementManager achievementManager = new AchievementManager();
-        achievementManager.init();
+  @BeforeEach
+  void setUp() {
+    levelManager = new LevelManager();
 
     AchievementManager achievementManager = new AchievementManager();
     achievementManager.init();

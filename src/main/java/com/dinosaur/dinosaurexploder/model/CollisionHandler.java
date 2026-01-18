@@ -58,9 +58,9 @@ public class CollisionHandler {
         }
     }
 
-    public void onPlayerGetHeart(LifeComponent lifeComponent) {
-        lifeComponent.increaseLife(1);
-    }
+  public void onPlayerGetHeart(LifeComponent lifeComponent) {
+    lifeComponent.increaseLife(1);
+  }
 
     private boolean adjustLevel() {
         if (levelManager.shouldAdvanceLevel()) {

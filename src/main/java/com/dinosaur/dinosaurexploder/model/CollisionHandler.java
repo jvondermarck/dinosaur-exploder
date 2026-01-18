@@ -27,8 +27,8 @@ public class CollisionHandler {
         achievementManager.notifyDinosaurKilled();
         levelProgressBarComponent.updateProgress();
 
-        return adjustLevel();
-    }
+    return adjustLevel();
+  }
 
     public void handleHitBoss(Dinosaur dinoComponent) {
         dinoComponent.damage(1);

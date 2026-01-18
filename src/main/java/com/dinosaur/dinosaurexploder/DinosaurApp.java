@@ -43,13 +43,13 @@ public class DinosaurApp extends GameApplication {
         FXGL.getWorldProperties().setValue("achievementManager", achievementManager);
     }
 
-    /**
-     * Summary : This method is overriding the superclass method to initialize the physics to the game
-     */
-    @Override
-    protected void initPhysics() {
-        controller.initPhysics();
-    }
+  /**
+   * Summary : This method is overriding the superclass method to initialize the physics to the game
+   */
+  @Override
+  protected void initPhysics() {
+    controller.initPhysics();
+  }
 
     @Override
     protected void onUpdate(double tpf) {

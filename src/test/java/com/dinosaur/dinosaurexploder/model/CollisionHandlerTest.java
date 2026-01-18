@@ -38,7 +38,7 @@ class CollisionHandlerTest {
     achievementManager.init();
 
 
-    @Test
+  @Test
   void projectileHitDino_thenLevelUp() {
     ScoreComponent scoreComponent = new ScoreComponent();
     Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);

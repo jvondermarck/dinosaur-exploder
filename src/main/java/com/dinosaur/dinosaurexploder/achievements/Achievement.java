@@ -7,8 +7,8 @@ public interface Achievement {
   // Called every frame to check if achievement is completed
   boolean isCompleted();
 
-    // Logic check (kills, time, survival, etc.)
-    void update(double tpf);
+  // Logic check (kills, time, survival, etc.)
+  void update(double tpf);
 
   // What happens when achievement is completed
   void onComplete();

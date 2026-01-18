@@ -55,6 +55,7 @@ public class CollisionHandler {
             bombComponent.trackCoinForBombRegeneration();
         }
     }
+  }
 
   public void onPlayerGetHeart(LifeComponent lifeComponent) {
     lifeComponent.increaseLife(1);

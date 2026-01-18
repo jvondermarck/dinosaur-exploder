@@ -10,8 +10,8 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import org.jetbrains.annotations.Nullable;
 
 public class CollisionHandler {
-    private final LevelManager levelManager;
-    private final AchievementManager achievementManager;
+  private final LevelManager levelManager;
+  private final AchievementManager achievementManager;
 
   public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
     this.levelManager = levelManager;

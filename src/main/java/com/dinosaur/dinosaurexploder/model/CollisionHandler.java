@@ -43,9 +43,9 @@ public class CollisionHandler {
     levelManager.nextLevel();
   }
 
-    public int getDamagedPlayerLife(LifeComponent lifeComponent) {
-        return lifeComponent.decreaseLife(1);
-    }
+  public int getDamagedPlayerLife(LifeComponent lifeComponent) {
+    return lifeComponent.decreaseLife(1);
+  }
 
   public void onPlayerGetCoin(
       CollectedCoinsComponent collectedCoinsComponent,

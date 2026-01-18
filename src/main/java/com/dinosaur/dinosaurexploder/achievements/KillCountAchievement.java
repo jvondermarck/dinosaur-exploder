@@ -34,8 +34,7 @@ public class KillCountAchievement implements Achievement {
 
         if (currentKills >= targetKills) {
             completed = true;
-            FXGL.getNotificationService()
-                    .pushNotification("Achievement Unlocked!");
+            FXGL.getNotificationService().pushNotification("Achievement Unlocked!");
             onComplete();
         }
     }
@@ -48,8 +47,7 @@ public class KillCountAchievement implements Achievement {
 
     @Override
     public void onComplete() {
-        FXGL.getNotificationService()
-                .pushNotification("🏆 Achievement unlocked: " + getDescription());
+        FXGL.getNotificationService().pushNotification("🏆 Achievement unlocked: " + getDescription());
     }
 
     @Override

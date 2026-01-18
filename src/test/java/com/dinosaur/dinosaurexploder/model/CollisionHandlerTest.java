@@ -34,8 +34,8 @@ class CollisionHandlerTest {
         AchievementManager achievementManager = new AchievementManager();
         achievementManager.init();
 
-        collisionHandler = new CollisionHandler(levelManager, achievementManager);
-    }
+    AchievementManager achievementManager = new AchievementManager();
+    achievementManager.init();
 
 
     @Test

@@ -1,8 +1,8 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 public interface Achievement {
-    // Short description shown to the player
-    String getDescription();
+  // Short description shown to the player
+  String getDescription();
 
   // Called every frame to check if achievement is completed
   boolean isCompleted();

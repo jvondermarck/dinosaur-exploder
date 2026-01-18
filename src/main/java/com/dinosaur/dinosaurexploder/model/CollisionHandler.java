@@ -8,8 +8,6 @@ import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import org.jetbrains.annotations.Nullable;
-import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
-
 
 public class CollisionHandler {
     private final LevelManager levelManager;

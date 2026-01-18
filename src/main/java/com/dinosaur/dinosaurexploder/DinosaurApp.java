@@ -20,26 +20,16 @@ public class DinosaurApp extends GameApplication {
     private AchievementManager achievementManager;
 
 
-    /**
-     * Summary : This method for the setting the Game GUI Parameters : GameSettings
-     */
-    @Override
-    protected void initSettings(GameSettings settings) {
-        gui.initSettings(settings);
-        settings.setAppIcon(GameConstants.GAME_ICON_DINOSAUR);
-        settings.setTitle(GameConstants.GAME_NAME);
-    }
-
-    /**
-     * Summary : This method is overriding the superclass method to EventHandling for the keyboard
-     * events
-     */
-    @Override
-    protected void initInput() {
-        // If the key pressed is the up arrow key, then call move up from the Player
-        // Component etc...
-        controller.initInput();
-    }
+  /**
+   * Summary : This method is overriding the superclass method to EventHandling for the keyboard
+   * events
+   */
+  @Override
+  protected void initInput() {
+    // If the key pressed is the up arrow key, then call move up from the Player
+    // Component etc...
+    controller.initInput();
+  }
 
     /**
      * Summary : This method is overriding the superclass method to initialize the game

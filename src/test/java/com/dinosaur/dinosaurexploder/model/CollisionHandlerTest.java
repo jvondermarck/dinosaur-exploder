@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 
 class CollisionHandlerTest {
 
@@ -27,13 +28,18 @@ class CollisionHandlerTest {
   CollisionHandler collisionHandler;
   LevelManager levelManager;
 
-  @BeforeEach
-  void setUp() {
-    levelManager = new LevelManager();
-    collisionHandler = new CollisionHandler(levelManager);
-  }
+    @BeforeEach
+    void setUp() {
+        levelManager = new LevelManager();
 
-  @Test
+        AchievementManager achievementManager = new AchievementManager();
+        achievementManager.init();
+
+        collisionHandler = new CollisionHandler(levelManager, achievementManager);
+    }
+
+
+    @Test
   void projectileHitDino_thenLevelUp() {
     ScoreComponent scoreComponent = new ScoreComponent();
     Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);

@@ -17,7 +17,6 @@ public class DinosaurApp extends GameApplication {
   DinosaurController controller = new DinosaurController();
   private AchievementManager achievementManager;
 
-
   /**
    * Summary : This method is overriding the superclass method to EventHandling for the keyboard
    * events

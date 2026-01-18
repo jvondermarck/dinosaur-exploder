@@ -21,5 +21,3 @@ public interface Achievement {
     }
 
 }
-
-

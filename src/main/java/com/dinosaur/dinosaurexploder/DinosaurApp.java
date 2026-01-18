@@ -54,12 +54,11 @@ public class DinosaurApp extends GameApplication {
       achievementManager.update(tpf);
     }
 
-
-    /**
-     * Summary : This method launches the game as it is the main method of the class Parameters :
-     * Strings[]
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+  /**
+   * Summary : This method launches the game as it is the main method of the class Parameters :
+   * Strings[]
+   */
+  public static void main(String[] args) {
+    launch(args);
+  }
 }

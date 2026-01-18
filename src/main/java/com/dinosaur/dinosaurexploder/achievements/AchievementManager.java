@@ -57,5 +57,6 @@ public class AchievementManager {
     if (activeAchievements.isEmpty()) {
       return null;
     }
-
+    return activeAchievements.get(0);
+  }
 }

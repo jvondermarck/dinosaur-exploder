@@ -7,7 +7,6 @@ import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.InputStream;
 import java.util.Objects;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -122,14 +121,11 @@ public class MenuHelper {
 
     menu.getContentRoot().getChildren().addAll(background, container);
   }
+
   public static Text createSubtitle(String text, double wrapWidth, boolean animated) {
     Text subtitle =
         getUIFactoryService()
-            .newText(
-                text,
-                Color.rgb(0, 255, 100),
-                FontType.MONO,
-                GameConstants.TEXT_SUB_DETAILS);
+            .newText(text, Color.rgb(0, 255, 100), FontType.MONO, GameConstants.TEXT_SUB_DETAILS);
 
     subtitle.setWrappingWidth(wrapWidth);
     subtitle.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
@@ -141,18 +137,18 @@ public class MenuHelper {
     subtitle.setEffect(glow);
 
     if (animated) {
-        FadeTransition pulse =
-            new FadeTransition(Duration.seconds(2.2), subtitle);
-        pulse.setFromValue(0.8);
-        pulse.setToValue(1.0);
-        pulse.setCycleCount(FadeTransition.INDEFINITE);
-        pulse.setAutoReverse(true);
-        pulse.setInterpolator(Interpolator.EASE_BOTH);
-        pulse.play();
+      FadeTransition pulse = new FadeTransition(Duration.seconds(2.2), subtitle);
+      pulse.setFromValue(0.8);
+      pulse.setToValue(1.0);
+      pulse.setCycleCount(FadeTransition.INDEFINITE);
+      pulse.setAutoReverse(true);
+      pulse.setInterpolator(Interpolator.EASE_BOTH);
+      pulse.play();
     }
 
     return subtitle;
   }
+
   public static Button createStyledButton(String text) {
     Button button = new Button(text.toUpperCase());
     button.setMinSize(140, 60);
@@ -161,8 +157,10 @@ public class MenuHelper {
   }
 
   public static void applyButtonStyle(Button button) {
-    button.getStylesheets().add(
-        Objects.requireNonNull(MenuHelper.class.getResource(GameConstants.STYLESHEET_PATH))
-            .toExternalForm());
+    button
+        .getStylesheets()
+        .add(
+            Objects.requireNonNull(MenuHelper.class.getResource(GameConstants.STYLESHEET_PATH))
+                .toExternalForm());
   }
 }

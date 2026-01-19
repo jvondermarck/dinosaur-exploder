@@ -17,11 +17,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Objects;
 import javafx.animation.Interpolator;
-import javafx.animation.TranslateTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -29,10 +30,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +45,7 @@ public class DinosaurMenu extends FXGLMenu {
   private final Button startButton = new Button("Start Game".toUpperCase());
   private final Button quitButton = new Button("Quit".toUpperCase());
   private final Label languageLabel = new Label("Select Language:");
-  
+
   public DinosaurMenu() {
     super(MenuType.MAIN_MENU);
 
@@ -86,18 +86,29 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
     VBox languageBox = createLanguageSelector();
-    Slider volumeSlider = createVolumeSlider();
-    Text volumeText = createVolumeText(volumeSlider);
+    VBox volumeControls = createVolumeControls();
 
     // Configure buttons
     configureButtons();
 
     // Add all components to scene
     addComponentsToScene(
-        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, languageBox, volumeSlider, volumeText);
+        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, languageBox, volumeControls);
 
     // Setup button centering
     setupButtonCentering();
+  }
+
+  private VBox createVolumeControls() {
+    Slider volumeSlider = createVolumeSlider();
+    Text volumeText = createVolumeText(volumeSlider);
+
+    VBox volumeBox = new VBox(volumeText, volumeSlider);
+    volumeBox.setAlignment(Pos.CENTER_LEFT);
+    volumeBox.setTranslateY(10);
+    volumeBox.setTranslateX(20);
+
+    return volumeBox;
   }
 
   // ============ UI COMPONENT CREATORS ============
@@ -175,21 +186,24 @@ public class DinosaurMenu extends FXGLMenu {
     pulse.play();
 
     // Make it clickable
-    badge.setOnMouseClicked(event -> {
-      FXGL.getSceneService().pushSubScene(new CreditsMenu());
-    });
+    badge.setOnMouseClicked(
+        event -> {
+          FXGL.getSceneService().pushSubScene(new CreditsMenu());
+        });
 
     // Hover effect
-    badge.setOnMouseEntered(event -> {
-      badge.setScaleX(1.2);
-      badge.setScaleY(1.2);
-      badge.setCursor(javafx.scene.Cursor.HAND);
-    });
+    badge.setOnMouseEntered(
+        event -> {
+          badge.setScaleX(1.2);
+          badge.setScaleY(1.2);
+          badge.setCursor(javafx.scene.Cursor.HAND);
+        });
 
-    badge.setOnMouseExited(event -> {
-      badge.setScaleX(1.0);
-      badge.setScaleY(1.0);
-    });
+    badge.setOnMouseExited(
+        event -> {
+          badge.setScaleX(1.0);
+          badge.setScaleY(1.0);
+        });
 
     return badge;
   }
@@ -287,8 +301,6 @@ public class DinosaurMenu extends FXGLMenu {
     Slider volumeSlider = new Slider(0, 1, 1);
     volumeSlider.adjustValue(settings.getVolume());
     volumeSlider.setBlockIncrement(0.01);
-    volumeSlider.setTranslateY(10);
-    volumeSlider.setTranslateX(75);
 
     applyStylesheet(volumeSlider);
 
@@ -302,9 +314,6 @@ public class DinosaurMenu extends FXGLMenu {
                 String.format("%.0f%%", settings.getVolume() * 100),
                 Color.LIME,
                 GameConstants.TEXT_SIZE_GAME_INFO);
-
-    volumeText.setTranslateX(20);
-    volumeText.setTranslateY(35);
 
     volumeSlider
         .valueProperty()
@@ -369,12 +378,19 @@ public class DinosaurMenu extends FXGLMenu {
       StackPane creditsBadge,
       ImageView mute,
       VBox language,
-      Slider volume,
-      Text volumeText) {
+      VBox volumeControls) {
     getContentRoot()
         .getChildren()
         .addAll(
-            background, title, startButton, quitButton, dino, creditsBadge, mute, volumeText, volume, language);;
+            background,
+            title,
+            startButton,
+            quitButton,
+            dino,
+            creditsBadge,
+            mute,
+            language,
+            volumeControls);
   }
 
   private void setupButtonCentering() {

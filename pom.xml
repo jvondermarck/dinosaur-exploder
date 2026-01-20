@@ -13,7 +13,7 @@
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <maven.shade.version>3.6.1</maven.shade.version>
         <jfx.maven.plugin.version>0.0.8</jfx.maven.plugin.version>
-        <jpro.version>2025.1.0</jpro.version>
+        <jpro.version>2025.3.3</jpro.version>
         <fxgl.version>21.1</fxgl.version>
         <junit.version>6.0.2</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
@@ -142,31 +142,8 @@
                     <mainClass>${mainClassName}</mainClass>
                 </configuration>
             </plugin>
-            <!-- Maven Shade Plugin for creating a fat JAR -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <transformers>
-                                <!-- Add Main-Class to the manifest -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${mainClassName}</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- JPro to run game on the browser -->
+
+            <!-- JPro plugin -->
             <plugin>
                 <groupId>one.jpro</groupId>
                 <artifactId>jpro-maven-plugin</artifactId>
@@ -218,4 +195,35 @@
             </plugin>
         </plugins>
     </build>
+    <!-- Profile for desktop build with Shade plugin -->
+    <profiles>
+        <profile>
+            <id>desktop</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${maven.shade.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                                    <transformers>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>${mainClassName}</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

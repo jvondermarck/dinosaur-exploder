@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 
-export default function NavBar({lang, dict}: {lang: string; dict: any}) {
+export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const navItems = [
-    { href: "/how-game-works", label: dict.NavBar.howGameWorks},
+    { href: "/how-game-works", label: dict.NavBar.howGameWorks },
     { href: "/credits", label: dict.NavBar.credits },
     { href: "/contact", label: dict.NavBar.contact },
   ];
-  const buttonStyle = "";
+  const buttonStyle = "px-4 py-2 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex items-center gap-2 text-sm";
+
 
   return (
     <nav className="w-full px-2 sm:px-6 py-4 bg-transparent">
@@ -19,7 +22,7 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
         {/* Title */}
         <Link
           href={`/${lang}`}
-          className="font-retro  text-green-700 text-2xl drop-shadow-sm tracking-wide text-center sm:text-left hover:opacity-90 items-center justify-center"
+          className="font-retro text-green-700 text-3xl drop-shadow-sm tracking-wide text-center sm:text-left hover:opacity-90 items-center justify-center"
         >
           DINOSAUR EXPLODER
         </Link>
@@ -38,10 +41,10 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
                   key={item.href}
                   href={localisedHref}
                   className={
-                    "relative top-0 left-0 px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex transform active:translate-x-[2px] active:translate-y-[2px] " +
+                    "px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex transform" +
                     (isActive
-                      ? "border-green-800 bg-green-700 text-white shadow-none"
-                      : "border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white shadow-[4px_4px_0px_0px]")
+                      ? "border-green-800 bg-green-800 text-white shadow-none translate-x-[3px] translate-y-[3px]"
+                      : "border-green-700 text-green-800 bg-white hover:bg-green-800 hover:text-white shadow-[3px_3px_0px_0px_theme(colors.green.700)] hover:border-green-800")
                   }
                 >
                   {item.label}
@@ -56,9 +59,9 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
               href="https://github.com/jvondermarck/dinosaur-exploder"
               target="_blank"
               rel="noopener noreferrer"
-              className="shadow-[4px_4px_0px_0px] px-4 py-2 whitespace-nowrap rounded border border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white font-semibold font-mono transition duration-150 text-center flex items-center gap-2 text-sm "
+              className={`${buttonStyle} shadow-[3px_3px_0px_0px_theme(colors.green.700)] border-green-800 text-green-800 bg-white hover:bg-green-800 hover:text-white hover:border-green-800`}
             >
-              <FaGithub size={25}/>
+              <FaGithub size={25} />
               Github
             </a>
 
@@ -66,7 +69,7 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
               href="https://github.com/jvondermarck/dinosaur-exploder/stargazers"
               target="_blank"
               rel="noopener noreferrer"
-              className=" shadow-[4px_4px_0px_0px] px-4 py-2 whitespace-nowrap rounded border border-yellow-500 text-yellow-700 bg-white hover:bg-yellow-500 hover:text-white font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center text-sm "
+              className={`${buttonStyle} shadow-[3px_3px_0px_0px_theme(colors.yellow.400)] border-yellow-500 text-yellow-700 bg-white hover:bg-yellow-500 hover:text-white justify-center `}
             >
               <svg
                 width="22"
@@ -84,7 +87,7 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
               href="https://github.com/sponsors/jvondermarck"
               target="_blank"
               rel="noopener noreferrer"
-              className="shadow-[4px_4px_0px_0px_#A3245C] px-4 py-2 whitespace-nowrap rounded border border-pink-700 text-white bg-pink-600 hover:bg-pink-700 font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center"
+              className={`${buttonStyle} shadow-[4px_4px_0px_0px_#A3245C] border-pink-700 text-white bg-pink-600 hover:bg-pink-700 justify-center`}
             >
               <svg
                 width="18"

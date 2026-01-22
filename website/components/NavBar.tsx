@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
+import { FaGithub } from "react-icons/fa";
 
 export default function NavBar({lang, dict}: {lang: string; dict: any}) {
   const pathname = usePathname();
@@ -10,23 +11,24 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
     { href: "/credits", label: dict.NavBar.credits },
     { href: "/contact", label: dict.NavBar.contact },
   ];
+  const buttonStyle = "";
 
   return (
     <nav className="w-full px-2 sm:px-6 py-4 bg-transparent">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
+      <div className="flex flex-row sm:justify-between sm:items-center gap-3 sm:gap-0 items-center">
         {/* Title */}
         <Link
           href={`/${lang}`}
-          className="font-retro text-green-700 text-2xl drop-shadow-sm tracking-wide text-center sm:text-left hover:opacity-90"
+          className="font-retro  text-green-700 text-2xl drop-shadow-sm tracking-wide text-center sm:text-left hover:opacity-90 items-center justify-center"
         >
           DINOSAUR EXPLODER
         </Link>
 
         {/* Navigation */}
-        <div className="flex flex-col sm:flex-row gap-2 sm:items-center justify-center sm:justify-end">
+        <div className="font-retro flex flex-col sm:flex-row gap-2 sm:items-center justify-between ">
 
           {/* Internal links */}
-          <div className="flex flex-col xs:flex-row gap-2 justify-center">
+          <div className="flex xs:flex-row gap-2 justify-center">
             {navItems.map((item) => {
               const localisedHref = `/${lang}${item.href}`;
               const isActive = pathname === localisedHref;
@@ -36,10 +38,10 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
                   key={item.href}
                   href={localisedHref}
                   className={
-                    "px-4 py-2 w-full xs:w-auto rounded border font-semibold font-mono transition duration-150 text-center " +
+                    "relative top-0 left-0 px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex transform active:translate-x-[2px] active:translate-y-[2px] " +
                     (isActive
-                      ? "border-green-800 bg-green-700 text-white"
-                      : "border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white")
+                      ? "border-green-800 bg-green-700 text-white shadow-none"
+                      : "border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white shadow-[4px_4px_0px_0px]")
                   }
                 >
                   {item.label}
@@ -49,25 +51,26 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
           </div>
 
           {/* External links */}
-          <div className="flex flex-col xs:flex-row gap-2 justify-center">
+          <div className="flex xs:flex-row gap-2 justify-center">
             <a
               href="https://github.com/jvondermarck/dinosaur-exploder"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 w-full xs:w-auto rounded border border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white font-semibold font-mono transition duration-150 text-center"
+              className="shadow-[4px_4px_0px_0px] px-4 py-2 whitespace-nowrap rounded border border-green-700 text-green-800 bg-white hover:bg-green-700 hover:text-white font-semibold font-mono transition duration-150 text-center flex items-center gap-2 text-sm "
             >
-              GitHub
+              <FaGithub size={25}/>
+              Github
             </a>
 
             <a
               href="https://github.com/jvondermarck/dinosaur-exploder/stargazers"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 w-full xs:w-auto rounded border border-yellow-500 text-yellow-700 bg-white hover:bg-yellow-500 hover:text-white font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center"
+              className=" shadow-[4px_4px_0px_0px] px-4 py-2 whitespace-nowrap rounded border border-yellow-500 text-yellow-700 bg-white hover:bg-yellow-500 hover:text-white font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center text-sm "
             >
               <svg
-                width="18"
-                height="18"
+                width="22"
+                height="22"
                 viewBox="0 0 16 16"
                 fill="currentColor"
                 aria-hidden="true"
@@ -81,7 +84,7 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
               href="https://github.com/sponsors/jvondermarck"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 w-full xs:w-auto rounded border border-pink-700 text-white bg-pink-600 hover:bg-pink-700 font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center"
+              className="shadow-[4px_4px_0px_0px_#A3245C] px-4 py-2 whitespace-nowrap rounded border border-pink-700 text-white bg-pink-600 hover:bg-pink-700 font-semibold font-mono transition duration-150 flex items-center gap-2 justify-center"
             >
               <svg
                 width="18"
@@ -100,3 +103,5 @@ export default function NavBar({lang, dict}: {lang: string; dict: any}) {
     </nav>
   );
 }
+
+

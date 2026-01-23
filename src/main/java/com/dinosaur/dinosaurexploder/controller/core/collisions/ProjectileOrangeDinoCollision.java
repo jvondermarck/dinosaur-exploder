@@ -18,49 +18,49 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 
 public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface {
 
-  private final GameActions gameActions;
+    private final GameActions gameActions;
 
-  private final CollisionHandler collisionHandler;
-  private final LevelManager levelManager;
-  private final BossSpawner bossSpawner;
-  private final Entity score;
+    private final CollisionHandler collisionHandler;
+    private final LevelManager levelManager;
+    private final BossSpawner bossSpawner;
+    private final Entity score;
 
-  public ProjectileOrangeDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
-    this.gameActions = gameActions;
-    this.collisionHandler = gameInitializer.getCollisionHandler();
-    this.levelManager = gameInitializer.getLevelManager();
-    this.bossSpawner = gameInitializer.getBossSpawner();
-    this.score = gameInitializer.getScore();
-  }
+    public ProjectileOrangeDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
+        this.gameActions = gameActions;
+        this.collisionHandler = gameInitializer.getCollisionHandler();
+        this.levelManager = gameInitializer.getLevelManager();
+        this.bossSpawner = gameInitializer.getBossSpawner();
+        this.score = gameInitializer.getScore();
+    }
 
-  @Override
-  public void register() {
-    onCollisionBegin(
-        EntityType.PROJECTILE,
-        EntityType.ORANGE_DINO,
-        (projectile, orangeDino) -> {
-          spawn("explosion", orangeDino.getX() - 25, orangeDino.getY() - 30);
-          projectile.removeFromWorld();
-          AudioManager.getInstance().playSound(GameConstants.ENEMY_EXPLODE_SOUND);
-          collisionHandler.handleHitBoss(orangeDino.getComponent(OrangeDinoComponent.class));
+    @Override
+    public void register() {
+        onCollisionBegin(
+                EntityType.PROJECTILE,
+                EntityType.ORANGE_DINO,
+                (projectile, orangeDino) -> {
+                    spawn("explosion", orangeDino.getX() - 25, orangeDino.getY() - 30);
+                    projectile.removeFromWorld();
+                    AudioManager.getInstance().playSound(GameConstants.ENEMY_EXPLODE_SOUND);
+                    collisionHandler.handleHitBoss(orangeDino.getComponent(OrangeDinoComponent.class));
 
-          if (orangeDino.getComponent(OrangeDinoComponent.class).getLives() == 0) {
-            // if the boss is defeated it drops 100% a heart
-            spawn("heart", orangeDino.getX(), orangeDino.getY());
-            // if the boss dino is defeated it drops twice as many coins as the current level
-            for (int i = 0; i < levelManager.getCurrentLevel() * 2; i++) {
-              spawn(
-                  "coin", orangeDino.getX() + random(-25, 25), orangeDino.getY() + random(-25, 25));
-            }
-            bossSpawner.removeBossEntities();
+                    if (orangeDino.getComponent(OrangeDinoComponent.class).getLives() == 0) {
+                        // if the boss is defeated it drops 100% a heart
+                        spawn("heart", orangeDino.getX(), orangeDino.getY());
+                        // if the boss dino is defeated it drops twice as many coins as the current level
+                        for (int i = 0; i < levelManager.getCurrentLevel() * 2; i++) {
+                            spawn(
+                                    "coin", orangeDino.getX() + random(-25, 25), orangeDino.getY() + random(-25, 25));
+                        }
+                        bossSpawner.removeBossEntities();
 
-            collisionHandler.handleBossDefeat(score.getComponent(ScoreComponent.class));
+                        collisionHandler.handleBossDefeat(score.getComponent(ScoreComponent.class));
 
-            gameActions.showLevelMessage();
-            System.out.println("Level up!");
-          } else {
-            bossSpawner.updateHealthBar();
-          }
-        });
-  }
+                        gameActions.showLevelMessage();
+                        System.out.println("Level up!");
+                    } else {
+                        bossSpawner.updateHealthBar();
+                    }
+                });
+    }
 }

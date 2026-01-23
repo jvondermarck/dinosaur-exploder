@@ -259,4 +259,5 @@ target/classes
 
 highScore.ser
 totalCoins.ser
+settings.properties.idea/
 settings.properties

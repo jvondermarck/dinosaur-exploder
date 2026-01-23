@@ -1,22 +1,14 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
-public interface Achievement {
-  // Short description shown to the player
-  String getDescription();
+public abstract class Achievement {
 
-  // Called every frame to check if achievement is completed
-  boolean isCompleted();
+    protected boolean completed = false;
 
-  // Logic check (kills, time, survival, etc.)
-  void update(double tpf);
+    public boolean isCompleted() {
+        return completed;
+    }
 
-  // What happens when achievement is completed
-  void onComplete();
+    public abstract void update(double tpf);
 
-  // Reward for completing achievement
-  int getRewardCoins();
-
-  default void onDinosaurKilled() {
-    // optional override
-  }
+    public abstract void onDinosaurKilled();
 }

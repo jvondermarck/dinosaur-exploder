@@ -7,66 +7,66 @@ import com.dinosaur.dinosaurexploder.utils.ShipUnlockChecker;
 import com.dinosaur.dinosaurexploder.utils.WeaponUnlockChecker;
 
 public class GameData {
-    // Static variable that stores the selected ship and weapon
-    private static int selectedShip = 1; // Default ship
-    private static int selectedWeapon = 1; // Default weapon
-    private static final ShipUnlockChecker shipUnlockChecker =
-            new ShipUnlockChecker(new FileDataProvider());
-    private static final WeaponUnlockChecker weaponUnlockChecker =
-            new WeaponUnlockChecker(new FileDataProvider());
+  // Static variable that stores the selected ship and weapon
+  private static int selectedShip = 1; // Default ship
+  private static int selectedWeapon = 1; // Default weapon
+  private static final ShipUnlockChecker shipUnlockChecker =
+      new ShipUnlockChecker(new FileDataProvider());
+  private static final WeaponUnlockChecker weaponUnlockChecker =
+      new WeaponUnlockChecker(new FileDataProvider());
 
-    // Static variable that stores the high score
-    private static int highScore;
+  // Static variable that stores the high score
+  private static int highScore;
 
-    // Static variable that stores total coins
-    private static int totalCoins;
+  // Static variable that stores total coins
+  private static int totalCoins;
 
-    // Getter and setter for the selected ship
-    public static int getSelectedShip() {
-        return selectedShip;
+  // Getter and setter for the selected ship
+  public static int getSelectedShip() {
+    return selectedShip;
+  }
+
+  public static void setSelectedShip(int shipNumber) {
+    selectedShip = shipUnlockChecker.check(shipNumber);
+  }
+
+  public static boolean checkUnlockedShip(int shipNumber) {
+    try {
+      shipUnlockChecker.check(shipNumber);
+      return true;
+    } catch (LockedShipException e) {
+      return false;
     }
+  }
 
-    public static void setSelectedShip(int shipNumber) {
-        selectedShip = shipUnlockChecker.check(shipNumber);
-    }
+  // Getter and setter for the selected ship
+  public static int getSelectedWeapon() {
+    return selectedWeapon;
+  }
 
-    public static boolean checkUnlockedShip(int shipNumber) {
-        try {
-            shipUnlockChecker.check(shipNumber);
-            return true;
-        } catch (LockedShipException e) {
-            return false;
-        }
-    }
+  public static void setSelectedWeapon(int weaponNumber) {
+    selectedWeapon = weaponUnlockChecker.check(weaponNumber);
+  }
 
-    // Getter and setter for the selected ship
-    public static int getSelectedWeapon() {
-        return selectedWeapon;
+  public static boolean checkUnlockedWeapon(int weaponNumber) {
+    try {
+      weaponUnlockChecker.check(weaponNumber);
+      return true;
+    } catch (LockedWeaponException e) {
+      return false;
     }
+  }
 
-    public static void setSelectedWeapon(int weaponNumber) {
-        selectedWeapon = weaponUnlockChecker.check(weaponNumber);
-    }
+  // Getter for the high score
+  public static int getHighScore() {
+    highScore = new FileDataProvider().getHighScore().getHigh();
+    return highScore;
+  }
 
-    public static boolean checkUnlockedWeapon(int weaponNumber) {
-        try {
-            weaponUnlockChecker.check(weaponNumber);
-            return true;
-        } catch (LockedWeaponException e) {
-            return false;
-        }
-    }
-
-    // Getter for the high score
-    public static int getHighScore() {
-        highScore = new FileDataProvider().getHighScore().getHigh();
-        return highScore;
-    }
-
-    // Getter for total coins
-    public static int getTotalCoins() {
-        totalCoins = new FileDataProvider().getTotalCoins().getTotal();
-        System.out.println("Total: " + totalCoins);
-        return totalCoins;
-    }
+  // Getter for total coins
+  public static int getTotalCoins() {
+    totalCoins = new FileDataProvider().getTotalCoins().getTotal();
+    System.out.println("Total: " + totalCoins);
+    return totalCoins;
+  }
 }

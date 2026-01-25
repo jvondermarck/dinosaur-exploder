@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Pre-commit hook to check code quality using PMD
+# This hook runs 'mvn pmd:check' before each commit
+#
+# Installation:
+#   Run 'scripts/install-hooks.sh' or manually copy this file to .git/hooks/pre-commit
+#
+
+echo "Running PMD check..."
+
+# Run PMD check
+mvn pmd:check -q
+
+# Capture the exit code
+PMD_EXIT_CODE=$?
+
+if [ $PMD_EXIT_CODE -ne 0 ]; then
+    echo ""
+    echo "❌ PMD check failed!"
+    echo "Please fix the PMD violations before committing."
+    echo "Run 'mvn pmd:check' to see the details."
+    exit 1
+fi
+
+echo "✅ PMD check passed!"
+exit 0

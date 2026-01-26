@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.almasb.fxgl.entity.Entity;
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
@@ -30,7 +31,11 @@ class CollisionHandlerTest {
   @BeforeEach
   void setUp() {
     levelManager = new LevelManager();
-    collisionHandler = new CollisionHandler(levelManager);
+
+    AchievementManager achievementManager = new AchievementManager();
+    achievementManager.init();
+
+    collisionHandler = new CollisionHandler(levelManager, achievementManager);
   }
 
   @Test

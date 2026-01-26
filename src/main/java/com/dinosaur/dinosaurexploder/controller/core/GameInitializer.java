@@ -8,6 +8,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
@@ -65,8 +66,11 @@ public class GameInitializer {
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();
+    AchievementManager achievementManager = new AchievementManager();
+    achievementManager.init();
 
-    collisionHandler = new CollisionHandler(levelManager);
+    collisionHandler = new CollisionHandler(levelManager, achievementManager);
+
     bossSpawner = new BossSpawner(settings, levelManager);
 
     CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);

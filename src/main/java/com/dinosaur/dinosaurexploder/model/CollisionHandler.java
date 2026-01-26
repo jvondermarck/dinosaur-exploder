@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.model;
 
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
@@ -10,16 +11,21 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import org.jetbrains.annotations.Nullable;
 
 public class CollisionHandler {
-  private final LevelManager levelManager;
 
-  public CollisionHandler(LevelManager levelManager) {
+  private final LevelManager levelManager;
+  private final AchievementManager achievementManager;
+
+  public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
     this.levelManager = levelManager;
+    this.achievementManager = achievementManager;
   }
 
   public boolean isLevelUpAfterHitDino(
       ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+
     scoreComponent.incrementScore(1);
     levelManager.incrementDefeatedEnemies();
+    achievementManager.notifyDinosaurKilled();
     levelProgressBarComponent.updateProgress();
 
     return adjustLevel();
@@ -42,10 +48,10 @@ public class CollisionHandler {
       CollectedCoinsComponent collectedCoinsComponent,
       ScoreComponent scoreComponent,
       @Nullable BombComponent bombComponent) {
-    collectedCoinsComponent.incrementCoin();
 
+    collectedCoinsComponent.incrementCoin();
     scoreComponent.incrementScore(2);
-    // Check for bomb regeneration when coin is collected
+
     if (bombComponent != null) {
       bombComponent.trackCoinForBombRegeneration();
     }

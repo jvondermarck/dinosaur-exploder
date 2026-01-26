@@ -42,6 +42,7 @@ public class PauseMenu extends FXGLMenu {
 
   LanguageManager languageManager = LanguageManager.getInstance();
   PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
+  PauseButton btnAchievements = new PauseButton(languageManager.getTranslation("achievements"), () -> FXGL.getSceneService().pushSubScene(new AchievementsMenu()));
   PauseButton btnQuitGame = new PauseButton(languageManager.getTranslation("quit"), this::exit);
   ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
   ControlButton btnSound = new ControlButton(languageManager.getTranslation("sound"));
@@ -303,8 +304,8 @@ public class PauseMenu extends FXGLMenu {
     titleContainer.setPrefWidth(getAppWidth());
     titleContainer.setTranslateY(100);
 
-    // Menu principal (les 3 boutons)
-    var box = new VBox(15, btnBack, btnSound, btnControls, btnQuitGame);
+    // Menu principal (les 4 boutons)
+    var box = new VBox(15, btnBack, btnAchievements, btnSound, btnControls, btnQuitGame);
     box.setAlignment(Pos.CENTER);
 
     StackPane buttonContainer = new StackPane(box);
@@ -420,6 +421,7 @@ public class PauseMenu extends FXGLMenu {
 
   private void updateTexts() {
     btnBack.setText(languageManager.getTranslation("back").toUpperCase());
+    btnAchievements.setText(languageManager.getTranslation("achievements").toUpperCase());
     btnSound.setText(languageManager.getTranslation("sound").toUpperCase());
     btnSoundMain.setText(languageManager.getTranslation("sound_main"));
     btnSoundSfx.setText(languageManager.getTranslation("sound_sfx"));

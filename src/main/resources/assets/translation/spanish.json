@@ -40,5 +40,17 @@
   "loading": "Cargando",
   "commits": "commits",
   "error_loading_contributors": "No se pudieron cargar los colaboradores. Por favor, revisa tu conexión a Internet.",
-  "credits_subtitle": "Gracias a todos nuestros colaboradores"  
+  "credits_subtitle": "Gracias a todos nuestros colaboradores",
+  "achievements": "Logros",
+  "ach_kill_10_name": "Cazador principiante",
+  "ach_kill_10_desc": "Mata ## dinosaurios",
+  "ach_kill_20_name": "Cazador experto",
+  "ach_kill_20_desc": "Mata ## dinosaurios",
+  "ach_kill_50_name": "Cazador veterano",
+  "ach_kill_50_desc": "Mata ## dinosaurios",
+  "ach_kill_100_name": "Maestro cazador",
+  "ach_kill_100_desc": "Mata ## dinosaurios",
+  "locked": "Bloqueado",
+  "unlocked": "Desbloqueado",
+  "reward": "Recompensa"
 }

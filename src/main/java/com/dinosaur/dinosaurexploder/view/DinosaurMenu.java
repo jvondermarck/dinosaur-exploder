@@ -43,6 +43,7 @@ public class DinosaurMenu extends FXGLMenu {
 
   // UI Components
   private final Button startButton = new Button("Start Game".toUpperCase());
+  private final Button achievementsButton = new Button("Achievements".toUpperCase());
   private final Button quitButton = new Button("Quit".toUpperCase());
   private final Label languageLabel = new Label("Select Language:");
 
@@ -89,255 +90,16 @@ public class DinosaurMenu extends FXGLMenu {
     VBox volumeControls = createVolumeControls();
 
     // Configure buttons
-    configureButtons();
-
-    // Add all components to scene
-    addComponentsToScene(
-        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, languageBox, volumeControls);
-
-    // Setup button centering
-    setupButtonCentering();
-  }
-
-  private VBox createVolumeControls() {
-    Slider volumeSlider = createVolumeSlider();
-    Text volumeText = createVolumeText(volumeSlider);
-
-    VBox volumeBox = new VBox(volumeText, volumeSlider);
-    volumeBox.setAlignment(Pos.CENTER_LEFT);
-    volumeBox.setTranslateY(10);
-    volumeBox.setTranslateX(20);
-
-    return volumeBox;
-  }
-
-  // ============ UI COMPONENT CREATORS ============
-
-  private ImageView createAnimatedBackground() throws FileNotFoundException {
-    Image background = loadImage(GameConstants.BACKGROUND_IMAGE_PATH);
-    ImageView backgroundView = new ImageView(background);
-    backgroundView.setFitHeight(DinosaurGUI.HEIGHT);
-    backgroundView.setX(0);
-    backgroundView.setY(0);
-    backgroundView.setPreserveRatio(true);
-
-    TranslateTransition transition = createBackgroundTransition(backgroundView, background);
-    transition.play();
-
-    return backgroundView;
-  }
-
-  private StackPane createTitle() {
-    var title =
-        getUIFactoryService()
-            .newText(
-                GameConstants.GAME_NAME.toUpperCase(),
-                Color.LIME,
-                FontType.MONO,
-                GameConstants.MAIN_TITLES);
-
-    StackPane titlePane = new StackPane(title);
-    titlePane.setAlignment(Pos.CENTER);
-    titlePane.setTranslateY(80);
-    titlePane.setPrefWidth(getAppWidth());
-
-    return titlePane;
-  }
-
-  private ImageView createDinoImage() throws FileNotFoundException {
-    Image dinoImg = loadImage(GameConstants.GAME_LOGO_DINOSAUR);
-    ImageView dinoView = new ImageView(dinoImg);
-    dinoView.setFitHeight(250);
-    dinoView.setFitWidth(200);
-    dinoView.setX(200);
-    dinoView.setY(190);
-    dinoView.setPreserveRatio(true);
-
-    return dinoView;
-  }
-
-  private StackPane createCreditsBadge() {
-    // Create circular badge background
-    Circle circle = new Circle(35);
-    circle.setFill(Color.rgb(0, 220, 0, 0.3));
-    circle.setStroke(Color.rgb(0, 255, 0));
-    circle.setStrokeWidth(3);
-
-    // Create star text
-    Text creditsText = new Text("★");
-    creditsText.setFont(Font.font("Arial", 40));
-    creditsText.setFill(Color.LIME);
-    creditsText.setEffect(new DropShadow(10, Color.rgb(0, 255, 0)));
-
-    // Stack them together
-    StackPane badge = new StackPane(circle, creditsText);
-    badge.setTranslateX(90); // Position next to dino
-    badge.setTranslateY(260); // Aligned with dino's middle
-    badge.setStyle("-fx-cursor: hand;");
-
-    // Add pulsing animation
-    ScaleTransition pulse = new ScaleTransition(Duration.seconds(1), badge);
-    pulse.setFromX(1.0);
-    pulse.setFromY(1.0);
-    pulse.setToX(1.15);
-    pulse.setToY(1.15);
-    pulse.setCycleCount(ScaleTransition.INDEFINITE);
-    pulse.setAutoReverse(true);
-    pulse.play();
-
-    // Make it clickable
-    badge.setOnMouseClicked(
-        event -> {
-          FXGL.getSceneService().pushSubScene(new CreditsMenu());
-        });
-
-    // Hover effect
-    badge.setOnMouseEntered(
-        event -> {
-          badge.setScaleX(1.2);
-          badge.setScaleY(1.2);
-          badge.setCursor(javafx.scene.Cursor.HAND);
-        });
-
-    badge.setOnMouseExited(
-        event -> {
-          badge.setScaleX(1.0);
-          badge.setScaleY(1.0);
-        });
-
-    return badge;
-  }
-
-  private ImageView createMuteIcon() throws FileNotFoundException {
-    Image muteImg = loadImage(GameConstants.SILENT_IMAGE_PATH);
-    Image audioOnImg = loadImage(GameConstants.PLAYING_IMAGE_PATH);
-
-    ImageView muteIcon = new ImageView(settings.isMuted() ? muteImg : audioOnImg);
-    muteIcon.setFitHeight(50);
-    muteIcon.setFitWidth(60);
-    muteIcon.setX(470);
-    muteIcon.setY(20);
-    muteIcon.setPreserveRatio(true);
-
-    muteIcon.setOnMouseClicked(event -> toggleMute(muteIcon, muteImg, audioOnImg));
-
-    return muteIcon;
-  }
-
-  private VBox createLanguageSelector() {
-    ComboBox<String> languageComboBox = new ComboBox<>();
-    languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
-
-    languageComboBox.setPrefWidth(ComboBox.USE_COMPUTED_SIZE);
-    languageComboBox.setMinWidth(ComboBox.USE_COMPUTED_SIZE);
-
-    languageComboBox.setValue(
-        settings.getLanguage() != null ? settings.getLanguage() : DEFAULT_LANGUAGE);
-
-    if (settings.getLanguage() != null) {
-      changeLanguage(settings.getLanguage());
-    }
-
-    // Define what text is drawn, keeping orignal item value (Draws text->"Français" while item
-    // value->"French"
-    languageComboBox.setCellFactory(
-        cb ->
-            new ListCell<>() {
-              @Override
-              protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
-              }
-            });
-
-    languageComboBox.setButtonCell(
-        new ListCell<>() {
-          @Override
-          protected void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
-          }
-        });
-
-    applyStylesheet(languageComboBox);
-    languageComboBox.setOnAction(
-        event -> {
-          changeLanguage(languageComboBox.getValue());
-          updateTexts();
-          languageComboBox.requestLayout();
-        });
-
-    languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
-    languageLabel.setStyle(
-        "-fx-text-fill: #00FF00;" + "-fx-effect: dropshadow(gaussian, black, 2, 1.0, 0, 0);");
-    applyStylesheet(languageLabel);
-
-    VBox languageBox = new VBox(10, languageLabel, languageComboBox);
-    languageBox.setFillWidth(true);
-    languageBox.setAlignment(Pos.CENTER);
-    languageBox.setTranslateY(600);
-    languageBox.setPadding(new Insets(20));
-    languageBox.setStyle(
-        "-fx-background-color: rgba(0, 0, 0, 0.8);"
-            + "-fx-background-radius: 15;"
-            + "-fx-border-color: rgba(0, 220, 0, 0.7);"
-            + "-fx-border-width: 2;"
-            + "-fx-border-radius: 15;"
-            + "-fx-effect:  dropshadow(gaussian, rgba(0, 220, 0, 0.6), 12, 0.5, 0, 0);");
-
-    languageBox
-        .layoutBoundsProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              if (newBounds.getWidth() > 0) {
-                languageBox.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-              }
-            });
-
-    return languageBox;
-  }
-
-  private Slider createVolumeSlider() {
-    Slider volumeSlider = new Slider(0, 1, 1);
-    volumeSlider.adjustValue(settings.getVolume());
-    volumeSlider.setBlockIncrement(0.01);
-
-    applyStylesheet(volumeSlider);
-
-    return volumeSlider;
-  }
-
-  private Text createVolumeText(Slider volumeSlider) {
-    var volumeText =
-        getUIFactoryService()
-            .newText(
-                String.format("%.0f%%", settings.getVolume() * 100),
-                Color.LIME,
-                GameConstants.TEXT_SIZE_GAME_INFO);
-
-    volumeSlider
-        .valueProperty()
-        .addListener(
-            (obs, oldVal, newVal) -> {
-              AudioManager.getInstance().setVolume(newVal.doubleValue());
-              settings.setVolume(newVal.doubleValue());
-              SettingsProvider.saveSettings(settings);
-              volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100));
-            });
-
-    return volumeText;
-  }
-
-  private void configureButtons() {
-    applyStylesheet(startButton);
-    applyStylesheet(quitButton);
-
     startButton.setMinSize(140, 60);
-    startButton.setTranslateY(420);
+    startButton.setTranslateY(400);
     startButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new ShipSelectionMenu()));
 
+    achievementsButton.setMinSize(140, 60);
+    achievementsButton.setTranslateY(470);
+    achievementsButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new AchievementsMenu()));
+
     quitButton.setMinSize(140, 60);
-    quitButton.setTranslateY(500);
+    quitButton.setTranslateY(540);
     quitButton.setOnAction(event -> fireExit());
   }
 
@@ -385,6 +147,7 @@ public class DinosaurMenu extends FXGLMenu {
             background,
             title,
             startButton,
+            achievementsButton,
             quitButton,
             dino,
             creditsBadge,
@@ -400,6 +163,15 @@ public class DinosaurMenu extends FXGLMenu {
             (obs, oldBounds, newBounds) -> {
               if (newBounds.getWidth() > 0) {
                 startButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+              }
+            });
+
+    achievementsButton
+        .layoutBoundsProperty()
+        .addListener(
+            (obs, oldBounds, newBounds) -> {
+              if (newBounds.getWidth() > 0) {
+                achievementsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
               }
             });
 
@@ -437,6 +209,7 @@ public class DinosaurMenu extends FXGLMenu {
 
   private void updateTexts() {
     startButton.setText(languageManager.getTranslation("start").toUpperCase());
+    achievementsButton.setText(languageManager.getTranslation("achievements").toUpperCase());
     quitButton.setText(languageManager.getTranslation("quit").toUpperCase());
     languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
   }

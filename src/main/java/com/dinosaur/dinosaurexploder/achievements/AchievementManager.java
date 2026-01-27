@@ -10,9 +10,14 @@ public class AchievementManager {
   private final List<Achievement> activeAchievements = new ArrayList<>();
 
   public AchievementManager() {
-    // Register all available achievements here
-    allAchievements.add(new KillCountAchievement(10, 50));
-    allAchievements.add(new KillCountAchievement(20, 100));
+    registerAchievements();
+  }
+
+  private void registerAchievements() {
+    allAchievements.add(new KillCountAchievement("ach_kill_10_name", "ach_kill_10_desc", 10, 50));
+    allAchievements.add(new KillCountAchievement("ach_kill_20_name", "ach_kill_20_desc", 20, 100));
+    allAchievements.add(new KillCountAchievement("ach_kill_50_name", "ach_kill_50_desc", 50, 250));
+    allAchievements.add(new KillCountAchievement("ach_kill_100_name", "ach_kill_100_desc", 100, 500));
   }
 
   // Called once when the game starts
@@ -41,6 +46,10 @@ public class AchievementManager {
 
   public List<Achievement> getActiveAchievements() {
     return activeAchievements;
+  }
+
+  public List<Achievement> getAllAchievements() {
+    return allAchievements;
   }
 
   public Achievement getActiveAchievement() {

@@ -41,5 +41,17 @@
     "loading": "Loading",
     "commits": "commits",
     "error_loading_contributors": "Unable to load contributors. Please check your internet connection.",
-    "credits_subtitle": "Thank you to all our contributors"
+    "credits_subtitle": "Thank you to all our contributors",
+    "achievements": "Achievements",
+    "ach_kill_10_name": "Beginner Hunter",
+    "ach_kill_10_desc": "Kill ## dinosaurs",
+    "ach_kill_20_name": "Skilled Hunter",
+    "ach_kill_20_desc": "Kill ## dinosaurs",
+    "ach_kill_50_name": "Veteran Hunter",
+    "ach_kill_50_desc": "Kill ## dinosaurs",
+    "ach_kill_100_name": "Master Hunter",
+    "ach_kill_100_desc": "Kill ## dinosaurs",
+    "locked": "Locked",
+    "unlocked": "Unlocked",
+    "reward": "Reward"
 }

@@ -1,7 +1,7 @@
 {
   "start": "Spiel starten",
   "quit": "Beenden",
-  "language_label" : "Sprache wählen:",
+  "language_label": "Sprache wählen:",
   "select_ship": "Wähle ein Schiff",
   "select_weapon": "Wähle deine Waffe",
   "score": "Punktzahl",
@@ -40,5 +40,17 @@
   "loading": "Lädt",
   "commits": "Commits",
   "error_loading_contributors": "Mitwirkende konnten nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung.",
-  "credits_subtitle": "Danke an alle Mitwirkenden"
+  "credits_subtitle": "Danke an alle Mitwirkenden",
+  "achievements": "Erfolge",
+  "ach_kill_10_name": "Anfängerjäger",
+  "ach_kill_10_desc": "Töte ## Dinosaurier",
+  "ach_kill_20_name": "Erfahrener Jäger",
+  "ach_kill_20_desc": "Töte ## Dinosaurier",
+  "ach_kill_50_name": "Veteran Jäger",
+  "ach_kill_50_desc": "Töte ## Dinosaurier",
+  "ach_kill_100_name": "Meisterjäger",
+  "ach_kill_100_desc": "Töte ## Dinosaurier",
+  "locked": "Gesperrt",
+  "unlocked": "Freigeschaltet",
+  "reward": "Belohnung"
 }

@@ -188,6 +188,8 @@ npm run lint
 
 **Have your own idea?** [Open a discussion](https://github.com/jvondermarck/dinosaur-exploder/discussions) first!
 
+**Looking for inspiration?** Check out our [📋 GitHub Issues Ideas Document](GITHUB_ISSUES_IDEAS.md) - 45+ curated contribution ideas ranging from beginner-friendly to advanced!
+
 ### Step 4: Make Your Contribution
 
 1. **Create a branch**:  `git checkout -b feature/your-feature-name`

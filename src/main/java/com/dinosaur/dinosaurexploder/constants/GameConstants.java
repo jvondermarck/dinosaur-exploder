@@ -18,6 +18,7 @@ public class GameConstants {
   public static final String GREEN_DINO_IMAGE_FILE = "greenDino.png";
   public static final String RED_DINO_IMAGE_FILE = "redDino.png";
   public static final String ORANGE_DINO_IMAGE_FILE = "orangeDino.png";
+  public static final String PURPLE_DINO_IMAGE_FILE = "greenDino.png"; // Reusing green for now
   public static final String COIN_IMAGE_PATH = "assets/textures/coin.png";
   public static final String COIN_IMAGE_FILE = "coin.png";
   public static final String HEART_IMAGE_PATH = "assets/textures/life.png";

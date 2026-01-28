@@ -38,7 +38,12 @@ public class EnemySpawner {
                 bossSpawner.spawnNewBoss("red");
               } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
-                  Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                  // Spawn purple dinos starting from level 3 with 30% probability
+                  if (levelManager.getCurrentLevel() >= 3 && random(0, 10) < 3) {
+                    Entity purpleDino = spawn("purpleDino", random(0, getAppWidth() - 80), -50);
+                  } else {
+                    Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                  }
                 }
               }
             },

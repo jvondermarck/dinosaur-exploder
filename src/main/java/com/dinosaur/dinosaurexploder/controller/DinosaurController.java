@@ -42,10 +42,12 @@ public class DinosaurController {
     collisionRegistry.addCollision(new PlayerHeartCollision(gameInitializer));
     collisionRegistry.addCollision(new PlayerOrangeDinoCollision(gameActions));
     collisionRegistry.addCollision(new PlayerRedDinoCollision(gameActions));
+    collisionRegistry.addCollision(new PlayerPurpleDinoCollision(gameActions));
     collisionRegistry.addCollision(new ProjectileEnemyProjectileCollision());
     collisionRegistry.addCollision(new ProjectileGreenDinoCollision(gameInitializer, gameActions));
     collisionRegistry.addCollision(new ProjectileOrangeDinoCollision(gameInitializer, gameActions));
     collisionRegistry.addCollision(new ProjectileRedDinoCollision(gameInitializer, gameActions));
+    collisionRegistry.addCollision(new ProjectilePurpleDinoCollision(gameInitializer, gameActions));
 
     collisionRegistry.registerAll();
   }

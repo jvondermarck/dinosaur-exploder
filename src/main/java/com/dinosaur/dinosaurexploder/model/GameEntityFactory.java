@@ -133,6 +133,18 @@ public class GameEntityFactory implements EntityFactory {
         .build();
   }
 
+  /** Summary : New Purple Dino creation will be handled in below Entity */
+  @Spawns("purpleDino")
+  public Entity newPurpleDino(SpawnData data) {
+    return entityBuilderBase(data, EntityType.PURPLE_DINO)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.PURPLE_DINO_IMAGE_FILE, 80, 60))
+        .bbox(new HitBox(BoundingShape.box(65, 55)))
+        .collidable()
+        .with(new PurpleDinoComponent())
+        .build();
+  }
+
   /** spawn random coin on the window */
   @Spawns("coin")
   public Entity newCoin(SpawnData data) {

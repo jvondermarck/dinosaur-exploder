@@ -546,7 +546,7 @@ Create a multi-phase boss battle with different attack patterns in each phase.
 ---
 
 ### Issue #22: Add Local Multiplayer (Co-op Mode)
-**Labels:** `enhancement`, `java`, `game feature`, `help wanted`, `good first issue`  
+**Labels:** `enhancement`, `java`, `game feature`, `help wanted`  
 **Difficulty:** ⭐⭐⭐⭐ Hard  
 
 **Description:**

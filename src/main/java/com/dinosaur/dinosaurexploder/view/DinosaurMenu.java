@@ -1,7 +1,6 @@
 package com.dinosaur.dinosaurexploder.view;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-import static com.dinosaur.dinosaurexploder.utils.LanguageManager.DEFAULT_LANGUAGE;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
@@ -19,7 +18,6 @@ import java.util.Objects;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -53,7 +51,7 @@ public class DinosaurMenu extends FXGLMenu {
     mainMenuSound = createMainMenuSound();
     initializeAudioSettings();
     assert settings != null;
-    String language =  settings.getLanguage();
+    String language = settings.getLanguage();
     languageManager.setSelectedLanguage(language);
     updateTexts();
     languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
@@ -90,8 +88,8 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView dinoImage = createDinoImage();
     ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
-    //VBox languageBox = createLanguageSelector();
-    //VBox languageBox = null;
+    // VBox languageBox = createLanguageSelector();
+    // VBox languageBox = null;
     VBox volumeControls = createVolumeControls();
 
     // Configure buttons
@@ -229,81 +227,82 @@ public class DinosaurMenu extends FXGLMenu {
 
     return muteIcon;
   }
-/*
-  private VBox createLanguageSelector() {
-    ComboBox<String> languageComboBox = new ComboBox<>();
-    languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
 
-    languageComboBox.setPrefWidth(ComboBox.USE_COMPUTED_SIZE);
-    languageComboBox.setMinWidth(ComboBox.USE_COMPUTED_SIZE);
+  /*
+   private VBox createLanguageSelector() {
+     ComboBox<String> languageComboBox = new ComboBox<>();
+     languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
 
-    languageComboBox.setValue(
-        settings.getLanguage() != null ? settings.getLanguage() : DEFAULT_LANGUAGE);
+     languageComboBox.setPrefWidth(ComboBox.USE_COMPUTED_SIZE);
+     languageComboBox.setMinWidth(ComboBox.USE_COMPUTED_SIZE);
 
-    if (settings.getLanguage() != null) {
-      changeLanguage(settings.getLanguage());
-    }
+     languageComboBox.setValue(
+         settings.getLanguage() != null ? settings.getLanguage() : DEFAULT_LANGUAGE);
 
-    // Define what text is drawn, keeping orignal item value (Draws text->"Français" while item
-    // value->"French"
-    languageComboBox.setCellFactory(
-        cb ->
-            new ListCell<>() {
-              @Override
-              protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
-              }
-            });
+     if (settings.getLanguage() != null) {
+       changeLanguage(settings.getLanguage());
+     }
 
-    languageComboBox.setButtonCell(
-        new ListCell<>() {
-          @Override
-          protected void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
-          }
-        });
+     // Define what text is drawn, keeping orignal item value (Draws text->"Français" while item
+     // value->"French"
+     languageComboBox.setCellFactory(
+         cb ->
+             new ListCell<>() {
+               @Override
+               protected void updateItem(String item, boolean empty) {
+                 super.updateItem(item, empty);
+                 setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+               }
+             });
 
-    applyStylesheet(languageComboBox);
-    languageComboBox.setOnAction(
-        event -> {
-          changeLanguage(languageComboBox.getValue());
-          updateTexts();
-          languageComboBox.requestLayout();
-        });
+     languageComboBox.setButtonCell(
+         new ListCell<>() {
+           @Override
+           protected void updateItem(String item, boolean empty) {
+             super.updateItem(item, empty);
+             setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+           }
+         });
 
-    languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
-    languageLabel.setStyle(
-        "-fx-text-fill: #00FF00;" + "-fx-effect: dropshadow(gaussian, black, 2, 1.0, 0, 0);");
-    applyStylesheet(languageLabel);
+     applyStylesheet(languageComboBox);
+     languageComboBox.setOnAction(
+         event -> {
+           changeLanguage(languageComboBox.getValue());
+           updateTexts();
+           languageComboBox.requestLayout();
+         });
 
-    VBox languageBox = new VBox(10, languageLabel, languageComboBox);
-    languageBox.setFillWidth(true);
-    languageBox.setAlignment(Pos.CENTER);
-    languageBox.setTranslateY(600);
-    languageBox.setPadding(new Insets(20));
-    languageBox.setStyle(
-        "-fx-background-color: rgba(0, 0, 0, 0.8);"
-            + "-fx-background-radius: 15;"
-            + "-fx-border-color: rgba(0, 220, 0, 0.7);"
-            + "-fx-border-width: 2;"
-            + "-fx-border-radius: 15;"
-            + "-fx-effect:  dropshadow(gaussian, rgba(0, 220, 0, 0.6), 12, 0.5, 0, 0);");
+     languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
+     languageLabel.setStyle(
+         "-fx-text-fill: #00FF00;" + "-fx-effect: dropshadow(gaussian, black, 2, 1.0, 0, 0);");
+     applyStylesheet(languageLabel);
 
-    languageBox
-        .layoutBoundsProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              if (newBounds.getWidth() > 0) {
-                languageBox.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-              }
-            });
+     VBox languageBox = new VBox(10, languageLabel, languageComboBox);
+     languageBox.setFillWidth(true);
+     languageBox.setAlignment(Pos.CENTER);
+     languageBox.setTranslateY(600);
+     languageBox.setPadding(new Insets(20));
+     languageBox.setStyle(
+         "-fx-background-color: rgba(0, 0, 0, 0.8);"
+             + "-fx-background-radius: 15;"
+             + "-fx-border-color: rgba(0, 220, 0, 0.7);"
+             + "-fx-border-width: 2;"
+             + "-fx-border-radius: 15;"
+             + "-fx-effect:  dropshadow(gaussian, rgba(0, 220, 0, 0.6), 12, 0.5, 0, 0);");
 
-    return languageBox;
-  }
+     languageBox
+         .layoutBoundsProperty()
+         .addListener(
+             (obs, oldBounds, newBounds) -> {
+               if (newBounds.getWidth() > 0) {
+                 languageBox.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+               }
+             });
 
- */
+     return languageBox;
+   }
+
+  */
 
   private Slider createVolumeSlider() {
     Slider volumeSlider = new Slider(0, 1, 1);
@@ -352,7 +351,6 @@ public class DinosaurMenu extends FXGLMenu {
     quitButton.setMinSize(140, 60);
     quitButton.setTranslateY(580);
     quitButton.setOnAction(event -> fireExit());
-
   }
 
   // ============ HELPER METHODS ============
@@ -391,7 +389,7 @@ public class DinosaurMenu extends FXGLMenu {
       ImageView dino,
       StackPane creditsBadge,
       ImageView mute,
-      //VBox language,
+      // VBox language,
       VBox volumeControls) {
     getContentRoot()
         .getChildren()
@@ -426,16 +424,14 @@ public class DinosaurMenu extends FXGLMenu {
               }
             });
 
-
     settingsButton
-            .layoutBoundsProperty()
-            .addListener(
-                    (obs, oldBounds, newBounds) -> {
-                      if (newBounds.getWidth() > 0) {
-                        settingsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-                      }
-                    });
-
+        .layoutBoundsProperty()
+        .addListener(
+            (obs, oldBounds, newBounds) -> {
+              if (newBounds.getWidth() > 0) {
+                settingsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+              }
+            });
 
     javafx.application.Platform.runLater(
         () -> {

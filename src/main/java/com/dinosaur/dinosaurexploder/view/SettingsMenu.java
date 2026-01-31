@@ -1,5 +1,7 @@
 package com.dinosaur.dinosaurexploder.view;
 
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
@@ -14,113 +16,126 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-
-
 public class SettingsMenu extends FXGLMenu {
 
-    public static final int SPACE_ZONE = 50;
-    private final LanguageManager languageManager = LanguageManager.getInstance();
-    private Text title;
-    private Button soundButton;
-    private Button statsButton;
-    private Button keyButton;
-    private Button languageButton;
-    private Button backButton;
+  public static final int SPACE_ZONE = 50;
+  private final LanguageManager languageManager = LanguageManager.getInstance();
+  private Text title;
+  private Button soundButton;
+  private Button statsButton;
+  private Button keyButton;
+  private Button languageButton;
+  private Button backButton;
 
-    public SettingsMenu() {
-        super(MenuType.MAIN_MENU);
-        buildMenu();
+  public SettingsMenu() {
+    super(MenuType.MAIN_MENU);
+    buildMenu();
 
-        //listener to update the texts when language is changed
-        languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
-    }
+    // listener to update the texts when language is changed
+    languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
+  }
 
-    //Builds the menu using MenuHelper
-    private void buildMenu() {
-        MenuHelper.setupSelectionMenu(
-                this,
-                createHeaderZone(),
-                createOptionsZone(),
-                createBackButton(),
-                SPACE_ZONE,
-                getAppWidth(),
-                getAppHeight());
-    }
+  // Builds the menu using MenuHelper
+  private void buildMenu() {
+    MenuHelper.setupSelectionMenu(
+        this,
+        createHeaderZone(),
+        createOptionsZone(),
+        createBackButton(),
+        SPACE_ZONE,
+        getAppWidth(),
+        getAppHeight());
+  }
 
-    private VBox createHeaderZone() {
-        title =
-                getUIFactoryService()
-                        .newText(languageManager.getTranslation( "options" ).toUpperCase(), Color.LIME, FontType.MONO, GameConstants.MAIN_TITLES);
+  private VBox createHeaderZone() {
+    title =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("options").toUpperCase(),
+                Color.LIME,
+                FontType.MONO,
+                GameConstants.MAIN_TITLES);
 
-        VBox headerZone = new VBox(25, title);
-        headerZone.setAlignment(Pos.CENTER);
-        return headerZone;
+    VBox headerZone = new VBox(25, title);
+    headerZone.setAlignment(Pos.CENTER);
+    return headerZone;
+  }
 
-    }
+  private VBox createOptionsZone() {
+    VBox options = new VBox(20);
+    options.setAlignment(Pos.CENTER);
 
-    private VBox createOptionsZone() {
-        VBox options = new VBox(20);
-        options.setAlignment(Pos.CENTER);
+    soundButton =
+        getUIFactoryService().newButton(languageManager.getTranslation("sound").toUpperCase());
+    soundButton.setMinSize(getAppWidth() * 0.8, 60);
+    soundButton.setWrapText(true);
+    soundButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
+    statsButton =
+        getUIFactoryService()
+            .newButton(languageManager.getTranslation("score_label").toUpperCase());
+    statsButton.setMinSize(getAppWidth() * 0.8, 60);
+    statsButton.setWrapText(true);
+    statsButton.setOnAction(e -> createScoreDialog());
+    keyButton =
+        getUIFactoryService().newButton(languageManager.getTranslation("controls").toUpperCase());
+    keyButton.setWrapText(true);
+    keyButton.setMinSize(getAppWidth() * 0.8, 60);
+    keyButton.setOnAction(e -> createControlsDialog());
+    languageButton =
+        getUIFactoryService().newButton(languageManager.getTranslation("language").toUpperCase());
+    languageButton.setWrapText(true);
+    languageButton.setMinSize(getAppWidth() * 0.8, 60);
+    languageButton.setAlignment(Pos.CENTER);
+    languageButton.setOnAction(
+        e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
+    options.getChildren().addAll(statsButton, keyButton, soundButton, languageButton);
 
-        soundButton = getUIFactoryService().newButton(languageManager.getTranslation("sound").toUpperCase());
-        soundButton.setMinSize(getAppWidth()*0.8, 60);
-        soundButton.setWrapText(true);
-        soundButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
-        statsButton = getUIFactoryService().newButton(languageManager.getTranslation("score_label").toUpperCase());
-        statsButton.setMinSize(getAppWidth()*0.8, 60);
-        statsButton.setWrapText(true);
-        statsButton.setOnAction(e -> createScoreDialog());
-        keyButton = getUIFactoryService().newButton(languageManager.getTranslation("controls").toUpperCase());
-        keyButton.setWrapText(true);
-        keyButton.setMinSize(getAppWidth()*0.8, 60);
-        keyButton.setOnAction(e -> createControlsDialog());
-        languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language").toUpperCase());
-        languageButton.setWrapText(true);
-        languageButton.setMinSize(getAppWidth()*0.8, 60);
-        languageButton.setAlignment(Pos.CENTER);
-        languageButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
-        options.getChildren().addAll(statsButton, keyButton, soundButton, languageButton);
+    return options;
+  }
 
-        return options;
-    }
+  private Button createBackButton() {
+    backButton =
+        MenuHelper.createStyledButton(languageManager.getTranslation("back").toUpperCase());
+    backButton.setOnAction(event -> fireResume());
+    return backButton;
+  }
 
-    private Button createBackButton() {
-        backButton = MenuHelper.createStyledButton(languageManager.getTranslation("back").toUpperCase());
-        backButton.setOnAction(event -> fireResume());
-        return backButton;
-    }
+  // Dialog for the player's score values
+  private void createScoreDialog() {
+    String highScore =
+        (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore())
+                .toUpperCase()
+            + "\n";
+    String totalCoins =
+        (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins())
+            .toUpperCase();
+    MenuHelper.showDialog(
+        languageManager.getTranslation("score_label").toUpperCase(), highScore + totalCoins);
+  }
 
-    //Dialog for the player's score values
-    private void createScoreDialog() {
-        String highScore =  (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore()).toUpperCase() + "\n";
-        String totalCoins = (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins()).toUpperCase();
-        MenuHelper.showDialog(languageManager.getTranslation("score_label").toUpperCase(),highScore + totalCoins);
-    }
+  // dialog for the controls
+  private void createControlsDialog() {
+    String moveUpKey = "↑ / W : " + languageManager.getTranslation("move_up") + "\n";
+    String moveDownKey = "↓ / S :  " + languageManager.getTranslation("move_down") + "\n";
+    String moveRightKey = "→ / D : " + languageManager.getTranslation("move_right") + "\n";
+    String moveLeftKey = "← / A : " + languageManager.getTranslation("move_left") + "\n";
+    String B_Key = "B: " + languageManager.getTranslation("bomb") + "\n";
+    String E_Key = "E: " + languageManager.getTranslation("shield") + "\n";
+    String escKey = languageManager.getTranslation("pause_game") + "\n";
+    String spaceKey = languageManager.getTranslation("shoot") + "\n";
 
-    //dialog for the controls
-    private void createControlsDialog() {
-        String moveUpKey = "↑ / W : " + languageManager.getTranslation("move_up") + "\n";
-        String moveDownKey = "↓ / S :  " + languageManager.getTranslation("move_down")+ "\n";
-        String moveRightKey = "→ / D : " + languageManager.getTranslation("move_right")+ "\n";
-        String moveLeftKey = "← / A : " + languageManager.getTranslation("move_left")+ "\n";
-        String B_Key = "B: " + languageManager.getTranslation("bomb")+ "\n";
-        String E_Key = "E: " + languageManager.getTranslation("shield")+ "\n";
-        String escKey = languageManager.getTranslation("pause_game")+ "\n";
-        String spaceKey = languageManager.getTranslation("shoot")+ "\n";
+    MenuHelper.showDialog(
+        languageManager.getTranslation("controls").toUpperCase(),
+        moveUpKey + moveDownKey + moveRightKey + moveLeftKey + B_Key + E_Key + escKey + spaceKey);
+  }
 
-        MenuHelper.showDialog(languageManager.getTranslation("controls").toUpperCase(), moveUpKey + moveDownKey + moveRightKey + moveLeftKey + B_Key + E_Key + escKey + spaceKey);
-    }
-
-    //called when language is changed to update the texts
-    private void updateTexts() {
-        title.setText(languageManager.getTranslation("options").toUpperCase());
-        soundButton.setText(languageManager.getTranslation("sound").toUpperCase());
-        languageButton.setText(languageManager.getTranslation("language").toUpperCase());
-        statsButton.setText(languageManager.getTranslation("score_label").toUpperCase());
-        keyButton.setText(languageManager.getTranslation("controls").toUpperCase());
-        backButton.setText(languageManager.getTranslation("back").toUpperCase());
-    }
-
+  // called when language is changed to update the texts
+  private void updateTexts() {
+    title.setText(languageManager.getTranslation("options").toUpperCase());
+    soundButton.setText(languageManager.getTranslation("sound").toUpperCase());
+    languageButton.setText(languageManager.getTranslation("language").toUpperCase());
+    statsButton.setText(languageManager.getTranslation("score_label").toUpperCase());
+    keyButton.setText(languageManager.getTranslation("controls").toUpperCase());
+    backButton.setText(languageManager.getTranslation("back").toUpperCase());
+  }
 }
-

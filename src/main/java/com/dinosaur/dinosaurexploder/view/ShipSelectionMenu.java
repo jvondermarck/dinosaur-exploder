@@ -182,7 +182,7 @@ public class ShipSelectionMenu extends FXGLMenu {
   }
 
   private void showLockedShipDialog(LockedShipException exception) {
-    MenuHelper.showDialog(languageManager.getTranslation("locked"),exception.getMessage());
+    MenuHelper.showDialog(languageManager.getTranslation("locked"), exception.getMessage());
   }
 
   private void selectShip(int shipNumber) {

@@ -48,9 +48,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
     }
 
     private VBox createHeaderZone() {
-        title =
-                getUIFactoryService()
-                        .newText(languageManager.getTranslation( "language_label" ).toUpperCase(), Color.LIME, FontType.MONO, GameConstants.MAIN_TITLES);
+        title = new Text();
         VBox headerZone = new VBox(25, title);
         headerZone.setAlignment(Pos.CENTER);
         return headerZone;
@@ -107,7 +105,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
         applyStylesheet(languageLabel);
 
         VBox languageBox = new VBox(10, languageLabel, languageComboBox);
-        languageBox.setFillWidth(true);
+        //languageBox.setFillWidth(true);
 
         //languageBox.setTranslateY(600);
         languageBox.setMaxWidth(getAppWidth()*0.8);
@@ -120,7 +118,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
                         + "-fx-border-width: 2;"
                         + "-fx-border-radius: 15;"
                         + "-fx-effect:  dropshadow(gaussian, rgba(0, 220, 0, 0.6), 12, 0.5, 0, 0);");
-
+/*
         languageBox
                 .layoutBoundsProperty()
                 .addListener(
@@ -129,6 +127,8 @@ public class LanguageSelectionMenu extends FXGLMenu {
                                 languageBox.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
                             }
                         });
+
+ */
 
         return languageBox;
     }
@@ -141,7 +141,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
     }
 
     private void updateTexts() {
-        title.setText(languageManager.getTranslation("language_label"));
+        //title.setText(languageManager.getTranslation("language_label"));
         languageLabel.setText(languageManager.getTranslation("language_label"));
         backButton.setText(languageManager.getTranslation("back").toUpperCase());
         SettingsProvider.saveSettings(settings);

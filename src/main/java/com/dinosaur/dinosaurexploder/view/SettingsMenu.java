@@ -70,16 +70,21 @@ public class SettingsMenu extends FXGLMenu {
         options.setAlignment(Pos.CENTER);
 
         soundButton = getUIFactoryService().newButton(languageManager.getTranslation("sound").toUpperCase());
+        soundButton.setMinSize(getAppWidth()*0.8, 60);
         soundButton.setWrapText(true);
         soundButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
         statsButton = getUIFactoryService().newButton(languageManager.getTranslation("score_label").toUpperCase());
+        statsButton.setMinSize(getAppWidth()*0.8, 60);
         statsButton.setWrapText(true);
         statsButton.setOnAction(e -> createStatsDialog());
         keyButton = getUIFactoryService().newButton(languageManager.getTranslation("controls").toUpperCase());
         keyButton.setWrapText(true);
+        keyButton.setMinSize(getAppWidth()*0.8, 60);
         keyButton.setOnAction(e -> createKeyDialog());
-        languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language_label").toUpperCase());
+        languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language").toUpperCase());
         languageButton.setWrapText(true);
+        languageButton.setMinSize(getAppWidth()*0.8, 60);
+        languageButton.setAlignment(Pos.CENTER);
         languageButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
         options.getChildren().addAll(statsButton, keyButton, soundButton, languageButton);
 
@@ -114,7 +119,7 @@ public class SettingsMenu extends FXGLMenu {
     private void updateTexts() {
         title.setText(languageManager.getTranslation("options").toUpperCase());
         soundButton.setText(languageManager.getTranslation("sound").toUpperCase());
-        languageButton.setText(languageManager.getTranslation("language_label").toUpperCase());
+        languageButton.setText(languageManager.getTranslation("language").toUpperCase());
         statsButton.setText(languageManager.getTranslation("score_label").toUpperCase());
         keyButton.setText(languageManager.getTranslation("controls").toUpperCase());
         backButton.setText(languageManager.getTranslation("back").toUpperCase());

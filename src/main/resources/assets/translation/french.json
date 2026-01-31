@@ -41,5 +41,6 @@
     "commits": "commits",
     "error_loading_contributors": "Impossible de charger les contributeurs. Veuillez vérifier votre connexion Internet.",
     "credits_subtitle": "Merci à tous nos contributeurs",
-    "options": "Paramètres"
+    "options": "Paramètres",
+    "language": "langue"
 }

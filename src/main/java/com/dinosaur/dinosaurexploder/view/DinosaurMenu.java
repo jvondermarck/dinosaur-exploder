@@ -52,6 +52,10 @@ public class DinosaurMenu extends FXGLMenu {
 
     mainMenuSound = createMainMenuSound();
     initializeAudioSettings();
+    assert settings != null;
+    String language =  settings.getLanguage();
+    languageManager.setSelectedLanguage(language);
+    updateTexts();
     languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
 
     try {
@@ -341,13 +345,14 @@ public class DinosaurMenu extends FXGLMenu {
     startButton.setTranslateY(420);
     startButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new ShipSelectionMenu()));
 
+    settingsButton.setMinSize(140, 60);
+    settingsButton.setTranslateY(500);
+    settingsButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new SettingsMenu()));
+
     quitButton.setMinSize(140, 60);
-    quitButton.setTranslateY(500);
+    quitButton.setTranslateY(580);
     quitButton.setOnAction(event -> fireExit());
 
-    settingsButton.setMinSize(140, 60);
-    settingsButton.setTranslateY(580);
-    settingsButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new SettingsMenu()));
   }
 
   // ============ HELPER METHODS ============
@@ -459,7 +464,7 @@ public class DinosaurMenu extends FXGLMenu {
   private void updateTexts() {
     startButton.setText(languageManager.getTranslation("start").toUpperCase());
     quitButton.setText(languageManager.getTranslation("quit").toUpperCase());
-    settingsButton.setText(languageManager.getTranslation("settings").toUpperCase());
+    settingsButton.setText(languageManager.getTranslation("options").toUpperCase());
     languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
   }
 

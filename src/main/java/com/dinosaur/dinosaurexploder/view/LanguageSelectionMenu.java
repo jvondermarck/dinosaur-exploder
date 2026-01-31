@@ -50,7 +50,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
     private VBox createHeaderZone() {
         title =
                 getUIFactoryService()
-                        .newText(languageManager.getTranslation( "select_language" ).toUpperCase(), Color.LIME, FontType.MONO, GameConstants.MAIN_TITLES);
+                        .newText(languageManager.getTranslation( "language_label" ).toUpperCase(), Color.LIME, FontType.MONO, GameConstants.MAIN_TITLES);
         VBox headerZone = new VBox(25, title);
         headerZone.setAlignment(Pos.CENTER);
         return headerZone;
@@ -59,7 +59,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
     //adapted from the languageBox implementation originally at DinosaurMenu
     private VBox createLanguageSelector() {
         ComboBox<String> languageComboBox = new ComboBox<>();
-        languageLabel = new Label(languageManager.getTranslation("select language"));
+        languageLabel = new Label(languageManager.getTranslation("language_label"));
         languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
 
         languageComboBox.setPrefWidth(ComboBox.USE_COMPUTED_SIZE);

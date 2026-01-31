@@ -39,7 +39,7 @@ public class SoundMenu extends FXGLMenu {
     }
 
     private VBox createHeaderZone() {
-        TextFlow titleFlow = MenuHelper.createTitleFlow(languageManager.getTranslation("sound options").toUpperCase(), getAppWidth() * 0.8);
+        TextFlow titleFlow = MenuHelper.createTitleFlow(languageManager.getTranslation("sound").toUpperCase(), getAppWidth() * 0.8);
 
         VBox headerZone = new VBox(25, titleFlow);
         headerZone.setAlignment(Pos.CENTER);
@@ -49,14 +49,14 @@ public class SoundMenu extends FXGLMenu {
     private Node createOptionsZone() {
         VBox options = new VBox(20);
         options.setAlignment(Pos.CENTER);
-        Text backgroundTitle = MenuHelper.createSubtitle(languageManager.getTranslation("background music"),getAppWidth()*0.8,false);
+        Text backgroundTitle = MenuHelper.createSubtitle(languageManager.getTranslation("sound_main"),getAppWidth()*0.8,false);
 
         // Creates slider with the background music volume
         Slider musicVolume = createSlider("music");
         // Sets the music volume label and the music volume depending on the actual volume value
         Label volumeLabel = setSliderLabel(musicVolume, "music");
 
-        Text sfxTitle = MenuHelper.createSubtitle(languageManager.getTranslation("game sounds"),getAppWidth()*0.8,false);
+        Text sfxTitle = MenuHelper.createSubtitle(languageManager.getTranslation("sound_sfx"),getAppWidth()*0.8,false);
         // Creates slider for sfx volume
         Slider sfxVolume = createSlider("sfx");
         // Sets the sfx volume label and the sfx volume depending on the actual sfx volume value

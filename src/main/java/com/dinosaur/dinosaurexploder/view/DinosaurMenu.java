@@ -86,7 +86,7 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView dinoImage = createDinoImage();
     ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
-    VBox languageBox = createLanguageSelector();
+    //VBox languageBox = createLanguageSelector();
     //VBox languageBox = null;
     VBox volumeControls = createVolumeControls();
 
@@ -95,7 +95,7 @@ public class DinosaurMenu extends FXGLMenu {
 
     // Add all components to scene
     addComponentsToScene(
-        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, languageBox, volumeControls);
+        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, volumeControls);
 
     // Setup button centering
     setupButtonCentering();
@@ -225,7 +225,7 @@ public class DinosaurMenu extends FXGLMenu {
 
     return muteIcon;
   }
-
+/*
   private VBox createLanguageSelector() {
     ComboBox<String> languageComboBox = new ComboBox<>();
     languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
@@ -298,6 +298,8 @@ public class DinosaurMenu extends FXGLMenu {
 
     return languageBox;
   }
+
+ */
 
   private Slider createVolumeSlider() {
     Slider volumeSlider = new Slider(0, 1, 1);
@@ -384,7 +386,7 @@ public class DinosaurMenu extends FXGLMenu {
       ImageView dino,
       StackPane creditsBadge,
       ImageView mute,
-      VBox language,
+      //VBox language,
       VBox volumeControls) {
     getContentRoot()
         .getChildren()
@@ -397,7 +399,6 @@ public class DinosaurMenu extends FXGLMenu {
             dino,
             creditsBadge,
             mute,
-            language,
             volumeControls);
   }
 

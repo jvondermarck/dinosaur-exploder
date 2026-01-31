@@ -2,7 +2,6 @@ package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -27,7 +26,6 @@ public class SettingsMenu extends FXGLMenu {
     private final LanguageManager languageManager = LanguageManager.getInstance();
     private static final String STYLESHEET_PATH = "/styles/styles.css";
 
-
     public SettingsMenu() {
         super(MenuType.MAIN_MENU);
         buildMenu();
@@ -47,25 +45,8 @@ public class SettingsMenu extends FXGLMenu {
     private VBox createHeaderZone() {
         TextFlow titleFlow =
                 MenuHelper.createTitleFlow(
-                        languageManager.getTranslation("SETTINGS / HELP"), getAppWidth() * 0.8);
+                        languageManager.getTranslation("settings / help").toUpperCase(), getAppWidth() * 0.8);
 
-        var highScore =
-                getUIFactoryService()
-                        .newText(
-                                (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore())
-                                        .toUpperCase(),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var totalCoins =
-                getUIFactoryService()
-                        .newText(
-                                (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins())
-                                        .toUpperCase(),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
 
         VBox headerZone = new VBox(25, titleFlow);
         headerZone.setAlignment(Pos.CENTER);
@@ -77,10 +58,6 @@ public class SettingsMenu extends FXGLMenu {
         VBox options = new VBox(20);
         options.setAlignment(Pos.CENTER);
 
-        Label title = new Label("Settings (dummy)");
-        Label option1 = new Label("• Sound: ON");
-        Label option2 = new Label("• Music: ON");
-        Label option3 = new Label("• Fullscreen: OFF");
 
         var soundButton = getUIFactoryService().newButton(languageManager.getTranslation("sound".toUpperCase()));
         soundButton.setWrapText(true);
@@ -92,11 +69,7 @@ public class SettingsMenu extends FXGLMenu {
         keyButton.setOnAction(e -> createKeyDialog());
         var languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language".toUpperCase()));
         languageButton.setWrapText(true);
-        /*
-        soundButton.setFont(Font.font("Monospaced", GameConstants.TEXT_SUB_DETAILS));
-        soundButton.setTextFill(Color.LIME);
-        soundButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-        */
+
         options.getChildren().addAll(statsButton, keyButton, soundButton, languageButton);
 
         return options;
@@ -114,107 +87,25 @@ public class SettingsMenu extends FXGLMenu {
         return backButton;
     }
 
+
     private void createStatsDialog() {
-        Button btnOK = getUIFactoryService().newButton(languageManager.getTranslation("ok"));
-        btnOK.setMinWidth(200);
-
-        var highScore =
-                getUIFactoryService()
-                        .newText(
-                                (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore())
-                                        .toUpperCase(),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var totalCoins =
-                getUIFactoryService()
-                        .newText(
-                                (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins())
-                                        .toUpperCase(),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        VBox layout = new VBox(20, highScore, totalCoins);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new javafx.geometry.Insets(20));
-        layout.setMinWidth(500);
-
-        getDialogService()
-                .showBox(languageManager.getTranslation("your stats").toUpperCase(), layout, btnOK);
-
+        String highScore =  (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore()).toUpperCase() + "\n";
+        String totalCoins = (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins()).toUpperCase();
+        MenuHelper.showDialog(languageManager.getTranslation("my stats").toUpperCase(),highScore + totalCoins);
     }
 
 
     private void createKeyDialog() {
-        Button btnOK = getUIFactoryService().newButton(languageManager.getTranslation("ok"));
-        btnOK.setMinWidth(200);
+        String moveUpKey = "↑ / W : " + languageManager.getTranslation("move_up") + "\n";
+        String moveDownKey = "↓ / S :  " + languageManager.getTranslation("move_down")+ "\n";
+        String moveRightKey = "→ / D : " + languageManager.getTranslation("move_right")+ "\n";
+        String moveLeftKey = "← / A : " + languageManager.getTranslation("move_left")+ "\n";
+        String B_Key = "B: " + languageManager.getTranslation("bomb")+ "\n";
+        String E_Key = "E: " + languageManager.getTranslation("shield")+ "\n";
+        String escKey = languageManager.getTranslation("pause_game")+ "\n";
+        String spaceKey = languageManager.getTranslation("shoot")+ "\n";
 
-        var moveUpKey =
-                getUIFactoryService()
-                        .newText("↑ / W : " + languageManager.getTranslation("move_up"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var moveDownKey =
-                getUIFactoryService()
-                        .newText("↓ / S :  " + languageManager.getTranslation("move_down"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var moveRightKey =
-                getUIFactoryService()
-                        .newText("→ / D : " + languageManager.getTranslation("move_right"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var moveLeftKey =
-                getUIFactoryService()
-                        .newText("← / A : " + languageManager.getTranslation("move_left"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var B_Key =
-                getUIFactoryService()
-                        .newText("B: " + languageManager.getTranslation("bomb"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var E_Key =
-                getUIFactoryService()
-                        .newText("E: " + languageManager.getTranslation("shield"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var escKey =
-                getUIFactoryService()
-                        .newText(languageManager.getTranslation("pause_game"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        var spaceKey =
-                getUIFactoryService()
-                        .newText(languageManager.getTranslation("shoot"),
-                                Color.LIME,
-                                FontType.MONO,
-                                GameConstants.TEXT_SUB_DETAILS);
-
-        VBox layout = new VBox(25,moveUpKey, moveDownKey, moveLeftKey, moveRightKey, spaceKey, escKey, B_Key, E_Key);
-
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new javafx.geometry.Insets(25));
-
-        getDialogService()
-                .showBox(languageManager.getTranslation("key info").toUpperCase(), layout, btnOK);
-
+        MenuHelper.showDialog(languageManager.getTranslation("keyboard info").toUpperCase(), moveUpKey + moveDownKey + moveRightKey + moveLeftKey + B_Key + E_Key + escKey + spaceKey);
     }
 
 }

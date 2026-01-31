@@ -23,7 +23,7 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 public class MenuHelper {
-  public static void showLockedDialog(String message) {
+  public static void showDialog(String title, String message) {
     LanguageManager lm = LanguageManager.getInstance();
     Button okButton = getUIFactoryService().newButton(lm.getTranslation("ok"));
     okButton.setMinWidth(250);
@@ -41,7 +41,7 @@ public class MenuHelper {
     content.setPadding(new javafx.geometry.Insets(20));
     content.setMinWidth(500);
 
-    getDialogService().showBox(lm.getTranslation("locked"), content, okButton);
+    getDialogService().showBox(title, content, okButton);
   }
 
   public static ImageView createItemImageView(Image image, double size, boolean isLocked) {

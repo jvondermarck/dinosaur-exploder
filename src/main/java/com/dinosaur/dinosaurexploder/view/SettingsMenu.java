@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -18,13 +19,13 @@ import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+import static com.dinosaur.dinosaurexploder.utils.MenuHelper.createStyledButton;
 
 
 public class SettingsMenu extends FXGLMenu {
 
     public static final int SPACE_ZONE = 50;
     private final LanguageManager languageManager = LanguageManager.getInstance();
-    private static final String STYLESHEET_PATH = "/styles/styles.css";
 
     public SettingsMenu() {
         super(MenuType.MAIN_MENU);
@@ -43,10 +44,7 @@ public class SettingsMenu extends FXGLMenu {
     }
 
     private VBox createHeaderZone() {
-        TextFlow titleFlow =
-                MenuHelper.createTitleFlow(
-                        languageManager.getTranslation("settings / help").toUpperCase(), getAppWidth() * 0.8);
-
+        TextFlow titleFlow = MenuHelper.createTitleFlow(languageManager.getTranslation("settings / help").toUpperCase(), getAppWidth() * 0.8);
 
         VBox headerZone = new VBox(25, titleFlow);
         headerZone.setAlignment(Pos.CENTER);
@@ -58,16 +56,16 @@ public class SettingsMenu extends FXGLMenu {
         VBox options = new VBox(20);
         options.setAlignment(Pos.CENTER);
 
-
-        var soundButton = getUIFactoryService().newButton(languageManager.getTranslation("sound".toUpperCase()));
+        var soundButton = getUIFactoryService().newButton(languageManager.getTranslation("sound").toUpperCase());
         soundButton.setWrapText(true);
-        var statsButton = getUIFactoryService().newButton(languageManager.getTranslation("my stats".toUpperCase()));
+        soundButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
+        var statsButton = getUIFactoryService().newButton(languageManager.getTranslation("my stats").toUpperCase());
         statsButton.setWrapText(true);
         statsButton.setOnAction(e -> createStatsDialog());
-        var keyButton = getUIFactoryService().newButton(languageManager.getTranslation("key info".toUpperCase()));
+        var keyButton = getUIFactoryService().newButton(languageManager.getTranslation("key info").toUpperCase());
         keyButton.setWrapText(true);
         keyButton.setOnAction(e -> createKeyDialog());
-        var languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language".toUpperCase()));
+        var languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language").toUpperCase());
         languageButton.setWrapText(true);
 
         options.getChildren().addAll(statsButton, keyButton, soundButton, languageButton);
@@ -75,25 +73,17 @@ public class SettingsMenu extends FXGLMenu {
         return options;
     }
 
-
     private Button createBackButton() {
-        Button backButton = new Button(languageManager.getTranslation("back").toUpperCase());
-        backButton
-                .getStylesheets()
-                .add(Objects.requireNonNull(getClass().getResource(STYLESHEET_PATH)).toExternalForm());
-        backButton.setMinSize(140, 60);
+        Button backButton = MenuHelper.createStyledButton(languageManager.getTranslation("back").toUpperCase());
         backButton.setOnAction(event -> fireResume());
-
         return backButton;
     }
-
 
     private void createStatsDialog() {
         String highScore =  (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore()).toUpperCase() + "\n";
         String totalCoins = (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins()).toUpperCase();
         MenuHelper.showDialog(languageManager.getTranslation("my stats").toUpperCase(),highScore + totalCoins);
     }
-
 
     private void createKeyDialog() {
         String moveUpKey = "↑ / W : " + languageManager.getTranslation("move_up") + "\n";

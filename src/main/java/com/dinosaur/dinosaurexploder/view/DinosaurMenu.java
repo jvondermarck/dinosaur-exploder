@@ -44,7 +44,7 @@ public class DinosaurMenu extends FXGLMenu {
   // UI Components
   private final Button startButton = new Button("Start Game".toUpperCase());
   private final Button quitButton = new Button("Quit".toUpperCase());
-  private final Button settingsButton = new Button("Settings".toUpperCase());
+  private final Button settingsButton = new Button("Options".toUpperCase());
   private final Label languageLabel = new Label("Select Language:");
 
   public DinosaurMenu() {

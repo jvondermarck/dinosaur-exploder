@@ -10,17 +10,11 @@ import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
-import java.util.Objects;
-
-import static com.almasb.fxgl.dsl.FXGL.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-import static com.dinosaur.dinosaurexploder.utils.MenuHelper.createStyledButton;
 
 
 public class SettingsMenu extends FXGLMenu {
@@ -36,13 +30,13 @@ public class SettingsMenu extends FXGLMenu {
 
     public SettingsMenu() {
         super(MenuType.MAIN_MENU);
-
         buildMenu();
-        languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
 
+        //listener to update the texts when language is changed
+        languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
     }
 
-
+    //Builds the menu using MenuHelper
     private void buildMenu() {
         MenuHelper.setupSelectionMenu(
                 this,
@@ -76,11 +70,11 @@ public class SettingsMenu extends FXGLMenu {
         statsButton = getUIFactoryService().newButton(languageManager.getTranslation("score_label").toUpperCase());
         statsButton.setMinSize(getAppWidth()*0.8, 60);
         statsButton.setWrapText(true);
-        statsButton.setOnAction(e -> createStatsDialog());
+        statsButton.setOnAction(e -> createScoreDialog());
         keyButton = getUIFactoryService().newButton(languageManager.getTranslation("controls").toUpperCase());
         keyButton.setWrapText(true);
         keyButton.setMinSize(getAppWidth()*0.8, 60);
-        keyButton.setOnAction(e -> createKeyDialog());
+        keyButton.setOnAction(e -> createControlsDialog());
         languageButton = getUIFactoryService().newButton(languageManager.getTranslation("language").toUpperCase());
         languageButton.setWrapText(true);
         languageButton.setMinSize(getAppWidth()*0.8, 60);
@@ -97,13 +91,15 @@ public class SettingsMenu extends FXGLMenu {
         return backButton;
     }
 
-    private void createStatsDialog() {
+    //Dialog for the player's score values
+    private void createScoreDialog() {
         String highScore =  (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore()).toUpperCase() + "\n";
         String totalCoins = (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins()).toUpperCase();
         MenuHelper.showDialog(languageManager.getTranslation("score_label").toUpperCase(),highScore + totalCoins);
     }
 
-    private void createKeyDialog() {
+    //dialog for the controls
+    private void createControlsDialog() {
         String moveUpKey = "↑ / W : " + languageManager.getTranslation("move_up") + "\n";
         String moveDownKey = "↓ / S :  " + languageManager.getTranslation("move_down")+ "\n";
         String moveRightKey = "→ / D : " + languageManager.getTranslation("move_right")+ "\n";
@@ -116,6 +112,7 @@ public class SettingsMenu extends FXGLMenu {
         MenuHelper.showDialog(languageManager.getTranslation("controls").toUpperCase(), moveUpKey + moveDownKey + moveRightKey + moveLeftKey + B_Key + E_Key + escKey + spaceKey);
     }
 
+    //called when language is changed to update the texts
     private void updateTexts() {
         title.setText(languageManager.getTranslation("options").toUpperCase());
         soundButton.setText(languageManager.getTranslation("sound").toUpperCase());

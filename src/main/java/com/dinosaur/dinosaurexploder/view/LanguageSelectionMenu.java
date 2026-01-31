@@ -1,8 +1,6 @@
 package com.dinosaur.dinosaurexploder.view;
-
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
-import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -15,13 +13,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-
 import java.util.Objects;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.dinosaur.dinosaurexploder.utils.LanguageManager.DEFAULT_LANGUAGE;
 
 public class LanguageSelectionMenu extends FXGLMenu {
@@ -30,7 +23,6 @@ public class LanguageSelectionMenu extends FXGLMenu {
     private final LanguageManager languageManager = LanguageManager.getInstance();
     private final Settings settings = SettingsProvider.loadSettings();
 
-    private Text title;
     private Label languageLabel;
     private Button backButton;
 
@@ -48,7 +40,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
     }
 
     private VBox createHeaderZone() {
-        title = new Text();
+        Text title = new Text();
         VBox headerZone = new VBox(25, title);
         headerZone.setAlignment(Pos.CENTER);
         return headerZone;
@@ -71,7 +63,6 @@ public class LanguageSelectionMenu extends FXGLMenu {
         }
 
         // Define what text is drawn, keeping orignal item value (Draws text->"Français" while item
-        // value->"French"
         languageComboBox.setCellFactory(
                 cb ->
                         new ListCell<>() {
@@ -105,9 +96,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
         applyStylesheet(languageLabel);
 
         VBox languageBox = new VBox(10, languageLabel, languageComboBox);
-        //languageBox.setFillWidth(true);
 
-        //languageBox.setTranslateY(600);
         languageBox.setMaxWidth(getAppWidth()*0.8);
         languageBox.setPadding(new Insets(20));
         languageBox.setAlignment(Pos.CENTER);
@@ -118,17 +107,6 @@ public class LanguageSelectionMenu extends FXGLMenu {
                         + "-fx-border-width: 2;"
                         + "-fx-border-radius: 15;"
                         + "-fx-effect:  dropshadow(gaussian, rgba(0, 220, 0, 0.6), 12, 0.5, 0, 0);");
-/*
-        languageBox
-                .layoutBoundsProperty()
-                .addListener(
-                        (obs, oldBounds, newBounds) -> {
-                            if (newBounds.getWidth() > 0) {
-                                languageBox.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-                            }
-                        });
-
- */
 
         return languageBox;
     }

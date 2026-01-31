@@ -7,7 +7,6 @@ import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -67,8 +66,15 @@ public class SoundMenu extends FXGLMenu {
         return options;
     }
 
+
+
+    /**
+     * Creates a volume slider depending on the volume type (music or sfx)
+     * @param sliderType the slider type (music / sfx)
+     * @return the new slider
+     */
     private Slider createSlider(String sliderType) {
-        // Init sfx Slider
+
         Slider slider = new Slider(0, 1, 1);
         slider.adjustValue( sliderType.equals("sfx") ? settings.getSfxVolume() : settings.getVolume() );
         slider.setBlockIncrement(0.01);
@@ -82,6 +88,15 @@ public class SoundMenu extends FXGLMenu {
         return slider;
     }
 
+    /**
+     * Creates a label for a slider depending on the type of slider.
+     * Adds listener to the slider that modifies the label and the sound settings in real time.
+     *
+     * @param slider the slider where the listener is added
+     * @param sliderType the type of the slider (music / sfx)
+     *
+     * @return the new label
+     */
     private Label setSliderLabel(Slider slider, String sliderType) {
 
         Label label = new Label(String.format(LABEL_FORMAT, ( sliderType.equals("music") ? settings.getVolume() : settings.getSfxVolume() ) * 100));

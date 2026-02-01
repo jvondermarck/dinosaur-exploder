@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 public class LanguageSelectionMenu extends FXGLMenu {
 
   public static final int SPACE_ZONE = 50;
+  public static final String LANGUAGE_LABEL = "language_label";
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
 
@@ -51,7 +52,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
   // adapted from the languageBox implementation originally at DinosaurMenu
   private VBox createLanguageSelector() {
     ComboBox<String> languageComboBox = new ComboBox<>();
-    languageLabel = new Label(languageManager.getTranslation("language_label"));
+    languageLabel = new Label(languageManager.getTranslation(LANGUAGE_LABEL));
     languageComboBox.getItems().addAll(languageManager.getAvailableLanguages());
 
     languageComboBox.setPrefWidth(ComboBox.USE_COMPUTED_SIZE);
@@ -92,7 +93,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
           languageComboBox.requestLayout();
         });
 
-    languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
+    languageLabel.setText(languageManager.getTranslation(LANGUAGE_LABEL).toUpperCase());
     languageLabel.setStyle(
         "-fx-text-fill: #00FF00;" + "-fx-effect: dropshadow(gaussian, black, 2, 1.0, 0, 0);");
     applyStylesheet(languageLabel);
@@ -121,8 +122,7 @@ public class LanguageSelectionMenu extends FXGLMenu {
   }
 
   private void updateTexts() {
-    // title.setText(languageManager.getTranslation("language_label"));
-    languageLabel.setText(languageManager.getTranslation("language_label"));
+    languageLabel.setText(languageManager.getTranslation(LANGUAGE_LABEL));
     backButton.setText(languageManager.getTranslation("back").toUpperCase());
     SettingsProvider.saveSettings(settings);
   }

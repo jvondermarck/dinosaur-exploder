@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 public class SettingsMenu extends FXGLMenu {
 
   public static final int SPACE_ZONE = 50;
+  public static final String SCORE_LABEL = "score_label";
+  public static final String CONTROLS = "controls";
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private Text title;
   private Button soundButton;
@@ -72,12 +74,12 @@ public class SettingsMenu extends FXGLMenu {
     soundButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
     statsButton =
         getUIFactoryService()
-            .newButton(languageManager.getTranslation("score_label").toUpperCase());
+            .newButton(languageManager.getTranslation(SCORE_LABEL).toUpperCase());
     statsButton.setMinSize(getAppWidth() * 0.8, 60);
     statsButton.setWrapText(true);
     statsButton.setOnAction(e -> createScoreDialog());
     keyButton =
-        getUIFactoryService().newButton(languageManager.getTranslation("controls").toUpperCase());
+        getUIFactoryService().newButton(languageManager.getTranslation(CONTROLS).toUpperCase());
     keyButton.setWrapText(true);
     keyButton.setMinSize(getAppWidth() * 0.8, 60);
     keyButton.setOnAction(e -> createControlsDialog());
@@ -110,7 +112,7 @@ public class SettingsMenu extends FXGLMenu {
         (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins())
             .toUpperCase();
     MenuHelper.showDialog(
-        languageManager.getTranslation("score_label").toUpperCase(), highScore + totalCoins);
+        languageManager.getTranslation(SCORE_LABEL).toUpperCase(), highScore + totalCoins);
   }
 
   // dialog for the controls
@@ -119,14 +121,14 @@ public class SettingsMenu extends FXGLMenu {
     String moveDownKey = "↓ / S :  " + languageManager.getTranslation("move_down") + "\n";
     String moveRightKey = "→ / D : " + languageManager.getTranslation("move_right") + "\n";
     String moveLeftKey = "← / A : " + languageManager.getTranslation("move_left") + "\n";
-    String B_Key = "B: " + languageManager.getTranslation("bomb") + "\n";
-    String E_Key = "E: " + languageManager.getTranslation("shield") + "\n";
+    String keyB = "B: " + languageManager.getTranslation("bomb") + "\n";
+    String keyE = "E: " + languageManager.getTranslation("shield") + "\n";
     String escKey = languageManager.getTranslation("pause_game") + "\n";
     String spaceKey = languageManager.getTranslation("shoot") + "\n";
 
     MenuHelper.showDialog(
-        languageManager.getTranslation("controls").toUpperCase(),
-        moveUpKey + moveDownKey + moveRightKey + moveLeftKey + B_Key + E_Key + escKey + spaceKey);
+        languageManager.getTranslation(CONTROLS).toUpperCase(),
+        moveUpKey + moveDownKey + moveRightKey + moveLeftKey + keyB + keyE + escKey + spaceKey);
   }
 
   // called when language is changed to update the texts
@@ -134,8 +136,8 @@ public class SettingsMenu extends FXGLMenu {
     title.setText(languageManager.getTranslation("options").toUpperCase());
     soundButton.setText(languageManager.getTranslation("sound").toUpperCase());
     languageButton.setText(languageManager.getTranslation("language").toUpperCase());
-    statsButton.setText(languageManager.getTranslation("score_label").toUpperCase());
-    keyButton.setText(languageManager.getTranslation("controls").toUpperCase());
+    statsButton.setText(languageManager.getTranslation(SCORE_LABEL).toUpperCase());
+    keyButton.setText(languageManager.getTranslation(CONTROLS).toUpperCase());
     backButton.setText(languageManager.getTranslation("back").toUpperCase());
   }
 }

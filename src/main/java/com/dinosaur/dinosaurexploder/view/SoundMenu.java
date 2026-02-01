@@ -20,6 +20,7 @@ import javafx.scene.text.TextFlow;
 public class SoundMenu extends FXGLMenu {
 
   public static final int SPACE_ZONE = 50;
+  public static final String MUSIC = "music";
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
   private static final String LABEL_FORMAT = "%.0f%%";
@@ -54,9 +55,9 @@ public class SoundMenu extends FXGLMenu {
             languageManager.getTranslation("sound_main"), getAppWidth() * 0.8, false);
 
     // Creates slider with the background music volume
-    Slider musicVolume = createSlider("music");
+    Slider musicVolume = createSlider(MUSIC);
     // Sets the music volume label and the music volume depending on the actual volume value
-    Label volumeLabel = setSliderLabel(musicVolume, "music");
+    Label volumeLabel = setSliderLabel(musicVolume, MUSIC);
 
     Text sfxTitle =
         MenuHelper.createSubtitle(
@@ -108,16 +109,15 @@ public class SoundMenu extends FXGLMenu {
         new Label(
             String.format(
                 LABEL_FORMAT,
-                (sliderType.equals("music") ? settings.getVolume() : settings.getSfxVolume())
+                (sliderType.equals(MUSIC) ? settings.getVolume() : settings.getSfxVolume())
                     * 100));
     label.setStyle("-fx-text-fill: #61C181;");
     slider
         .valueProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
-              if (sliderType.equals("music")) {
+              if (sliderType.equals(MUSIC)) {
                 AudioManager.getInstance().setVolume(newValue.doubleValue());
-                // mainMenuSound.setVolume(newValue.doubleValue());
                 settings.setVolume(newValue.doubleValue());
               } else {
                 AudioManager.getInstance().setSfxVolume(newValue.doubleValue());

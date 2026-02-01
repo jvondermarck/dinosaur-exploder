@@ -40,5 +40,17 @@
   "loading": "Carregando",
   "commits": "commits",
   "error_loading_contributors": "Não foi possível carregar os contribuidores. Verifique sua conexão com a internet.",
-  "credits_subtitle": "Obrigado a todos os nossos contribuidores"
+  "credits_subtitle": "Obrigado a todos os nossos contribuidores",
+  "achievements": "Conquistas",
+  "ach_kill_10_name": "Caçador Iniciante",
+  "ach_kill_10_desc": "Mate ## dinossauros",
+  "ach_kill_20_name": "Caçador Habilidoso",
+  "ach_kill_20_desc": "Mate ## dinossauros",
+  "ach_kill_50_name": "Caçador Veterano",
+  "ach_kill_50_desc": "Mate ## dinossauros",
+  "ach_kill_100_name": "Mestre Caçador",
+  "ach_kill_100_desc": "Mate ## dinossauros",
+  "locked": "Bloqueado",
+  "unlocked": "Desbloqueado",
+  "reward": "Recompensa"
 }

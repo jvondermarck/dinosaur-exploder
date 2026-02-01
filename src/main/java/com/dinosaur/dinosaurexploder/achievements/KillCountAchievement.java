@@ -5,22 +5,16 @@ import com.almasb.fxgl.dsl.FXGL;
 public class KillCountAchievement extends Achievement {
 
   private final int targetKills;
-  private final int rewardCoins;
-
   private int currentKills = 0;
-  private boolean completed = false;
 
-  public KillCountAchievement(int targetKills, int rewardCoins) {
+  public KillCountAchievement(String nameKey, String descriptionKey, int targetKills, int rewardCoins) {
+    super(nameKey, descriptionKey, rewardCoins);
     this.targetKills = targetKills;
-    this.rewardCoins = rewardCoins;
   }
 
   public String getDescription() {
-    return "Kill " + targetKills + " dinosaurs";
-  }
-
-  public boolean isCompleted() {
-    return completed;
+    return com.dinosaur.dinosaurexploder.utils.LanguageManager.getInstance().getTranslation(descriptionKey)
+        .replace("##", String.valueOf(targetKills));
   }
 
   public void onDinosaurKilled() {
@@ -40,10 +34,15 @@ public class KillCountAchievement extends Achievement {
   }
 
   public void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    String achievementName = com.dinosaur.dinosaurexploder.utils.LanguageManager.getInstance().getTranslation(nameKey);
+    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + achievementName);
   }
 
-  public int getRewardCoins() {
-    return rewardCoins;
+  public int getTargetKills() {
+    return targetKills;
+  }
+
+  public int getCurrentKills() {
+    return currentKills;
   }
 }

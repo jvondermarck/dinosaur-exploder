@@ -34,5 +34,5 @@ for hook_file in "$SOURCE_HOOKS_DIR"/*; do
 done
 
 echo ""
-echo "Git hooks installation complete!"
-echo "The pre-commit hook will run 'mvn pmd:check' before each commit."
+echo "🦖 Git hooks installation complete!"
+echo "🦖 The pre-commit hook will run formatting, linting checks as well as your commit message before each commit."

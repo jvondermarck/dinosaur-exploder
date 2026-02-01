@@ -109,8 +109,7 @@ public class SoundMenu extends FXGLMenu {
         new Label(
             String.format(
                 LABEL_FORMAT,
-                (sliderType.equals(MUSIC) ? settings.getVolume() : settings.getSfxVolume())
-                    * 100));
+                (sliderType.equals(MUSIC) ? settings.getVolume() : settings.getSfxVolume()) * 100));
     label.setStyle("-fx-text-fill: #61C181;");
     slider
         .valueProperty()

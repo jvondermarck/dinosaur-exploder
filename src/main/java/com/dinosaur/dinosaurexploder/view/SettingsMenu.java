@@ -73,8 +73,7 @@ public class SettingsMenu extends FXGLMenu {
     soundButton.setWrapText(true);
     soundButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
     statsButton =
-        getUIFactoryService()
-            .newButton(languageManager.getTranslation(SCORE_LABEL).toUpperCase());
+        getUIFactoryService().newButton(languageManager.getTranslation(SCORE_LABEL).toUpperCase());
     statsButton.setMinSize(getAppWidth() * 0.8, 60);
     statsButton.setWrapText(true);
     statsButton.setOnAction(e -> createScoreDialog());

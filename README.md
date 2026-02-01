@@ -120,12 +120,12 @@ cd dinosaur-exploder
 mvn clean install
 mvn javafx:run
 
-# 4. (Optional) Install git hooks for code quality checks
-./scripts/install-hooks.sh
-
 # Or using an IDE: 
 # - Open project in IntelliJ
 # - Run com.dinosaur.dinosaurexploder.DinosaurApp or hit the run button at the top right
+
+# 4. (Optional but HIGHLY recommanded) Install git hooks for code quality checks
+./scripts/install-hooks.sh
 ```
 
 #### Testing

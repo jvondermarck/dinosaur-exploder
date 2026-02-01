@@ -19,15 +19,20 @@ if [ ! -d "$PROJECT_ROOT/.git" ]; then
     exit 1
 fi
 
-# Install pre-commit hook
-if [ -f "$SOURCE_HOOKS_DIR/pre-commit" ]; then
-    cp "$SOURCE_HOOKS_DIR/pre-commit" "$HOOKS_DIR/pre-commit"
-    chmod +x "$HOOKS_DIR/pre-commit"
-    echo "✅ pre-commit hook installed"
-else
-    echo "⚠️  pre-commit hook not found in hooks/"
-fi
+# Install all hooks
+for hook_file in "$SOURCE_HOOKS_DIR"/*; do
+    if [ -f "$hook_file" ]; then
+        hook_name=$(basename "$hook_file")
+        
+        cp "$hook_file" "$HOOKS_DIR/$hook_name"
+        chmod +x "$HOOKS_DIR/$hook_name"
+        
+        echo "✅ $hook_name hook installed"
+    else
+        echo "Skipping $(basename "$hook_file"): not a valid hook file."
+    fi
+done
 
 echo ""
-echo "Git hooks installation complete!"
-echo "The pre-commit hook will run 'mvn pmd:check' before each commit."
+echo "🦖 Git hooks installation complete!"
+echo "🦖 The pre-commit hook will run formatting, linting checks as well as your commit message before each commit."

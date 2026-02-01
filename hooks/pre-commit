@@ -11,7 +11,7 @@ echo "Running code quality checks..."
 
 # Spotless check (formatting)
 echo "  Checking code formatting (Spotless)..."
-mvn spotless:check -q
+mvn spotless:check -q 2>/dev/null
 
 if [ $? -ne 0 ]; then
     echo ""
@@ -24,7 +24,7 @@ echo "  ✅ Formatting OK"
 
 # PMD check (code quality)
 echo "  Checking code quality (PMD)..."
-mvn pmd:check -q
+mvn pmd:check -q 2>/dev/null
 
 if [ $? -ne 0 ]; then
     echo ""

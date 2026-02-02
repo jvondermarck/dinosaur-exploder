@@ -234,8 +234,55 @@ public class PauseMenu extends FXGLMenu {
           getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
         });
 
-    // sound button action -> opens sound menu
-    btnSound.setControlAction(() -> FXGL.getSceneService().pushSubScene(new SoundMenu()));
+    // Adjust sound menu
+    btnSound.setControlAction(
+        () -> {
+          volumeSlider.adjustValue(settings.getVolume());
+          sfxVolumeSlider.adjustValue(settings.getSfxVolume());
+
+          var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
+
+          var controlsBox = new VBox(10);
+          controlsBox.setAlignment(Pos.CENTER);
+          controlsBox.setMaxWidth(getAppWidth() * 0.7);
+
+          StackPane controlsContainer = new StackPane(controlsBox);
+          controlsContainer.setPrefSize(getAppWidth(), getAppHeight());
+          controlsContainer.setAlignment(Pos.CENTER);
+
+          PauseButton btnBackFromSounds =
+              new PauseButton(
+                  languageManager.getTranslation("back"),
+                  () -> {
+                    getContentRoot().getChildren().removeAll(controlsBg, controlsContainer);
+                    btnBack.enable();
+                    btnSound.enable();
+                    btnQuitGame.enable();
+                    btnControls.enable();
+                  });
+
+          VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
+
+          controlsBox
+              .getChildren()
+              .addAll(
+                  btnBackFromSounds,
+                  btnSoundMain,
+                  volumeLabel,
+                  volumeSlider,
+                  imageViewPlayingMenuSound,
+                  btnSoundSfx,
+                  sfxVolumeLabel,
+                  sfxVolumeSlider,
+                  imageViewPlayingSfxSounds);
+
+          btnBack.disable();
+          btnSound.disable();
+          btnQuitGame.disable();
+          btnControls.disable();
+
+          getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
+        });
 
     // --- MISE EN PAGE DU MENU PRINCIPAL ---
 

@@ -120,6 +120,10 @@ cd dinosaur-exploder
 mvn clean install
 mvn javafx:run
 
+# Or build with desktop profile
+mvn clean package -Pdesktop
+java -jar target/dinosaur-exploder-2.0.0.jar
+
 # Or using an IDE: 
 # - Open project in IntelliJ
 # - Run com.dinosaur.dinosaurexploder.DinosaurApp or hit the run button at the top right

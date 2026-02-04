@@ -95,7 +95,7 @@ public class DinosaurMenu extends FXGLMenu {
 
     // Add all components to scene
     addComponentsToScene(
-        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, volumeControls);
+        backgroundView, titlePane, dinoImage, creditsBadge, volumeControls);
 
     // Setup button centering
     setupButtonCentering();
@@ -310,7 +310,7 @@ public class DinosaurMenu extends FXGLMenu {
       StackPane title,
       ImageView dino,
       StackPane creditsBadge,
-      ImageView mute,
+      // ImageView mute,
       // VBox language,
       VBox volumeControls) {
     getContentRoot()
@@ -323,7 +323,7 @@ public class DinosaurMenu extends FXGLMenu {
             settingsButton,
             dino,
             creditsBadge,
-            mute,
+            // mute,
             volumeControls);
   }
 

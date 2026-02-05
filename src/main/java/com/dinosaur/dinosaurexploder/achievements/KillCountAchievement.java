@@ -1,37 +1,34 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.utils.AchievementProvider;
 
 public class KillCountAchievement extends Achievement {
 
   private final int targetKills;
-  private final int rewardCoins;
-
   private int currentKills = 0;
-  private boolean completed = false;
 
-  public KillCountAchievement(int targetKills, int rewardCoins) {
+  public KillCountAchievement(int targetKills, int rewardCoins,String fileName) {
     this.targetKills = targetKills;
     this.rewardCoins = rewardCoins;
+    this.fileName = fileName;
   }
 
   public String getDescription() {
     return "Kill " + targetKills + " dinosaurs";
   }
 
-  public boolean isCompleted() {
-    return completed;
-  }
-
-  public void onDinosaurKilled() {
-    if (completed) return;
+	public Boolean onDinosaurKilled() {
+    if (completed) return(true);
 
     currentKills++;
 
     if (currentKills >= targetKills) {
       completed = true;
-      onComplete();
+      onComplete(getDescription());
+      return(true);
     }
+    return(false);
   }
 
   @Override
@@ -39,11 +36,5 @@ public class KillCountAchievement extends Achievement {
     // Not needed for count-based achievement
   }
 
-  public void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
-  }
 
-  public int getRewardCoins() {
-    return rewardCoins;
-  }
 }

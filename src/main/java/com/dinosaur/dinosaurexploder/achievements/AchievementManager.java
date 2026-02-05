@@ -1,26 +1,30 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
+import com.dinosaur.dinosaurexploder.utils.AchievementProvider;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class AchievementManager {
 
+  //private final Achievement achievement = AchievementProvider.loadSettings();
   private final List<Achievement> allAchievements = new ArrayList<>();
   private final List<Achievement> activeAchievements = new ArrayList<>();
 
   public AchievementManager() {
     // Register all available achievements here
-    allAchievements.add(new KillCountAchievement(10, 50));
-    allAchievements.add(new KillCountAchievement(20, 100));
+    allAchievements.add(new KillCountAchievement(1, 50,"achievement10Kill"));
+    allAchievements.add(new KillCountAchievement(2, 100,"achievement20Kill"));
   }
 
   // Called once when the game starts
   public void init() {
     if (allAchievements.isEmpty()) return;
+    AchievementProvider.loadAchievements(allAchievements);
 
-    Collections.shuffle(allAchievements);
-    activeAchievements.add(allAchievements.get(0));
+    activeAchievements.addAll(allAchievements);
+
   }
 
   // Called every frame
@@ -35,7 +39,10 @@ public class AchievementManager {
   // Called when a dinosaur is killed
   public void notifyDinosaurKilled() {
     for (Achievement achievement : activeAchievements) {
-      achievement.onDinosaurKilled();
+      Boolean complete = achievement.onDinosaurKilled();
+      if (complete) {
+        AchievementProvider.saveAchivement(achievement);
+      }
     }
   }
 

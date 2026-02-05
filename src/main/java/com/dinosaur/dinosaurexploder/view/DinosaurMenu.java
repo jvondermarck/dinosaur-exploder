@@ -246,8 +246,7 @@ public class DinosaurMenu extends FXGLMenu {
       ImageView background, StackPane title, ImageView dino, StackPane creditsBadge) {
     getContentRoot()
         .getChildren()
-        .addAll(
-            background, title, startButton, quitButton, settingsButton, dino, creditsBadge);
+        .addAll(background, title, startButton, quitButton, settingsButton, dino, creditsBadge);
   }
 
   private void setupButtonCentering() {

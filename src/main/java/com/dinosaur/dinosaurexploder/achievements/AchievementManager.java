@@ -19,8 +19,8 @@ public class AchievementManager {
   public void init() {
     if (allAchievements.isEmpty()) return;
 
-    Collections.shuffle(allAchievements);
-    activeAchievements.add(allAchievements.get(0));
+    activeAchievements.addAll(allAchievements);
+
   }
 
   // Called every frame

@@ -24,7 +24,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-// import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -86,9 +85,7 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView backgroundView = createAnimatedBackground();
     StackPane titlePane = createTitle();
     ImageView dinoImage = createDinoImage();
-    // ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
-    // VBox volumeControls = createVolumeControls();
 
     // Configure buttons
     configureButtons();
@@ -99,18 +96,6 @@ public class DinosaurMenu extends FXGLMenu {
     // Setup button centering
     setupButtonCentering();
   }
-
-  // private VBox createVolumeControls() {
-    // Slider volumeSlider = createVolumeSlider();
-    // Text volumeText = createVolumeText(volumeSlider);
-
-    // VBox volumeBox = new VBox(volumeText, volumeSlider);
-    // volumeBox.setAlignment(Pos.CENTER_LEFT);
-    // volumeBox.setTranslateY(10);
-    // volumeBox.setTranslateX(20);
-
-    // return volumeBox;
-  // }
 
   // ============ UI COMPONENT CREATORS ============
 
@@ -209,53 +194,6 @@ public class DinosaurMenu extends FXGLMenu {
     return badge;
   }
 
-  // private ImageView createMuteIcon() throws FileNotFoundException {
-    // Image muteImg = loadImage(GameConstants.SILENT_IMAGE_PATH);
-    // Image audioOnImg = loadImage(GameConstants.PLAYING_IMAGE_PATH);
-
-    // ImageView muteIcon = new ImageView(settings.isMuted() ? muteImg : audioOnImg);
-    // muteIcon.setFitHeight(50);
-    // muteIcon.setFitWidth(60);
-    // muteIcon.setX(470);
-    // muteIcon.setY(20);
-    // muteIcon.setPreserveRatio(true);
-
-    // muteIcon.setOnMouseClicked(event -> toggleMute(muteIcon, muteImg, audioOnImg));
-
-    // return muteIcon;
-  // }
-
-  // private Slider createVolumeSlider() {
-    // Slider volumeSlider = new Slider(0, 1, 1);
-    // volumeSlider.adjustValue(settings.getVolume());
-    // volumeSlider.setBlockIncrement(0.01);
-
-    // applyStylesheet(volumeSlider);
-
-    // return volumeSlider;
-  // }
-
-  // private Text createVolumeText(Slider volumeSlider) {
-    // var volumeText =
-        // getUIFactoryService()
-            // .newText(
-                // String.format("%.0f%%", settings.getVolume() * 100),
-                // Color.LIME,
-                // GameConstants.TEXT_SIZE_GAME_INFO);
-
-    // volumeSlider
-        // .valueProperty()
-        // .addListener(
-            // (obs, oldVal, newVal) -> {
-              // AudioManager.getInstance().setVolume(newVal.doubleValue());
-              // settings.setVolume(newVal.doubleValue());
-              // SettingsProvider.saveSettings(settings);
-              // volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100));
-            // });
-
-    // return volumeText;
-  // }
-
   private void configureButtons() {
     applyStylesheet(startButton);
     applyStylesheet(quitButton);
@@ -305,18 +243,11 @@ public class DinosaurMenu extends FXGLMenu {
   }
 
   private void addComponentsToScene(
-      ImageView background, StackPane title, ImageView dino, StackPane creditsBadge
-      // ImageView mute,
-      // VBox language,
-      // VBox volumeControls
-      ) {
+      ImageView background, StackPane title, ImageView dino, StackPane creditsBadge) {
     getContentRoot()
         .getChildren()
         .addAll(
-            background, title, startButton, quitButton, settingsButton, dino, creditsBadge
-            // mute,
-            // volumeControls
-            );
+            background, title, startButton, quitButton, settingsButton, dino, creditsBadge);
   }
 
   private void setupButtonCentering() {

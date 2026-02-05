@@ -196,9 +196,10 @@ npm run lint
 
 1. **Create a branch**:  `git checkout -b feature/your-feature-name`
 2. **Make your changes** (don't forget tests!)
-3. **Commit**: `git commit -m "Add: description of your change"`
-4. **Push**: `git push origin feature/your-feature-name`
-5. **Open a Pull Request** on GitHub
+3. **Check and format code:** `mvn spotless:apply`
+4. **Commit**: `git commit -m "Add: description of your change"`
+5. **Push**: `git push origin feature/your-feature-name`
+6. **Open a Pull Request** on GitHub
 
 📖 **Full guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
 

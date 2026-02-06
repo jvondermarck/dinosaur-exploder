@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -116,18 +117,9 @@ public class SettingsMenu extends FXGLMenu {
 
   // dialog for the controls
   private void createControlsDialog() {
-    String moveUpKey = "↑ / W : " + languageManager.getTranslation("move_up") + "\n";
-    String moveDownKey = "↓ / S :  " + languageManager.getTranslation("move_down") + "\n";
-    String moveRightKey = "→ / D : " + languageManager.getTranslation("move_right") + "\n";
-    String moveLeftKey = "← / A : " + languageManager.getTranslation("move_left") + "\n";
-    String keyB = "B: " + languageManager.getTranslation("bomb") + "\n";
-    String keyE = "E: " + languageManager.getTranslation("shield") + "\n";
-    String escKey = languageManager.getTranslation("pause_game") + "\n";
-    String spaceKey = languageManager.getTranslation("shoot") + "\n";
-
     MenuHelper.showDialog(
         languageManager.getTranslation(CONTROLS).toUpperCase(),
-        moveUpKey + moveDownKey + moveRightKey + moveLeftKey + keyB + keyE + escKey + spaceKey);
+        GameControlsComponent.generateControlsDialogText());
   }
 
   // called when language is changed to update the texts

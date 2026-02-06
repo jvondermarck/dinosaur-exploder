@@ -85,13 +85,14 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView backgroundView = createAnimatedBackground();
     StackPane titlePane = createTitle();
     ImageView dinoImage = createDinoImage();
+    ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
 
     // Configure buttons
     configureButtons();
 
     // Add all components to scene
-    addComponentsToScene(backgroundView, titlePane, dinoImage, creditsBadge);
+    addComponentsToScene(backgroundView, titlePane, dinoImage, creditsBadge, muteIcon);
 
     // Setup button centering
     setupButtonCentering();
@@ -194,6 +195,22 @@ public class DinosaurMenu extends FXGLMenu {
     return badge;
   }
 
+  private ImageView createMuteIcon() throws FileNotFoundException {
+    Image muteImg = loadImage(GameConstants.SILENT_IMAGE_PATH);
+    Image audioOnImg = loadImage(GameConstants.PLAYING_IMAGE_PATH);
+
+    ImageView muteIcon = new ImageView(settings.isMuted() ? muteImg : audioOnImg);
+    muteIcon.setFitHeight(50);
+    muteIcon.setFitWidth(60);
+    muteIcon.setX(470);
+    muteIcon.setY(20);
+    muteIcon.setPreserveRatio(true);
+
+    muteIcon.setOnMouseClicked(event -> toggleMute(muteIcon, muteImg, audioOnImg));
+
+    return muteIcon;
+  }
+
   private void configureButtons() {
     applyStylesheet(startButton);
     applyStylesheet(quitButton);
@@ -243,10 +260,15 @@ public class DinosaurMenu extends FXGLMenu {
   }
 
   private void addComponentsToScene(
-      ImageView background, StackPane title, ImageView dino, StackPane creditsBadge) {
+      ImageView background,
+      StackPane title,
+      ImageView dino,
+      StackPane creditsBadge,
+      ImageView mute) {
     getContentRoot()
         .getChildren()
-        .addAll(background, title, startButton, quitButton, settingsButton, dino, creditsBadge);
+        .addAll(
+            background, title, startButton, quitButton, settingsButton, dino, creditsBadge, mute);
   }
 
   private void setupButtonCentering() {

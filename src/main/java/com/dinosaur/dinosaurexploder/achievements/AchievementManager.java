@@ -20,7 +20,6 @@ public class AchievementManager {
     if (allAchievements.isEmpty()) return;
 
     activeAchievements.addAll(allAchievements);
-
   }
 
   // Called every frame

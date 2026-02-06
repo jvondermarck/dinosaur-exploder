@@ -7,6 +7,8 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
+import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -24,6 +26,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -87,15 +90,45 @@ public class DinosaurMenu extends FXGLMenu {
     ImageView dinoImage = createDinoImage();
     ImageView muteIcon = createMuteIcon();
     StackPane creditsBadge = createCreditsBadge();
+    VBox volumeControls = createVolumeControls();
 
     // Configure buttons
     configureButtons();
 
     // Add all components to scene
-    addComponentsToScene(backgroundView, titlePane, dinoImage, creditsBadge, muteIcon);
+    addComponentsToScene(
+        backgroundView, titlePane, dinoImage, creditsBadge, muteIcon, volumeControls);
 
     // Setup button centering
     setupButtonCentering();
+  }
+
+  private VBox createVolumeControls() {
+
+    VBox volumeControl = AudioControlsComponent.createVolumeControl(VolumeType.MUSIC, settings);
+
+    Label volumeLabel = (Label) volumeControl.getChildren().get(0);
+    Slider volumeSlider = (Slider) volumeControl.getChildren().get(1);
+
+    applyStylesheet(volumeSlider);
+
+    Text volumeText =
+        getUIFactoryService()
+            .newText(volumeLabel.getText(), Color.LIME, GameConstants.TEXT_SIZE_GAME_INFO);
+
+    volumeLabel
+        .textProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              volumeText.setText(newVal);
+            });
+
+    VBox volumeBox = new VBox(volumeText, volumeSlider);
+    volumeBox.setAlignment(Pos.CENTER_LEFT);
+    volumeBox.setTranslateY(10);
+    volumeBox.setTranslateX(20);
+
+    return volumeBox;
   }
 
   // ============ UI COMPONENT CREATORS ============
@@ -264,11 +297,21 @@ public class DinosaurMenu extends FXGLMenu {
       StackPane title,
       ImageView dino,
       StackPane creditsBadge,
-      ImageView mute) {
+      ImageView mute,
+      // VBox language,
+      VBox volumeControls) {
     getContentRoot()
         .getChildren()
         .addAll(
-            background, title, startButton, quitButton, settingsButton, dino, creditsBadge, mute);
+            background,
+            title,
+            startButton,
+            quitButton,
+            settingsButton,
+            dino,
+            creditsBadge,
+            mute,
+            volumeControls);
   }
 
   private void setupButtonCentering() {

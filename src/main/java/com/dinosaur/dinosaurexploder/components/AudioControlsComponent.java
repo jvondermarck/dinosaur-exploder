@@ -4,6 +4,9 @@ import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -17,6 +20,8 @@ public class AudioControlsComponent {
   public static final double SLIDER_MIN = 0;
   public static final double SLIDER_MAX = 1;
   public static final double SLIDER_INCREMENT = 0.01;
+
+  private static final Logger LOGGER = Logger.getLogger(AudioControlsComponent.class.getName());
 
   /** Volume types supported by the audio system. */
   public enum VolumeType {
@@ -33,10 +38,18 @@ public class AudioControlsComponent {
    * @return VBox containing the label and slider
    */
   public static VBox createVolumeControl(VolumeType type, Settings settings, Double maxWidth) {
-    Slider slider = createVolumeSlider(type, settings);
+    Slider slider = createVolumeSlider(type, settings, maxWidth);
     Label label = createVolumeLabel(slider, type, settings);
 
     VBox volumeControl = new VBox(label, slider);
+
+    if (maxWidth != null) {
+      volumeControl.setMaxWidth(maxWidth);
+      volumeControl.setPrefWidth(maxWidth);
+    }
+
+    volumeControl.setAlignment(Pos.CENTER);
+
     volumeControl.setSpacing(10);
 
     return volumeControl;
@@ -109,7 +122,7 @@ public class AudioControlsComponent {
               Objects.requireNonNull(AudioControlsComponent.class.getResource("/styles/styles.css"))
                   .toExternalForm());
     } catch (NullPointerException e) {
-      System.err.println("Warning: Could not load slider styles.");
+      LOGGER.log(Level.WARNING, "Could not load slider styles", e);
     }
   }
 

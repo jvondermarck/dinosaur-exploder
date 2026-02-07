@@ -83,7 +83,13 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onAdded() {
       shootTimer.capture();
+      //Load images once when component is added
+      //Use resource stream for both images to ensure consistency
+      shipImage = new Image(Objects.requireNonNull(
+              getClass().getResourceAsStream("/"+ shipImagePath)));
 
+      projectileImage = new Image(Objects.requireNonNull(
+              getClass().getResourceAsStream(weaponImagePath)));
   }
 
   @Override

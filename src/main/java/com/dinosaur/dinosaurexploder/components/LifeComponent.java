@@ -21,6 +21,7 @@ public class LifeComponent extends Component implements Life {
 
   private static final int MAX_LIVES = 3;
   private Image heart;
+  private Image heartLost;
   private int life = MAX_LIVES;
 
   // Declaring Lives Text
@@ -35,6 +36,7 @@ public class LifeComponent extends Component implements Life {
   @Override
   public void onAdded() {
     heart = new Image(GameConstants.HEART_IMAGE_PATH);
+    heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
     heart1 = new ImageView(heart);
     heart2 = new ImageView(heart);
     heart3 = new ImageView(heart);
@@ -56,7 +58,7 @@ public class LifeComponent extends Component implements Life {
 
   @Override
   public void onUpdate(double ptf) {
-    updateLifeDisplay(); // Update hearts and text display every frame
+      updateLifeDisplay(); // Update hearts and text display every frame
   }
 
   private void updateTexts() {
@@ -65,7 +67,6 @@ public class LifeComponent extends Component implements Life {
   }
 
   private void updateLifeDisplay() {
-    Image heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
     // Clear previous entities
     clearEntity();
 
@@ -121,6 +122,6 @@ public class LifeComponent extends Component implements Life {
   }
 
   public int getLife() {
-    return life;
+      return life;
   }
 }

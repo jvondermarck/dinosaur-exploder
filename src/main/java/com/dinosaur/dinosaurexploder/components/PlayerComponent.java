@@ -93,7 +93,8 @@ public class PlayerComponent extends Component implements Player {
   }
 
   @Override
-  public void onUpdate(double tpf) {coolWeapon(tpf);
+  public void onUpdate(double tpf) {
+    coolWeapon(tpf);
   }
 
   public boolean isShieldActive() {

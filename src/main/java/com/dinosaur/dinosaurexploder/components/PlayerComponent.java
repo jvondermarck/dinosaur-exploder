@@ -259,13 +259,13 @@ public class PlayerComponent extends Component implements Player {
 
   @Override
   public void onRemoved() {
-      //clean up timer actions to prevent memory leaks
-      if (shieldTimerAction != null && !shieldTimerAction.isExpired()) {
-          shieldTimerAction.expire();
-      }
-      if (shieldCooldownAction != null && !shieldCooldownAction.isExpired()) {
-          shieldCooldownAction.expire();
-      }
+    // clean up timer actions to prevent memory leaks
+    if (shieldTimerAction != null && !shieldTimerAction.isExpired()) {
+      shieldTimerAction.expire();
+    }
+    if (shieldCooldownAction != null && !shieldCooldownAction.isExpired()) {
+      shieldCooldownAction.expire();
+    }
   }
 
     // Getter for weapon heat for fron end feature

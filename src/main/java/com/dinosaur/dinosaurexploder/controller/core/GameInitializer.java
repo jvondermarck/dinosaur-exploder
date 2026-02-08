@@ -212,7 +212,7 @@ public class GameInitializer {
     return languageManager;
   }
 
-    public void setAchievementManager(AchievementManager achievementManager) {
-      this.achievementManager = achievementManager;
+  public void setAchievementManager(AchievementManager achievementManager) {
+    this.achievementManager = achievementManager;
   }
 }

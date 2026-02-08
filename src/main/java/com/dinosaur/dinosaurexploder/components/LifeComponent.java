@@ -58,7 +58,7 @@ public class LifeComponent extends Component implements Life {
 
   @Override
   public void onUpdate(double ptf) {
-      updateLifeDisplay(); // Update hearts and text display every frame
+    updateLifeDisplay(); // Update hearts and text display every frame
   }
 
   private void updateTexts() {

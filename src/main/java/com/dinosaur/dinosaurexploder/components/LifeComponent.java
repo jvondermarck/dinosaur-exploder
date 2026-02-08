@@ -122,6 +122,6 @@ public class LifeComponent extends Component implements Life {
   }
 
   public int getLife() {
-      return life;
+    return life;
   }
 }

@@ -268,10 +268,10 @@ public class PlayerComponent extends Component implements Player {
     }
   }
 
-    // Getter for weapon heat for fron end feature
-    public double getWeaponHeat() {
-        return weaponHeat;
-    }
+  // Getter for weapon heat for fron end feature
+  public double getWeaponHeat() {
+    return weaponHeat;
+  }
 
   public double getWeaponHeatPercentage() {
       return (weaponHeat / MAX_WEAPON_HEAT) * 100.0;

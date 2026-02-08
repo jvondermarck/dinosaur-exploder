@@ -26,8 +26,8 @@ public class CoinSpawner {
         run(
             () -> {
               if (random(0, 100) < percentChanceForCoinDrop) {
-                  double x = random(0, getAppWidth() - 80);
-                  spawn("coin", x, 0);
+                double x = random(0, getAppWidth() - 80);
+                spawn("coin", x, 0);
               }
             },
             seconds(duration));

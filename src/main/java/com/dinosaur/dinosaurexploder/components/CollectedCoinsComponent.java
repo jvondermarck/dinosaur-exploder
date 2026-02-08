@@ -96,6 +96,6 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   public int getCoin() {
-      return coin;
+    return coin;
   }
 }

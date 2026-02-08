@@ -230,8 +230,8 @@ public class PlayerComponent extends Component implements Player {
 
   private void spawnMovementAnimation() {
     FXGL.entityBuilder()
-            .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))
-            .view(new Texture(shipImage))
+        .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))
+        .view(new Texture(shipImage))
         .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
         .buildAndAttach();
   }

@@ -274,6 +274,6 @@ public class PlayerComponent extends Component implements Player {
   }
 
   public double getWeaponHeatPercentage() {
-      return (weaponHeat / MAX_WEAPON_HEAT) * 100.0;
+    return (weaponHeat / MAX_WEAPON_HEAT) * 100.0;
   }
 }

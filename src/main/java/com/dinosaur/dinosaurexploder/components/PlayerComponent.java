@@ -64,7 +64,7 @@ public class PlayerComponent extends Component implements Player {
 
   // Test-friendly constructor to inject a mock GameTimer
   public PlayerComponent(GameTimer shootTimer) {
-      this.shootTimer = shootTimer;
+    this.shootTimer = shootTimer;
   }
 
   public void setInvincible(boolean invincible) {

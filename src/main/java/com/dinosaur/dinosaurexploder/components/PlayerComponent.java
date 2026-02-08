@@ -54,8 +54,8 @@ public class PlayerComponent extends Component implements Player {
   private final GameTimer shootTimer;
 
   // cached Images to prevent memory load
-   private Image shipImage;
-   private Image projectileImage;
+  private Image shipImage;
+  private Image projectileImage;
 
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {

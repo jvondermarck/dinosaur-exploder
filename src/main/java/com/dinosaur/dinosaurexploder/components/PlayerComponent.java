@@ -59,7 +59,7 @@ public class PlayerComponent extends Component implements Player {
 
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {
-      this.shootTimer = new FXGLGameTimer();
+    this.shootTimer = new FXGLGameTimer();
   }
 
   // Test-friendly constructor to inject a mock GameTimer

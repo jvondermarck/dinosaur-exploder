@@ -1,7 +1,6 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AchievementManager {

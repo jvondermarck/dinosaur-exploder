@@ -52,7 +52,7 @@ class DinosaurControllerTest {
       GameInitializer initializer = initCons.constructed().get(0);
       CollisionRegistry registry = registryCons.constructed().get(0);
 
-      controller.initGame();
+      controller.initGame(null);
       GameActions actions = actionsCons.constructed().get(0);
 
       controller.initPhysics();

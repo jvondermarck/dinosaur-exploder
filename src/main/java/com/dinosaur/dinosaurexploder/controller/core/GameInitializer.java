@@ -38,6 +38,7 @@ public class GameInitializer {
   private Entity player;
   private Entity levelDisplay;
   private Entity levelProgressBar;
+  private AchievementManager achievementManager;
 
   /** Summary : To move the space shuttle in forward , backward , right , left directions */
   public void initInput() {
@@ -66,8 +67,6 @@ public class GameInitializer {
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();
-    AchievementManager achievementManager = new AchievementManager();
-    achievementManager.init();
 
     collisionHandler = new CollisionHandler(levelManager, achievementManager);
 
@@ -211,5 +210,9 @@ public class GameInitializer {
 
   public LanguageManager getLanguageManager() {
     return languageManager;
+  }
+
+  public void setAchievementManager(AchievementManager achievementManager) {
+    this.achievementManager = achievementManager;
   }
 }

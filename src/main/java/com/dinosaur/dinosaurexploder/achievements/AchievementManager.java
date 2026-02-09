@@ -1,7 +1,6 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AchievementManager {
@@ -19,8 +18,7 @@ public class AchievementManager {
   public void init() {
     if (allAchievements.isEmpty()) return;
 
-    Collections.shuffle(allAchievements);
-    activeAchievements.add(allAchievements.get(0));
+    activeAchievements.addAll(allAchievements);
   }
 
   // Called every frame

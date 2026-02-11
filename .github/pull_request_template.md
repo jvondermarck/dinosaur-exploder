@@ -15,8 +15,8 @@ You’ll also see a message from the GitHub bot with a downloadable .jar file �
 
 <!-- ✅ To check a box, write: `[x]` (no space between the brackets) -->
 
-- [ ] My PR title follows the format: `[Type]: clear description of change`
-- [ ] I used the correct `type`: Feature, Fix, Refactor, Docs, Test, Chore
+- [ ] My PR title follows the format: `type(scope): description (#issue)` (scope and #issue optional)
+- [ ] I used the correct `type`: feat, fix, refactor, docs, test, chore
 - [ ] I reviewed my code and removed unnecessary debug logs or comments.
 - [ ] I tested my changes and verified they work as expected.
 - [ ] I ran the project to confirm it compiles and runs correctly.

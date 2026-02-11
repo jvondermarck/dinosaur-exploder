@@ -165,7 +165,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
   }
 
   private void showLockedWeaponDialog(LockedWeaponException exception) {
-    MenuHelper.showLockedDialog(exception.getMessage());
+    MenuHelper.showDialog(languageManager.getTranslation("locked"), exception.getMessage());
   }
 
   private void selectWeapon(int weaponNumber) {

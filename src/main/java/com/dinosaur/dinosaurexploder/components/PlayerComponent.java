@@ -53,6 +53,10 @@ public class PlayerComponent extends Component implements Player {
   private double weaponHeat = 0.0;
   private final GameTimer shootTimer;
 
+  // cached Images to prevent memory load
+  private Image shipImage;
+  private Image projectileImage;
+
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {
     this.shootTimer = new FXGLGameTimer();
@@ -79,6 +83,13 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onAdded() {
     shootTimer.capture();
+    // Load images once when component is added
+    // Use resource stream for both images to ensure consistency
+    shipImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + shipImagePath)));
+
+    projectileImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
   }
 
   @Override
@@ -205,13 +216,12 @@ public class PlayerComponent extends Component implements Player {
     Point2D center = entity.getCenter();
     Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
     System.out.println("Shoot with selected weapon: " + selectedWeapon);
-    Image projImg =
-        new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
 
     spawn(
         "basicProjectile",
         new SpawnData(
-                center.getX() - (projImg.getWidth() / 2) + 3, center.getY() - 25) // Ajusta según el
+                center.getX() - (projectileImage.getWidth() / 2) + 3,
+                center.getY() - 25) // adjust Accordingly
             // tamaño de la nave
             .put("direction", direction.toPoint2D()));
     increaseWeaponHeat();
@@ -219,10 +229,9 @@ public class PlayerComponent extends Component implements Player {
   }
 
   private void spawnMovementAnimation() {
-    Image spcshpImg = new Image(shipImagePath);
     FXGL.entityBuilder()
-        .at(getEntity().getCenter().subtract(spcshpImg.getWidth() / 2, spcshpImg.getHeight() / 2))
-        .view(new Texture(spcshpImg))
+        .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))
+        .view(new Texture(shipImage))
         .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
         .buildAndAttach();
   }
@@ -246,6 +255,17 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     weaponHeat = Math.max(0.0, weaponHeat - (COOLING_RATE_PER_SECOND * tpf));
+  }
+
+  @Override
+  public void onRemoved() {
+    // clean up timer actions to prevent memory leaks
+    if (shieldTimerAction != null && !shieldTimerAction.isExpired()) {
+      shieldTimerAction.expire();
+    }
+    if (shieldCooldownAction != null && !shieldCooldownAction.isExpired()) {
+      shieldCooldownAction.expire();
+    }
   }
 
   // Getter for weapon heat for fron end feature

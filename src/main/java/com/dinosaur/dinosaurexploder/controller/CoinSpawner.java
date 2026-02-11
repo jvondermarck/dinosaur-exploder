@@ -28,8 +28,6 @@ public class CoinSpawner {
               if (random(0, 100) < percentChanceForCoinDrop) {
                 double x = random(0, getAppWidth() - 80);
                 spawn("coin", x, 0);
-              } else {
-                System.out.println("No coin was spawned");
               }
             },
             seconds(duration));

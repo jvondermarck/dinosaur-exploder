@@ -102,6 +102,11 @@
                             <include>src/test/java/**/*.java</include>
                         </includes>
 
+                        <!-- Add license header for SPDX copyright -->
+                        <licenseHeader>
+                            <file>${project.basedir}/.github/license</file>
+                        </licenseHeader>
+
                         <!-- Use Google Java Style -->
                         <googleJavaFormat/>
 

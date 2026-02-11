@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
 package com.dinosaur.dinosaurexploder.controller.core;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;

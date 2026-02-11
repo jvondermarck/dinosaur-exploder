@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import { render, screen, waitFor } from "@testing-library/react";
 import CreditsPage from "../app/[lang]/credits/page";
 

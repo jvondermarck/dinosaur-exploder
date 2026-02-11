@@ -1,5 +1,11 @@
 "use client";
 
+
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import { useState } from "react";

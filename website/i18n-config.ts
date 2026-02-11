@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 export const i18n = {
   defaultLocale: 'en',
   locales: ['en', 'el'], // language options

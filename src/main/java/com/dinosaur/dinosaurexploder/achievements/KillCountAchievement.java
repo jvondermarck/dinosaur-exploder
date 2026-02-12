@@ -1,17 +1,14 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.dinosaur.dinosaurexploder.utils.AchievementProvider;
 
 public class KillCountAchievement extends Achievement {
 
   private final int targetKills;
   private int currentKills = 0;
 
-  public KillCountAchievement(int targetKills, int rewardCoins,String fileName) {
+  public KillCountAchievement(int targetKills, int rewardCoins) {
     this.targetKills = targetKills;
     this.rewardCoins = rewardCoins;
-    this.fileName = fileName;
   }
 
   public String getDescription() {

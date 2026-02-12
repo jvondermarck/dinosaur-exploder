@@ -1,30 +1,39 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
-import com.dinosaur.dinosaurexploder.utils.AchievementProvider;
-
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AchievementManager {
 
-  //private final Achievement achievement = AchievementProvider.loadSettings();
   private final List<Achievement> allAchievements = new ArrayList<>();
   private final List<Achievement> activeAchievements = new ArrayList<>();
 
+
   public AchievementManager() {
     // Register all available achievements here
-    allAchievements.add(new KillCountAchievement(1, 50,"achievement10Kill"));
-    allAchievements.add(new KillCountAchievement(2, 100,"achievement20Kill"));
+    allAchievements.add(new KillCountAchievement(1, 50));
+    allAchievements.add(new KillCountAchievement(2, 50));
+    allAchievements.add(new KillCountAchievement(10, 50));
+    allAchievements.add(new KillCountAchievement(20, 100));
   }
 
   // Called once when the game starts
   public void init() {
     if (allAchievements.isEmpty()) return;
-    AchievementProvider.loadAchievements(allAchievements);
 
-    activeAchievements.addAll(allAchievements);
-
+    activeAchievements.addAll(loadAchievement());
+    if (activeAchievements.isEmpty())
+    {
+      saveAchievement(allAchievements);
+      activeAchievements.addAll(allAchievements);
+    }else{
+        if (activeAchievements.size()<allAchievements.size()){
+          //activeAchievements.
+        }
+		activeAchievements.removeIf(Achievement::isCompleted);
+    }
   }
 
   // Called every frame
@@ -41,7 +50,9 @@ public class AchievementManager {
     for (Achievement achievement : activeAchievements) {
       Boolean complete = achievement.onDinosaurKilled();
       if (complete) {
-        AchievementProvider.saveAchivement(achievement);
+        List<Achievement> achievementStore = loadAchievement();
+        achievementStore.add(achievement);
+        saveAchievement(activeAchievements);
       }
     }
   }
@@ -56,4 +67,26 @@ public class AchievementManager {
     }
     return activeAchievements.get(0);
   }
+
+
+  private List<Achievement> loadAchievement() {
+    List<Achievement> achievementFromFile = new ArrayList<>();
+	  try (ObjectInputStream in =
+				   new ObjectInputStream(new FileInputStream(GameConstants.ACHIEVEMENTS_FILE))) {
+		  achievementFromFile=   (List<Achievement>) in.readObject();
+	  } catch (IOException | ClassNotFoundException e) {
+		  System.out.println("Failed to load achievements from file");
+	  }
+      return achievementFromFile;
+  }
+
+  private void saveAchievement(List<Achievement> listToSave) {
+    try (ObjectOutputStream out =
+                 new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
+      out.writeObject(listToSave);
+    } catch (IOException e) {
+      System.err.println("Error saving achievement : " + e.getMessage());
+    }
+  }
+
 }

@@ -2,10 +2,11 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
 
-public abstract class Achievement {
+import java.io.Serializable;
+
+public abstract class Achievement implements Serializable {
 
   protected boolean completed = false;
-  protected String fileName;
   protected int rewardCoins;
 
 
@@ -13,9 +14,6 @@ public abstract class Achievement {
     return completed;
   }
 
-  public String getFileName() {
-    return fileName;
-  }
 
   public void onComplete(String description) {
     FXGL.getNotificationService().pushNotification("Achievement unlocked: " + description);

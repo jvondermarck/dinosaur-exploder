@@ -1,5 +1,7 @@
 package com.dinosaur.dinosaurexploder.utils;
 
+import com.dinosaur.dinosaurexploder.constants.GameMode;
+
 /**
  * This class manages the game levels, including the current level, number of enemies to defeat,
  * enemy spawn rate, and enemy speed. It provides methods to advance levels, reset the game, and
@@ -11,6 +13,7 @@ public class LevelManager {
   private int defeatedEnemies = 0;
   private double enemySpawnRate = 0.75;
   private double enemySpeed = 1.5;
+  private GameMode gameMode = GameMode.NORMAL;
 
   public int getCurrentLevel() {
     return currentLevel;
@@ -47,5 +50,9 @@ public class LevelManager {
 
   public int getEnemiesToDefeat() {
     return enemiesToDefeat;
+  }
+
+  public void setGameMode(GameMode mode) {
+    gameMode = mode;
   }
 }

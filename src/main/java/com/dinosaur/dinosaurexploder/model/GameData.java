@@ -1,5 +1,6 @@
 package com.dinosaur.dinosaurexploder.model;
 
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.utils.FileDataProvider;
@@ -8,9 +9,9 @@ import com.dinosaur.dinosaurexploder.utils.WeaponUnlockChecker;
 
 public class GameData {
   // Static variable that stores the selected ship, weapon and difficulty
-  private static int selectedShip = 1; // Default ship
-  private static int selectedWeapon = 1; // Default weapon
-  private static int selectedDifficulty = 1; // Default difficulty
+  private static int selectedShip = 1;        // Default ship
+  private static int selectedWeapon = 1;      // Default weapon
+  private static GameMode selectedDifficulty = GameMode.NORMAL;  // Default difficulty
   private static final ShipUnlockChecker shipUnlockChecker =
       new ShipUnlockChecker(new FileDataProvider());
   private static final WeaponUnlockChecker weaponUnlockChecker =
@@ -59,12 +60,12 @@ public class GameData {
   }
 
   // Getter and setter for the selected difficulty
-  public static int getSelectedDifficulty() {
+  public static GameMode getSelectedDifficulty() {
     return selectedDifficulty;
   }
 
-  public static void setSelectedDifficulty(int difficultyNumber) {
-    selectedDifficulty = difficultyNumber;
+  public static void setSelectedDifficulty(GameMode gameMode) {
+    selectedDifficulty = gameMode;
   }
 
   // Getter for the high score

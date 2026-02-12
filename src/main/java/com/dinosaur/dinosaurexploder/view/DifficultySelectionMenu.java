@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
@@ -61,12 +62,12 @@ public class DifficultySelectionMenu extends FXGLMenu {
             getUIFactoryService().newButton(languageManager.getTranslation("normal_mode").toUpperCase());
     normalButton.setMinSize(getAppWidth() * 0.8, 60);
     normalButton.setWrapText(true);
-    normalButton.setOnAction(e -> selectDifficulty(1));
+    normalButton.setOnAction(e -> selectDifficulty(GameMode.NORMAL));
     Button expertButton =
             getUIFactoryService().newButton(languageManager.getTranslation("expert_mode").toUpperCase());
     expertButton.setMinSize(getAppWidth() * 0.8, 60);
     expertButton.setWrapText(true);
-    expertButton.setOnAction(e -> selectDifficulty(2));
+    expertButton.setOnAction(e -> selectDifficulty(GameMode.EXPERT));
     options.getChildren().addAll(normalButton, expertButton);
 
     return options;
@@ -89,9 +90,9 @@ public class DifficultySelectionMenu extends FXGLMenu {
 
   // ============ EVENT HANDLERS ============
 
-  private void selectDifficulty(int difficultyNumber) {
-    GameData.setSelectedDifficulty(difficultyNumber);
-    System.out.println("Selected Difficulty: " + difficultyNumber);
+  private void selectDifficulty(GameMode gameMode) {
+    GameData.setSelectedDifficulty(gameMode);
+    System.out.println("Selected Difficulty: " + gameMode);
     fireNewGame();
   }
 }

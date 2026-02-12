@@ -11,6 +11,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Player;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -26,7 +27,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class PlayerComponent extends Component implements Player {
-
+  
   private static final double MAX_WEAPON_HEAT = 100.0;
   private static final double HEAT_PER_SHOT = 12.0;
   private static final double COOLING_RATE_PER_SECOND =
@@ -42,7 +43,11 @@ public class PlayerComponent extends Component implements Player {
   private TimerAction shieldTimerAction;
   private TimerAction shieldCooldownAction;
   private Circle shieldVisual;
+  
+  // For rotating the player to the mouse position
+  private Point2D mousePosition = new Point2D(0, 0);   
 
+  private final GameMode gameMode = GameData.getSelectedDifficulty(); 
   private final int selectedShip = GameData.getSelectedShip();
   private final int selectedWeapon = GameData.getSelectedWeapon();
   String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
@@ -162,6 +167,21 @@ public class PlayerComponent extends Component implements Player {
                   }
                 },
                 Duration.seconds(0.1));
+  }
+
+  private void updateRotation() {
+    Point2D playerCenter = entity.getCenter();
+    
+    // Calculate angle from player to mouse
+    double dx = mousePosition.getX() - playerCenter.getX();
+    double dy = mousePosition.getY() - playerCenter.getY();
+    double angle = Math.atan2(dy, dx);
+    
+    // Convert radians to degrees and adjust
+    // (add 90 because entity rotation starts pointing up)
+    double newRotation = Math.toDegrees(angle) + 90;
+    
+    entity.setRotation(newRotation);
   }
 
   public void moveUp() {

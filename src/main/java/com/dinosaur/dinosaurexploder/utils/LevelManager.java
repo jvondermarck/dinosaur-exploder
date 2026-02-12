@@ -55,4 +55,8 @@ public class LevelManager {
   public void setGameMode(GameMode mode) {
     gameMode = mode;
   }
+
+  public GameMode getGameMode() {
+    return gameMode;
+  }
 }

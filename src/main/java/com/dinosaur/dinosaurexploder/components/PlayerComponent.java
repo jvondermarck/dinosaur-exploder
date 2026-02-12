@@ -1,6 +1,7 @@
 package com.dinosaur.dinosaurexploder.components;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
+import static com.almasb.fxgl.dsl.FXGL.getInput;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameTimer;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.core.math.Vec2;
@@ -44,9 +45,6 @@ public class PlayerComponent extends Component implements Player {
   private TimerAction shieldCooldownAction;
   private Circle shieldVisual;
   
-  // For rotating the player to the mouse position
-  private Point2D mousePosition = new Point2D(0, 0);   
-
   private final GameMode gameMode = GameData.getSelectedDifficulty(); 
   private final int selectedShip = GameData.getSelectedShip();
   private final int selectedWeapon = GameData.getSelectedWeapon();
@@ -100,6 +98,12 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onUpdate(double tpf) {
     coolWeapon(tpf);
+
+    // In expert mode, rotate player to face mouse cursor
+    if (gameMode == GameMode.EXPERT) {
+      var mouse = getInput().getMousePositionWorld();
+      updateRotation(mouse.getX(), mouse.getY());
+    }
   }
 
   public boolean isShieldActive() {
@@ -169,18 +173,18 @@ public class PlayerComponent extends Component implements Player {
                 Duration.seconds(0.1));
   }
 
-  private void updateRotation() {
+  private void updateRotation(double xPosition, double yPosition) {
     Point2D playerCenter = entity.getCenter();
     
     // Calculate angle from player to mouse
-    double dx = mousePosition.getX() - playerCenter.getX();
-    double dy = mousePosition.getY() - playerCenter.getY();
+    double dx = xPosition - playerCenter.getX();
+    double dy = yPosition - playerCenter.getY();
     double angle = Math.atan2(dy, dx);
     
     // Convert radians to degrees and adjust
     // (add 90 because entity rotation starts pointing up)
     double newRotation = Math.toDegrees(angle) + 90;
-    
+
     entity.setRotation(newRotation);
   }
 

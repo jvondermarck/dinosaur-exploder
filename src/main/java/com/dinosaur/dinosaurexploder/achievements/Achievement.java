@@ -6,24 +6,22 @@ import java.io.Serializable;
 
 public abstract class Achievement implements Serializable {
 
-  protected boolean completed = false;
-  protected int rewardCoins;
+	protected boolean completed = false;
+	protected int rewardCoins;
 
+	public boolean isCompleted() {
+		return completed;
+	}
 
-  public boolean isCompleted() {
-    return completed;
-  }
+	public void onComplete(String description) {
+		FXGL.getNotificationService().pushNotification("Achievement unlocked: " + description);
+	}
 
+	public int getRewardCoins() {
+		return rewardCoins;
+	}
 
-  public void onComplete(String description) {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + description);
-  }
+	public abstract void update(double tpf);
 
-  public int getRewardCoins() {
-    return rewardCoins;
-  }
-
-  public abstract void update(double tpf);
-
-  public abstract Boolean onDinosaurKilled();
+	public abstract Boolean onDinosaurKilled();
 }

@@ -26,10 +26,14 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
 
   private Text coinText;
   private Node coinUI;
+  private Image coinImage;
 
   @Override
   public void onAdded() {
     loadTotalCoins(); // Deserialize once when the component is added
+
+    // load coin Image once
+    coinImage = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
 
     // Create UI elements
     coinText =
@@ -52,8 +56,8 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   private Node createCoinUI() {
-    Image image = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
-    ImageView imageView = new ImageView(image);
+
+    ImageView imageView = new ImageView(coinImage);
 
     HBox container = new HBox(5, coinText, imageView);
     container.setAlignment(Pos.CENTER_LEFT);

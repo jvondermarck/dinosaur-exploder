@@ -29,6 +29,9 @@ const pressStart2P = Press_Start_2P({
 export const metadata: Metadata = {
     title: "Dinosaur Exploder",
     description: "Open source retro shoot 'em up game.",
+    verification: {
+      google: 'gdP0ZxOyLsUaoHTFpX-fgS6eCOdbAr1AhMnFgLj330g',
+    },
 };
 
 export default async function RootLayout({

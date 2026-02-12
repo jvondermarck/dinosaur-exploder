@@ -1,0 +1,16 @@
+{
+  "LABEL": {
+    "name": "title needs formatting",
+    "color": "EEEEEE"
+  },
+  "CHECKS": {
+    "regexp": "^(feat|fix|refactor|docs|test|chore)(\\([^)]+\\))?: .+( \\(#\\d+\\))?$",
+    "regexpFlags": "",
+    "alwaysPassCI": false
+  },
+  "MESSAGES": {
+    "success": "PR title follows the contribution guidelines.",
+    "failure": "PR title must follow: type(scope): description (#issue). Scope and (#issue) are optional. Allowed types: feat, fix, refactor, docs, test, chore. Example: feat(auth): add OAuth2 support (#42)",
+    "notice": ""
+  }
+}

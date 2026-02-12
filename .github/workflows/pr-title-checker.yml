@@ -1,0 +1,45 @@
+name: "PR Title Checker"
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - unlabeled
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: thehanimo/pr-title-checker@v1.4.3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pass_on_octokit_error: false
+          configuration_path: .github/pr-title-checker-config.json
+  
+      - name: Add comment to fix PR title
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: ${{ steps.check.outputs.success == 'false'}}
+        with:
+          header: 'PR Title Check'
+          recreate: true
+          message: |
+              # 🚨 PR Title Needs Formatting
+              The title of this PR needs to be formatted correctly and include an Azure Boards Reference. 
+              Please update the title to match the format `type(scope): description (#xxx)`. Examples:
+              * `bugfix: fix typo in README.md (#123)`
+              * `feat(Shield): add new shield`
+              * `chore: fixing build pipeline`
+              
+              _The DinoBot Team_ 🦖
+     
+      - name: Add comment that PR title is fixed
+        if: ${{ steps.check.outputs.success == 'true'}}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: 'PR Title Check'
+          recreate: true
+          message: |
+              ### ✅ PR Title Formatted Correctly
+              The title of this PR has been updated to match the correct format. Thank you!

@@ -27,6 +27,21 @@ hasn't already been brought up by someone else.
 
 If you decide to develop a solution for an issue, you can submit these changes through a pull request.
 
+#### Pull Request Title Format
+
+PR titles must follow this format: `type(scope): description (#issue)`.
+
+- **type** (required): One of `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
+- **scope** (optional): Context in parentheses, e.g. `(auth)`, `(readme)`
+- **description** (required): A clear description of the change
+- **(#issue)** (optional): The issue number in parentheses with a hash, e.g. `(#335)`
+
+Examples:
+
+- `feat(auth): add OAuth2 support (#42)`
+- `fix: handle null token`
+- `docs(readme): update setup instructions (#335)`
+
 If this is your first time contributing to open source, please refer to this [guide](https://github.com/firstcontributions/first-contributions)
 on how to submit a pull request.
 

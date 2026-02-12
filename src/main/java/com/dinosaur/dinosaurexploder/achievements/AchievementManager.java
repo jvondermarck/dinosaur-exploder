@@ -22,6 +22,7 @@ public class AchievementManager {
   // Called once when the game starts
   public void init() {
     if (allAchievements.isEmpty()) return;
+
     activeAchievements.addAll(loadAchievement());
     if (activeAchievements.isEmpty())
     {

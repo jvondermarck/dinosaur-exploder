@@ -7,6 +7,8 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
+import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -102,8 +104,24 @@ public class DinosaurMenu extends FXGLMenu {
   }
 
   private VBox createVolumeControls() {
-    Slider volumeSlider = createVolumeSlider();
-    Text volumeText = createVolumeText(volumeSlider);
+
+    VBox volumeControl = AudioControlsComponent.createVolumeControl(VolumeType.MUSIC, settings);
+
+    Label volumeLabel = (Label) volumeControl.getChildren().get(0);
+    Slider volumeSlider = (Slider) volumeControl.getChildren().get(1);
+
+    applyStylesheet(volumeSlider);
+
+    Text volumeText =
+        getUIFactoryService()
+            .newText(volumeLabel.getText(), Color.LIME, GameConstants.TEXT_SIZE_GAME_INFO);
+
+    volumeLabel
+        .textProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              volumeText.setText(newVal);
+            });
 
     VBox volumeBox = new VBox(volumeText, volumeSlider);
     volumeBox.setAlignment(Pos.CENTER_LEFT);
@@ -224,37 +242,6 @@ public class DinosaurMenu extends FXGLMenu {
     muteIcon.setOnMouseClicked(event -> toggleMute(muteIcon, muteImg, audioOnImg));
 
     return muteIcon;
-  }
-
-  private Slider createVolumeSlider() {
-    Slider volumeSlider = new Slider(0, 1, 1);
-    volumeSlider.adjustValue(settings.getVolume());
-    volumeSlider.setBlockIncrement(0.01);
-
-    applyStylesheet(volumeSlider);
-
-    return volumeSlider;
-  }
-
-  private Text createVolumeText(Slider volumeSlider) {
-    var volumeText =
-        getUIFactoryService()
-            .newText(
-                String.format("%.0f%%", settings.getVolume() * 100),
-                Color.LIME,
-                GameConstants.TEXT_SIZE_GAME_INFO);
-
-    volumeSlider
-        .valueProperty()
-        .addListener(
-            (obs, oldVal, newVal) -> {
-              AudioManager.getInstance().setVolume(newVal.doubleValue());
-              settings.setVolume(newVal.doubleValue());
-              SettingsProvider.saveSettings(settings);
-              volumeText.setText(String.format("%.0f%%", newVal.doubleValue() * 100));
-            });
-
-    return volumeText;
   }
 
   private void configureButtons() {

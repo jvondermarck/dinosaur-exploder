@@ -7,6 +7,10 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
+import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
+import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
+import com.dinosaur.dinosaurexploder.components.GameControlsComponent.ControlType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -48,19 +52,22 @@ public class PauseMenu extends FXGLMenu {
   OptionsButton btnSoundMain = new OptionsButton(languageManager.getTranslation("sound_main"));
   OptionsButton btnSoundSfx = new OptionsButton(languageManager.getTranslation("sound_sfx"));
 
-  // Options buttons (controls list)
+  // Control buttons using GameControlsComponent
   OptionsButton btnMoveUp =
-      new OptionsButton("↑ / W : " + languageManager.getTranslation("move_up"));
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_UP));
   OptionsButton btnMoveDown =
-      new OptionsButton("↓ / S :  " + languageManager.getTranslation("move_down"));
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_DOWN));
   OptionsButton btnMoveRight =
-      new OptionsButton("→ / D : " + languageManager.getTranslation("move_right"));
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_RIGHT));
   OptionsButton btnMoveLeft =
-      new OptionsButton("← / A : " + languageManager.getTranslation("move_left"));
-  OptionsButton btnPauseGame = new OptionsButton(languageManager.getTranslation("pause_game"));
-  OptionsButton btnShoot = new OptionsButton(languageManager.getTranslation("shoot"));
-  OptionsButton btnBomb = new OptionsButton("B: " + languageManager.getTranslation("bomb"));
-  OptionsButton btnShield = new OptionsButton("E: " + languageManager.getTranslation("shield"));
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_LEFT));
+  OptionsButton btnPauseGame =
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.PAUSE_GAME));
+  OptionsButton btnShoot =
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.SHOOT));
+  OptionsButton btnBomb = new OptionsButton(GameControlsComponent.getControlText(ControlType.BOMB));
+  OptionsButton btnShield =
+      new OptionsButton(GameControlsComponent.getControlText(ControlType.SHIELD));
 
   public PauseMenu() {
     super(MenuType.GAME_MENU);
@@ -77,50 +84,23 @@ public class PauseMenu extends FXGLMenu {
     mainMenuSound.setMute(muteState);
     AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
 
-    // Init music Slider
-    Slider volumeSlider = new Slider(0, 1, 1);
-    volumeSlider.adjustValue(settings.getVolume());
-    volumeSlider.setBlockIncrement(0.01);
+    VBox musicVolumeControl =
+        AudioControlsComponent.createVolumeControl(VolumeType.MUSIC, settings);
+    VBox sfxVolumeControl = AudioControlsComponent.createVolumeControl(VolumeType.SFX, settings);
 
-    volumeSlider
-        .getStylesheets()
-        .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+    Label volumeLabel = (Label) musicVolumeControl.getChildren().get(0);
+    Slider volumeSlider = (Slider) musicVolumeControl.getChildren().get(1);
 
-    // Init sfx Slider
-    Slider sfxVolumeSlider = new Slider(0, 1, 1);
-    sfxVolumeSlider.adjustValue(settings.getSfxVolume());
-    sfxVolumeSlider.setBlockIncrement(0.01);
+    Label sfxVolumeLabel = (Label) sfxVolumeControl.getChildren().get(0);
+    Slider sfxVolumeSlider = (Slider) sfxVolumeControl.getChildren().get(1);
 
-    sfxVolumeSlider
-        .getStylesheets()
-        .add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
-
-    // Sets the music volume label
-    Label volumeLabel = new Label(String.format(LABEL_FORMAT, settings.getVolume() * 100));
-    volumeLabel.setStyle("-fx-text-fill: #61C181;");
     volumeSlider
         .valueProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
-              AudioManager.getInstance().setVolume(newValue.doubleValue());
               mainMenuSound.setVolume(newValue.doubleValue());
-              settings.setVolume(newValue.doubleValue());
-              SettingsProvider.saveSettings(settings);
-              volumeLabel.setText(String.format(LABEL_FORMAT, newValue.doubleValue() * 100));
             });
 
-    // Sets the sfx volume label
-    Label sfxVolumeLabel = new Label(String.format(LABEL_FORMAT, settings.getSfxVolume() * 100));
-    sfxVolumeLabel.setStyle("-fx-text-fill: #61C181;");
-    sfxVolumeSlider
-        .valueProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              AudioManager.getInstance().setSfxVolume(newValue.doubleValue());
-              settings.setSfxVolume(newValue.doubleValue());
-              SettingsProvider.saveSettings(settings);
-              sfxVolumeLabel.setText(String.format(LABEL_FORMAT, newValue.doubleValue() * 100));
-            });
     try {
       InputStream muteButton =
           getClass().getClassLoader().getResourceAsStream("assets/textures/silent.png");
@@ -237,8 +217,9 @@ public class PauseMenu extends FXGLMenu {
     // Adjust sound menu
     btnSound.setControlAction(
         () -> {
-          volumeSlider.adjustValue(settings.getVolume());
-          sfxVolumeSlider.adjustValue(settings.getSfxVolume());
+          Settings freshSettings = SettingsProvider.loadSettings();
+          volumeSlider.adjustValue(freshSettings.getVolume());
+          sfxVolumeSlider.adjustValue(freshSettings.getSfxVolume());
 
           var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
 
@@ -426,14 +407,15 @@ public class PauseMenu extends FXGLMenu {
     btnQuitGame.setText(languageManager.getTranslation("quit").toUpperCase());
     btnControls.setText(languageManager.getTranslation("controls").toUpperCase());
 
-    btnMoveUp.setText("↑ / W : " + languageManager.getTranslation("move_up"));
-    btnMoveDown.setText("↓ / S : " + languageManager.getTranslation("move_down"));
-    btnMoveRight.setText("→ / D : " + languageManager.getTranslation("move_right"));
-    btnMoveLeft.setText("← / A : " + languageManager.getTranslation("move_left"));
-    btnPauseGame.setText(languageManager.getTranslation("pause_game"));
-    btnShoot.setText(languageManager.getTranslation("shoot"));
-    btnBomb.setText("B: " + languageManager.getTranslation("bomb"));
-    btnShield.setText("E: " + languageManager.getTranslation("shield"));
+    // Update control buttons using GameControlsComponent
+    btnMoveUp.setText(GameControlsComponent.getControlText(ControlType.MOVE_UP));
+    btnMoveDown.setText(GameControlsComponent.getControlText(ControlType.MOVE_DOWN));
+    btnMoveRight.setText(GameControlsComponent.getControlText(ControlType.MOVE_RIGHT));
+    btnMoveLeft.setText(GameControlsComponent.getControlText(ControlType.MOVE_LEFT));
+    btnPauseGame.setText(GameControlsComponent.getControlText(ControlType.PAUSE_GAME));
+    btnShoot.setText(GameControlsComponent.getControlText(ControlType.SHOOT));
+    btnBomb.setText(GameControlsComponent.getControlText(ControlType.BOMB));
+    btnShield.setText(GameControlsComponent.getControlText(ControlType.SHIELD));
   }
 
   // ------------------- QUIT POPUP -----------------------

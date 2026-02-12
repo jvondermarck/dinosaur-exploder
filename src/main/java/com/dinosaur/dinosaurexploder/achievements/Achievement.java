@@ -1,7 +1,6 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
-
 import java.io.Serializable;
 
 public abstract class Achievement implements Serializable {

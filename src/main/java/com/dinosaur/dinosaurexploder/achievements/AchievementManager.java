@@ -28,11 +28,6 @@ public class AchievementManager {
     {
       saveAchievement(allAchievements);
       activeAchievements.addAll(allAchievements);
-    }else{
-        if (activeAchievements.size()<allAchievements.size()){
-          //activeAchievements.
-        }
-		activeAchievements.removeIf(Achievement::isCompleted);
     }
   }
 
@@ -49,12 +44,9 @@ public class AchievementManager {
   public void notifyDinosaurKilled() {
     for (Achievement achievement : activeAchievements) {
       Boolean complete = achievement.onDinosaurKilled();
-      if (complete) {
-        List<Achievement> achievementStore = loadAchievement();
-        achievementStore.add(achievement);
-        saveAchievement(activeAchievements);
-      }
     }
+    saveAchievement(activeAchievements);
+
   }
 
   public List<Achievement> getActiveAchievements() {
@@ -68,7 +60,7 @@ public class AchievementManager {
     return activeAchievements.get(0);
   }
 
-
+///Get the list of achievement save in the achievement.ser file
   private List<Achievement> loadAchievement() {
     List<Achievement> achievementFromFile = new ArrayList<>();
 	  try (ObjectInputStream in =
@@ -80,6 +72,7 @@ public class AchievementManager {
       return achievementFromFile;
   }
 
+  /// Save activeAchievement in the achievement.ser file
   private void saveAchievement(List<Achievement> listToSave) {
     try (ObjectOutputStream out =
                  new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
@@ -88,5 +81,4 @@ public class AchievementManager {
       System.err.println("Error saving achievement : " + e.getMessage());
     }
   }
-
 }

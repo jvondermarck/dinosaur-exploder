@@ -253,9 +253,14 @@ public class PlayerComponent extends Component implements Player {
   }
 
   private void spawnMovementAnimation() {
+    Texture tex = new Texture(shipImage);
+    if (gameMode == GameMode.EXPERT) {
+      tex.setRotate(getEntity().getRotation());
+    }
+
     FXGL.entityBuilder()
         .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))
-        .view(new Texture(shipImage))
+        .view(tex)
         .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
         .buildAndAttach();
   }

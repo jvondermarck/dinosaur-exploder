@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.dsl.FXGL;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -171,6 +172,6 @@ public class WeaponSelectionMenu extends FXGLMenu {
   private void selectWeapon(int weaponNumber) {
     GameData.setSelectedWeapon(weaponNumber);
     System.out.println("Selected Weapon: " + weaponNumber);
-    fireNewGame();
+    FXGL.getSceneService().pushSubScene(new DifficultySelectionMenu());
   }
 }

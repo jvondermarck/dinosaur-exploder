@@ -22,7 +22,6 @@ public class AchievementManager {
   // Called once when the game starts
   public void init() {
     if (allAchievements.isEmpty()) return;
-
     activeAchievements.addAll(loadAchievement());
     if (activeAchievements.isEmpty())
     {
@@ -57,11 +56,11 @@ public class AchievementManager {
     if (activeAchievements.isEmpty()) {
       return null;
     }
-    return activeAchievements.get(0);
+    return activeAchievements.getFirst();
   }
 
 ///Get the list of achievement save in the achievement.ser file
-  private List<Achievement> loadAchievement() {
+  public List<Achievement> loadAchievement() {
     List<Achievement> achievementFromFile = new ArrayList<>();
 	  try (ObjectInputStream in =
 				   new ObjectInputStream(new FileInputStream(GameConstants.ACHIEVEMENTS_FILE))) {
@@ -73,7 +72,7 @@ public class AchievementManager {
   }
 
   /// Save activeAchievement in the achievement.ser file
-  private void saveAchievement(List<Achievement> listToSave) {
+  public void saveAchievement(List<Achievement> listToSave) {
     try (ObjectOutputStream out =
                  new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
       out.writeObject(listToSave);

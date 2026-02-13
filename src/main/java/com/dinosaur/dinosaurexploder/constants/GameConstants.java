@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
+
 package com.dinosaur.dinosaurexploder.constants;
 
 /** This holds every constant in the project */

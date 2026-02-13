@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
+
 package com.dinosaur.dinosaurexploder.constants;
 
 import static org.junit.jupiter.api.Assertions.*;

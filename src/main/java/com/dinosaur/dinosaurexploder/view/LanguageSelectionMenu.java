@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
+
 package com.dinosaur.dinosaurexploder.view;
 
 import static com.dinosaur.dinosaurexploder.utils.LanguageManager.DEFAULT_LANGUAGE;

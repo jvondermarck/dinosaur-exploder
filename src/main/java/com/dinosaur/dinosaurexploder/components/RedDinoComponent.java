@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
+
 package com.dinosaur.dinosaurexploder.components;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;

@@ -9,12 +9,12 @@
     <version>2.0.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <source.version>21</source.version>
+        <source.version>25</source.version>
         <maven.compiler.version>3.15.0</maven.compiler.version>
         <maven.shade.version>3.6.1</maven.shade.version>
         <jfx.maven.plugin.version>0.0.8</jfx.maven.plugin.version>
         <jpro.version>2025.3.3</jpro.version>
-        <fxgl.version>21.1</fxgl.version>
+        <fxgl.version>25.0.1</fxgl.version>
         <junit.version>6.0.2</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>

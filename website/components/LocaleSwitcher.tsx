@@ -1,5 +1,11 @@
 "use client";
 
+
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { i18n } from "../i18n-config";

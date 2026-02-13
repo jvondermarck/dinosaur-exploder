@@ -5,15 +5,28 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
-public abstract class Achievement {
+import com.almasb.fxgl.dsl.FXGL;
 
-  protected boolean completed = false;
+import java.io.Serializable;
 
-  public boolean isCompleted() {
-    return completed;
-  }
+public abstract class Achievement implements Serializable {
 
-  public abstract void update(double tpf);
+	protected boolean completed = false;
+	protected int rewardCoins;
 
-  public abstract void onDinosaurKilled();
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void onComplete(String description) {
+		FXGL.getNotificationService().pushNotification("Achievement unlocked: " + description);
+	}
+
+	public int getRewardCoins() {
+		return rewardCoins;
+	}
+
+	public abstract void update(double tpf);
+
+	public abstract Boolean onDinosaurKilled();
 }

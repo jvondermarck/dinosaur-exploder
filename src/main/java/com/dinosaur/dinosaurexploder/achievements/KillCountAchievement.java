@@ -5,50 +5,38 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
-import com.almasb.fxgl.dsl.FXGL;
 
 public class KillCountAchievement extends Achievement {
 
-  private final int targetKills;
-  private final int rewardCoins;
+	private final int targetKills;
+	private int currentKills = 0;
 
-  private int currentKills = 0;
-  private boolean completed = false;
+	public KillCountAchievement(int targetKills, int rewardCoins) {
+		this.targetKills = targetKills;
+		this.rewardCoins = rewardCoins;
+	}
 
-  public KillCountAchievement(int targetKills, int rewardCoins) {
-    this.targetKills = targetKills;
-    this.rewardCoins = rewardCoins;
-  }
+	public String getDescription() {
+		return "Kill " + targetKills + " dinosaurs";
+	}
 
-  public String getDescription() {
-    return "Kill " + targetKills + " dinosaurs";
-  }
+	public Boolean onDinosaurKilled() {
+		if (completed) return (true);
 
-  public boolean isCompleted() {
-    return completed;
-  }
+		currentKills++;
 
-  public void onDinosaurKilled() {
-    if (completed) return;
+		if (currentKills >= targetKills) {
+			completed = true;
+			onComplete(getDescription());
+			return (true);
+		}
+		return (false);
+	}
 
-    currentKills++;
+	@Override
+	public void update(double tpf) {
+		// Not needed for count-based achievement
+	}
 
-    if (currentKills >= targetKills) {
-      completed = true;
-      onComplete();
-    }
-  }
 
-  @Override
-  public void update(double tpf) {
-    // Not needed for count-based achievement
-  }
-
-  public void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
-  }
-
-  public int getRewardCoins() {
-    return rewardCoins;
-  }
 }

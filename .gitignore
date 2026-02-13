@@ -256,6 +256,7 @@ target/classes
 #IntelliJ
 *.iml
 .idea/*
+!.idea/copyright/
 
 highScore.ser
 totalCoins.ser

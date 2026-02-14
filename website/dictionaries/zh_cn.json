@@ -1,0 +1,116 @@
+{
+    "switcherLabel": "语言:",
+
+    "homePage": {
+        "title": "Retro Arcade",
+        "subtitle": "Shoot 'em up",
+        "description": [
+            "Dinosaur Exploder",
+            "是一款开源的经典街机射击游戏",
+            "使用Java、JavaFX和FXGL编写",
+            "纯粹的像素乐趣，纯粹的乐趣！"
+        ],
+        "button": "在Github上查看",
+        "sponsorDescr": {
+            "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
+            "heart": "Sponsor",
+            "descr": "Passionate open-source dev. I maintain Dinosaur Exploder, a free Java/FXGL shoot ’em up. Welcoming & guiding new contributors every day! 🦖✨"
+        }
+    },
+
+    "NavBar": {
+        "howGameWorks": "游戏机制",
+        "credits": "Credits",
+        "contact": "联系方式",
+        "star": "Star",
+        "sponsor": "赞助" 
+    },
+
+    "features": [
+        {"icon": "🦖", "title": "PIXEL DINO ACTION"},
+        {"icon": "🕹️", "title": "CLASSIC GAMEPLAY"},
+        {"icon": "🌍","title": "OPEN SOURCE & FREE"}
+    ],
+
+    "footer": "Dinosaur Exploder — made with love — Java/JavaFX/FXGL — open source",
+
+    "howGameWorks": {
+        "title": "游戏机制",
+        "goal": {
+            "title": "Goal",
+            "descr": "You control a spaceship in a retro arcade arena. Your objective is simple: survive waves of incoming dinosaurs and score as many points as you can."
+        },
+        "gameplay":{
+            "title": "Gameplay loop",
+            "steps": [
+                "Move your spaceship to dodge dinosaurs and hazards.",
+                "Shoot dinosaurs to earn points and clear the screen.",
+                "Use your shield to survive tight moments.",
+                "Use a bomb when the screen is crowded (it clears all dinosaurs)."
+            ],
+            "difficulty": "The difficulty increases over time as more dinosaurs appear."
+        },
+        "controls": {
+            "title": "Controls",
+            "headers": {
+                "key": "Key",
+                "action": "Action"
+            },
+            "list": [
+                {"key": "↑ ↓ ← →", "action": "Move the spaceship"},
+                {"key": "Space", "action": "Shoot"},
+                {"key": "E", "action": "Activate shield (short duration)"},
+                {"key": "B", "action": "Bomb (eliminates all dinosaurs on screen)"},
+                {"key": "Esc", "action": "Pause"}
+            ]
+        },
+        "demo": {
+            "title": "Gameplay Demo",
+            "error": "Your browser does not support the video tag.",
+            "description": "Short gameplay demo showing movement, shooting, and enemy waves."
+        },
+        "help":{
+            "title": "Want to help?",
+            "description": "You can contribute to the game (Java/FXGL) or the website (Next.js). Check the GitHub issues and pick something small to start."
+        }
+    },
+
+    "credits": {
+        "title": "Credits",
+        "description": "This project exists thanks to the community. Here are the GitHub contributors ❤️",
+        "error": "Couldn't load contributors right now (GitHub API limit or network). Please try again later.",
+        "single": "contribution",
+        "plural": "contributions",
+        "addName": {
+            "title": "Add your name here",
+            "description": "Want to appear on this list? Make a PR (game or website), and GitHub will automatically include you."
+        }
+    },
+
+    "contact": {
+        "title": "Contact",
+        "description": "The fastest way to reach us is through the community channels below.",
+        "links": {
+            "github": {
+                "title": "GitHub Discussions",
+                "description": "提出问题，分享想法，参与社区讨论。"
+            },
+            "discord": {
+                "title": "Discord",
+                "description": "加入社区日常交流。"
+            },
+            "twitter": {
+                "title": "Twitter",
+                "description": "跟进最新动态和开发进展。"
+            },
+            "sponsor": {
+                "title": "Sponsor",
+                "description": "如果你喜欢这个项目，可以赞助我们的开发。"
+            }
+        },
+        "contribute": {
+            "title": "加入我们",
+            "description": "想要支持这个项目吗？在GitHub上选择一个Issue，修改/website文件夹中的内容。"
+        }
+    }
+}

@@ -13,6 +13,13 @@ import Footer from "@/components/Footer";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../i18n-config";
+import localFont from "next/font/local";
+
+const fushion = localFont({
+  src: "../fonts/zh_hans.ttf.woff2",
+  variable: "--font-fushion",
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +57,7 @@ export default async function RootLayout({
     const dict = await getDictionary(lang as Locale);
 
     return (
-        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable}`}>
+        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion.variable}`}>
             <body className="antialiased">
                 <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-100 via-white to-green-50">
                     <LocaleSwitcher />

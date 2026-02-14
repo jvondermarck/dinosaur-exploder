@@ -53,7 +53,7 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
               href="https://github.com/jvondermarck/dinosaur-exploder"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block font-retro px-7 py-3 rounded-full bg-green-700 hover:bg-green-600 text-white text-lg shadow-lg transition hover:scale-110"
+              className="inline-block font-arcade px-7 py-3 rounded-full bg-green-700 hover:bg-green-600 text-white text-lg shadow-lg transition hover:scale-110"
             >
               {dict.homePage.button}
             </a>

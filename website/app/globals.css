@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-@theme {
-  --font-pixel: var(--font-press-start-2p), var(--font-fushion), monospace;
-}
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -14,7 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-arcade: var(--font-press-start-2p);
+  --font-arcade: var(--font-press-start-2p), var(--font-fushion-12);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +27,6 @@ body {
 }
 
 .font-retro {
-  font-family: var(--font-arcade), FusionPixelFont, sans-serif;
+  font-family: var(--font-arcade);
   letter-spacing: 2px;
 }

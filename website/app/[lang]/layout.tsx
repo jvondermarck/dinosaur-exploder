@@ -15,9 +15,9 @@ import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../i18n-config";
 import localFont from "next/font/local";
 
-const fushion = localFont({
-  src: "../fonts/zh_hans.ttf.woff2",
-  variable: "--font-fushion",
+const fushion_12 = localFont({
+  src: "../fonts/zh_hans-12px.ttf.woff2",
+  variable: "--font-fushion-12",
   display: "swap",
 });
 
@@ -57,7 +57,7 @@ export default async function RootLayout({
     const dict = await getDictionary(lang as Locale);
 
     return (
-        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion.variable}`}>
+        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable}`}>
             <body className="antialiased">
                 <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-100 via-white to-green-50">
                     <LocaleSwitcher />

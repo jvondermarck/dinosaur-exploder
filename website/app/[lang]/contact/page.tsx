@@ -65,7 +65,7 @@ export default async function ContactPage({params,}: {params: Promise<{lang: str
       </div>
 
       <div className="mt-10 bg-black/80 rounded-xl border-2 border-green-700 p-5 shadow-sm">
-        <h2 className="font-pixel text-xl text-green-300 mb-2"> {contact.contribute.title} </h2>
+        <h2 className="font-retro text-xl text-green-300 mb-2"> {contact.contribute.title} </h2>
         <p className="font-mono text-green-100">
           {contact.contribute.description}
         </p>

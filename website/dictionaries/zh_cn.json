@@ -5,12 +5,12 @@
         "title": "Retro Arcade",
         "subtitle": "Shoot 'em up",
         "description": [
-            "Dinosaur Exploder",
+            "恐龙终结者(Dinosaur Exploder)",
             "是一款开源的经典街机射击游戏",
-            "使用Java、JavaFX和FXGL编写",
-            "纯粹的像素乐趣，纯粹的乐趣！"
+            "使用Java，JavaFX和FXGL编写",
+            "纯粹的像素射击，纯粹的乐趣！"
         ],
-        "button": "在Github上查看",
+        "button": "GitHub",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -20,76 +20,76 @@
 
     "NavBar": {
         "howGameWorks": "游戏机制",
-        "credits": "Credits",
-        "contact": "联系方式",
+        "credits": "特别鸣谢",
+        "contact": "联系我们",
         "star": "Star",
-        "sponsor": "赞助" 
+        "sponsor": "赞助我们" 
     },
 
     "features": [
-        {"icon": "🦖", "title": "PIXEL DINO ACTION"},
-        {"icon": "🕹️", "title": "CLASSIC GAMEPLAY"},
-        {"icon": "🌍","title": "OPEN SOURCE & FREE"}
+        {"icon": "🦖", "title": "复古像素\n恐龙激战"},
+        {"icon": "🕹️", "title": "原汁原味\n街机体验"},
+        {"icon": "🌍","title": "开源免费\n用爱发电"}
     ],
 
-    "footer": "Dinosaur Exploder — made with love — Java/JavaFX/FXGL — open source",
+    "footer": "Dinosaur Exploder — 用爱发电 — Java/JavaFX/FXGL — 开源",
 
     "howGameWorks": {
         "title": "游戏机制",
         "goal": {
-            "title": "Goal",
-            "descr": "You control a spaceship in a retro arcade arena. Your objective is simple: survive waves of incoming dinosaurs and score as many points as you can."
+            "title": "游戏目标",
+            "descr": "你控制着一个飞船行驶在一个复古街机风格的竞技场中。你的目标很简单：在不断袭来的恐龙浪潮中生存下来，并尽可能获得高分。"
         },
         "gameplay":{
-            "title": "Gameplay loop",
+            "title": "核心玩法",
             "steps": [
-                "Move your spaceship to dodge dinosaurs and hazards.",
-                "Shoot dinosaurs to earn points and clear the screen.",
-                "Use your shield to survive tight moments.",
-                "Use a bomb when the screen is crowded (it clears all dinosaurs)."
+                "移动你的飞船来躲避敌人和子弹。",
+                "射击恐龙以获得分数并清屏。",
+                "在危急时刻使用护盾来求生。",
+                "当屏幕上挤满敌人时使用炸弹（它会清除所有恐龙）。"
             ],
-            "difficulty": "The difficulty increases over time as more dinosaurs appear."
+            "difficulty": "随着时间推移，出现的恐龙会越来越多，难度也会随之提升。"
         },
         "controls": {
-            "title": "Controls",
+            "title": "控制",
             "headers": {
-                "key": "Key",
-                "action": "Action"
+                "key": "按键",
+                "action": "操作"
             },
             "list": [
-                {"key": "↑ ↓ ← →", "action": "Move the spaceship"},
-                {"key": "Space", "action": "Shoot"},
-                {"key": "E", "action": "Activate shield (short duration)"},
-                {"key": "B", "action": "Bomb (eliminates all dinosaurs on screen)"},
-                {"key": "Esc", "action": "Pause"}
+                {"key": "↑ ↓ ← →", "action": "移动飞船"},
+                {"key": "Space", "action": "开火"},
+                {"key": "E", "action": "激活护盾（短时间）"},
+                {"key": "B", "action": "炸弹（清除屏幕上的所有恐龙）"},
+                {"key": "Esc", "action": "暂停"}
             ]
         },
         "demo": {
-            "title": "Gameplay Demo",
-            "error": "Your browser does not support the video tag.",
-            "description": "Short gameplay demo showing movement, shooting, and enemy waves."
+            "title": "游戏演示",
+            "error": "哎呀，你的浏览器不支持视频标签。",
+            "description": "一个简短的游戏演示，展示了移动、射击和敌人的攻击波次。"
         },
         "help":{
-            "title": "Want to help?",
-            "description": "You can contribute to the game (Java/FXGL) or the website (Next.js). Check the GitHub issues and pick something small to start."
+            "title": "想出一份力吗？",
+            "description": "你可以为游戏（Java/FXGL）或网站（Next.js）做贡献。查看GitHub issues并选择一个小任务开始。"
         }
     },
 
     "credits": {
-        "title": "Credits",
-        "description": "This project exists thanks to the community. Here are the GitHub contributors ❤️",
-        "error": "Couldn't load contributors right now (GitHub API limit or network). Please try again later.",
+        "title": "特别鸣谢",
+        "description": "多亏了社区，这个项目才能长久运营下去。如下是GitHub贡献者们 ❤️",
+        "error": "目前无法加载贡献者们（GitHub API限制或网络问题）。请稍后再试。",
         "single": "contribution",
         "plural": "contributions",
         "addName": {
-            "title": "Add your name here",
-            "description": "Want to appear on this list? Make a PR (game or website), and GitHub will automatically include you."
+            "title": "留下你的名字",
+            "description": "想要让你的名字出现在列表中吗？提交一个PR（游戏或网站），GitHub会自动将你包含在内。"
         }
     },
 
     "contact": {
-        "title": "Contact",
-        "description": "The fastest way to reach us is through the community channels below.",
+        "title": "联系我们",
+        "description": "如果你有任何问题、建议，或者只是想说声嗨，欢迎通过以下方式联系我们！",
         "links": {
             "github": {
                 "title": "GitHub Discussions",

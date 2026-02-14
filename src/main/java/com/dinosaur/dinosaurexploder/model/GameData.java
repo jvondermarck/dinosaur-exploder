@@ -9,9 +9,9 @@ import com.dinosaur.dinosaurexploder.utils.WeaponUnlockChecker;
 
 public class GameData {
   // Static variable that stores the selected ship, weapon and difficulty
-  private static int selectedShip = 1;        // Default ship
-  private static int selectedWeapon = 1;      // Default weapon
-  private static GameMode selectedDifficulty = GameMode.NORMAL;  // Default difficulty
+  private static int selectedShip = 1; // Default ship
+  private static int selectedWeapon = 1; // Default weapon
+  private static GameMode selectedDifficulty = GameMode.NORMAL; // Default difficulty
   private static final ShipUnlockChecker shipUnlockChecker =
       new ShipUnlockChecker(new FileDataProvider());
   private static final WeaponUnlockChecker weaponUnlockChecker =

@@ -64,7 +64,7 @@ public class GameInitializer {
 
     levelManager = new LevelManager();
     levelManager.setGameMode(GameData.getSelectedDifficulty()); // Set the difficulty from GameData
-    
+
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();

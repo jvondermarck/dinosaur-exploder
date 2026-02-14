@@ -1,5 +1,7 @@
 package com.dinosaur.dinosaurexploder.view;
 
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
@@ -12,8 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 public class DifficultySelectionMenu extends FXGLMenu {
 
@@ -59,12 +59,14 @@ public class DifficultySelectionMenu extends FXGLMenu {
     options.setAlignment(Pos.CENTER);
 
     Button normalButton =
-            getUIFactoryService().newButton(languageManager.getTranslation("normal_mode").toUpperCase());
+        getUIFactoryService()
+            .newButton(languageManager.getTranslation("normal_mode").toUpperCase());
     normalButton.setMinSize(getAppWidth() * 0.8, 60);
     normalButton.setWrapText(true);
     normalButton.setOnAction(e -> selectDifficulty(GameMode.NORMAL));
     Button expertButton =
-            getUIFactoryService().newButton(languageManager.getTranslation("expert_mode").toUpperCase());
+        getUIFactoryService()
+            .newButton(languageManager.getTranslation("expert_mode").toUpperCase());
     expertButton.setMinSize(getAppWidth() * 0.8, 60);
     expertButton.setWrapText(true);
     expertButton.setOnAction(e -> selectDifficulty(GameMode.EXPERT));

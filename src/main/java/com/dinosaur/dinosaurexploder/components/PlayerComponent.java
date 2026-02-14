@@ -28,7 +28,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class PlayerComponent extends Component implements Player {
-  
+
   private static final double MAX_WEAPON_HEAT = 100.0;
   private static final double HEAT_PER_SHOT = 12.0;
   private static final double COOLING_RATE_PER_SECOND =
@@ -44,8 +44,8 @@ public class PlayerComponent extends Component implements Player {
   private TimerAction shieldTimerAction;
   private TimerAction shieldCooldownAction;
   private Circle shieldVisual;
-  
-  private final GameMode gameMode = GameData.getSelectedDifficulty(); 
+
+  private final GameMode gameMode = GameData.getSelectedDifficulty();
   private final int selectedShip = GameData.getSelectedShip();
   private final int selectedWeapon = GameData.getSelectedWeapon();
   String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
@@ -175,12 +175,12 @@ public class PlayerComponent extends Component implements Player {
 
   private void updateRotation(double xPosition, double yPosition) {
     Point2D playerCenter = entity.getCenter();
-    
+
     // Calculate angle from player to mouse
     double dx = xPosition - playerCenter.getX();
     double dy = yPosition - playerCenter.getY();
     double angle = Math.atan2(dy, dx);
-    
+
     // Convert radians to degrees and adjust
     // (add 90 because entity rotation starts pointing up)
     double newRotation = Math.toDegrees(angle) + 90;

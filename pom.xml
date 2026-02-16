@@ -15,7 +15,7 @@
         <jfx.maven.plugin.version>0.0.8</jfx.maven.plugin.version>
         <jpro.version>2025.3.3</jpro.version>
         <fxgl.version>21.1</fxgl.version>
-        <junit.version>6.0.2</junit.version>
+        <junit.version>6.0.3</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
         <sonar.projectKey>jvondermarck_dinosaur-exploder</sonar.projectKey>

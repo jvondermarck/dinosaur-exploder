@@ -22,7 +22,6 @@ public class AchievementManager {
       if (a instanceof KillCountAchievement) {
         KillCountAchievement kca = (KillCountAchievement) a;
 
-        // Check if this ID exists in the file
         if (AchievementPersistence.isUnlocked(kca.getId())) {
           System.out.println("Restoring progress for: " + kca.getId());
           kca.setCompleted(true);

@@ -22,7 +22,7 @@ public class AchievementPersistence {
       props.store(out, "Unlocked Achievements");
       System.out.println("Saved achievement: " + achievementId);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.err.println("Failed to save achievement: " + achievementId + " - " + e.getMessage());
     }
   }
 

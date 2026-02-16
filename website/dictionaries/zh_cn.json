@@ -79,8 +79,8 @@
         "title": "特别鸣谢",
         "description": "多亏了社区，这个项目才能长久运营下去。如下是GitHub贡献者们 ❤️",
         "error": "目前无法加载贡献者们（GitHub API限制或网络问题）。请稍后再试。",
-        "single": "contribution",
-        "plural": "contributions",
+        "single": "贡献",
+        "plural": "贡献",
         "addName": {
             "title": "留下你的名字",
             "description": "想要让你的名字出现在列表中吗？提交一个PR（游戏或网站），GitHub会自动将你包含在内。"

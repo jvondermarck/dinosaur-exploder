@@ -10,6 +10,14 @@ public class KillCountAchievement extends Achievement {
   private int currentKills = 0;
   private boolean completed = false;
 
+  public String getId() {
+    return "kill_" + targetKills;
+  }
+
+  public void setCompleted(boolean completed) {
+    this.completed = completed;
+  }
+
   public KillCountAchievement(int targetKills, int rewardCoins) {
     this.targetKills = targetKills;
     this.rewardCoins = rewardCoins;
@@ -40,6 +48,8 @@ public class KillCountAchievement extends Achievement {
   }
 
   public void onComplete() {
+    AchievementPersistence.save(getId());
+
     FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
   }
 

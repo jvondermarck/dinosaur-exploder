@@ -18,7 +18,18 @@ public class AchievementManager {
   public void init() {
     if (allAchievements.isEmpty()) return;
 
-    activeAchievements.addAll(allAchievements);
+    for (Achievement a : allAchievements) {
+      if (a instanceof KillCountAchievement) {
+        KillCountAchievement kca = (KillCountAchievement) a;
+
+        // Check if this ID exists in the file
+        if (AchievementPersistence.isUnlocked(kca.getId())) {
+          System.out.println("Restoring progress for: " + kca.getId());
+          kca.setCompleted(true);
+        }
+      }
+      activeAchievements.add(a);
+    }
   }
 
   // Called every frame

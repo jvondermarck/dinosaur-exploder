@@ -41,7 +41,7 @@ export default async function ContactPage({params,}: {params: Promise<{lang: str
       <h1 className="font-retro text-3xl md:text-4xl text-green-800 mb-3">
         {contact.title}
       </h1>
-      <p className="font-mono text-green-950 mb-8">
+      <p className="font-handjet text-green-950 mb-8">
         {contact.description}
       </p>
 
@@ -57,7 +57,7 @@ export default async function ContactPage({params,}: {params: Promise<{lang: str
             <div className="font-retro text-green-800 text-lg mb-1">
               {l.title}
             </div>
-            <div className="font-mono text-green-950 opacity-80 text-sm">
+            <div className="font-handjet text-green-950 opacity-80 text-sm">
               {l.description}
             </div>
           </a>
@@ -66,7 +66,7 @@ export default async function ContactPage({params,}: {params: Promise<{lang: str
 
       <div className="mt-10 bg-black/80 rounded-xl border-2 border-green-700 p-5 shadow-sm">
         <h2 className="font-retro text-xl text-green-300 mb-2"> {contact.contribute.title} </h2>
-        <p className="font-mono text-green-100">
+        <p className="font-handjet text-green-100">
           {contact.contribute.description}
         </p>
       </div>

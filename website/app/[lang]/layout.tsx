@@ -6,6 +6,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Press_Start_2P } from "next/font/google";
+import { Handjet } from "next/font/google";
 import "../globals.css";
 import React from "react";
 import NavBar from "@/components/NavBar";
@@ -35,7 +36,12 @@ const pressStart2P = Press_Start_2P({
   weight: "400",
   variable: "--font-press-start-2p",
   subsets: ["latin"],
-  display: "swap",
+    display: "swap",
+});
+
+const handjet = Handjet({
+  weight: "400",
+  variable: "--font-handjet",
 });
 
 export const metadata: Metadata = {
@@ -57,7 +63,7 @@ export default async function RootLayout({
     const dict = await getDictionary(lang as Locale);
 
     return (
-        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable}`}>
+        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable} ${handjet.variable}`}>
             <body className="antialiased">
                 <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-100 via-white to-green-50">
                     <LocaleSwitcher />

@@ -47,13 +47,13 @@ export default async function CreditsPage({params,}: {params: Promise<{lang: str
       <h1 className="font-retro text-3xl md:text-4xl text-green-800 mb-3">
         {dict.credits.title}
       </h1>
-      <p className="font-mono text-green-950 mb-8">
+      <p className="font-handjet text-green-950 mb-8">
         {dict.credits.description}
       </p>
 
       {contributors.length === 0 ? (
         <div className="bg-white/80 rounded-xl border border-green-200 p-5 shadow-sm">
-          <p className="font-mono text-green-950">
+          <p className="font-handjet text-green-950">
             {dict.credits.error}
           </p>
         </div>
@@ -79,7 +79,7 @@ export default async function CreditsPage({params,}: {params: Promise<{lang: str
                   <div className="font-retro text-green-800 text-base truncate">
                     {c.login}
                   </div>
-                  <div className="font-mono text-xs text-green-950 opacity-80">
+                  <div className="font-handjet text-xs text-green-950 opacity-80">
                     {c.contributions} {c.contributions === 1 ? dict.credits.single : dict.credits.plural}
                   </div>
                 </div>
@@ -91,7 +91,7 @@ export default async function CreditsPage({params,}: {params: Promise<{lang: str
 
       <div className="mt-10 bg-black/80 rounded-xl border-2 border-green-700 p-5 shadow-sm">
         <h2 className="font-retro text-xl text-green-300 mb-2"> {dict.credits.addName.title} </h2>
-        <p className="font-mono text-green-100">
+        <p className="font-handjet text-green-100">
           {dict.credits.addName.description}
         </p>
       </div>

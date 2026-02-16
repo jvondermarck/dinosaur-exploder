@@ -39,7 +39,7 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
             Retro Arcade<br />
             <span className="text-black bg-green-200 px-2 rounded">Shoot &apos;em up </span>
           </h1>
-          <p className="text-lg mb-6 max-w-xl text-green-900 font-mono bg-white/80 rounded-lg border-l-4 border-green-700 py-4 px-4 shadow-md">
+          <p className="text-lg mb-6 max-w-xl text-green-900 font-handjet  bg-white/80 rounded-lg border-l-4 border-green-700 py-4 px-4 shadow-md">
            {dict.homePage.description.map((line: string, index: number) => (
     <span key={index}>
       {line}

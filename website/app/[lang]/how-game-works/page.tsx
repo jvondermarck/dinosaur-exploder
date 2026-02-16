@@ -26,19 +26,19 @@ export default async function HowGameWorksPage({params,}: {params: Promise<{lang
       <div className="space-y-6">
         <section className="bg-white/80 rounded-xl border border-green-200 p-5 shadow-sm">
           <h2 className="font-retro text-xl text-green-800 mb-3">{goal.title}</h2>
-          <p className="font-mono text-green-950 leading-relaxed">
+          <p className="font-handjet text-green-950 leading-relaxed">
             {goal.descr}
           </p>
         </section>
 
         <section className="bg-white/80 rounded-xl border border-green-200 p-5 shadow-sm">
           <h2 className="font-retro text-xl text-green-800 mb-3">{gameplay.title}</h2>
-          <ol className="list-decimal pl-5 font-mono text-green-950 space-y-2">
+          <ol className="list-decimal pl-5 font-handjet text-green-950 space-y-2">
             {gameplay.steps.map((step: string, index: number) => (
       <li key={index}>{step}</li>
     ))}
           </ol>
-          <p className="font-mono text-green-950 mt-3">
+          <p className="font-handjet text-green-950 mt-3">
             {gameplay.difficulty}
           </p>
         </section>
@@ -46,7 +46,7 @@ export default async function HowGameWorksPage({params,}: {params: Promise<{lang
         <section className="bg-white/80 rounded-xl border border-green-200 p-5 shadow-sm">
           <h2 className="font-retro text-xl text-green-800 mb-3">{controls.title}</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse font-mono">
+            <table className="w-full text-left border-collapse font-handjet">
               <thead>
                 <tr className="text-green-800">
                   <th className="py-2 pr-3">{controls.headers.key}</th>
@@ -84,14 +84,14 @@ export default async function HowGameWorksPage({params,}: {params: Promise<{lang
             {demo.error}
           </video>
 
-          <p className="font-mono text-green-100 mt-3 text-sm">
+          <p className="font-handjet text-green-100 mt-3 text-sm">
             {demo.description}
           </p>
         </section>
 
         <section className="bg-black/80 rounded-xl border-2 border-green-700 p-5 shadow-sm">
           <h2 className="font-retro text-xl text-green-300 mb-3"> {help.title} </h2>
-          <p className="font-mono text-green-100 leading-relaxed">
+          <p className="font-handjet text-green-100 leading-relaxed">
             {help.description}
           </p>
         </section>

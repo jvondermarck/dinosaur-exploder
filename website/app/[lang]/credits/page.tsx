@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getDictionary } from "@/getDictionary";

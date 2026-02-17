@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import { render, screen } from "@testing-library/react";
 import ContactPage from "../app/[lang]/contact/page";
 

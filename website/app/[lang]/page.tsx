@@ -63,7 +63,7 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
 
       {/* Sponsor Section (Card) */}
       <section className="w-full flex justify-center pb-8">
-        <div className="overflow-auto rounded-xl shadow-xl bg-white/90 dark:bg-neutral-800/90 dark:border dark:border-neutral-700 p-2 max-w-full">
+        <div className="overflow-auto rounded-xl shadow-xl bg-white/90 dark:bg-neutral-800/90 border border-green-200/70 dark:border-neutral-600 p-2 max-w-full dark:shadow-lg dark:shadow-black/30">
           <iframe
             src="https://github.com/sponsors/jvondermarck/card"
             title="Sponsor jvondermarck"

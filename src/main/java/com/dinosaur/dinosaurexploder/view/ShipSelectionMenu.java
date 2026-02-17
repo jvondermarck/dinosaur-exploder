@@ -12,6 +12,7 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -68,12 +69,32 @@ public class ShipSelectionMenu extends FXGLMenu {
         MenuHelper.createTitleFlow(
             languageManager.getTranslation("select_ship"), getAppWidth() * 0.8);
 
-    var highScore =
+    int normalModeScore = GameData.getHighScore(GameMode.NORMAL);
+    int expertModeScore = GameData.getHighScore(GameMode.EXPERT);
+
+    var normalHighScore =
         getUIFactoryService()
             .newText(
-                (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore())
+                (languageManager.getTranslation("high_score")
+                        + " ( "
+                        + GameMode.NORMAL.name()
+                        + " ): "
+                        + normalModeScore)
                     .toUpperCase(),
                 Color.LIME,
+                FontType.MONO,
+                GameConstants.TEXT_SUB_DETAILS);
+
+    var expertHighScore =
+        getUIFactoryService()
+            .newText(
+                (languageManager.getTranslation("high_score")
+                        + " ( "
+                        + GameMode.EXPERT.name()
+                        + " ): "
+                        + expertModeScore)
+                    .toUpperCase(),
+                Color.CYAN,
                 FontType.MONO,
                 GameConstants.TEXT_SUB_DETAILS);
 
@@ -86,7 +107,7 @@ public class ShipSelectionMenu extends FXGLMenu {
                 FontType.MONO,
                 GameConstants.TEXT_SUB_DETAILS);
 
-    VBox headerZone = new VBox(25, titleFlow, highScore, totalCoins);
+    VBox headerZone = new VBox(25, titleFlow, normalHighScore, expertHighScore, totalCoins);
     headerZone.setAlignment(Pos.CENTER);
     return headerZone;
   }

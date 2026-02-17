@@ -5,11 +5,10 @@
 
 package com.dinosaur.dinosaurexploder.model;
 
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.dinosaur.dinosaurexploder.constants.GameMode;
 
 public class HighScore implements Serializable {
   private final Map<String, Integer> highScores;
@@ -31,7 +30,7 @@ public class HighScore implements Serializable {
   }
 
   public Integer getHigh() {
-    return highScores.getOrDefault(GameMode.NORMAL.name(), 0);
+    return highScores.values().stream().max(Integer::compareTo).orElse(0);
   }
 
   public void setHigh(String mode, Integer score) {

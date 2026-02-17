@@ -12,6 +12,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.time.LocalTimer;
+import com.dinosaur.dinosaurexploder.constants.Direction;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -25,9 +26,11 @@ import javafx.util.Duration;
  */
 public class GreenDinoComponent extends Component implements Dinosaur {
   double verticalSpeed = 1.5;
+  double horizontalSpeed = 0;
   private final LocalTimer timer = FXGL.newLocalTimer();
   private boolean isPaused = false;
   private int lives = 1;
+  private Direction direction = Direction.UP;
 
   public int getLives() {
     return lives;
@@ -37,11 +40,38 @@ public class GreenDinoComponent extends Component implements Dinosaur {
     isPaused = paused;
   }
 
-  @Override
-  public void onAdded() {
+  public void updateDirection(Direction direction) {
+    this.direction = direction;
+
     // Get the current enemy speed from the level manager
     LevelManager levelManager = FXGL.geto("levelManager");
-    verticalSpeed = levelManager.getEnemySpeed();
+    switch (direction) {
+      case DOWN -> {
+        verticalSpeed = -levelManager.getEnemySpeed();
+        horizontalSpeed = 0;
+        entity.setRotation(180);
+      }
+      case LEFT -> {
+        verticalSpeed = 0;
+        horizontalSpeed = levelManager.getEnemySpeed();
+        entity.setRotation(270);
+      }
+      case RIGHT -> {
+        verticalSpeed = 0;
+        horizontalSpeed = -levelManager.getEnemySpeed();
+        entity.setRotation(90);
+      }
+      default -> {
+        verticalSpeed = levelManager.getEnemySpeed();
+        horizontalSpeed = 0;
+        entity.setRotation(0);
+      }
+    }
+  }
+
+  @Override
+  public void onAdded() {
+    updateDirection(direction);
   }
 
   /**
@@ -52,6 +82,7 @@ public class GreenDinoComponent extends Component implements Dinosaur {
   public void onUpdate(double ptf) {
     if (isPaused) return;
 
+    entity.translateX(horizontalSpeed);
     entity.translateY(verticalSpeed);
 
     // The dinosaur shoots every 2 seconds

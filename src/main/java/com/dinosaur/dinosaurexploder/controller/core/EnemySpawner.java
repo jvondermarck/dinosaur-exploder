@@ -11,7 +11,11 @@ import static javafx.util.Duration.seconds;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
+import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
+import com.dinosaur.dinosaurexploder.constants.Direction;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 
 public class EnemySpawner {
@@ -43,7 +47,22 @@ public class EnemySpawner {
                 bossSpawner.spawnNewBoss("red");
               } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
-                  Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                  int r = GameData.getSelectedDifficulty() == GameMode.EXPERT ? random(0, 3) : 0;
+                  // Decide direction based on r
+                  Direction dir = switch (r) {
+                    case 1 -> Direction.DOWN;
+                    case 2 -> Direction.LEFT;
+                    case 3 -> Direction.RIGHT;
+                    default -> Direction.UP;
+                  };
+                  Entity greenDino = switch (dir) {
+                    case DOWN -> spawn("greenDino", random(0, getAppWidth() - 80), getAppHeight());
+                    case LEFT -> spawn("greenDino", -50, random(0, getAppHeight() - 80));
+                    case RIGHT -> spawn("greenDino", getAppWidth(), random(0, getAppHeight() - 80));
+                    default -> spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                  };
+                  // Apply direction to component
+                  greenDino.getComponent(GreenDinoComponent.class).updateDirection(dir);
                 }
               }
             },

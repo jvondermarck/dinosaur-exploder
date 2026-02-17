@@ -19,6 +19,7 @@ const themeLabels: Record<Theme, string> = {
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -30,7 +31,6 @@ export default function ThemeToggle() {
     );
   }
 
-  const [isOpen, setIsOpen] = useState(false);
   const current = (theme ?? "system") as Theme;
 
   return (

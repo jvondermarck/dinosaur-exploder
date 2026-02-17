@@ -9,23 +9,18 @@ public class KillCountAchievement extends Achievement {
 	public KillCountAchievement(int targetKills, int rewardCoins) {
 		this.targetKills = targetKills;
 		this.rewardCoins = rewardCoins;
+		description = "Kill " + targetKills + " dinosaurs";
 	}
 
-	public String getDescription() {
-		return "Kill " + targetKills + " dinosaurs";
-	}
-
-	public Boolean onDinosaurKilled() {
-		if (completed) return (true);
+	public void onDinosaurKilled() {
+		if (completed) return;
 
 		currentKills++;
 
 		if (currentKills >= targetKills) {
 			completed = true;
-			onComplete(getDescription());
-			return (true);
+			onComplete();
 		}
-		return (false);
 	}
 
 	@Override

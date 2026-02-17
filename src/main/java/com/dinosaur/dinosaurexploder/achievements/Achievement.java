@@ -8,12 +8,13 @@ public abstract class Achievement implements Serializable {
 
 	protected boolean completed = false;
 	protected int rewardCoins;
+	protected String description;
 
 	public boolean isCompleted() {
 		return completed;
 	}
 
-	public void onComplete(String description) {
+	public void onComplete() {
 		FXGL.getNotificationService().pushNotification("Achievement unlocked: " + description);
 	}
 
@@ -21,7 +22,11 @@ public abstract class Achievement implements Serializable {
 		return rewardCoins;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
 	public abstract void update(double tpf);
 
-	public abstract Boolean onDinosaurKilled();
+	public abstract void onDinosaurKilled();
 }

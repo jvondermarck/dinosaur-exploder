@@ -1,20 +1,23 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.view.CreditsMenu;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class AchievementManager {
 
 	private final List<Achievement> allAchievements = new ArrayList<>();
 	private final List<Achievement> activeAchievements = new ArrayList<>();
+	private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
+
 
 	public AchievementManager() {
 		// Register all available achievements here
-		allAchievements.add(new KillCountAchievement(1, 50));
-		allAchievements.add(new KillCountAchievement(2, 50));
 		allAchievements.add(new KillCountAchievement(10, 50));
 		allAchievements.add(new KillCountAchievement(20, 100));
 	}
@@ -27,6 +30,19 @@ public class AchievementManager {
 		if (activeAchievements.isEmpty()) {
 			saveAchievement(allAchievements);
 			activeAchievements.addAll(allAchievements);
+		}
+		if (allAchievements.size() > activeAchievements.size()) {
+
+			Set<String> activeDescriptions = activeAchievements.stream()
+					.map(Achievement::getDescription)
+					.collect(Collectors.toSet());
+
+			List<Achievement> toAdd = allAchievements.stream()
+					.filter(a -> !activeDescriptions.contains(a.getDescription()))
+					.toList();
+
+			activeAchievements.addAll(toAdd);
+			saveAchievement(activeAchievements);
 		}
 	}
 
@@ -42,7 +58,7 @@ public class AchievementManager {
 	// Called when a dinosaur is killed
 	public void notifyDinosaurKilled() {
 		for (Achievement achievement : activeAchievements) {
-			Boolean complete = achievement.onDinosaurKilled();
+			achievement.onDinosaurKilled();
 		}
 		saveAchievement(activeAchievements);
 	}
@@ -65,7 +81,7 @@ public class AchievementManager {
 					 new ObjectInputStream(new FileInputStream(GameConstants.ACHIEVEMENTS_FILE))) {
 			achievementFromFile = (List<Achievement>) in.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Failed to load achievements from file");
+			LOGGER.log(Level.FINE,"Failed to load achievements from file");
 		}
 		return achievementFromFile;
 	}
@@ -76,7 +92,7 @@ public class AchievementManager {
 					 new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
 			out.writeObject(listToSave);
 		} catch (IOException e) {
-			System.err.println("Error saving achievement : " + e.getMessage());
+			LOGGER.log(Level.WARNING,"Error saving achievement : " + e.getMessage());
 		}
 	}
 }

@@ -14,10 +14,10 @@ export default function FeatureSection({dict}: {dict: Feature[] }) {
       {dict.map((feature, idx) => (
         <div
           key={idx}
-          className="bg-black/80 border-2 border-green-700 rounded-lg p-6 text-center text-green-100"
+          className="bg-black/80 dark:bg-neutral-800/90 border-2 border-green-700 dark:border-green-500 rounded-lg p-6 text-center text-green-100 dark:text-green-200"
         >
           <span className="block mb-2 text-2xl">{feature.icon}</span>
-          <span className="font-retro uppercase tracking-wider text-green-400">{feature.title}</span>
+          <span className="font-retro uppercase tracking-wider text-green-400 dark:text-green-400">{feature.title}</span>
         </div>
       ))}
     </section>

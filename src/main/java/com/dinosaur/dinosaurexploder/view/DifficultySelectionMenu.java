@@ -52,7 +52,7 @@ public class DifficultySelectionMenu extends FXGLMenu {
     return headerZone;
   }
 
-  // ============ ZONE 2: WEAPON GRID ============
+  // ============ ZONE 2: DIFFICULTY SELECTION ============
 
   private VBox createDifficultyZone() {
     VBox options = new VBox(20);

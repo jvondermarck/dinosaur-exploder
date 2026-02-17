@@ -21,7 +21,7 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
     { href: "/credits", label: dict.NavBar.credits },
     { href: "/contact", label: dict.NavBar.contact },
   ];
-  const buttonStyle = "px-4 py-2 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex items-center gap-2 text-sm";
+  const buttonStyle = "px-4 py-2 whitespace-nowrap rounded border font-semibold font-handjet transition-all duration-150 text-center flex items-center gap-2 text-sm";
 
 
   return (
@@ -49,7 +49,7 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
                   key={item.href}
                   href={localisedHref}
                   className={
-                    "px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex transform" +
+                    "px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-handjet transition-all duration-150 text-center flex transform" +
                     (isActive
                       ? "border-green-800 bg-green-800 text-white shadow-none translate-x-[3px] translate-y-[3px]"
                       : "border-green-700 text-green-800 bg-white hover:bg-green-800 hover:text-white shadow-[3px_3px_0px_0px_theme(colors.green.700)] hover:border-green-800")

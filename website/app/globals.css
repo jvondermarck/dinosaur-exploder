@@ -11,6 +11,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-arcade: var(--font-press-start-2p), var(--font-fushion-12);
+  --font-handjet: var(--font-handjet), var(--font-fushion-12);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,4 +30,10 @@ body {
 .font-retro {
   font-family: var(--font-arcade);
   letter-spacing: 2px;
+}
+
+.font-handjet {
+  font-family: var(--font-handjet), var(--font-fushion-12);
+  font-size: 25px;
+  line-height: 1.2;
 }

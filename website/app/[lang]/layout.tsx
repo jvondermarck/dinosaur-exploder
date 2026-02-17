@@ -11,6 +11,8 @@ import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
+import ThemeToggle from "@/components/ThemeToggle";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../i18n-config";
 import localFont from "next/font/local";
@@ -57,14 +59,19 @@ export default async function RootLayout({
     const dict = await getDictionary(lang as Locale);
 
     return (
-        <html lang={lang} className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable}`}>
+        <html lang={lang} suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable}`}>
             <body className="antialiased">
-                <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-100 via-white to-green-50">
-                    <LocaleSwitcher />
-                    <NavBar lang={lang} dict={dict}/>
-                    <main className="flex-1 flex flex-col">{children}</main>
-                    <Footer text={dict.footer}/>
-                </div>
+                <ThemeProvider>
+                    <div className="min-h-screen flex flex-col page-gradient">
+                        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 px-6 py-2 bg-black/5 border-b border-green-700/10 dark:bg-white/5 dark:border-green-500/20">
+                            <LocaleSwitcher />
+                            <ThemeToggle />
+                        </div>
+                        <NavBar lang={lang} dict={dict}/>
+                        <main className="flex-1 flex flex-col">{children}</main>
+                        <Footer text={dict.footer}/>
+                    </div>
+                </ThemeProvider>
             </body>
         </html>
     );

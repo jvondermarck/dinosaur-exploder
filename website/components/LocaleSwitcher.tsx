@@ -31,8 +31,7 @@ export default function LocaleSwitcher() {
   const currentLocale = pathname.split("/")[1] || i18n.defaultLocale;
 
   return (
-    <div className="flex justify-center sm:justify-end px-6 py-2 bg-black/5 border-b border-green-700/10">
-      <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left">
         <div className="flex items-center gap-2">
           
           <button
@@ -63,7 +62,6 @@ export default function LocaleSwitcher() {
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 }

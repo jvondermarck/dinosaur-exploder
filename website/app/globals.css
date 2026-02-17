@@ -3,6 +3,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --background-start: #dcfce7;
+  --background-mid: #ffffff;
+  --background-end: #f0fdf4;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --background-start: #0a0a0a;
+  --background-mid: #0f1419;
+  --background-end: #0a0a0a;
 }
 
 @theme inline {
@@ -13,11 +24,13 @@
   --font-arcade: var(--font-press-start-2p), var(--font-fushion-12);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.page-gradient {
+  background: linear-gradient(
+    to bottom,
+    var(--background-start) 0%,
+    var(--background-mid) 50%,
+    var(--background-end) 100%
+  );
 }
 
 body {

@@ -59,10 +59,10 @@ public class EnemySpawner {
                   Entity greenDino =
                       switch (dir) {
                         case DOWN ->
-                            spawn("greenDino", random(0, getAppWidth() - 80), getAppHeight());
+                            spawn("greenDino", random(0, getAppWidth() - 80), getAppHeight() - 30);
                         case LEFT -> spawn("greenDino", -50, random(0, getAppHeight() - 80));
                         case RIGHT ->
-                            spawn("greenDino", getAppWidth(), random(0, getAppHeight() - 80));
+                            spawn("greenDino", getAppWidth() - 40, random(0, getAppHeight() - 80));
                         default -> spawn("greenDino", random(0, getAppWidth() - 80), -50);
                       };
                   // Apply direction to component

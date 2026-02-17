@@ -75,7 +75,12 @@ public class GameData {
 
   // Getter for the high score
   public static int getHighScore() {
+    HighScore highScoreData = new FileDataProvider().getHighScore();
+    selectedDifficulty = selectedDifficulty != null ? selectedDifficulty : GameMode.NORMAL;
+    highScore = highScoreData.getHigh(selectedDifficulty.name());
+
     highScore = new FileDataProvider().getHighScore().getHigh();
+
     return highScore;
   }
 

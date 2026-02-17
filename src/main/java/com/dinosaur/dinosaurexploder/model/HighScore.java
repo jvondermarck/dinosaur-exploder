@@ -9,19 +9,21 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.dinosaur.dinosaurexploder.constants.GameMode;
+
 public class HighScore implements Serializable {
   private final Map<String, Integer> highScores;
 
   public HighScore() {
     this.highScores = new HashMap<>();
-    this.highScores.put("NORMAL", 0);
-    this.highScores.put("EXPERT", 0);
+    this.highScores.put(GameMode.NORMAL.name(), 0);
+    this.highScores.put(GameMode.EXPERT.name(), 0);
   }
 
   public HighScore(Map<String, Integer> scores) {
     this.highScores = new HashMap<>(scores);
-    this.highScores.putIfAbsent("NORMAL", 0);
-    this.highScores.putIfAbsent("EXPERT", 0);
+    this.highScores.putIfAbsent(GameMode.NORMAL.name(), 0);
+    this.highScores.putIfAbsent(GameMode.EXPERT.name(), 0);
   }
 
   public Integer getHigh(String mode) {
@@ -29,7 +31,7 @@ public class HighScore implements Serializable {
   }
 
   public Integer getHigh() {
-    return highScores.getOrDefault("NORMAL", 0);
+    return highScores.getOrDefault(GameMode.NORMAL.name(), 0);
   }
 
   public void setHigh(String mode, Integer score) {

@@ -2,31 +2,25 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
 
-/**
- * Achievement for killing a specific number of dinosaurs.
- */
-public class KillCountAchievement extends Achievement {
+public class ScoreAchievement extends Achievement {
 
-    private final int targetKills;
-    private int currentKills = 0;
+    private final int targetScore;
 
-    public KillCountAchievement(int targetKills, int rewardCoins) {
+    public ScoreAchievement(int targetScore, int rewardCoins) {
         super(rewardCoins);
-        this.targetKills = targetKills;
+        this.targetScore = targetScore;
     }
 
     @Override
     public String getDescription() {
-        return "Kill " + targetKills + " dinosaurs";
+        return "Reach " + targetScore + " points";
     }
 
     @Override
-    public void onDinosaurKilled() {
+    public void onScoreChanged(int newScore) {
         if (completed) return;
 
-        currentKills++;
-
-        if (currentKills >= targetKills) {
+        if (newScore >= targetScore) {
             completed = true;
             onComplete();
         }
@@ -34,7 +28,7 @@ public class KillCountAchievement extends Achievement {
 
     @Override
     public void update(double tpf) {
-        // Not needed for count-based achievement
+        // Not needed for score-based achievement
     }
 
     @Override

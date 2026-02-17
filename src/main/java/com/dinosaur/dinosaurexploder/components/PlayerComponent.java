@@ -50,7 +50,6 @@ public class PlayerComponent extends Component implements Player {
   private TimerAction shieldCooldownAction;
   private Circle shieldVisual;
 
-  private final GameMode gameMode = GameData.getSelectedDifficulty();
   private final int selectedShip = GameData.getSelectedShip();
   private final int selectedWeapon = GameData.getSelectedWeapon();
   String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
@@ -103,12 +102,6 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onUpdate(double tpf) {
     coolWeapon(tpf);
-
-    // In expert mode, rotate player to face mouse cursor
-    if (gameMode == GameMode.EXPERT) {
-      var mouse = getInput().getMousePositionWorld();
-      updateRotation(mouse.getX(), mouse.getY());
-    }
   }
 
   public boolean isShieldActive() {
@@ -178,21 +171,6 @@ public class PlayerComponent extends Component implements Player {
                 Duration.seconds(0.1));
   }
 
-  private void updateRotation(double xPosition, double yPosition) {
-    Point2D playerCenter = entity.getCenter();
-
-    // Calculate angle from player to mouse
-    double dx = xPosition - playerCenter.getX();
-    double dy = yPosition - playerCenter.getY();
-    double angle = Math.atan2(dy, dx);
-
-    // Convert radians to degrees and adjust
-    // (add 90 because entity rotation starts pointing up)
-    double newRotation = Math.toDegrees(angle) + 90;
-
-    entity.setRotation(newRotation);
-  }
-
   public void moveUp() {
     if (entity.getY() < 0) {
       System.out.println("Out of bounds");
@@ -259,9 +237,8 @@ public class PlayerComponent extends Component implements Player {
 
   private void spawnMovementAnimation() {
     Texture tex = new Texture(shipImage);
-    if (gameMode == GameMode.EXPERT) {
-      tex.setRotate(getEntity().getRotation());
-    }
+    
+    tex.setRotate(entity.getRotation());
 
     FXGL.entityBuilder()
         .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))

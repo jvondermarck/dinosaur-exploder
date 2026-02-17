@@ -5,7 +5,6 @@
 
 package com.dinosaur.dinosaurexploder.components;
 
-import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameTimer;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
@@ -17,7 +16,6 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
-import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Player;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -237,7 +235,7 @@ public class PlayerComponent extends Component implements Player {
 
   private void spawnMovementAnimation() {
     Texture tex = new Texture(shipImage);
-    
+
     tex.setRotate(entity.getRotation());
 
     FXGL.entityBuilder()

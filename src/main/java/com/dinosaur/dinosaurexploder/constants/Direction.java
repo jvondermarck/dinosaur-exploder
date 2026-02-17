@@ -1,8 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.constants;
 
 public enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
 }

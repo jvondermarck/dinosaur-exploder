@@ -49,18 +49,22 @@ public class EnemySpawner {
                 if (!isSpawningPaused && random(0, 2) < 2) {
                   int r = GameData.getSelectedDifficulty() == GameMode.EXPERT ? random(0, 3) : 0;
                   // Decide direction based on r
-                  Direction dir = switch (r) {
-                    case 1 -> Direction.DOWN;
-                    case 2 -> Direction.LEFT;
-                    case 3 -> Direction.RIGHT;
-                    default -> Direction.UP;
-                  };
-                  Entity greenDino = switch (dir) {
-                    case DOWN -> spawn("greenDino", random(0, getAppWidth() - 80), getAppHeight());
-                    case LEFT -> spawn("greenDino", -50, random(0, getAppHeight() - 80));
-                    case RIGHT -> spawn("greenDino", getAppWidth(), random(0, getAppHeight() - 80));
-                    default -> spawn("greenDino", random(0, getAppWidth() - 80), -50);
-                  };
+                  Direction dir =
+                      switch (r) {
+                        case 1 -> Direction.DOWN;
+                        case 2 -> Direction.LEFT;
+                        case 3 -> Direction.RIGHT;
+                        default -> Direction.UP;
+                      };
+                  Entity greenDino =
+                      switch (dir) {
+                        case DOWN ->
+                            spawn("greenDino", random(0, getAppWidth() - 80), getAppHeight());
+                        case LEFT -> spawn("greenDino", -50, random(0, getAppHeight() - 80));
+                        case RIGHT ->
+                            spawn("greenDino", getAppWidth(), random(0, getAppHeight() - 80));
+                        default -> spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                      };
                   // Apply direction to component
                   greenDino.getComponent(GreenDinoComponent.class).updateDirection(dir);
                 }

@@ -83,11 +83,12 @@ public class GameEntityFactory implements EntityFactory {
     double width = shipImage.getWidth();
     double height = shipImage.getHeight();
 
-    EntityBuilder builder = entityBuilderBase(data, EntityType.PLAYER)
-        .view(new ImageView(shipImage))
-        .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(width, height))) // la nave
-        .collidable()
-        .with(new PlayerComponent());
+    EntityBuilder builder =
+        entityBuilderBase(data, EntityType.PLAYER)
+            .view(new ImageView(shipImage))
+            .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(width, height))) // la nave
+            .collidable()
+            .with(new PlayerComponent());
 
     if (mode == GameMode.EXPERT) {
       builder.with(new PlayerRotationComponent());

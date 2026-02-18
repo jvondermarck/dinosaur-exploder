@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller;
 
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.controller.core.CollisionRegistry;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
@@ -19,7 +25,8 @@ public class DinosaurController {
     collisionRegistry = new CollisionRegistry();
   }
 
-  public void initGame() {
+  public void initGame(AchievementManager achievementManager) {
+    gameInitializer.setAchievementManager(achievementManager);
     gameInitializer.initGame();
     gameActions = new GameActions(gameInitializer);
     gameActions.updateLevelDisplay();

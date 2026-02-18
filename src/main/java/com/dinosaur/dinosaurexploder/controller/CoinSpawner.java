@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -28,8 +33,6 @@ public class CoinSpawner {
               if (random(0, 100) < percentChanceForCoinDrop) {
                 double x = random(0, getAppWidth() - 80);
                 spawn("coin", x, 0);
-              } else {
-                System.out.println("No coin was spawned");
               }
             },
             seconds(duration));

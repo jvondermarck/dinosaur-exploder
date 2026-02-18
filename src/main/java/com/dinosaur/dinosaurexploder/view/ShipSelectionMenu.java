@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.view;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -182,7 +187,7 @@ public class ShipSelectionMenu extends FXGLMenu {
   }
 
   private void showLockedShipDialog(LockedShipException exception) {
-    MenuHelper.showLockedDialog(exception.getMessage());
+    MenuHelper.showDialog(languageManager.getTranslation("locked"), exception.getMessage());
   }
 
   private void selectShip(int shipNumber) {

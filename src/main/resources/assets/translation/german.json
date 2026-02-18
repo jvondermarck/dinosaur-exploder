@@ -40,5 +40,7 @@
   "loading": "Lädt",
   "commits": "Commits",
   "error_loading_contributors": "Mitwirkende konnten nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung.",
-  "credits_subtitle": "Danke an alle Mitwirkenden"
+  "credits_subtitle": "Danke an alle Mitwirkenden",
+  "options": "Optionen",
+  "language": "Sprache"
 }

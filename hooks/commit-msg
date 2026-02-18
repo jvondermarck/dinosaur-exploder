@@ -1,0 +1,24 @@
+#!/bin/bash
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# format: type(scope): description
+PATTERN="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?!?: .+"
+
+echo "Checking commit message format..."
+
+if [[ ! "$COMMIT_MSG" =~ $PATTERN ]]; then
+    echo ""
+    echo "❌ ERROR: Invalid commit message format."
+    echo "Standard: <type>(<scope>): <description>"
+    echo "Examples:"
+    echo "  feat(ui): add login button"
+    echo "  fix: resolve null pointer in user controller"
+    echo ""
+    echo "See https://www.conventionalcommits.org/ for details."
+    exit 1
+fi
+
+echo "✅ Commit message OK"
+exit 0

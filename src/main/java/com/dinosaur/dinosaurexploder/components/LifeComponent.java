@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.components;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -21,6 +26,7 @@ public class LifeComponent extends Component implements Life {
 
   private static final int MAX_LIVES = 3;
   private Image heart;
+  private Image heartLost;
   private int life = MAX_LIVES;
 
   // Declaring Lives Text
@@ -35,6 +41,7 @@ public class LifeComponent extends Component implements Life {
   @Override
   public void onAdded() {
     heart = new Image(GameConstants.HEART_IMAGE_PATH);
+    heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
     heart1 = new ImageView(heart);
     heart2 = new ImageView(heart);
     heart3 = new ImageView(heart);
@@ -65,7 +72,6 @@ public class LifeComponent extends Component implements Life {
   }
 
   private void updateLifeDisplay() {
-    Image heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
     // Clear previous entities
     clearEntity();
 

@@ -1,5 +1,11 @@
 "use client";
 
+
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { i18n } from "../i18n-config";
@@ -8,6 +14,7 @@ import { useState } from "react";
 const languageNames: Record<string, string> = {
   en: "English",
   el: "Ελληνικά",
+  zh_cn: "简体中文",
 };
 
 export default function LocaleSwitcher() {

@@ -40,5 +40,7 @@
   "loading": "Cargando",
   "commits": "commits",
   "error_loading_contributors": "No se pudieron cargar los colaboradores. Por favor, revisa tu conexión a Internet.",
-  "credits_subtitle": "Gracias a todos nuestros colaboradores"  
+  "credits_subtitle": "Gracias a todos nuestros colaboradores",
+  "options": "opciones",
+  "language": "idioma"
 }

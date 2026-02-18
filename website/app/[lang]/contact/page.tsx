@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import type { Metadata } from "next";
 import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../../i18n-config";

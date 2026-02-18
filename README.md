@@ -120,9 +120,16 @@ cd dinosaur-exploder
 mvn clean install
 mvn javafx:run
 
+# Or build with desktop profile
+mvn clean package -Pdesktop
+java -jar target/dinosaur-exploder-2.0.0.jar
+
 # Or using an IDE: 
 # - Open project in IntelliJ
 # - Run com.dinosaur.dinosaurexploder.DinosaurApp or hit the run button at the top right
+
+# 4. (Optional but HIGHLY recommanded) Install git hooks for code quality checks
+./scripts/install-hooks.sh
 ```
 
 #### Testing
@@ -189,9 +196,10 @@ npm run lint
 
 1. **Create a branch**:  `git checkout -b feature/your-feature-name`
 2. **Make your changes** (don't forget tests!)
-3. **Commit**: `git commit -m "Add: description of your change"`
-4. **Push**: `git push origin feature/your-feature-name`
-5. **Open a Pull Request** on GitHub
+3. **Check and format code:** `mvn spotless:apply`
+4. **Commit**: `git commit -m "Add: description of your change"`
+5. **Push**: `git push origin feature/your-feature-name`
+6. **Open a Pull Request** on GitHub
 
 📖 **Full guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
 

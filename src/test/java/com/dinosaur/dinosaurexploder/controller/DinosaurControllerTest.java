@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,7 +57,7 @@ class DinosaurControllerTest {
       GameInitializer initializer = initCons.constructed().get(0);
       CollisionRegistry registry = registryCons.constructed().get(0);
 
-      controller.initGame();
+      controller.initGame(null);
       GameActions actions = actionsCons.constructed().get(0);
 
       controller.initPhysics();

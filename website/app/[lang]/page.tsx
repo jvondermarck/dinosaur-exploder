@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 import FeatureSection from "@/components/FeatureSection";
 import Image from "next/image";
 import { getDictionary } from "@/getDictionary";

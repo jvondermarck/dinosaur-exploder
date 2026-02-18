@@ -40,5 +40,7 @@
   "loading": "読み込み中",
   "commits": "コミット",
   "error_loading_contributors": "貢献者を読み込めません。インターネット接続を確認してください。",
-  "credits_subtitle": "すべての貢献者の皆様に感謝します"
+  "credits_subtitle": "すべての貢献者の皆様に感謝します",
+  "options": "オプション",
+  "language": "言語"
 }

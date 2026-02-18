@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Pre-commit hook to check code formatting and quality
+# This hook runs Spotless (formatting) and PMD (code quality) before each commit
+#
+# Installation:
+#   Run 'scripts/install-hooks.sh' or manually copy this file to .git/hooks/pre-commit
+#
+
+echo "Running code quality checks..."
+
+# Spotless check (formatting)
+echo "  Checking code formatting (Spotless)..."
+mvn spotless:check -q 2>/dev/null
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ Formatting check failed!"
+    echo "Run 'mvn spotless:apply' to automatically fix formatting issues."
+    exit 1
+fi
+
+echo "  ✅ Formatting OK"
+
+# PMD check (code quality)
+echo "  Checking code quality (PMD)..."
+mvn pmd:check -q 2>/dev/null
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ PMD check failed!"
+    echo "Please fix the PMD violations before committing."
+    echo "Run 'mvn pmd:check' to see the details."
+    exit 1
+fi
+
+echo "  ✅ Code quality OK"
+
+echo ""
+echo "✅ All checks passed!"
+exit 0

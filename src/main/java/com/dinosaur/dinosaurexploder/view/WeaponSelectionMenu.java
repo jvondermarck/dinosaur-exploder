@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
@@ -165,7 +170,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
   }
 
   private void showLockedWeaponDialog(LockedWeaponException exception) {
-    MenuHelper.showLockedDialog(exception.getMessage());
+    MenuHelper.showDialog(languageManager.getTranslation("locked"), exception.getMessage());
   }
 
   private void selectWeapon(int weaponNumber) {

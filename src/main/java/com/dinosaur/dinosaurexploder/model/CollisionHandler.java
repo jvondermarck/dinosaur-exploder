@@ -43,6 +43,8 @@ public class CollisionHandler {
   public void handleBossDefeat(ScoreComponent scoreComponent) {
     scoreComponent.incrementScore(levelManager.getCurrentLevel());
     levelManager.nextLevel();
+
+    achievementManager.notifyBossDefeated();
   }
 
   public int getDamagedPlayerLife(LifeComponent lifeComponent) {
@@ -60,6 +62,9 @@ public class CollisionHandler {
     if (bombComponent != null) {
       bombComponent.trackCoinForBombRegeneration();
     }
+    // Notify achievements about coin collection
+    int totalCoins = collectedCoinsComponent.getCoin();
+    achievementManager.notifyCoinCollected(totalCoins);
   }
 
   public void onPlayerGetHeart(LifeComponent lifeComponent) {

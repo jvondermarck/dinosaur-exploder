@@ -12,61 +12,65 @@ import org.jetbrains.annotations.Nullable;
 
 public class CollisionHandler {
 
-    private final LevelManager levelManager;
-    private final AchievementManager achievementManager;
+  private final LevelManager levelManager;
+  private final AchievementManager achievementManager;
 
-    public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
-        this.levelManager = levelManager;
-        this.achievementManager = achievementManager;
+  public CollisionHandler(LevelManager levelManager, AchievementManager achievementManager) {
+    this.levelManager = levelManager;
+    this.achievementManager = achievementManager;
+  }
+
+  public boolean isLevelUpAfterHitDino(
+      ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+
+    scoreComponent.incrementScore(1);
+    levelManager.incrementDefeatedEnemies();
+    achievementManager.notifyDinosaurKilled();
+    levelProgressBarComponent.updateProgress();
+
+    return adjustLevel();
+  }
+
+  public void handleHitBoss(Dinosaur dinoComponent) {
+    dinoComponent.damage(1);
+  }
+
+  public void handleBossDefeat(ScoreComponent scoreComponent) {
+    scoreComponent.incrementScore(levelManager.getCurrentLevel());
+    levelManager.nextLevel();
+
+    achievementManager.notifyBossDefeated();
+  }
+
+  public int getDamagedPlayerLife(LifeComponent lifeComponent) {
+    return lifeComponent.decreaseLife(1);
+  }
+
+  public void onPlayerGetCoin(
+      CollectedCoinsComponent collectedCoinsComponent,
+      ScoreComponent scoreComponent,
+      @Nullable BombComponent bombComponent) {
+
+    collectedCoinsComponent.incrementCoin();
+    scoreComponent.incrementScore(2);
+
+    if (bombComponent != null) {
+      bombComponent.trackCoinForBombRegeneration();
     }
+    // Notify achievements about coin collection
+    int totalCoins = collectedCoinsComponent.getCoin();
+    achievementManager.notifyCoinCollected(totalCoins);
+  }
 
-    public boolean isLevelUpAfterHitDino(ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+  public void onPlayerGetHeart(LifeComponent lifeComponent) {
+    lifeComponent.increaseLife(1);
+  }
 
-        scoreComponent.incrementScore(1);
-        levelManager.incrementDefeatedEnemies();
-        achievementManager.notifyDinosaurKilled();
-        levelProgressBarComponent.updateProgress();
-
-        return adjustLevel();
+  private boolean adjustLevel() {
+    if (levelManager.shouldAdvanceLevel()) {
+      levelManager.nextLevel();
+      return true;
     }
-
-    public void handleHitBoss(Dinosaur dinoComponent) {
-        dinoComponent.damage(1);
-    }
-
-    public void handleBossDefeat(ScoreComponent scoreComponent) {
-        scoreComponent.incrementScore(levelManager.getCurrentLevel());
-        levelManager.nextLevel();
-
-        achievementManager.notifyBossDefeated();
-    }
-
-    public int getDamagedPlayerLife(LifeComponent lifeComponent) {
-        return lifeComponent.decreaseLife(1);
-    }
-
-    public void onPlayerGetCoin(CollectedCoinsComponent collectedCoinsComponent, ScoreComponent scoreComponent, @Nullable BombComponent bombComponent) {
-
-        collectedCoinsComponent.incrementCoin();
-        scoreComponent.incrementScore(2);
-
-        if (bombComponent != null) {
-            bombComponent.trackCoinForBombRegeneration();
-        }
-        //Notify achievements about coin collection
-        int totalCoins = collectedCoinsComponent.getCoin();
-        achievementManager.notifyCoinCollected(totalCoins);
-    }
-
-    public void onPlayerGetHeart(LifeComponent lifeComponent) {
-        lifeComponent.increaseLife(1);
-    }
-
-    private boolean adjustLevel() {
-        if (levelManager.shouldAdvanceLevel()) {
-            levelManager.nextLevel();
-            return true;
-        }
-        return false;
-    }
+    return false;
+  }
 }

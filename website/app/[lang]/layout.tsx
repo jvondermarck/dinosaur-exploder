@@ -63,7 +63,7 @@ export default async function RootLayout({
             <body className="antialiased">
                 <ThemeProvider>
                     <div className="min-h-screen flex flex-col page-gradient">
-                        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 px-6 py-2 bg-black/5 border-b border-green-700/10 dark:bg-white/5 dark:border-green-500/20">
+                        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 px-6 py-2 dark:border-b dark:border-green-500/20 dark:bg-white/5">
                             <LocaleSwitcher />
                             <ThemeToggle />
                         </div>

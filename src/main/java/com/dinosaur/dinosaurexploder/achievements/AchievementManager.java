@@ -1,17 +1,9 @@
-/*
- * SPDX-FileCopyrightText: 2026 jvondermarck
- * SPDX-License-Identifier: MIT
- */
 package com.dinosaur.dinosaurexploder.achievements;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Manages all achievements in the game. Handles registration, initialization, and event
- * notifications.
- */
 public class AchievementManager {
 
   private final List<Achievement> allAchievements = new ArrayList<>();
@@ -63,11 +55,6 @@ public class AchievementManager {
     }
   }
 
-  /**
-   * Called every frame to update time-based achievements.
-   *
-   * @param tpf Time per frame in seconds
-   */
   public void update(double tpf) {
     for (Achievement achievement : activeAchievements) {
       if (!achievement.isCompleted()) {
@@ -83,29 +70,18 @@ public class AchievementManager {
     }
   }
 
-  /**
-   * Called when the player's score changes. Notifies all active score-based achievements.
-   *
-   * @param newScore The current score
-   */
   public void notifyScoreChanged(int newScore) {
     for (Achievement achievement : activeAchievements) {
       achievement.onScoreChanged(newScore);
     }
   }
 
-  /**
-   * Called when coins are collected. Notifies all active coin-based achievements.
-   *
-   * @param totalCoins The total number of coins collected
-   */
   public void notifyCoinCollected(int totalCoins) {
     for (Achievement achievement : activeAchievements) {
       achievement.onCoinCollected(totalCoins);
     }
   }
 
-  /** Called when a boss is defeated. Notifies all active boss-defeat achievements. */
   public void notifyBossDefeated() {
     for (Achievement achievement : activeAchievements) {
       achievement.onBossDefeated();

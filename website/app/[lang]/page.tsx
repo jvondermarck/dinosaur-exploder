@@ -30,16 +30,16 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
               }}
               priority
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-green-400/10 blur-3xl pointer-events-none -z-10"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-green-400/10 dark:bg-green-500/20 blur-3xl pointer-events-none -z-10"></div>
           </div>
         </div>
         {/* Right/Text */}
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
-          <h1 className="font-retro text-4xl lg:text-6xl font-extrabold text-green-800 mb-6 leading-tight">
+          <h1 className="font-retro text-4xl lg:text-6xl font-extrabold text-green-800 dark:text-green-200 mb-6 leading-tight">
             Retro Arcade<br />
-            <span className="text-black bg-green-200 px-2 rounded">Shoot &apos;em up </span>
+            <span className="text-black dark:text-white bg-green-200 dark:bg-green-700 px-2 rounded">Shoot &apos;em up </span>
           </h1>
-          <p className="text-lg mb-6 max-w-xl text-green-900 font-mono bg-white/80 rounded-lg border-l-4 border-green-700 py-4 px-4 shadow-md">
+          <p className="text-lg mb-6 max-w-xl text-green-900 dark:text-green-100 font-mono bg-white/80 dark:bg-neutral-800/80 rounded-lg border-l-4 border-green-700 dark:border-green-500 py-4 px-4 shadow-md">
            {dict.homePage.description.map((line: string, index: number) => (
     <span key={index}>
       {line}
@@ -53,7 +53,7 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
               href="https://github.com/jvondermarck/dinosaur-exploder"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block font-retro px-7 py-3 rounded-full bg-green-700 hover:bg-green-600 text-white text-lg shadow-lg transition hover:scale-110"
+              className="inline-block font-retro px-7 py-3 rounded-full bg-green-700 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-500 text-white text-lg shadow-lg transition hover:scale-110"
             >
               {dict.homePage.button}
             </a>
@@ -63,7 +63,7 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
 
       {/* Sponsor Section (Card) */}
       <section className="w-full flex justify-center pb-8">
-        <div className="overflow-auto rounded-xl shadow-xl bg-white/90 p-2 max-w-full">
+        <div className="overflow-auto rounded-xl shadow-lg shadow-black/30 dark:shadow-xl bg-neutral-800/90 dark:bg-white/90 border border-neutral-600 dark:border-green-200/70 p-2 max-w-full">
           <iframe
             src="https://github.com/sponsors/jvondermarck/card"
             title="Sponsor jvondermarck"

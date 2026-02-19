@@ -65,6 +65,7 @@ public class GameConstants {
    */
   public static final String HIGH_SCORE_FILE = "highScore.ser";
   public static final String TOTAL_COINS_FILE = "totalCoins.ser";
+  public static final String ACHIEVEMENTS_FILE = "achievements.ser";
 
   /*
    * CONSTANTS FOR TEXT

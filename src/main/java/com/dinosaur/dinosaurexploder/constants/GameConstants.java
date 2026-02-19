@@ -33,6 +33,7 @@ public class GameConstants {
   public static final String SILENT_IMAGE_PATH = "assets/textures/silent.png";
   public static final String PLAYING_IMAGE_PATH = "assets/textures/playing.png";
   public static final String GAME_LOGO_DINOSAUR = "assets/textures/dinomenu.png";
+  public static final String ASTEROIDS_IMAGE_FILE = "asteroids.png";
 
   /*
    *CONSTANTS FOR FONTS

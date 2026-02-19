@@ -324,6 +324,39 @@ public class GameEntityFactory implements EntityFactory {
         .build();
   }
 
+  @Spawns("littleAsteroids")
+  public Entity littleAsteroids(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ASTEROIDS)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ASTEROIDS_IMAGE_FILE, 80, 80))
+        .bbox(new HitBox(BoundingShape.box(60, 60)))
+        .collidable()
+        .with(new AsteroidsComponent(1))
+        .build();
+  }
+
+  @Spawns("mediumAsteroids")
+  public Entity mediumAsteroids(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ASTEROIDS)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ASTEROIDS_IMAGE_FILE, 120, 120))
+        .bbox(new HitBox(BoundingShape.box(100, 100)))
+        .collidable()
+        .with(new AsteroidsComponent(2))
+        .build();
+  }
+
+  @Spawns("bigAsteroids")
+  public Entity bigAsteroids(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ASTEROIDS)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ASTEROIDS_IMAGE_FILE, 160, 160))
+        .bbox(new HitBox(BoundingShape.box(140, 140)))
+        .collidable()
+        .with(new AsteroidsComponent(3))
+        .build();
+  }
+
   /** Summary : Reusable part of every entity */
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder(data).type(type);

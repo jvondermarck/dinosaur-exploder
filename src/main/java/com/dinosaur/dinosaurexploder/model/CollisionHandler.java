@@ -11,6 +11,7 @@ import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
 import com.dinosaur.dinosaurexploder.components.LifeComponent;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
+import com.dinosaur.dinosaurexploder.interfaces.Asteroids;
 import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +39,10 @@ public class CollisionHandler {
 
   public void handleHitBoss(Dinosaur dinoComponent) {
     dinoComponent.damage(1);
+  }
+
+  public void handleHitAsteroids(Asteroids asteroidsComponent) {
+    asteroidsComponent.damage(1);
   }
 
   public void handleBossDefeat(ScoreComponent scoreComponent) {

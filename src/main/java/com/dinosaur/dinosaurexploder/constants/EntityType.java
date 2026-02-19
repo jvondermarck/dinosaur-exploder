@@ -22,5 +22,6 @@ public enum EntityType {
   HEALTHBAR,
   LEVEL_PROGRESS_BAR,
   WEAPON_HEAT,
-  SHIELD
+  SHIELD,
+  ASTEROIDS
 }

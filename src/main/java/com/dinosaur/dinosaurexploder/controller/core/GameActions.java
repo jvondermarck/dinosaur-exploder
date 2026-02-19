@@ -27,6 +27,7 @@ import javafx.scene.text.Text;
 public class GameActions {
 
   private final EnemySpawner enemySpawner;
+  private final AsteroidsSpawner asteroidsSpawner;
   private final CollisionHandler collisionHandler;
   private final LevelManager levelManager;
   private final LanguageManager languageManager;
@@ -38,6 +39,7 @@ public class GameActions {
 
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
+    this.asteroidsSpawner = gameInitializer.getAsteroidsSpawner();
     this.collisionHandler = gameInitializer.getCollisionHandler();
     this.levelManager = gameInitializer.getLevelManager();
     this.languageManager = gameInitializer.getLanguageManager();
@@ -107,10 +109,13 @@ public class GameActions {
             e -> {
               if (e.hasComponent(GreenDinoComponent.class)) {
                 e.getComponent(GreenDinoComponent.class).setPaused(true);
+              } else if (e.hasComponent(AsteroidsComponent.class)) {
+                e.getComponent(AsteroidsComponent.class).setPaused(true);
               }
             });
 
     enemySpawner.pauseEnemySpawning();
+    asteroidsSpawner.pauseAsteroidsSpawning();
 
     // Display centered level notification
     Text levelText =
@@ -152,10 +157,13 @@ public class GameActions {
                   e -> {
                     if (e.hasComponent(GreenDinoComponent.class)) {
                       e.getComponent(GreenDinoComponent.class).setPaused(false);
+                    } else if (e.hasComponent(AsteroidsComponent.class)) {
+                      e.getComponent(AsteroidsComponent.class).setPaused(false);
                     }
                   });
 
           enemySpawner.resumeEnemySpawning();
+          asteroidsSpawner.resumeAsteroidsSpawning();
 
           player.getComponent(PlayerComponent.class).setInvincible(true);
           runOnce(

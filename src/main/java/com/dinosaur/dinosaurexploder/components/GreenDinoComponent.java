@@ -25,8 +25,8 @@ import javafx.util.Duration;
  * Shooting and Updating the Dino
  */
 public class GreenDinoComponent extends Component implements Dinosaur {
-  double verticalSpeed = 1.5;
-  double horizontalSpeed = 0;
+  private double verticalSpeed = 1.5;
+  private double horizontalSpeed = 0;
   private final LocalTimer timer = FXGL.newLocalTimer();
   private boolean isPaused = false;
   private int lives = 1;
@@ -67,6 +67,10 @@ public class GreenDinoComponent extends Component implements Dinosaur {
         entity.setRotation(0);
       }
     }
+  }
+
+  public Direction getDirection() {
+    return direction;
   }
 
   @Override

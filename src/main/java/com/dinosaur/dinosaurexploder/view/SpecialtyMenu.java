@@ -6,6 +6,8 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
+
+import java.util.List;
 import java.util.Objects;
 
 import javafx.geometry.Insets;
@@ -22,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
 public class SpecialtyMenu extends FXGLMenu {
+  public record SpecialtyData(String nameKey, String iconPath) {}
   // ========= CONSTANTS ================
   private static final int GRID_GAP = 20;
   private static final int ZONE_SPACING = 50;
@@ -33,6 +36,7 @@ public class SpecialtyMenu extends FXGLMenu {
   private GridPane specialtyGrid;
   private Label specialtyName;
   private Label specialtyDescription;
+  private List<SpecialtyData> specialties = List.of(new SpecialtyData("specialty_more_hearts", "more_hearts.png"), new SpecialtyData("specialty_better_bomb", "better_bomb.png"), new SpecialtyData("specialty_more_bombs", "more_bombs.png"));
 
   // ========= CONSTRUCTOR ==============
   public SpecialtyMenu() {
@@ -98,10 +102,10 @@ public class SpecialtyMenu extends FXGLMenu {
   }
 
   private StackPane createSpecialtyButton(int number, double size) {
-    Image specialtyImage = loadSpecialtyImage();
     boolean isLocked = false; // TODO: get this from gama data
 
-    ImageView iconView = new ImageView(loadSpecialtyImage());
+    // TODO: Should total specialties just be derived from the list specialties?
+    ImageView iconView = new ImageView(loadSpecialtyImage(number % specialties.size()));
     iconView.setFitWidth(size);
     iconView.setPreserveRatio(true);
 
@@ -112,8 +116,8 @@ public class SpecialtyMenu extends FXGLMenu {
 
     specialtyButton.setOnAction(event -> {
       if (!isLocked) {
-        specialtyName.setText("Specialty #" + number);
-        specialtyDescription.setText("Description of specialty #" + number);
+        specialtyName.setText(languageManager.getTranslation(specialties.get(number % specialties.size()).nameKey));
+        specialtyDescription.setText(languageManager.getTranslation(specialties.get(number % specialties.size()).nameKey + "_description"));
       }
     });
 
@@ -128,10 +132,9 @@ public class SpecialtyMenu extends FXGLMenu {
     return container;
   }
 
-  private Image loadSpecialtyImage() {
-    // TODO: Placeholder image hearts
-    String path = String.format("/assets/textures/life.png");
-    return new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+  private Image loadSpecialtyImage(int number) {
+    String asset_path = String.format("/assets/textures/" + specialties.get(number).iconPath);
+    return new Image(Objects.requireNonNull(getClass().getResourceAsStream(asset_path)));
   }
 
   private HBox createNavigationZone() {

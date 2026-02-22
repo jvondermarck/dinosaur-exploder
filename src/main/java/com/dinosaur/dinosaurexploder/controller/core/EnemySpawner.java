@@ -13,7 +13,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
 import com.dinosaur.dinosaurexploder.constants.Direction;
-import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -48,10 +47,7 @@ public class EnemySpawner {
               } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
                   // direction is up for normal mode, random for expert mode
-                  Direction direction =
-                      GameData.getSelectedDifficulty() == GameMode.EXPERT
-                          ? Direction.randomDirection()
-                          : Direction.UP;
+                  Direction direction = Direction.modeDirection(GameData.getSelectedDifficulty());
                   Entity greenDino =
                       switch (direction) {
                         case DOWN ->

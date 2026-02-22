@@ -13,6 +13,10 @@ public enum Direction {
   LEFT,
   RIGHT;
 
+  public static Direction modeDirection(GameMode mode) {
+    return mode == GameMode.EXPERT ? randomDirection() : UP;
+  }
+
   public static Direction randomDirection() {
     Direction[] values = Direction.values();
     int index = random(0, values.length - 1);

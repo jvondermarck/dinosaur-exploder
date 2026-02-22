@@ -9,7 +9,11 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static javafx.util.Duration.seconds;
 
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
+import com.dinosaur.dinosaurexploder.components.CoinComponent;
+import com.dinosaur.dinosaurexploder.constants.Direction;
+import com.dinosaur.dinosaurexploder.model.GameData;
 
 public class CoinSpawner {
 
@@ -31,8 +35,19 @@ public class CoinSpawner {
         run(
             () -> {
               if (random(0, 100) < percentChanceForCoinDrop) {
-                double x = random(0, getAppWidth() - 80);
-                spawn("coin", x, 0);
+                // direction is up for normal mode, random for expert mode
+                Direction direction = Direction.modeDirection(GameData.getSelectedDifficulty());
+                Entity coin =
+                    switch (direction) {
+                      case DOWN ->
+                          spawn("coin", random(0, getAppWidth() - 80), getAppHeight() - 80);
+                      case LEFT -> spawn("coin", 0, random(0, getAppHeight() - 80));
+                      case RIGHT ->
+                          spawn("coin", getAppWidth() - 80, random(0, getAppHeight() - 80));
+                      default -> spawn("coin", random(0, getAppWidth() - 80), 0);
+                    };
+                // Apply direction to component
+                coin.getComponent(CoinComponent.class).updateDirection(direction);
               }
             },
             seconds(duration));

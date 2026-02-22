@@ -39,7 +39,8 @@ public class Heart extends Component {
   }
 
   /**
-   * Summary : This method runs for every frame like a continues flow, and move the heart downward
+   * Summary : This method runs for every frame like a continues flow, and move the heart towards
+   * direction
    */
   @Override
   public void onUpdate(double tpf) {

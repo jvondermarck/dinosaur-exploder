@@ -26,7 +26,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
+/// The class responsible for creating and managing the SpecialtyMenu
 public class SpecialtyMenu extends FXGLMenu {
+  /// A convenient record class that contains all the data needed to display a specialty
   public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath) {}
   // ========= CONSTANTS ================
   private static final int GRID_GAP = 20;
@@ -151,12 +153,18 @@ public class SpecialtyMenu extends FXGLMenu {
     return container;
   }
 
-
-  private Image loadSpecialtyImage(String iconPath) {
+  /**
+   * Create an Image object from an given iconPath
+   *
+   * @param iconPath the name of the image plus extension (assumes that the asset is in /assets/textures/)
+   * @return the created Image object
+   */
+  private Image createImage(String iconPath) {
     String asset_path = String.format("/assets/textures/" + iconPath);
     return new Image(Objects.requireNonNull(getClass().getResourceAsStream(asset_path)));
   }
 
+  /// Create a zone with a back and next button
   private HBox createNavigationZone() {
     Button backButton = createButton("back", () -> fireResume());
     Button nextButton = createButton("next", () -> fireNewGame());
@@ -169,6 +177,14 @@ public class SpecialtyMenu extends FXGLMenu {
     
   }
 
+  /**
+   * Helper method that creates a basic green button.
+   *
+   * @param translationKey the key used for the button text
+   * @param callback a lambda function that runs when the button is clicked
+   *
+   * @return the created Button
+  */
   private Button createButton(String translationKey, Runnable callback) {
     Button button = new Button(languageManager.getTranslation(translationKey).toUpperCase());
 

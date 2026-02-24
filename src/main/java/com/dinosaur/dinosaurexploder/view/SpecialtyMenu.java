@@ -45,11 +45,19 @@ public class SpecialtyMenu extends FXGLMenu {
   // ========= CONSTRUCTOR ==============
   public SpecialtyMenu() {
     super(MenuType.MAIN_MENU);
-    specialtyViewData = retrieveSpecialtyData(SpecialtyManager.getAllSpecialties());
+    specialtyViewData = createSpecialtyViewData(SpecialtyManager.getAllSpecialties());
     buildMenu();
   }
 
-  private List<SpecialtyViewData> retrieveSpecialtyData(List<Specialty> specialties) {
+  /**
+   * Creates a list of SpecialtyViewData from a list of Specialty
+   *
+   * @param specialties a list of all the specialties in the game
+   *
+   * @return a list of SpecialtyViewData
+   * @see SpecialtyManager and Specialty
+   */
+  private List<SpecialtyViewData> createSpecialtyViewData(List<Specialty> specialties) {
     List<SpecialtyViewData> viewData = new ArrayList<>();
     for (Specialty specialty : specialties) {
       String nameKey = String.format("specialty_%s", specialty.name().toLowerCase());

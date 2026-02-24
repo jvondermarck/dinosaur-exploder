@@ -7,11 +7,9 @@ package com.dinosaur.dinosaurexploder.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-
 import com.dinosaur.dinosaurexploder.components.PlayerRotationComponent;
-
 import javafx.geometry.Point2D;
+import org.junit.jupiter.api.Test;
 
 class PlayerRotationComponentTest {
   @Test

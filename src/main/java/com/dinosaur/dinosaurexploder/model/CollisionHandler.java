@@ -40,9 +40,14 @@ public class CollisionHandler {
     dinoComponent.damage(1);
   }
 
-  public void handleBossDefeat(ScoreComponent scoreComponent) {
-    scoreComponent.incrementScore(levelManager.getCurrentLevel());
-    levelManager.nextLevel();
+  public boolean isLevelUpAfterBossDefeat(
+      ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+    scoreComponent.incrementScore(
+        levelManager.getCurrentLevel() / levelManager.getBossesToDefeat());
+    levelManager.incrementDefeatedBosses();
+    levelProgressBarComponent.updateProgress();
+
+    return adjustLevel();
   }
 
   public int getDamagedPlayerLife(LifeComponent lifeComponent) {

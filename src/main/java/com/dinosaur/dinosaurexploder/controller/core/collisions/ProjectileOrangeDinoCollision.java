@@ -10,6 +10,7 @@ import static com.almasb.fxgl.dsl.FXGL.random;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.entity.Entity;
+import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
 import com.dinosaur.dinosaurexploder.components.OrangeDinoComponent;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
@@ -29,6 +30,7 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
   private final LevelManager levelManager;
   private final BossSpawner bossSpawner;
   private final Entity score;
+  private final Entity levelProgressBar;
 
   public ProjectileOrangeDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
     this.gameActions = gameActions;
@@ -36,6 +38,7 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
     this.levelManager = gameInitializer.getLevelManager();
     this.bossSpawner = gameInitializer.getBossSpawner();
     this.score = gameInitializer.getScore();
+    this.levelProgressBar = gameInitializer.getLevelProgressBar();
   }
 
   @Override
@@ -59,10 +62,12 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
             }
             bossSpawner.removeBossEntity(orangeDino);
 
-            collisionHandler.handleBossDefeat(score.getComponent(ScoreComponent.class));
-
-            gameActions.showLevelMessage();
-            System.out.println("Level up!");
+            if (collisionHandler.isLevelUpAfterBossDefeat(
+                score.getComponent(ScoreComponent.class),
+                levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
+              gameActions.showLevelMessage();
+              System.out.println("Level up!");
+            }
           } else {
             orangeDino.getComponent(OrangeDinoComponent.class).getHealthBar().updateBar();
           }

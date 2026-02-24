@@ -95,8 +95,8 @@ public class GameActions {
    * level is changed
    */
   public void showLevelMessage() {
-    // Hide the progress bar for boss levels
-    if (levelManager.getCurrentLevel() % 5 == 0) {
+    // Hide the progress bar for boss levels if there are less than 2 bosses to defeat
+    if (levelManager.getBossesToDefeat() < 2 && levelManager.getCurrentLevel() % 5 == 0) {
       levelProgressBar.setVisible(false);
     }
 
@@ -135,7 +135,7 @@ public class GameActions {
     // Resume gameplay after a delay
     runOnce(
         () -> {
-          if (levelManager.getCurrentLevel() % 5 != 0) {
+          if (levelManager.getBossesToDefeat() >= 2 || levelManager.getCurrentLevel() % 5 != 0) {
             levelProgressBar.setVisible(true);
           }
 

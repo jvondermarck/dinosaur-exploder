@@ -86,8 +86,15 @@ class CollisionHandlerTest {
   @Test
   void projectileKillBoss_thenGetScoreAndLevel() {
     ScoreComponent scoreComponent = new ScoreComponent();
+    Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);
+    LevelProgressBarComponent levelProgressBarComponent =
+        new LevelProgressBarComponent(rect, levelManager) {
+          @Override
+          public void updateProgress() {}
+        };
 
-    collisionHandler.handleBossDefeat(scoreComponent);
+    assertTrue(
+        collisionHandler.isLevelUpAfterBossDefeat(scoreComponent, levelProgressBarComponent));
 
     assertEquals(1, scoreComponent.getScore());
     assertEquals(2, levelManager.getCurrentLevel());

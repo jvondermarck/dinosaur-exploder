@@ -16,6 +16,8 @@ public class LevelManager {
   private int currentLevel = 1;
   private int enemiesToDefeat = 5;
   private int defeatedEnemies = 0;
+  private int bossesToDefeat = 1;
+  private int defeatedBosses = 0;
   private double enemySpawnRate = 0.75;
   private double enemySpeed = 1.5;
   private GameMode gameMode = GameMode.NORMAL;
@@ -33,21 +35,27 @@ public class LevelManager {
   }
 
   public float getLevelProgress() {
-    return (float) defeatedEnemies / enemiesToDefeat;
+    return Math.max(
+        (float) defeatedEnemies / enemiesToDefeat, (float) defeatedBosses / bossesToDefeat);
   }
 
   public void incrementDefeatedEnemies() {
     defeatedEnemies++;
   }
 
+  public void incrementDefeatedBosses() {
+    defeatedBosses++;
+  }
+
   public boolean shouldAdvanceLevel() {
-    return defeatedEnemies >= enemiesToDefeat;
+    return defeatedEnemies >= enemiesToDefeat || defeatedBosses >= bossesToDefeat;
   }
 
   public void nextLevel() {
     currentLevel++;
     defeatedEnemies = 0;
     enemiesToDefeat += 5;
+    defeatedBosses = 0;
 
     enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
     enemySpeed += 0.2;
@@ -55,6 +63,14 @@ public class LevelManager {
 
   public int getEnemiesToDefeat() {
     return enemiesToDefeat;
+  }
+
+  public void setBossesToDefeat(int bossesToDefeat) {
+    this.bossesToDefeat = bossesToDefeat;
+  }
+
+  public int getBossesToDefeat() {
+    return bossesToDefeat;
   }
 
   public void setGameMode(GameMode mode) {

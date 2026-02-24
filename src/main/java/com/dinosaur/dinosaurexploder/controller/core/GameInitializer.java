@@ -15,6 +15,7 @@ import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.controller.CoinSpawner;
 import com.dinosaur.dinosaurexploder.controller.CountdownAnimation;
@@ -69,6 +70,7 @@ public class GameInitializer {
 
     levelManager = new LevelManager();
     levelManager.setGameMode(GameData.getSelectedDifficulty()); // Set the difficulty from GameData
+    levelManager.setBossesToDefeat(GameData.getSelectedDifficulty() == GameMode.EXPERT ? 2 : 1);
 
     FXGL.set("levelManager", levelManager);
 

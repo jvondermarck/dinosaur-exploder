@@ -15,6 +15,7 @@ import com.dinosaur.dinosaurexploder.components.HealthbarComponent;
 import com.dinosaur.dinosaurexploder.components.OrangeDinoComponent;
 import com.dinosaur.dinosaurexploder.components.RedDinoComponent;
 import com.dinosaur.dinosaurexploder.constants.Direction;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -90,6 +91,18 @@ public class BossSpawner {
       addRedDino(direction);
     } else if (name.equals("orange")) {
       addOrangeDino(direction);
+    }
+
+    if (GameData.getSelectedDifficulty() == GameMode.EXPERT) {
+      Direction direction2 = Direction.randomDirection();
+      while (direction == direction2) {
+        direction2 = Direction.randomDirection();
+      }
+      if (name.equals("red")) {
+        addRedDino(direction2);
+      } else if (name.equals("orange")) {
+        addOrangeDino(direction2);
+      }
     }
   }
 

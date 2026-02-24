@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -21,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
 public class SpecialtyMenu extends FXGLMenu {
@@ -112,6 +114,12 @@ public class SpecialtyMenu extends FXGLMenu {
     // Create the button
     Button specialtyButton = new Button();
     specialtyButton.setGraphic(iconView);
+    specialtyButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
+    // Hover Effect
+    DropShadow hoverEffect = new DropShadow(10, Color.rgb(0, 255, 0));
+    specialtyButton.setOnMouseEntered(event -> specialtyButton.setEffect(hoverEffect));
+    specialtyButton.setOnMouseExited(event -> specialtyButton.setEffect(null));
     // specialtyButton.setPrefWidth(size / 2); // TODO: Is this alright?? Should probably not be done here
 
     specialtyButton.setOnAction(event -> {
@@ -131,6 +139,7 @@ public class SpecialtyMenu extends FXGLMenu {
 
     return container;
   }
+
 
   private Image loadSpecialtyImage(int number) {
     String asset_path = String.format("/assets/textures/" + specialties.get(number).iconPath);

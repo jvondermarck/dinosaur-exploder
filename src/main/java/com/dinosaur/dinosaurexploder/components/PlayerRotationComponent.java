@@ -18,13 +18,13 @@ public class PlayerRotationComponent extends Component {
     Point2D mousePoint = getInput().getMousePositionWorld();
     Point2D playerCenterPoint = entity.getCenter();
 
-    double angle = calculateAngle(mousePoint, playerCenterPoint);
+    double angle = calculateAngle(playerCenterPoint, mousePoint);
 
     // Convert and set rotation (+90 to align with the up facing sprites)
     entity.setRotation(angle + 90);
   }
 
-  static double calculateAngle(Point2D from, Point2D to) {
+  public static double calculateAngle(Point2D from, Point2D to) {
     double dx = to.getX() - from.getX();
     double dy = to.getY() - from.getY();
     double angle = Math.atan2(dy, dx);

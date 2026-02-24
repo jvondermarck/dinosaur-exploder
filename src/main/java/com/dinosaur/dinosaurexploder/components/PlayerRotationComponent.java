@@ -15,15 +15,20 @@ public class PlayerRotationComponent extends Component {
   @Override
   public void onUpdate(double tpf) {
     // Get mouse position in the game world
-    Point2D mouse = getInput().getMousePositionWorld();
-    Point2D playerCenter = entity.getCenter();
+    Point2D mousePoint = getInput().getMousePositionWorld();
+    Point2D playerCenterPoint = entity.getCenter();
 
-    // Calculate angle
-    double dx = mouse.getX() - playerCenter.getX();
-    double dy = mouse.getY() - playerCenter.getY();
+    double angle = calculateAngle(mousePoint, playerCenterPoint);
+
+    // Convert and set rotation (+90 to align with the up facing sprites)
+    entity.setRotation(angle + 90);
+  }
+
+  static double calculateAngle(Point2D from, Point2D to) {
+    double dx = to.getX() - from.getX();
+    double dy = to.getY() - from.getY();
     double angle = Math.atan2(dy, dx);
 
-    // Convert and set rotation (+90 to align with typical 'up' facing sprites)
-    entity.setRotation(Math.toDegrees(angle) + 90);
+    return Math.toDegrees(angle);
   }
 }

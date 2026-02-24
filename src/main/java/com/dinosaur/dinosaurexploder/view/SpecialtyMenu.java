@@ -114,24 +114,21 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyGrid.setVgap(GRID_GAP);
     specialtyGrid.setPrefWidth(getAppWidth());
 
-    double specialtySize = getAppWidth() * 0.8;
-    populateSpecialtyGrid(specialtySize);
+    double zone_width = getAppWidth() * 0.8;
 
-    return specialtyGrid;
-  }
-
-  private void populateSpecialtyGrid(double size) {
     for (int i = 0; i < specialtyViewData.size(); i++) {
-      StackPane specialtyContainer = createSpecialtyButton(specialtyViewData.get(i), (size / SPECIALTY_COLUMNS) * 0.9);
+      StackPane specialtyContainer = createSpecialtyButton(specialtyViewData.get(i), (zone_width/ SPECIALTY_COLUMNS) * 0.9);
       int row = i / SPECIALTY_COLUMNS;
       int col = i % SPECIALTY_COLUMNS;
 
       specialtyGrid.add(specialtyContainer, col, row);
     }
+
+    return specialtyGrid;
   }
 
   private StackPane createSpecialtyButton(SpecialtyViewData specialty, double size) {
-    ImageView iconView = new ImageView(loadSpecialtyImage(specialty.iconPath()));
+    ImageView iconView = new ImageView(createImage(specialty.iconPath()));
     iconView.setFitWidth(size);
     iconView.setPreserveRatio(true);
 

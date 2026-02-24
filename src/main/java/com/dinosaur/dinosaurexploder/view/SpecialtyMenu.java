@@ -3,7 +3,6 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
-import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.specialties.Specialty;
 import com.dinosaur.dinosaurexploder.specialties.SpecialtyManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -22,12 +21,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
-import kotlin.jvm.internal.Lambda;
 
 public class SpecialtyMenu extends FXGLMenu {
   public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath) {}

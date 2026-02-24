@@ -25,12 +25,14 @@ import javafx.util.Duration;
  * Shooting and Updating the Dino
  */
 public class GreenDinoComponent extends Component implements Dinosaur {
-  private double verticalSpeed = 1.5;
+  private static double speed = 1.5;
+  private double verticalSpeed = speed;
   private double horizontalSpeed = 0;
   private final LocalTimer timer = FXGL.newLocalTimer();
   private boolean isPaused = false;
   private int lives = 1;
   private Direction direction = Direction.UP;
+  LevelManager levelManager;
 
   public int getLives() {
     return lives;
@@ -43,26 +45,24 @@ public class GreenDinoComponent extends Component implements Dinosaur {
   public void updateDirection(Direction direction) {
     this.direction = direction;
 
-    // Get the current enemy speed from the level manager
-    LevelManager levelManager = FXGL.geto("levelManager");
     switch (direction) {
       case DOWN -> {
-        verticalSpeed = -levelManager.getEnemySpeed();
+        verticalSpeed = -speed;
         horizontalSpeed = 0;
         entity.setRotation(180);
       }
       case LEFT -> {
         verticalSpeed = 0;
-        horizontalSpeed = levelManager.getEnemySpeed();
+        horizontalSpeed = speed;
         entity.setRotation(270);
       }
       case RIGHT -> {
         verticalSpeed = 0;
-        horizontalSpeed = -levelManager.getEnemySpeed();
+        horizontalSpeed = -speed;
         entity.setRotation(90);
       }
       default -> {
-        verticalSpeed = levelManager.getEnemySpeed();
+        verticalSpeed = speed;
         horizontalSpeed = 0;
         entity.setRotation(0);
       }
@@ -75,6 +75,9 @@ public class GreenDinoComponent extends Component implements Dinosaur {
 
   @Override
   public void onAdded() {
+    // Get the current enemy speed from the level manager
+    levelManager = FXGL.geto("levelManager");
+    speed = levelManager.getEnemySpeed();
     updateDirection(direction);
   }
 

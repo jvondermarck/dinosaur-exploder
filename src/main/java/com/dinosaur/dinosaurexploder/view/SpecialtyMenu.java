@@ -147,13 +147,8 @@ public class SpecialtyMenu extends FXGLMenu {
   }
 
   private HBox createNavigationZone() {
-    Button backButton = createBackButton();
-
-    Button nextButton = new Button(languageManager.getTranslation("next").toUpperCase());
-    nextButton.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameConstants.STYLESHEET_PATH)).toExternalForm());
-    nextButton.setMinSize(140, 60);
-    nextButton.setOnAction(event -> fireNewGame()); // TODO: Add check that a specialty is selected or one is selected by default
-    // TODO: Should a button be toggable
+    Button backButton = createButton("back", () -> fireResume());
+    Button nextButton = createButton("next", () -> fireNewGame());
 
     HBox navigationZone = new HBox(30);
     navigationZone.setPadding(new Insets(0, 40, 20, 40));
@@ -163,17 +158,14 @@ public class SpecialtyMenu extends FXGLMenu {
     
   }
 
-  // ============ ZONE 3: BACK BUTTON ============
-  private Button createBackButton() {
-    Button backButton = new Button(languageManager.getTranslation("back").toUpperCase());
-    backButton
-        .getStylesheets()
-        .add(
-            Objects.requireNonNull(getClass().getResource(GameConstants.STYLESHEET_PATH))
-                .toExternalForm());
-    backButton.setMinSize(140, 60);
-    backButton.setOnAction(event -> fireResume());
+  private Button createButton(String translationKey, Runnable callback) {
+    Button button = new Button(languageManager.getTranslation(translationKey).toUpperCase());
 
-    return backButton;
+    button.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameConstants.STYLESHEET_PATH)).toExternalForm());
+    button.setMinSize(140, 60);
+
+    button.setOnAction(event -> callback.run());
+
+    return button;
   }
 }

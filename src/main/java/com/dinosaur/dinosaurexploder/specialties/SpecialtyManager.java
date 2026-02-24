@@ -16,7 +16,7 @@ public class SpecialtyManager {
           TANK_SPECIALTY
   );
 
-  public List<Specialty> getAllSpecialties() {
+  public static List<Specialty> getAllSpecialties() {
     return specialities;
   }
 }

@@ -4,9 +4,12 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
+import com.dinosaur.dinosaurexploder.specialties.Specialty;
+import com.dinosaur.dinosaurexploder.specialties.SpecialtyManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,26 +27,47 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
+import kotlin.jvm.internal.Lambda;
 
 public class SpecialtyMenu extends FXGLMenu {
-  public record SpecialtyData(String nameKey, String iconPath) {}
+  public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath) {}
   // ========= CONSTANTS ================
   private static final int GRID_GAP = 20;
   private static final int ZONE_SPACING = 50;
   private static final int SPECIALTY_COLUMNS = 4;
-  private static final int TOTAL_SPECIALTIES = 8;
 
   // ======== FIELDS =============
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private GridPane specialtyGrid;
   private Label specialtyName;
   private Label specialtyDescription;
-  private List<SpecialtyData> specialties = List.of(new SpecialtyData("specialty_more_hearts", "more_hearts.png"), new SpecialtyData("specialty_better_bomb", "better_bomb.png"), new SpecialtyData("specialty_more_bombs", "more_bombs.png"));
+  private List<SpecialtyViewData> specialtyViewData;
 
   // ========= CONSTRUCTOR ==============
   public SpecialtyMenu() {
     super(MenuType.MAIN_MENU);
+    specialtyViewData = retrieveSpecialtyData(SpecialtyManager.getAllSpecialties());
     buildMenu();
+  }
+
+  private List<SpecialtyViewData> retrieveSpecialtyData(List<Specialty> specialties) {
+    List<SpecialtyViewData> viewData = new ArrayList<>();
+    for (Specialty specialty : specialties) {
+      String nameKey = String.format("specialty_%s", specialty.name().toLowerCase());
+      String descriptionKey = String.format("%s_description", nameKey);
+      String iconPath;
+      // TODO: Add rest of icon assets
+      switch(specialty.name().toLowerCase()) {
+        case "tank":
+          iconPath = "more_hearts.png";
+          break;
+        default:
+          iconPath = "more_hearts.png";
+          break;
+      }
+      viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath));
+    }
+    return viewData;
   }
 
   private void buildMenu() {
@@ -61,8 +85,8 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyInfo.setPadding(new Insets(20, 0, 0, 0));
 
     specialtyName = new Label("[Specialty Name]"); // TODO: retrieve from game data
-    specialtyName.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffcc00; -fx-font-size: 24px;"); // TODO: Maybe change styling
-    specialtyDescription = new Label("[Specialty Short Description is Here]"); // TODO: Retrieve from game data
+    specialtyName.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffcc00; -fx-font-size: 24px;"); 
+    specialtyDescription = new Label("[Specialty Short Description is Here]"); 
     specialtyDescription.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
     specialtyDescription.setWrapText(true);
     specialtyDescription.setAlignment(Pos.CENTER);
@@ -83,7 +107,6 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyGrid.setVgap(GRID_GAP);
     specialtyGrid.setPrefWidth(getAppWidth());
 
-    // TODO: I want text box and description
     double specialtySize = getAppWidth() * 0.8;
     populateSpecialtyGrid(specialtySize);
 
@@ -91,23 +114,17 @@ public class SpecialtyMenu extends FXGLMenu {
   }
 
   private void populateSpecialtyGrid(double size) {
-    // int selectedSpecialty = GameData.getSelectedSpecialty();
-    int selectedSpecialty = 1; // TODO: Integrate with gamadata
-
-    for (int i = 1; i <= TOTAL_SPECIALTIES; i++) {
-      StackPane specialtyContainer = createSpecialtyButton(i, (size / SPECIALTY_COLUMNS) * 0.9);
-      int row = (i - 1) / SPECIALTY_COLUMNS;
-      int col = (i - 1) % SPECIALTY_COLUMNS;
+    for (int i = 0; i < specialtyViewData.size(); i++) {
+      StackPane specialtyContainer = createSpecialtyButton(specialtyViewData.get(i), (size / SPECIALTY_COLUMNS) * 0.9);
+      int row = i / SPECIALTY_COLUMNS;
+      int col = i % SPECIALTY_COLUMNS;
 
       specialtyGrid.add(specialtyContainer, col, row);
     }
   }
 
-  private StackPane createSpecialtyButton(int number, double size) {
-    boolean isLocked = false; // TODO: get this from gama data
-
-    // TODO: Should total specialties just be derived from the list specialties?
-    ImageView iconView = new ImageView(loadSpecialtyImage(number % specialties.size()));
+  private StackPane createSpecialtyButton(SpecialtyViewData specialty, double size) {
+    ImageView iconView = new ImageView(loadSpecialtyImage(specialty.iconPath()));
     iconView.setFitWidth(size);
     iconView.setPreserveRatio(true);
 
@@ -120,17 +137,14 @@ public class SpecialtyMenu extends FXGLMenu {
     DropShadow hoverEffect = new DropShadow(10, Color.rgb(0, 255, 0));
     specialtyButton.setOnMouseEntered(event -> specialtyButton.setEffect(hoverEffect));
     specialtyButton.setOnMouseExited(event -> specialtyButton.setEffect(null));
-    // specialtyButton.setPrefWidth(size / 2); // TODO: Is this alright?? Should probably not be done here
 
     specialtyButton.setOnAction(event -> {
-      if (!isLocked) {
-        specialtyName.setText(languageManager.getTranslation(specialties.get(number % specialties.size()).nameKey));
-        specialtyDescription.setText(languageManager.getTranslation(specialties.get(number % specialties.size()).nameKey + "_description"));
-      }
+        specialtyName.setText(languageManager.getTranslation(specialty.nameKey()));
+        specialtyDescription.setText(languageManager.getTranslation(specialty.descriptionKey()));
     });
 
     // Lock icon
-    ImageView lockIcon = MenuHelper.createLockIcon(isLocked);
+    ImageView lockIcon = MenuHelper.createLockIcon(false);
     lockIcon.setMouseTransparent(true); // Clicks pass through this icon
 
     StackPane container = new StackPane(specialtyButton, lockIcon);
@@ -141,8 +155,8 @@ public class SpecialtyMenu extends FXGLMenu {
   }
 
 
-  private Image loadSpecialtyImage(int number) {
-    String asset_path = String.format("/assets/textures/" + specialties.get(number).iconPath);
+  private Image loadSpecialtyImage(String iconPath) {
+    String asset_path = String.format("/assets/textures/" + iconPath);
     return new Image(Objects.requireNonNull(getClass().getResourceAsStream(asset_path)));
   }
 

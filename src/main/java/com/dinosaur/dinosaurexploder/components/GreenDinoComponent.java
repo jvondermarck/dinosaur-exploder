@@ -25,8 +25,8 @@ import javafx.util.Duration;
  * Shooting and Updating the Dino
  */
 public class GreenDinoComponent extends Component implements Dinosaur {
-  private static double speed = 1.5;
-  private double verticalSpeed = speed;
+  private double movementSpeed = 1.5;
+  private double verticalSpeed = movementSpeed;
   private double horizontalSpeed = 0;
   private final LocalTimer timer = FXGL.newLocalTimer();
   private boolean isPaused = false;
@@ -47,22 +47,22 @@ public class GreenDinoComponent extends Component implements Dinosaur {
 
     switch (direction) {
       case DOWN -> {
-        verticalSpeed = -speed;
+        verticalSpeed = -movementSpeed;
         horizontalSpeed = 0;
         entity.setRotation(180);
       }
       case LEFT -> {
         verticalSpeed = 0;
-        horizontalSpeed = speed;
+        horizontalSpeed = movementSpeed;
         entity.setRotation(270);
       }
       case RIGHT -> {
         verticalSpeed = 0;
-        horizontalSpeed = -speed;
+        horizontalSpeed = -movementSpeed;
         entity.setRotation(90);
       }
       default -> {
-        verticalSpeed = speed;
+        verticalSpeed = movementSpeed;
         horizontalSpeed = 0;
         entity.setRotation(0);
       }
@@ -77,7 +77,7 @@ public class GreenDinoComponent extends Component implements Dinosaur {
   public void onAdded() {
     // Get the current enemy speed from the level manager
     levelManager = FXGL.geto("levelManager");
-    speed = levelManager.getEnemySpeed();
+    movementSpeed = levelManager.getEnemySpeed();
     updateDirection(direction);
   }
 

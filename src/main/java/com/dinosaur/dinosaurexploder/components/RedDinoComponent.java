@@ -10,6 +10,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.constants.Direction;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -24,9 +25,13 @@ import javafx.util.Duration;
  * Shooting and Updating the Dino
  */
 public class RedDinoComponent extends Component implements Dinosaur {
-  double horizontalSpeed = 1.5;
+  private double movementSpeed = 1.5;
+  private double verticalSpeed = 0;
+  private double horizontalSpeed = movementSpeed;
   private int lives = 10;
+  private Direction direction = Direction.UP;
   private final GameTimer gameTimer;
+  private HealthbarComponent healthBar;
 
   public RedDinoComponent(GameTimer gameTimer) {
     this.gameTimer = gameTimer;
@@ -49,16 +54,47 @@ public class RedDinoComponent extends Component implements Dinosaur {
     this.lives = lives;
   }
 
-  public double getHorizontalSpeed() {
-    return horizontalSpeed;
-  }
-
-  public void setHorizontalSpeed(double horizontalSpeed) {
-    this.horizontalSpeed = horizontalSpeed;
-  }
-
   public void setPaused(boolean paused) {
     isPaused = paused;
+  }
+
+  public void setHealthBar(HealthbarComponent healthBar) {
+    this.healthBar = healthBar;
+  }
+
+  public HealthbarComponent getHealthBar() {
+    return healthBar;
+  }
+
+  public void updateDirection(Direction direction) {
+    this.direction = direction;
+
+    switch (direction) {
+      case DOWN -> {
+        verticalSpeed = 0;
+        horizontalSpeed = -movementSpeed;
+        entity.setRotation(180);
+      }
+      case LEFT -> {
+        verticalSpeed = -movementSpeed;
+        horizontalSpeed = 0;
+        entity.setRotation(270);
+      }
+      case RIGHT -> {
+        verticalSpeed = movementSpeed;
+        horizontalSpeed = 0;
+        entity.setRotation(90);
+      }
+      default -> {
+        verticalSpeed = 0;
+        horizontalSpeed = movementSpeed;
+        entity.setRotation(0);
+      }
+    }
+  }
+
+  public Direction getDirection() {
+    return direction;
   }
 
   @Override
@@ -78,16 +114,25 @@ public class RedDinoComponent extends Component implements Dinosaur {
 
     if (firstTime) {
       System.out.println("level: " + levelManager.getCurrentLevel());
-      horizontalSpeed = levelManager.getEnemySpeed();
+      movementSpeed = levelManager.getEnemySpeed();
+      updateDirection(direction);
       lives = levelManager.getCurrentLevel() * 2;
       firstTime = false;
     }
 
     // the Dino turns around just before he hits a site of the screen
-    if (entity.getX() < 0 || entity.getX() > DinosaurGUI.WIDTH - entity.getWidth() - 40) {
-      horizontalSpeed *= -1;
+    if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+      if (entity.getY() < 0 || entity.getY() > DinosaurGUI.HEIGHT - entity.getWidth() - 40) {
+        verticalSpeed *= -1;
+      }
+    } else {
+      if (entity.getX() < 0 || entity.getX() > DinosaurGUI.WIDTH - entity.getWidth() - 40) {
+        horizontalSpeed *= -1;
+      }
     }
+
     entity.translateX(horizontalSpeed);
+    entity.translateY(verticalSpeed);
 
     // The dinosaur shoots depending on the absolute value of its own speed on the current Level
 

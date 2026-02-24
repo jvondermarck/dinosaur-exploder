@@ -57,14 +57,14 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
               spawn(
                   "coin", orangeDino.getX() + random(-25, 25), orangeDino.getY() + random(-25, 25));
             }
-            bossSpawner.removeBossEntities();
+            bossSpawner.removeBossEntity(orangeDino);
 
             collisionHandler.handleBossDefeat(score.getComponent(ScoreComponent.class));
 
             gameActions.showLevelMessage();
             System.out.println("Level up!");
           } else {
-            bossSpawner.updateHealthBar();
+            orangeDino.getComponent(OrangeDinoComponent.class).getHealthBar().updateBar();
           }
         });
   }

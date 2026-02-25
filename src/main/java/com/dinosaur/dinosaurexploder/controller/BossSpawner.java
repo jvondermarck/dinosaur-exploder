@@ -37,19 +37,30 @@ public class BossSpawner {
   }
 
   private void addRedDino(Direction direction) {
+    double downX = getAppCenter().getX() - 45;
+    double downY = getAppHeight() - 110;
+    double leftX = 50;
+    double leftY = getAppCenter().getY() - 45;
+    double rightX = getAppWidth() - 110;
+    double rightY = getAppCenter().getY() - 45;
+    double upX = getAppCenter().getX() - 45;
+    double upY = 50;
+
     Entity redDino =
         switch (direction) {
-          case DOWN -> spawn("redDino", getAppCenter().getX() - 45, getAppHeight() - 110);
-          case LEFT -> spawn("redDino", 50, getAppCenter().getY() - 45);
-          case RIGHT -> spawn("redDino", getAppWidth() - 110, getAppCenter().getY() - 45);
-          default -> spawn("redDino", getAppCenter().getX() - 45, 50);
+          case DOWN -> spawn("redDino", downX, downY);
+          case LEFT -> spawn("redDino", leftX, leftY);
+          case RIGHT -> spawn("redDino", rightX, rightY);
+          default -> spawn("redDino", upX, upY);
         };
     redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
     redDino.getComponent(RedDinoComponent.class).updateDirection(direction);
     redDinos.add(redDino);
 
-    Entity healthBar =
-        spawn("healthBar", getAppWidth() - (double) 215, 15 + healthBars.size() * 35);
+    double healthBarX = getAppWidth() - 215;
+    double healthBarY = 15 + healthBars.size() * 35;
+
+    Entity healthBar = spawn("healthBar", healthBarX, healthBarY);
     healthBar
         .getComponent(HealthbarComponent.class)
         .setDinoComponent(redDino.getComponent(RedDinoComponent.class));

@@ -37,14 +37,14 @@ public class BossSpawner {
   }
 
   private void addRedDino(Direction direction) {
-    double downX = getAppCenter().getX() - 45;
-    double downY = getAppHeight() - 110;
-    double leftX = 50;
-    double leftY = getAppCenter().getY() - 45;
-    double rightX = getAppWidth() - 110;
-    double rightY = getAppCenter().getY() - 45;
-    double upX = getAppCenter().getX() - 45;
-    double upY = 50;
+    double downX = getAppCenter().getX() - 45.0;
+    double downY = getAppHeight() - 110.0;
+    double leftX = 50.0;
+    double leftY = getAppCenter().getY() - 45.0;
+    double rightX = getAppWidth() - 110.0;
+    double rightY = getAppCenter().getY() - 45.0;
+    double upX = getAppCenter().getX() - 45.0;
+    double upY = 50.0;
 
     Entity redDino =
         switch (direction) {
@@ -72,14 +72,14 @@ public class BossSpawner {
   }
 
   private void addOrangeDino(Direction direction) {
-    double downX = getAppCenter().getX() - 45;
-    double downY = getAppHeight() - 110;
-    double leftX = 50;
-    double leftY = getAppCenter().getY() - 45;
-    double rightX = getAppWidth() - 110;
-    double rightY = getAppCenter().getY() - 45;
-    double upX = getAppCenter().getX() - 45;
-    double upY = 50;
+    double downX = getAppCenter().getX() - 45.0;
+    double downY = getAppHeight() - 110.0;
+    double leftX = 50.0;
+    double leftY = getAppCenter().getY() - 45.0;
+    double rightX = getAppWidth() - 110.0;
+    double rightY = getAppCenter().getY() - 45.0;
+    double upX = getAppCenter().getX() - 45.0;
+    double upY = 50.0;
 
     Entity orangeDino =
         switch (direction) {
@@ -92,8 +92,8 @@ public class BossSpawner {
     orangeDino.getComponent(OrangeDinoComponent.class).setLevelManager(levelManager);
     orangeDinos.add(orangeDino);
 
-    double healthBarX = getAppWidth() - 215;
-    double healthBarY = 15 + healthBars.size() * 35;
+    double healthBarX = getAppWidth() - 215.0;
+    double healthBarY = 15.0 + healthBars.size() * 35.0;
 
     Entity healthBar = spawn("healthBar", healthBarX, healthBarY);
     healthBar

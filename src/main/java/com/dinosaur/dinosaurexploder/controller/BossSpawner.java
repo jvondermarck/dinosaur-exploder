@@ -72,19 +72,30 @@ public class BossSpawner {
   }
 
   private void addOrangeDino(Direction direction) {
+    double downX = getAppCenter().getX() - 45;
+    double downY = getAppHeight() - 110;
+    double leftX = 50;
+    double leftY = getAppCenter().getY() - 45;
+    double rightX = getAppWidth() - 110;
+    double rightY = getAppCenter().getY() - 45;
+    double upX = getAppCenter().getX() - 45;
+    double upY = 50;
+
     Entity orangeDino =
         switch (direction) {
-          case DOWN -> spawn("orangeDino", getAppCenter().getX() - 45, getAppHeight() - 110);
-          case LEFT -> spawn("orangeDino", 50, getAppCenter().getY() - 45);
-          case RIGHT -> spawn("orangeDino", getAppWidth() - 110, getAppCenter().getY() - 45);
-          default -> spawn("orangeDino", getAppCenter().getX() - 45, 50);
+          case DOWN -> spawn("orangeDino", downX, downY);
+          case LEFT -> spawn("orangeDino", leftX, leftY);
+          case RIGHT -> spawn("orangeDino", rightX, rightY);
+          default -> spawn("orangeDino", upX, upY);
         };
 
     orangeDino.getComponent(OrangeDinoComponent.class).setLevelManager(levelManager);
     orangeDinos.add(orangeDino);
 
-    Entity healthBar =
-        spawn("healthBar", getAppWidth() - (double) 215, 15 + healthBars.size() * 35);
+    double healthBarX = getAppWidth() - 215;
+    double healthBarY = 15 + healthBars.size() * 35;
+
+    Entity healthBar = spawn("healthBar", healthBarX, healthBarY);
     healthBar
         .getComponent(HealthbarComponent.class)
         .setDinoComponent(orangeDino.getComponent(OrangeDinoComponent.class));

@@ -57,8 +57,8 @@ public class BossSpawner {
     redDino.getComponent(RedDinoComponent.class).updateDirection(direction);
     redDinos.add(redDino);
 
-    double healthBarX = getAppWidth() - 215;
-    double healthBarY = 15 + healthBars.size() * 35;
+    double healthBarX = getAppWidth() - 215.0;
+    double healthBarY = 15.0 + healthBars.size() * 35.0;
 
     Entity healthBar = spawn("healthBar", healthBarX, healthBarY);
     healthBar

@@ -103,19 +103,7 @@ public class GameActions {
     }
 
     // Pause game elements during level transition
-    FXGL.getGameWorld()
-        .getEntitiesByType(EntityType.GREEN_DINO)
-        .forEach(
-            e -> {
-              if (e.hasComponent(GreenDinoComponent.class)) {
-                e.getComponent(GreenDinoComponent.class).setPaused(true);
-              } else if (e.hasComponent(AsteroidsComponent.class)) {
-                e.getComponent(AsteroidsComponent.class).setPaused(true);
-              }
-            });
-
-    enemySpawner.pauseEnemySpawning();
-    asteroidsSpawner.pauseAsteroidsSpawning();
+    pauseElement();
 
     // Display centered level notification
     Text levelText =
@@ -132,10 +120,7 @@ public class GameActions {
     getGameScene().addUINode(levelText);
 
     // Trigger bomb regeneration for level advancement
-    if (bomb.hasComponent(BombComponent.class)) {
-      bomb.getComponent(BombComponent.class)
-          .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
-    }
+    regenerateBombe();
 
     // Resume gameplay after a delay
     runOnce(
@@ -175,6 +160,28 @@ public class GameActions {
               seconds(3));
         },
         seconds(2));
+  }
+
+  public void pauseElement() {
+    FXGL.getGameWorld()
+        .getEntitiesByType(EntityType.GREEN_DINO)
+        .forEach(
+            e -> {
+              if (e.hasComponent(GreenDinoComponent.class)) {
+                e.getComponent(GreenDinoComponent.class).setPaused(true);
+              } else if (e.hasComponent(AsteroidsComponent.class)) {
+                e.getComponent(AsteroidsComponent.class).setPaused(true);
+              }
+            });
+    enemySpawner.pauseEnemySpawning();
+    asteroidsSpawner.pauseAsteroidsSpawning();
+  }
+
+  public void regenerateBombe() {
+    if (bomb.hasComponent(BombComponent.class)) {
+      bomb.getComponent(BombComponent.class)
+          .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+    }
   }
 
   /** Summary : To detect whether the player lives are empty or not */

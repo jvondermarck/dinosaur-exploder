@@ -27,7 +27,7 @@ public class ProjectileAsteroidsCollision implements CollisionHandlerInterface {
         EntityType.PROJECTILE,
         EntityType.ASTEROIDS,
         (projectile, asteroids) -> {
-          spawn("explosion", asteroids.getX() - 25, asteroids.getY() - 30);
+          spawn("explosion", projectile.getX(), projectile.getY());
           projectile.removeFromWorld();
 
           collisionHandler.handleHitAsteroids(asteroids.getComponent(AsteroidsComponent.class));

@@ -16,7 +16,7 @@ public class LevelManager {
   private int defeatedEnemies = 0;
   private double enemySpawnRate = 0.75;
   private double enemySpeed = 1.5;
-  private double asteroidsSpawnRate = 2;
+  private double asteroidsSpawnRate = 1.5;
   private double asteroidsVerticalSpeed = 0.8;
   private double asteroidsHorizontalSpeed = 0.2;
 

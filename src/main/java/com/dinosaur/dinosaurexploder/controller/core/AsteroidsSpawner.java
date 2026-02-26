@@ -35,9 +35,9 @@ public class AsteroidsSpawner {
     asteroidsSpawnTimer =
         run(
             () -> {
-              if (!isSpawningPaused) {
+              if (!isSpawningPaused && !(levelManager.getCurrentLevel() % 10 == 0)) {
                 Entity asteroids =
-                    spawn(listOfAsteroids.get(random(0, 2)), random(30, getAppWidth() - 30), -50);
+                    spawn(listOfAsteroids.get(random(0, 2)), random(30, getAppWidth() - 30), -100);
               }
             },
             seconds(levelManager.getAsteroidsSpawnRate()));

@@ -28,7 +28,6 @@ public class PlayerAsteroidsCollision implements CollisionHandlerInterface {
         (player, asteroids) -> {
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
           asteroids.removeFromWorld();
-          System.out.println("You touched an asteroids !");
           gameActions.damagePlayer();
         });
   }

@@ -23,7 +23,7 @@ public class EnemySpawner {
   private final BossSpawner bossSpawner;
   private TimerAction enemySpawnTimer;
   private boolean isSpawningPaused = false;
-  private final String GREEN_DINO_STRING = "greenDino";
+  private static final String greenDinoString = "greenDino";
 
   public EnemySpawner(GameInitializer gameInitializer) {
     this.levelManager = gameInitializer.getLevelManager();
@@ -53,16 +53,16 @@ public class EnemySpawner {
                       switch (direction) {
                         case DOWN ->
                             spawn(
-                                GREEN_DINO_STRING,
+                                greenDinoString,
                                 random(0, getAppWidth() - 80),
                                 getAppHeight() - 30);
-                        case LEFT -> spawn(GREEN_DINO_STRING, -50, random(0, getAppHeight() - 80));
+                        case LEFT -> spawn(greenDinoString, -50, random(0, getAppHeight() - 80));
                         case RIGHT ->
                             spawn(
-                                GREEN_DINO_STRING,
+                                greenDinoString,
                                 getAppWidth() - 40,
                                 random(0, getAppHeight() - 80));
-                        default -> spawn(GREEN_DINO_STRING, random(0, getAppWidth() - 80), -50);
+                        default -> spawn(greenDinoString, random(0, getAppWidth() - 80), -50);
                       };
                   // Apply direction to component
                   greenDino.getComponent(GreenDinoComponent.class).updateDirection(direction);

@@ -15,6 +15,8 @@ import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.util.Objects;
+import java.util.logging.Logger;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -27,6 +29,7 @@ public class DifficultySelectionMenu extends FXGLMenu {
 
   // ============ FIELDS ============
   private final LanguageManager languageManager = LanguageManager.getInstance();
+  Logger logger = Logger.getLogger(DifficultySelectionMenu.class.getName());
 
   // ============ CONSTRUCTOR ============
   public DifficultySelectionMenu() {
@@ -99,7 +102,7 @@ public class DifficultySelectionMenu extends FXGLMenu {
 
   private void selectDifficulty(GameMode gameMode) {
     GameData.setSelectedDifficulty(gameMode);
-    System.out.println("Selected Difficulty: " + gameMode);
+    logger.info("Selected Difficulty: " + gameMode);
     fireNewGame();
   }
 }

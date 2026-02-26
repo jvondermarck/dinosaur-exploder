@@ -11,6 +11,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
@@ -238,13 +239,18 @@ public class PlayerComponent extends Component implements Player {
   }
 
   private void spawnMovementAnimation() {
-    Texture tex = new Texture(shipImage);
+    double scaleX = entity.getScaleX();
+    double scaleY = entity.getScaleY();
 
-    tex.setRotate(entity.getRotation());
+    Texture texture = new Texture(shipImage);
+    texture.setScaleX(scaleX);
+    texture.setScaleY(scaleY);
+    texture.setRotate(entity.getRotation());
+
 
     FXGL.entityBuilder()
-        .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))
-        .view(tex)
+        .at(entity.getCenter().subtract(shipImage.getWidth() * scaleX / 2, shipImage.getHeight() * scaleY / 2))
+        .view(texture)
         .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
         .buildAndAttach();
   }

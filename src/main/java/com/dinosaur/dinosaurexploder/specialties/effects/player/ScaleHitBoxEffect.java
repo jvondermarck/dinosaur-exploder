@@ -1,9 +1,15 @@
-package com.dinosaur.dinosaurexploder.specialties.effects;
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
+package com.dinosaur.dinosaurexploder.specialties.effects.player;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.dinosaur.dinosaurexploder.specialties.effects.SpecialtyEffect;
 
 public record ScaleHitBoxEffect(double scale) implements SpecialtyEffect {
   @Override
@@ -19,8 +25,6 @@ public record ScaleHitBoxEffect(double scale) implements SpecialtyEffect {
     double currentHeight = bbox.getHeight();
 
     bbox.clearHitBoxes();
-    bbox.addHitBox(new HitBox(BoundingShape.box(
-            currentWidth * scale, currentHeight * scale
-    )));
+    bbox.addHitBox(new HitBox(BoundingShape.box(currentWidth * scale, currentHeight * scale)));
   }
 }

@@ -12,6 +12,7 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Life;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -25,16 +26,17 @@ import javafx.scene.text.Text;
  */
 public class LifeComponent extends Component implements Life {
   private static final int DEFAULT_MAX_LIVES = 3;
+  private static final int DEFAULT_LIVES = 3;
 
   private Image heart;
   private Image heartLost;
 
-  private int maxLives;
-  private int currentLives;
+  private int maxLives = DEFAULT_MAX_LIVES;
+  private int currentLives = DEFAULT_LIVES;
 
   // Declaring Lives Text
   private Text lifeText;
-  private List<ImageView> hearts;
+  private List<ImageView> hearts = new ArrayList<>();
 
   private final LanguageManager languageManager = LanguageManager.getInstance();
 
@@ -43,16 +45,15 @@ public class LifeComponent extends Component implements Life {
     heart = new Image(GameConstants.HEART_IMAGE_PATH);
     heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
 
-    setMaxLives(DEFAULT_MAX_LIVES);
-    currentLives = maxLives;
-
-    // Initialize lifeText with the translated string
     lifeText =
         getUIFactoryService()
             .newText(
                 languageManager.getTranslation(GameConstants.LIVES).toUpperCase(),
                 Color.RED,
                 GameConstants.TEXT_SIZE_GAME_INFO);
+
+    setMaxLives(DEFAULT_MAX_LIVES);
+    currentLives = maxLives;
 
     // Listen for language changes and update UI automatically
     languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
@@ -108,13 +109,19 @@ public class LifeComponent extends Component implements Life {
     return maxLives;
   }
 
-  public void setMaxLives(int maxHealth) {
-    this.maxLives = maxHealth;
+  public void setMaxLives(int maxLives) {
+    this.maxLives = maxLives;
 
     hearts.clear();
-    for (int i = 0; i < maxHealth; i++) {
+    for (int i = 0; i < maxLives; i++) {
       hearts.add(new ImageView(heart));
     }
+
+    updateLifeDisplay();
+  }
+
+  public void setCurrentLives(int currentLives) {
+    this.currentLives = currentLives;
 
     updateLifeDisplay();
   }

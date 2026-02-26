@@ -16,6 +16,8 @@
     "specialty_more_bombs_description": "Increase the maximum number of held bombs",
     "specialty_better_bomb": "Boom!",
     "specialty_better_bomb_description": "Bombs now wipe out the whole screen",
+    "specialty_mini": "Mini",
+    "specialty_mini_description": "Decreases your hitbox",
     "game_over": "Game Over.",
     "score_label": "Score",
     "high_score": "High Score",

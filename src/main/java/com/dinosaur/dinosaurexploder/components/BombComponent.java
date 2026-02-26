@@ -16,6 +16,9 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Point2D;
@@ -28,7 +31,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class BombComponent extends Component implements Bomb {
-  private int bombCount = 3;
+  private static final int DEFAULT_MAXIMUM_BOMB_COUNT = 3;
+  private static final int DEFAULT_BOMB_COUNT = 3;
+
+  private int currentBombCount = DEFAULT_BOMB_COUNT;
+  private int maximumBombCount = DEFAULT_MAXIMUM_BOMB_COUNT;
+
   private Image spaceshipImage;
   private final int selectedShip;
 
@@ -43,11 +51,10 @@ public class BombComponent extends Component implements Bomb {
     this.selectedShip = GameData.getSelectedShip();
   }
 
-  // Declaring 3 Bomb
-  ImageView bomb1;
-  ImageView bomb2;
-  ImageView bomb3;
-  // Declaring Bomb Text
+  private Image bombImage;
+  private HBox bombContainer;
+  private List<ImageView> bombImages;
+
   private Text bombText;
 
   // Logging
@@ -57,19 +64,9 @@ public class BombComponent extends Component implements Bomb {
 
   @Override
   public void onAdded() {
-    Image bomb = new Image(GameConstants.BOMB_IMAGE_PATH);
-    bomb1 = new ImageView(bomb);
-    bomb2 = new ImageView(bomb);
-    bomb3 = new ImageView(bomb);
-
-    bombText =
-        getUIFactoryService()
-            .newText(
-                languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase()
-                    + ": "
-                    + bombCount,
-                Color.ORANGE,
-                GameConstants.TEXT_SIZE_GAME_INFO);
+    bombImages = new ArrayList<>();
+    bombImage = new Image(GameConstants.BOMB_IMAGE_PATH);
+    bombText = getUIFactoryService().newText("", Color.ORANGE, GameConstants.TEXT_SIZE_GAME_INFO);
 
     // Listen for language changes
     languageManager.selectedLanguageProperty().addListener((obs, oldVal, newVal) -> updateTexts());
@@ -77,6 +74,9 @@ public class BombComponent extends Component implements Bomb {
     // Initial bomb UI setup
     Node bombUI = createBombUI();
     entity.getViewComponent().addChild(bombUI);
+
+    currentBombCount = DEFAULT_BOMB_COUNT;
+    setMaximumBombCount(DEFAULT_MAXIMUM_BOMB_COUNT);
   }
 
   /**
@@ -85,11 +85,13 @@ public class BombComponent extends Component implements Bomb {
    * @return Node - The created bomb UI node
    */
   private Node createBombUI() {
-    HBox bombIconsBox = new HBox(5, bomb1, bomb2, bomb3);
-    bombIconsBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+    bombContainer = new HBox(5);
+    bombContainer.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-    VBox container = new VBox(5, bombText, bombIconsBox);
+    VBox container = new VBox(5, bombText, bombContainer);
     container.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+
+    initializeBombImages();
 
     return container;
   }
@@ -101,23 +103,46 @@ public class BombComponent extends Component implements Bomb {
 
   private void updateTexts() {
     bombText.setText(
-        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
+        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase()
+            + ": "
+            + currentBombCount);
   }
 
   /** Updates the bomb UI based on the current bomb count. */
   protected void updateBombUI() {
-    bomb1.setVisible(bombCount >= 1);
-    bomb2.setVisible(bombCount >= 2);
-    bomb3.setVisible(bombCount >= 3);
+    for (int i = 0; i < maximumBombCount; i++) {
+      if (currentBombCount <= i) {
+        System.out.println("Removing bomb image: " + i);
+      }
+      bombImages.get(i).setVisible(currentBombCount > i);
+    }
+
     // Update bomb text with the remaining bombs
     bombText.setText(
-        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase() + ": " + bombCount);
+        languageManager.getTranslation(GameConstants.BOMBS_LEFT).toUpperCase()
+            + ": "
+            + currentBombCount);
   }
 
+  private void initializeBombImages() {
+    for (ImageView bombImageView : bombImages) {
+      bombContainer.getChildren().remove(bombImageView);
+    }
+
+    bombImages.clear();
+
+    for (int i = 0; i < maximumBombCount; i++) {
+      ImageView bombImageView = new ImageView(bombImage);
+      bombContainer.getChildren().add(bombImageView);
+      
+      bombImages.add(bombImageView);
+    }
+  }
+  
   /** Summary: This method returns the current number of bombs. */
   @Override
   public int getBombCount() {
-    return bombCount;
+    return currentBombCount;
   }
 
   /**
@@ -127,7 +152,7 @@ public class BombComponent extends Component implements Bomb {
   @Override
   public void useBomb(Entity player) {
     if (getBombCount() > 0) {
-      bombCount--;
+      currentBombCount--;
       updateBombUI();
       spawnBombBullets(player);
     } else {
@@ -173,7 +198,7 @@ public class BombComponent extends Component implements Bomb {
       // Player has advanced to a new level, regenerate one bomb
       regenerateBomb();
       lastLevel = currentLevel;
-      logger.log(Level.INFO, "Level up! Regenerated a bomb. Current bombs: {0}", bombCount);
+      logger.log(Level.INFO, "Level up! Regenerated a bomb. Current bombs: {0}", currentBombCount);
     }
   }
 
@@ -190,14 +215,32 @@ public class BombComponent extends Component implements Bomb {
       logger.log(
           Level.INFO,
           "Collected {0} coins! Regenerated a bomb. Current bombs: {1}",
-          new Object[] {COINS_NEEDED_FOR_BOMB, bombCount});
+          new Object[] {COINS_NEEDED_FOR_BOMB, currentBombCount});
     }
   }
 
   /** Regenerates the specified number of bombs, not exceeding the maximum. */
   private void regenerateBomb() {
-    int maxBombCount = 3;
-    bombCount = Math.min(bombCount + 1, maxBombCount);
+    currentBombCount = Math.min(currentBombCount + 1, maximumBombCount);
+    updateBombUI();
+  }
+
+  public int getMaximumBombCount() {
+    return maximumBombCount;
+  }
+
+  public void setMaximumBombCount(int maximumBombCount) {
+    this.maximumBombCount = maximumBombCount;
+    initializeBombImages();
+    updateBombUI();
+  }
+
+  public int getCurrentBombCount() {
+    return currentBombCount;
+  }
+
+  public void setCurrentBombCount(int currentBombCount) {
+    this.currentBombCount = currentBombCount;
     updateBombUI();
   }
 }

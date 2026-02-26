@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.specialties;
+package com.dinosaur.dinosaurexploder.specialties.effects.life;
 
 import com.dinosaur.dinosaurexploder.specialties.effects.SpecialtyEffect;
 
-public record Specialty(String name, int costInCoins, int costInHighScore, SpecialtyEffect effect) {
-  // empty
+public interface LifeSpecialtyEffect extends SpecialtyEffect {
+  //
 }

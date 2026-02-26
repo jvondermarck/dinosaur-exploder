@@ -149,11 +149,10 @@ public class RedDinoComponent extends Component implements Dinosaur {
     AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
 
     Point2D center = entity.getCenter();
-    Vec2 direction = Vec2.fromAngle(entity.getRotation() + 90 + random(-45, 45));
+    Vec2 angle = Vec2.fromAngle(entity.getRotation() + 90 + random(-45, 45));
     spawn(
         "basicEnemyProjectile",
-        new SpawnData(center.getX() + 50 + 3, center.getY())
-            .put("direction", direction.toPoint2D()));
+        new SpawnData(center.getX() + 50 + 3, center.getY()).put("direction", angle.toPoint2D()));
   }
 
   /**

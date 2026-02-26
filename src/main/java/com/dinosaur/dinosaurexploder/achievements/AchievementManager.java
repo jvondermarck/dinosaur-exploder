@@ -94,7 +94,7 @@ public class AchievementManager {
         new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
       out.writeObject(listToSave);
     } catch (IOException e) {
-      LOGGER.log(Level.WARNING, "Error saving achievement : ", e.getMessage());
+      LOGGER.log(Level.WARNING, "Error saving achievement : {0}", e.getMessage());
     }
   }
 }

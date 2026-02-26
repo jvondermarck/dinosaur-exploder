@@ -38,8 +38,6 @@ class AsteroidsSpawnerTest {
   public void setup() {
     when(gameInitializer.getLevelManager()).thenReturn(levelManager);
     when(levelManager.getAsteroidsSpawnRate()).thenReturn(0.1);
-
-    spawner = new AsteroidsSpawner(gameInitializer);
   }
 
   @Test
@@ -51,12 +49,14 @@ class AsteroidsSpawnerTest {
     try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class);
         MockedStatic<FXGLForKtKt> fxglKt = mockStatic(FXGLForKtKt.class)) { // ← ajouter ceci
 
+      fxgl.when(FXGL::getAppWidth).thenReturn(600);
       fxgl.when(() -> FXGL.run(tick.capture(), any(Duration.class))).thenReturn(timer1);
       fxgl.when(() -> FXGL.random(anyInt(), anyInt())).thenReturn(1);
-
       fxglKt
           .when(() -> FXGLForKtKt.spawn(anyString(), anyDouble(), anyDouble()))
           .thenReturn(mock(Entity.class));
+
+      spawner = new AsteroidsSpawner(gameInitializer);
 
       spawner.spawnAsteroids();
       tick.getValue().run();
@@ -73,6 +73,9 @@ class AsteroidsSpawnerTest {
 
     try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
       fxgl.when(() -> FXGL.run(tick.capture(), any(Duration.class))).thenReturn(timer1);
+      fxgl.when(FXGL::getAppWidth).thenReturn(600);
+
+      spawner = new AsteroidsSpawner(gameInitializer);
 
       spawner.spawnAsteroids();
       tick.getValue().run();
@@ -87,6 +90,9 @@ class AsteroidsSpawnerTest {
 
     try (MockedStatic<FXGL> fxgl = mockStatic(FXGL.class)) {
       fxgl.when(() -> FXGL.run(tick.capture(), any(Duration.class))).thenReturn(timer1);
+      fxgl.when(FXGL::getAppWidth).thenReturn(600);
+
+      spawner = new AsteroidsSpawner(gameInitializer);
 
       spawner.spawnAsteroids();
       spawner.pauseAsteroidsSpawning();

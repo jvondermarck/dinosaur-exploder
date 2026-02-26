@@ -26,8 +26,6 @@ public class BossSpawner {
 
   private final Settings settings;
   private final LevelManager levelManager;
-  private final String ORANGE_DINO_STRING = "orangeDino";
-  private final String RED_DINO_STRING = "redDino";
 
   private final List<Entity> healthBars = new ArrayList<>();
   private final List<Entity> redDinos = new ArrayList<>();
@@ -39,7 +37,7 @@ public class BossSpawner {
   }
 
   private void addRedDino(Direction direction) {
-    Entity redDino = createDino(direction, RED_DINO_STRING);
+    Entity redDino = createDino(direction, "redDino");
     redDino.getComponent(RedDinoComponent.class).setLevelManager(levelManager);
     redDino.getComponent(RedDinoComponent.class).updateDirection(direction);
     redDinos.add(redDino);
@@ -59,8 +57,7 @@ public class BossSpawner {
   }
 
   private void addOrangeDino(Direction direction) {
-    Entity orangeDino = createDino(direction, ORANGE_DINO_STRING);
-
+    Entity orangeDino = createDino(direction, "orangeDino");
     orangeDino.getComponent(OrangeDinoComponent.class).setLevelManager(levelManager);
     orangeDinos.add(orangeDino);
 

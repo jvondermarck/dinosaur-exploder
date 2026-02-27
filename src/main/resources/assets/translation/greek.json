@@ -42,5 +42,8 @@
   "error_loading_contributors": "Αδυναμία φόρτωσης συντελεστών. Ελέγξτε τη σύνδεσή σας στο διαδίκτυο.",
   "credits_subtitle": "Ευχαριστούμε όλους τους συντελεστές μας",
   "options": "Ρυθμίσεις",
-  "language": "Γλώσσα"
+  "language": "Γλώσσα",
+  "select_difficulty": "Επιλέξτε δυσκολία",
+  "normal_mode": "Κανονική",
+  "expert_mode": "Ειδική"
 }

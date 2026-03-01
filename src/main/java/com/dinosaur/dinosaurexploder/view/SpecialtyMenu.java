@@ -3,6 +3,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.specialties.Specialty;
 import com.dinosaur.dinosaurexploder.specialties.SpecialtyManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -29,7 +30,7 @@ import javafx.scene.text.TextFlow;
 /// The class responsible for creating and managing the SpecialtyMenu
 public class SpecialtyMenu extends FXGLMenu {
   /// A convenient record class that contains all the data needed to display a specialty
-  public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath) {}
+  public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath, boolean isLocked) {}
   // ========= CONSTANTS ================
   private static final int GRID_GAP = 20;
   private static final int ZONE_SPACING = 50;
@@ -72,7 +73,10 @@ public class SpecialtyMenu extends FXGLMenu {
           iconPath = "more_hearts.png";
           break;
       }
-      viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath));
+
+      // TODO: Add highscore cost
+      boolean isLocked = GameData.getTotalCoins() > specialty.costInCoins();
+      viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath, isLocked));
     }
     return viewData;
   }
@@ -148,7 +152,7 @@ public class SpecialtyMenu extends FXGLMenu {
     });
 
     // Lock icon
-    ImageView lockIcon = MenuHelper.createLockIcon(false);
+    ImageView lockIcon = MenuHelper.createLockIcon(specialty.isLocked());
     lockIcon.setMouseTransparent(true); // Clicks pass through this icon
 
     StackPane container = new StackPane(specialtyButton, lockIcon);

@@ -48,9 +48,7 @@ public class AchievementManager {
     allAchievements.add(new BossDefeatAchievement(200));
   }
 
-  /**
-   * Called once when the game starts. Loads achievements from file or creates new ones.
-   */
+  /** Called once when the game starts. Loads achievements from file or creates new ones. */
   public void init() {
     if (allAchievements.isEmpty()) return;
 

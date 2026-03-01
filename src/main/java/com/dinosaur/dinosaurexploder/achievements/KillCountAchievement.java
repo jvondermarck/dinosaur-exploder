@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
+
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
@@ -41,6 +42,10 @@ public class KillCountAchievement extends Achievement {
 
   @Override
   protected void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    try {
+      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip notification
+    }
   }
 }

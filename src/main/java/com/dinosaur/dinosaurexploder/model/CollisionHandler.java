@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
+
 package com.dinosaur.dinosaurexploder.model;
 
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
@@ -43,10 +44,10 @@ public class CollisionHandler {
         levelManager.getCurrentLevel() / levelManager.getBossesToDefeat());
     levelManager.incrementDefeatedBosses();
     levelProgressBarComponent.updateProgress();
-    
+
     // Notify achievements when boss is defeated
     achievementManager.notifyBossDefeated();
-    
+
     return adjustLevel();
   }
 

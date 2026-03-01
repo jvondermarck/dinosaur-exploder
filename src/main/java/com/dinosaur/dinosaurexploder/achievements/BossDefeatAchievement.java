@@ -34,6 +34,10 @@ public class BossDefeatAchievement extends Achievement {
 
   @Override
   protected void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    try {
+      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip notification
+    }
   }
 }

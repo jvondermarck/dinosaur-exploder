@@ -112,13 +112,17 @@ public class ScoreComponent extends Component implements Score {
     if (score > highScore.getHigh(currGameMode.name())) {
       highScore.setHigh(currGameMode.name(), score);
       saveHighScore();
-
-      // Notify achievements about score change
+    }
+    // Notify achievements about score change
+    // Notify achievements about score change
+    try {
       AchievementManager achievementManager =
           FXGL.getWorldProperties().getValue("achievementManager");
       if (achievementManager != null) {
         achievementManager.notifyScoreChanged(score);
       }
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip achievement notification
     }
   }
 }

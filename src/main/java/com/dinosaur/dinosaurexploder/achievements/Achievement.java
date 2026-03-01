@@ -2,17 +2,18 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
-
 package com.dinosaur.dinosaurexploder.achievements;
+
+import java.io.Serializable;
 
 /**
  * Base class for all achievements in the game. Provides common functionality and contract for
  * achievement implementations.
  */
-public abstract class Achievement {
+public abstract class Achievement implements Serializable {
 
-  protected final int rewardCoins;
   protected boolean completed = false;
+  protected final int rewardCoins;
 
   public Achievement(int rewardCoins) {
     this.rewardCoins = rewardCoins;

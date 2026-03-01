@@ -150,7 +150,7 @@ public class BombComponent extends Component implements Bomb {
     }
 
     for (int i = -5; i <= 5; i++) {
-      double angle = entity.getRotation() - 90 + i * 10;
+      double angle = player.getRotation() - 90 + i * 10;
       Vec2 direction = Vec2.fromAngle(angle);
       spawn(
           "basicProjectile",

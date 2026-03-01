@@ -42,5 +42,8 @@
   "error_loading_contributors": "Не удалось загрузить участников. Пожалуйста, проверьте подключение к интернету.",
   "credits_subtitle": "Спасибо всем нашим участникам",
   "options": "опции",
-  "language": "язык"
+  "language": "язык",
+  "select_difficulty": "Выберите сложность",
+  "normal_mode": "Нормальный",
+  "expert_mode": "Эксперт"
 }

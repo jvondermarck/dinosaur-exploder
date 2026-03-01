@@ -5,7 +5,7 @@
 
 package com.dinosaur.dinosaurexploder.components;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameTimer;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.core.math.Vec2;
@@ -234,9 +234,13 @@ public class PlayerComponent extends Component implements Player {
   }
 
   private void spawnMovementAnimation() {
+    Texture tex = new Texture(shipImage);
+
+    tex.setRotate(entity.getRotation());
+
     FXGL.entityBuilder()
         .at(getEntity().getCenter().subtract(shipImage.getWidth() / 2, shipImage.getHeight() / 2))
-        .view(new Texture(shipImage))
+        .view(tex)
         .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
         .buildAndAttach();
   }

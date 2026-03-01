@@ -140,7 +140,7 @@ class BossSpawnerTest {
 
       spawner.spawnNewBoss("red");
 
-      spawner.updateHealthBar();
+      spawner.updateHealthBars();
 
       verify(hbComp).updateBar();
     }
@@ -159,8 +159,11 @@ class BossSpawnerTest {
     RedDinoComponent redComp = mock(RedDinoComponent.class);
     HealthbarComponent hbComp = mock(HealthbarComponent.class);
 
+    when(redEntity.hasComponent(RedDinoComponent.class)).thenReturn(true);
     when(redEntity.getComponent(RedDinoComponent.class)).thenReturn(redComp);
     when(healthBarEntity.getComponent(HealthbarComponent.class)).thenReturn(hbComp);
+    when(redComp.getHealthBar()).thenReturn(hbComp);
+    when(hbComp.getEntity()).thenReturn(healthBarEntity);
 
     try (MockedStatic<FXGL> fxglMock = mockStatic(FXGL.class);
         MockedStatic<FXGLForKtKt> spawnMock = mockStatic(FXGLForKtKt.class)) {

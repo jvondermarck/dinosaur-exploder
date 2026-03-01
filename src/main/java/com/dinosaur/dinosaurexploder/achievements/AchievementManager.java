@@ -5,14 +5,18 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class AchievementManager {
 
   private final List<Achievement> allAchievements = new ArrayList<>();
   private final List<Achievement> activeAchievements = new ArrayList<>();
+  private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
 
   public AchievementManager() {
     registerAchievements();
@@ -45,18 +49,28 @@ public class AchievementManager {
   }
 
   /**
-   * Called once when the game starts. Randomly selects achievements to be active for this game
-   * session.
+   * Called once when the game starts. Loads achievements from file or creates new ones.
    */
   public void init() {
     if (allAchievements.isEmpty()) return;
 
-    Collections.shuffle(allAchievements);
+    activeAchievements.addAll(loadAchievement());
+    if (activeAchievements.isEmpty()) {
+      saveAchievement(allAchievements);
+      activeAchievements.addAll(allAchievements);
+    }
+    if (allAchievements.size() > activeAchievements.size()) {
 
-    // Activate 2 random achievements for variety
-    int numToActivate = Math.min(2, allAchievements.size());
-    for (int i = 0; i < numToActivate; i++) {
-      activeAchievements.add(allAchievements.get(i));
+      Set<String> activeDescriptions =
+          activeAchievements.stream().map(Achievement::getDescription).collect(Collectors.toSet());
+
+      List<Achievement> toAdd =
+          allAchievements.stream()
+              .filter(a -> !activeDescriptions.contains(a.getDescription()))
+              .toList();
+
+      activeAchievements.addAll(toAdd);
+      saveAchievement(activeAchievements);
     }
   }
 
@@ -73,24 +87,39 @@ public class AchievementManager {
     for (Achievement achievement : activeAchievements) {
       achievement.onDinosaurKilled();
     }
+    saveAchievement(activeAchievements);
   }
 
+  /**
+   * Called when the player's score changes. Notifies all active score-based achievements.
+   *
+   * @param newScore The current score
+   */
   public void notifyScoreChanged(int newScore) {
     for (Achievement achievement : activeAchievements) {
       achievement.onScoreChanged(newScore);
     }
+    saveAchievement(activeAchievements);
   }
 
+  /**
+   * Called when coins are collected. Notifies all active coin-based achievements.
+   *
+   * @param totalCoins The total number of coins collected
+   */
   public void notifyCoinCollected(int totalCoins) {
     for (Achievement achievement : activeAchievements) {
       achievement.onCoinCollected(totalCoins);
     }
+    saveAchievement(activeAchievements);
   }
 
+  /** Called when a boss is defeated. Notifies all active boss-defeat achievements. */
   public void notifyBossDefeated() {
     for (Achievement achievement : activeAchievements) {
       achievement.onBossDefeated();
     }
+    saveAchievement(activeAchievements);
   }
 
   public List<Achievement> getActiveAchievements() {
@@ -105,6 +134,28 @@ public class AchievementManager {
     if (activeAchievements.isEmpty()) {
       return null;
     }
-    return activeAchievements.get(0);
+    return activeAchievements.getFirst();
+  }
+
+  /** Get the list of achievements saved in the achievement.ser file */
+  public List<Achievement> loadAchievement() {
+    List<Achievement> achievementFromFile = new ArrayList<>();
+    try (ObjectInputStream in =
+        new ObjectInputStream(new FileInputStream(GameConstants.ACHIEVEMENTS_FILE))) {
+      achievementFromFile = (List<Achievement>) in.readObject();
+    } catch (IOException | ClassNotFoundException e) {
+      LOGGER.log(Level.FINE, "Failed to load achievements from file");
+    }
+    return achievementFromFile;
+  }
+
+  /** Save activeAchievement in the achievement.ser file */
+  public void saveAchievement(List<Achievement> listToSave) {
+    try (ObjectOutputStream out =
+        new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
+      out.writeObject(listToSave);
+    } catch (IOException e) {
+      LOGGER.log(Level.WARNING, "Error saving achievement : {0}", e.getMessage());
+    }
   }
 }

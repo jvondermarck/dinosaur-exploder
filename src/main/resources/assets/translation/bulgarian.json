@@ -42,5 +42,8 @@
   "error_loading_contributors": "Неуспешно зареждане на сътрудниците. Моля, проверете интернет връзката си.",
   "credits_subtitle": "Благодарим на всички наши сътрудници",
   "options": "опции",
-  "language": "език"
+  "language": "език",
+  "select_difficulty": "Изберете трудност",
+  "normal_mode": "Нормален",
+  "expert_mode": "Експертен"
 }

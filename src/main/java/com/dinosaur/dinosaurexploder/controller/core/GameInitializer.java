@@ -6,8 +6,6 @@
 package com.dinosaur.dinosaurexploder.controller.core;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.almasb.fxgl.dsl.FXGL.getAppCenter;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.dsl.FXGL;
@@ -17,10 +15,12 @@ import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.controller.CoinSpawner;
 import com.dinosaur.dinosaurexploder.controller.CountdownAnimation;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -69,6 +69,9 @@ public class GameInitializer {
   public void initGame() {
 
     levelManager = new LevelManager();
+    levelManager.setGameMode(GameData.getSelectedDifficulty()); // Set the difficulty from GameData
+    levelManager.setBossesToDefeat(GameData.getSelectedDifficulty() == GameMode.EXPERT ? 2 : 1);
+
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();

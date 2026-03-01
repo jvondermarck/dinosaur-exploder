@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2026 jvondermarck
  * SPDX-License-Identifier: MIT
  */
-
 package com.dinosaur.dinosaurexploder.model;
 
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
@@ -27,12 +26,10 @@ public class CollisionHandler {
 
   public boolean isLevelUpAfterHitDino(
       ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
-
     scoreComponent.incrementScore(1);
     levelManager.incrementDefeatedEnemies();
     achievementManager.notifyDinosaurKilled();
     levelProgressBarComponent.updateProgress();
-
     return adjustLevel();
   }
 
@@ -40,11 +37,17 @@ public class CollisionHandler {
     dinoComponent.damage(1);
   }
 
-  public void handleBossDefeat(ScoreComponent scoreComponent) {
-    scoreComponent.incrementScore(levelManager.getCurrentLevel());
-    levelManager.nextLevel();
-
+  public boolean isLevelUpAfterBossDefeat(
+      ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+    scoreComponent.incrementScore(
+        levelManager.getCurrentLevel() / levelManager.getBossesToDefeat());
+    levelManager.incrementDefeatedBosses();
+    levelProgressBarComponent.updateProgress();
+    
+    // Notify achievements when boss is defeated
     achievementManager.notifyBossDefeated();
+    
+    return adjustLevel();
   }
 
   public int getDamagedPlayerLife(LifeComponent lifeComponent) {
@@ -55,13 +58,13 @@ public class CollisionHandler {
       CollectedCoinsComponent collectedCoinsComponent,
       ScoreComponent scoreComponent,
       @Nullable BombComponent bombComponent) {
-
     collectedCoinsComponent.incrementCoin();
     scoreComponent.incrementScore(2);
 
     if (bombComponent != null) {
       bombComponent.trackCoinForBombRegeneration();
     }
+
     // Notify achievements about coin collection
     int totalCoins = collectedCoinsComponent.getCoin();
     achievementManager.notifyCoinCollected(totalCoins);

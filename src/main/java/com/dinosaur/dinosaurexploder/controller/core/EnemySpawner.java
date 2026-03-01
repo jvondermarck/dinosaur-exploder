@@ -11,7 +11,10 @@ import static javafx.util.Duration.seconds;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
+import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
+import com.dinosaur.dinosaurexploder.constants.Direction;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 
 public class EnemySpawner {
@@ -20,6 +23,7 @@ public class EnemySpawner {
   private final BossSpawner bossSpawner;
   private TimerAction enemySpawnTimer;
   private boolean isSpawningPaused = false;
+  private static final String GREEN_DINO_STRING = "greenDino";
 
   public EnemySpawner(GameInitializer gameInitializer) {
     this.levelManager = gameInitializer.getLevelManager();
@@ -43,7 +47,25 @@ public class EnemySpawner {
                 bossSpawner.spawnNewBoss("red");
               } else {
                 if (!isSpawningPaused && random(0, 2) < 2) {
-                  Entity greenDino = spawn("greenDino", random(0, getAppWidth() - 80), -50);
+                  // direction is up for normal mode, random for expert mode
+                  Direction direction = Direction.modeDirection(GameData.getSelectedDifficulty());
+                  Entity greenDino =
+                      switch (direction) {
+                        case DOWN ->
+                            spawn(
+                                GREEN_DINO_STRING,
+                                random(0, getAppWidth() - 80),
+                                getAppHeight() - 30);
+                        case LEFT -> spawn(GREEN_DINO_STRING, -50, random(0, getAppHeight() - 80));
+                        case RIGHT ->
+                            spawn(
+                                GREEN_DINO_STRING,
+                                getAppWidth() - 40,
+                                random(0, getAppHeight() - 80));
+                        default -> spawn(GREEN_DINO_STRING, random(0, getAppWidth() - 80), -50);
+                      };
+                  // Apply direction to component
+                  greenDino.getComponent(GreenDinoComponent.class).updateDirection(direction);
                 }
               }
             },

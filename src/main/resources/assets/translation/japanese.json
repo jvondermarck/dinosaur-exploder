@@ -42,5 +42,8 @@
   "error_loading_contributors": "貢献者を読み込めません。インターネット接続を確認してください。",
   "credits_subtitle": "すべての貢献者の皆様に感謝します",
   "options": "オプション",
-  "language": "言語"
+  "language": "言語",
+  "select_difficulty": "難易度を選択",
+  "normal_mode": "ノーマル",
+  "expert_mode": "エキスパート"
 }

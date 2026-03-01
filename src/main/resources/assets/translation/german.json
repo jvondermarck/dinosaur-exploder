@@ -42,5 +42,8 @@
   "error_loading_contributors": "Mitwirkende konnten nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung.",
   "credits_subtitle": "Danke an alle Mitwirkenden",
   "options": "Optionen",
-  "language": "Sprache"
+  "language": "Sprache",
+  "select_difficulty": "Schwierigkeitsgrad auswählen",
+  "normal_mode": "Normal",
+  "expert_mode": "Experte"
 }

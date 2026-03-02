@@ -50,6 +50,16 @@ public class CollisionHandler {
     levelManager.nextLevel();
   }
 
+  public boolean isLevelUpAfterBossDefeat(
+      ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
+    scoreComponent.incrementScore(
+        levelManager.getCurrentLevel() / levelManager.getBossesToDefeat());
+    levelManager.incrementDefeatedBosses();
+    levelProgressBarComponent.updateProgress();
+
+    return adjustLevel();
+  }
+
   public int getDamagedPlayerLife(LifeComponent lifeComponent) {
     return lifeComponent.decreaseLife(1);
   }

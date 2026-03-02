@@ -22,10 +22,10 @@ public class AsteroidsSpawner {
   private boolean isSpawningPaused = false;
   private final List<String> listOfAsteroids =
       Arrays.asList("littleAsteroids", "mediumAsteroids", "bigAsteroids");
-  private final int minX = 30; // We don't want the asteroids to spawn off-screen so I make them
-  // spawn a bit further
+  private static final int minX = 30; // We don't want the asteroids to spawn off-screen so I
+  // make them spawn a bit further
   private final int maxX = getAppWidth() - 30;
-  private final int spawnHeight = -90;
+  private static final int spawnHeight = -90;
 
   public AsteroidsSpawner(GameInitializer gameInitializer) {
     this.levelManager = gameInitializer.getLevelManager();

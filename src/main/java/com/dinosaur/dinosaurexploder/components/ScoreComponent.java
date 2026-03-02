@@ -8,7 +8,9 @@ package com.dinosaur.dinosaurexploder.components;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
@@ -64,8 +66,12 @@ public class ScoreComponent extends Component implements Score {
 
   private void updateTexts() {
     scoreText.setText(languageManager.getTranslation("score").toUpperCase() + ": " + score);
+    GameMode currentMode = GameData.getSelectedDifficulty();
+
     highScoreText.setText(
-        languageManager.getTranslation("high_score").toUpperCase() + ": " + highScore.getHigh());
+        languageManager.getTranslation("high_score").toUpperCase()
+            + ": "
+            + highScore.getHigh(currentMode.name()));
   }
 
   private void loadHighScore() {
@@ -100,8 +106,10 @@ public class ScoreComponent extends Component implements Score {
   public void incrementScore(int increment) {
     score += increment;
 
-    if (score > highScore.getHigh()) {
-      highScore = new HighScore(score);
+    GameMode currGameMode = GameData.getSelectedDifficulty();
+
+    if (score > highScore.getHigh(currGameMode.name())) {
+      highScore.setHigh(currGameMode.name(), score);
       saveHighScore();
     }
   }

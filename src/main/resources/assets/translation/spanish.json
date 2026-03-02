@@ -42,5 +42,8 @@
   "error_loading_contributors": "No se pudieron cargar los colaboradores. Por favor, revisa tu conexión a Internet.",
   "credits_subtitle": "Gracias a todos nuestros colaboradores",
   "options": "opciones",
-  "language": "idioma"
+  "language": "idioma",
+  "select_difficulty": "Seleccione la dificultad",
+  "normal_mode": "Normal",
+  "expert_mode": "Experto"
 }

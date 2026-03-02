@@ -42,5 +42,8 @@
     "error_loading_contributors": "Impossible de charger les contributeurs. Veuillez vérifier votre connexion Internet.",
     "credits_subtitle": "Merci à tous nos contributeurs",
     "options": "Paramètres",
-    "language": "langue"
+    "language": "langue",
+    "select_difficulty": "Sélectionnez la difficulté",
+    "normal_mode": "Normal",
+    "expert_mode": "Expert"
 }

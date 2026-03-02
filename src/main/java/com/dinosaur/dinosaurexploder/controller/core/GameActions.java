@@ -97,8 +97,8 @@ public class GameActions {
    * level is changed
    */
   public void showLevelMessage() {
-    // Hide the progress bar for boss levels
-    if (levelManager.getCurrentLevel() % 5 == 0) {
+    // Hide the progress bar for boss levels if there are less than 2 bosses to defeat
+    if (singleBoss()) {
       levelProgressBar.setVisible(false);
     }
 
@@ -125,7 +125,7 @@ public class GameActions {
     // Resume gameplay after a delay
     runOnce(
         () -> {
-          if (levelManager.getCurrentLevel() % 5 != 0) {
+          if (!singleBoss()) {
             levelProgressBar.setVisible(true);
           }
 
@@ -153,7 +153,7 @@ public class GameActions {
           player.getComponent(PlayerComponent.class).setInvincible(true);
           runOnce(
               () -> {
-                if (player != null && player.isActive()) {
+                if (player.isActive()) {
                   player.getComponent(PlayerComponent.class).setInvincible(false);
                 }
               },
@@ -182,6 +182,10 @@ public class GameActions {
       bomb.getComponent(BombComponent.class)
           .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
     }
+  }
+
+  private boolean singleBoss() {
+    return levelManager.getBossesToDefeat() < 2 && levelManager.getCurrentLevel() % 5 == 0;
   }
 
   /** Summary : To detect whether the player lives are empty or not */

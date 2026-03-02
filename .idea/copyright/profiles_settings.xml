@@ -1,3 +1,7 @@
 <component name="CopyrightManager">
-  <settings default="dinosaur-exploder" />
+  <settings default="dinosaur-exploder">
+    <module2copyright>
+      <element module="All" copyright="dinosaur-exploder" />
+    </module2copyright>
+  </settings>
 </component>

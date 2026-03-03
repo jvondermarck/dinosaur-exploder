@@ -2,6 +2,7 @@ package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.dsl.FXGL;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.specialties.Specialty;
@@ -176,7 +177,9 @@ public class SpecialtyMenu extends FXGLMenu {
   /// Create a zone with a back and next button
   private HBox createNavigationZone() {
     Button backButton = createButton("back", () -> fireResume());
-    Button nextButton = createButton("next", () -> fireNewGame());
+    Button nextButton = createButton("next", () -> {
+      FXGL.getSceneService().pushSubScene(new DifficultySelectionMenu());
+    });
 
     HBox navigationZone = new HBox(30);
     navigationZone.setPadding(new Insets(0, 40, 20, 40));

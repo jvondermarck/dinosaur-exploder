@@ -61,6 +61,7 @@ public class PlayerComponent extends Component implements Player {
   // cached Images to prevent memory load
   private Image shipImage;
   private Image projectileImage;
+  private AllyComponent ally;
 
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {
@@ -175,6 +176,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateY(-movementSpeed);
+    if (ally != null) {
+      ally.moveUp(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -185,6 +189,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateY(movementSpeed);
+    if (ally != null) {
+      ally.moveDown(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -195,6 +202,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateX(movementSpeed);
+    if (ally != null) {
+      ally.moveRight(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -205,6 +215,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateX(-movementSpeed);
+    if (ally != null) {
+      ally.moveLeft(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -284,5 +297,13 @@ public class PlayerComponent extends Component implements Player {
 
   public double getWeaponHeatPercentage() {
     return (weaponHeat / MAX_WEAPON_HEAT) * 100.0;
+  }
+
+  public AllyComponent getAlly() {
+    return ally;
+  }
+
+  public void setAlly(AllyComponent ally) {
+    this.ally = ally;
   }
 }

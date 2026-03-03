@@ -47,8 +47,8 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
                 .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());
           }
           if (random(0, 100) < 100) {
-            Entity ally = spawn("ally", greenDino.getX(), greenDino.getY());
-            ally.getComponent(AllyComponent.class)
+            Entity ally = spawn("allyDrop", greenDino.getX(), greenDino.getY());
+            ally.getComponent(AllyDropComponent.class)
                 .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());
           }
           AudioManager.getInstance().playSound(GameConstants.ENEMY_EXPLODE_SOUND);

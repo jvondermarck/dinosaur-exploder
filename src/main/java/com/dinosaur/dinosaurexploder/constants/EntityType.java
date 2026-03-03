@@ -24,5 +24,6 @@ public enum EntityType {
   WEAPON_HEAT,
   SHIELD,
   ASTEROIDS,
+  ALLY_DROP,
   ALLY
 }

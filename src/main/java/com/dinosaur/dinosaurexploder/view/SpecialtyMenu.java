@@ -31,7 +31,7 @@ import javafx.scene.text.TextFlow;
 /// The class responsible for creating and managing the SpecialtyMenu
 public class SpecialtyMenu extends FXGLMenu {
   /// A convenient record class that contains all the data needed to display a specialty
-  public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath, boolean isLocked) {}
+  public record SpecialtyViewData(String nameKey, String descriptionKey, String iconPath, boolean isLocked, Specialty specialty) {}
   // ========= CONSTANTS ================
   private static final int GRID_GAP = 20;
   private static final int ZONE_SPACING = 50;
@@ -77,7 +77,7 @@ public class SpecialtyMenu extends FXGLMenu {
 
       // TODO: Add highscore cost
       boolean isLocked = GameData.getTotalCoins() > specialty.costInCoins();
-      viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath, isLocked));
+      viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath, isLocked, specialty));
     }
     return viewData;
   }

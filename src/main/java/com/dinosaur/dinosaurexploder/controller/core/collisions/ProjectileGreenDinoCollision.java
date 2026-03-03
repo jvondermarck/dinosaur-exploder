@@ -10,10 +10,7 @@ import static com.almasb.fxgl.dsl.FXGL.random;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.entity.Entity;
-import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
-import com.dinosaur.dinosaurexploder.components.Heart;
-import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
-import com.dinosaur.dinosaurexploder.components.ScoreComponent;
+import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
@@ -47,6 +44,11 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
             Entity heart = spawn("heart", greenDino.getX(), greenDino.getY());
             heart
                 .getComponent(Heart.class)
+                .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());
+          }
+          if (random(0, 100) < 100) {
+            Entity ally = spawn("ally", greenDino.getX(), greenDino.getY());
+            ally.getComponent(AllyComponent.class)
                 .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());
           }
           AudioManager.getInstance().playSound(GameConstants.ENEMY_EXPLODE_SOUND);

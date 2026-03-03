@@ -365,6 +365,19 @@ public class GameEntityFactory implements EntityFactory {
         .build();
   }
 
+  /** Summary : Spawn of an ally drop in the window will be handled in below Entity */
+  @Spawns("ally")
+  public Entity newAlly(SpawnData data) {
+    logger.log(Level.INFO, "Loading ally texture: {0}", GameConstants.ALLY_DROP_IMAGE_FILE);
+    return entityBuilderBase(data, EntityType.ALLY)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ALLY_DROP_IMAGE_FILE, 50, 50))
+        .bbox(new HitBox(BoundingShape.box(50, 50)))
+        .collidable()
+        .with(new AllyComponent())
+        .build();
+  }
+
   /** Summary : Reusable part of every entity */
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder(data).type(type);

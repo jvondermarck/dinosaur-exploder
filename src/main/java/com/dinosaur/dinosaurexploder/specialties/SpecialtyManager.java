@@ -25,7 +25,7 @@ public class SpecialtyManager {
       new Specialty("smaller_hitbox", 10, 10, new ScaleHitBoxEffect(0.5));
 
   private static final List<Specialty> specialities =
-      List.of(NULL_SPECIALTY, TANK_SPECIALTY, MORE_BOMBS_SPECIALTY, MINI_SPECIALTY);
+      List.of(TANK_SPECIALTY, MORE_BOMBS_SPECIALTY, MINI_SPECIALTY, NULL_SPECIALTY);
 
   public static List<Specialty> getAllSpecialties() {
     return specialities;

@@ -86,9 +86,9 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyInfo.setAlignment(Pos.CENTER);
     specialtyInfo.setPadding(new Insets(20, 0, 0, 0));
 
-    specialtyName = new Label("[Specialty Name]"); // TODO: retrieve from game data
+    specialtyName = new Label(languageManager.getTranslation("specialty_none")); 
     specialtyName.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffcc00; -fx-font-size: 24px;"); 
-    specialtyDescription = new Label("[Specialty Short Description is Here]"); 
+    specialtyDescription = new Label(languageManager.getTranslation("specialty_none_description")); 
     specialtyDescription.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
     specialtyDescription.setWrapText(true);
     specialtyDescription.setAlignment(Pos.CENTER);
@@ -140,6 +140,7 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyButton.setOnAction(event -> {
         specialtyName.setText(languageManager.getTranslation(specialty.nameKey()));
         specialtyDescription.setText(languageManager.getTranslation(specialty.descriptionKey()));
+        GameData.setSelectedSpecialty(specialty.specialty());
     });
 
     // Lock icon

@@ -64,19 +64,9 @@ public class SpecialtyMenu extends FXGLMenu {
     for (Specialty specialty : specialties) {
       String nameKey = String.format("specialty_%s", specialty.name().toLowerCase());
       String descriptionKey = String.format("%s_description", nameKey);
-      String iconPath;
-      // TODO: Add rest of icon assets
-      switch(specialty.name().toLowerCase()) {
-        case "tank":
-          iconPath = "more_hearts.png";
-          break;
-        default:
-          iconPath = "more_hearts.png";
-          break;
-      }
+      String iconPath = String.format("%s.png", specialty.name().toLowerCase());
 
-      // TODO: Add highscore cost
-      boolean isLocked = GameData.getTotalCoins() > specialty.costInCoins();
+      boolean isLocked = GameData.getTotalCoins() > specialty.costInCoins() && GameData.getHighScore() > specialty.costInHighScore();
       viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath, isLocked, specialty));
     }
     return viewData;

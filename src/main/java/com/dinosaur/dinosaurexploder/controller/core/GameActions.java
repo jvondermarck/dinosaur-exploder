@@ -20,6 +20,8 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.TextUtils;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.view.GameOverDialog;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -36,6 +38,7 @@ public class GameActions {
   private final Entity life;
   private final Entity levelProgressBar;
   private final Entity bomb;
+  private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
 
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
@@ -69,7 +72,7 @@ public class GameActions {
    */
   public void damagePlayer() {
     if (player == null || life == null) {
-      System.err.println("damagePlayer() called but player or life entity is null.");
+      LOGGER.log(Level.WARNING, "damagePlayer() called but player or life entity is null.");
       return;
     }
 
@@ -85,10 +88,10 @@ public class GameActions {
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
       life.getComponent(LifeComponent.class).onUpdate(lives);
-      System.out.println("Game Over!");
+      LOGGER.log(Level.INFO, "Game Over!");
       gameOver();
     } else {
-      System.out.printf("%d lives remaining ! ", lives);
+      LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
     }
   }
 

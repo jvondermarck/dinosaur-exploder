@@ -22,10 +22,10 @@ public class AsteroidsSpawner {
   private boolean isSpawningPaused = false;
   private final List<String> listOfAsteroids =
       Arrays.asList("littleAsteroids", "mediumAsteroids", "bigAsteroids");
-  private static final int minX = 30; // We don't want the asteroids to spawn off-screen so I
+  private static final int MIN_X = 30; // We don't want the asteroids to spawn off-screen so I
   // make them spawn a bit further
   private final int maxX = getAppWidth() - 30;
-  private static final int spawnHeight = -90;
+  private static final int SPAWN_HEIGHT = -90;
 
   public AsteroidsSpawner(GameInitializer gameInitializer) {
     this.levelManager = gameInitializer.getLevelManager();
@@ -41,7 +41,7 @@ public class AsteroidsSpawner {
             () -> {
               if (!isSpawningPaused && (levelManager.getCurrentLevel() % 10 != 0)) {
                 Entity asteroids =
-                    spawn(listOfAsteroids.get(random(0, 2)), random(minX, maxX), spawnHeight);
+                    spawn(listOfAsteroids.get(random(0, 2)), random(MIN_X, maxX), SPAWN_HEIGHT);
               }
             },
             seconds(levelManager.getAsteroidsSpawnRate()));

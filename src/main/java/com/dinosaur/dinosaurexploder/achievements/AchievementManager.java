@@ -83,7 +83,7 @@ public class AchievementManager {
         new ObjectInputStream(new FileInputStream(GameConstants.ACHIEVEMENTS_FILE))) {
       achievementFromFile = (List<Achievement>) in.readObject();
     } catch (IOException | ClassNotFoundException e) {
-      LOGGER.log(Level.FINE, "Failed to load achievements from file");
+      LOGGER.log(Level.INFO, "Failed to load achievements from file");
     }
     return achievementFromFile;
   }

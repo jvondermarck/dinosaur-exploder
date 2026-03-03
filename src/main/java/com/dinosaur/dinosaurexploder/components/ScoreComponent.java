@@ -91,7 +91,7 @@ public class ScoreComponent extends Component implements Score {
         new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {
       out.writeObject(highScore);
     } catch (IOException e) {
-        logger.info("Error saving high score: " + e.getMessage());
+      logger.info("Error saving high score: " + e.getMessage());
     }
   }
 

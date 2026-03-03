@@ -23,6 +23,7 @@ import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -62,6 +63,8 @@ public class PlayerComponent extends Component implements Player {
   // cached Images to prevent memory load
   private Image shipImage;
   private Image projectileImage;
+
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {
@@ -172,7 +175,7 @@ public class PlayerComponent extends Component implements Player {
 
   public void moveUp() {
     if (entity.getY() < 0) {
-      System.out.println(OUT_OF_BOUNDS);
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(-movementSpeed);
@@ -181,8 +184,8 @@ public class PlayerComponent extends Component implements Player {
 
   /** Summary : This method is overriding the superclass method to limit the downSide movement. */
   public void moveDown() {
-    if (!(entity.getY() < DinosaurGUI.HEIGHT - entity.getHeight())) {
-      System.out.println(OUT_OF_BOUNDS);
+    if (entity.getY() >= DinosaurGUI.HEIGHT - entity.getHeight()) {
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(movementSpeed);
@@ -191,8 +194,8 @@ public class PlayerComponent extends Component implements Player {
 
   /** Summary : This method is overriding the superclass method to limit the rightSide movement. */
   public void moveRight() {
-    if (!(entity.getX() < DinosaurGUI.WIDTH - entity.getWidth())) {
-      System.out.println(OUT_OF_BOUNDS);
+    if (entity.getX() >= DinosaurGUI.WIDTH - entity.getWidth()) {
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(movementSpeed);
@@ -202,7 +205,7 @@ public class PlayerComponent extends Component implements Player {
   /** Summary : This method is overriding the superclass method to limit the leftSide movement. */
   public void moveLeft() {
     if (entity.getX() < 0) {
-      System.out.println(OUT_OF_BOUNDS);
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(-movementSpeed);
@@ -221,7 +224,7 @@ public class PlayerComponent extends Component implements Player {
     AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
     Point2D center = entity.getCenter();
     Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-    System.out.println("Shoot with selected weapon: " + selectedWeapon);
+    logger.info("Shoot with selected weapon: " + selectedWeapon);
 
     spawn(
         "basicProjectile",

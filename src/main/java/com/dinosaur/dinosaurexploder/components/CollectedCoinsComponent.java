@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
 
 public class CollectedCoinsComponent extends Component implements CollectedCoins {
   private int coin = 0;
-  private final int COIN_VALUE = 1;
+  private static final int COIN_VALUE = 1;
 
   private static TotalCoins totalCoins = new TotalCoins();
 

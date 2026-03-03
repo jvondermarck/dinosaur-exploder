@@ -38,6 +38,7 @@ public class PlayerComponent extends Component implements Player {
       30.0; // these variables can be adjusted as needed
   private static final double SLOWDOWN_THRESHOLD = 90.0;
   private static final double SLOWED_SHOT_COOLDOWN_SECONDS = 0.28;
+  private static final String OUT_OF_BOUNDS = "Out of bounds";
   // Shield fields
   private boolean shieldActive = false;
   private double shieldTimeLeft = 0;
@@ -171,7 +172,7 @@ public class PlayerComponent extends Component implements Player {
 
   public void moveUp() {
     if (entity.getY() < 0) {
-      System.out.println("Out of bounds");
+      System.out.println(OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(-movementSpeed);
@@ -181,7 +182,7 @@ public class PlayerComponent extends Component implements Player {
   /** Summary : This method is overriding the superclass method to limit the downSide movement. */
   public void moveDown() {
     if (!(entity.getY() < DinosaurGUI.HEIGHT - entity.getHeight())) {
-      System.out.println("Out of bounds");
+      System.out.println(OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(movementSpeed);
@@ -191,7 +192,7 @@ public class PlayerComponent extends Component implements Player {
   /** Summary : This method is overriding the superclass method to limit the rightSide movement. */
   public void moveRight() {
     if (!(entity.getX() < DinosaurGUI.WIDTH - entity.getWidth())) {
-      System.out.println("Out of bounds");
+      System.out.println(OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(movementSpeed);
@@ -201,7 +202,7 @@ public class PlayerComponent extends Component implements Player {
   /** Summary : This method is overriding the superclass method to limit the leftSide movement. */
   public void moveLeft() {
     if (entity.getX() < 0) {
-      System.out.println("Out of bounds");
+      System.out.println(OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(-movementSpeed);

@@ -14,6 +14,7 @@ import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +30,8 @@ public class ScoreComponent extends Component implements Score {
 
   private Text scoreText;
   private Text highScoreText;
+
+  protected Logger logger = Logger.getLogger(getClass().getName());
 
   @Override
   public void onAdded() {
@@ -88,7 +91,7 @@ public class ScoreComponent extends Component implements Score {
         new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {
       out.writeObject(highScore);
     } catch (IOException e) {
-      System.err.println("Error saving high score: " + e.getMessage());
+      logger.info("Error saving high score: " + e.getMessage());
     }
   }
 

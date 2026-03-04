@@ -88,7 +88,7 @@ public class GameActions {
       logger.info("Game Over!");
       gameOver();
     } else {
-      logger.info(() -> String.format("%s lives remaining ! ", lives ));
+      logger.info(() -> String.format("%s lives remaining ! ", lives));
     }
   }
 

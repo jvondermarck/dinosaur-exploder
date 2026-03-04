@@ -18,6 +18,8 @@ import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -42,6 +44,7 @@ public class ShipSelectionMenu extends FXGLMenu {
   // ============ FIELDS ============
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private GridPane shipGrid;
+  private Logger logger = Logger.getLogger(DinosaurMenu.class.getName());
 
   // ============ CONSTRUCTOR ============
   public ShipSelectionMenu() {
@@ -213,7 +216,7 @@ public class ShipSelectionMenu extends FXGLMenu {
 
   private void selectShip(int shipNumber) {
     GameData.setSelectedShip(shipNumber);
-    System.out.println("Selected Spaceship: " + shipNumber);
+    logger.log(Level.SEVERE, "Selected Spaceship: {0}", shipNumber);
     FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
   }
 }

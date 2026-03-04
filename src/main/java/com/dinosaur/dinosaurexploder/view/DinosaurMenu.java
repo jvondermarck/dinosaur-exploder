@@ -47,7 +47,7 @@ public class DinosaurMenu extends FXGLMenu {
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
   private final MediaPlayer mainMenuSound;
-  private Logger logger = Logger.getLogger(DifficultySelectionMenu.class.getName());
+  private Logger logger = Logger.getLogger(DinosaurMenu.class.getName());
 
   // UI Components
   private final Button startButton = new Button("Start Game".toUpperCase());

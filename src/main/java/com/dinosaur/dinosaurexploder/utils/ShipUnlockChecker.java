@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class ShipUnlockChecker {
   public static final LanguageManager languageManager = LanguageManager.getInstance();
+  private static final String SHIP_LOCKED = "ship_locked";
 
   private static final Map<Integer, Integer> scoreMap =
       Map.of( // key: shipNumber, value: lower limit score
@@ -60,21 +61,21 @@ public class ShipUnlockChecker {
     if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
     } else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
       throw new LockedShipException(
-          languageManager.getTranslation("ship_locked")
+          languageManager.getTranslation(SHIP_LOCKED)
               + "\n"
               + languageManager
                   .getTranslation("unlock_highScore")
                   .replace("##", String.valueOf(lowerScoreLimit)));
     } else if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit > totalCoins.getTotal()) {
       throw new LockedShipException(
-          languageManager.getTranslation("ship_locked")
+          languageManager.getTranslation(SHIP_LOCKED)
               + "\n"
               + languageManager
                   .getTranslation("unlock_totalCoins")
                   .replace("##", String.valueOf(lowerCoinLimit)));
     } else {
       throw new LockedShipException(
-          languageManager.getTranslation("ship_locked")
+          languageManager.getTranslation(SHIP_LOCKED)
               + "\n"
               + languageManager
                   .getTranslation("unlock_highScore")

@@ -11,7 +11,7 @@ import com.dinosaur.dinosaurexploder.model.TotalCoins;
 import java.util.Map;
 
 public class ShipUnlockChecker {
-  public LanguageManager languageManager = LanguageManager.getInstance();
+  public static final LanguageManager languageManager = LanguageManager.getInstance();
 
   private static final Map<Integer, Integer> scoreMap =
       Map.of( // key: shipNumber, value: lower limit score

@@ -57,8 +57,8 @@ public class ShipUnlockChecker {
     int lowerScoreLimit = scoreMap.getOrDefault(shipNumber, 0);
     int lowerCoinLimit = coinMap.getOrDefault(shipNumber, 0);
 
-    if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) return;
-    else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+    if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+    } else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
       throw new LockedShipException(
           languageManager.getTranslation("ship_locked")
               + "\n"

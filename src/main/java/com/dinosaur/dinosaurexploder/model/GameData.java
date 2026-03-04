@@ -28,6 +28,8 @@ public class GameData {
   // Static variable that stores total coins
   private static int totalCoins;
 
+  private GameData() {}
+
   // Getter and setter for the selected ship
   public static int getSelectedShip() {
     return selectedShip;

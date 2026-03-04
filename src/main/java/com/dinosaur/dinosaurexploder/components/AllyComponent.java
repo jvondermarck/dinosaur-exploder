@@ -25,6 +25,6 @@ public class AllyComponent extends Component {
   }
 
   public void moveDown(double movementSpeed) {
-    entity.translateX(movementSpeed);
+    entity.translateY(movementSpeed);
   }
 }

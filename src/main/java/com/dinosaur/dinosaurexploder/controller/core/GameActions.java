@@ -37,6 +37,7 @@ public class GameActions {
   private final Entity life;
   private final Entity levelProgressBar;
   private final Entity bomb;
+  private AllyComponent ally;
   private Logger logger = Logger.getLogger(getClass().getName());
 
   public GameActions(GameInitializer gameInitializer) {
@@ -193,5 +194,13 @@ public class GameActions {
   /** Summary : To detect whether the player lives are empty or not */
   public void gameOver() {
     new GameOverDialog(languageManager).createDialog();
+  }
+
+  public AllyComponent getAlly() {
+    return ally;
+  }
+
+  public void setAlly(AllyComponent ally) {
+    this.ally = ally;
   }
 }

@@ -20,6 +20,8 @@ public class SettingsProvider {
   public static final String SETTINGS_MUTED_SFX = "soundMutedSfx";
   public static final String SETTINGS_LANGUAGE = "selectedLanguage";
 
+  private SettingsProvider() {}
+
   public static Settings loadSettings() {
     Properties properties = new Properties();
 

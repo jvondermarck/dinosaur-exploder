@@ -47,8 +47,9 @@ public class WeaponUnlockChecker {
     int lowerScoreLimit = scoreMap.getOrDefault(weaponNumber, 0);
     int lowerCoinLimit = coinMap.getOrDefault(weaponNumber, 0);
 
-    if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) return;
-    else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+    if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+      /* return */
+    } else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
       throw new LockedWeaponException(
           languageManager.getTranslation("weapon_locked")
               + "\n"

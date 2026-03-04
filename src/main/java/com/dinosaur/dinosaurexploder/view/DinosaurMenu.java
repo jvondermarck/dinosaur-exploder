@@ -22,6 +22,8 @@ import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -45,6 +47,7 @@ public class DinosaurMenu extends FXGLMenu {
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
   private final MediaPlayer mainMenuSound;
+  private Logger logger = Logger.getLogger(DifficultySelectionMenu.class.getName());
 
   // UI Components
   private final Button startButton = new Button("Start Game".toUpperCase());
@@ -66,7 +69,7 @@ public class DinosaurMenu extends FXGLMenu {
     try {
       buildMenu();
     } catch (FileNotFoundException e) {
-      System.err.println("File not found: " + e.getMessage());
+      logger.log(Level.SEVERE, "File not found: {0}", e.getMessage());
     }
   }
 

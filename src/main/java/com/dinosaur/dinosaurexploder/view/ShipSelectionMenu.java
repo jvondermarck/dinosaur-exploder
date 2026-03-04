@@ -44,7 +44,7 @@ public class ShipSelectionMenu extends FXGLMenu {
   // ============ FIELDS ============
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private GridPane shipGrid;
-  private Logger logger = Logger.getLogger(DinosaurMenu.class.getName());
+  private Logger logger = Logger.getLogger(ShipSelectionMenu.class.getName());
 
   // ============ CONSTRUCTOR ============
   public ShipSelectionMenu() {
@@ -216,7 +216,7 @@ public class ShipSelectionMenu extends FXGLMenu {
 
   private void selectShip(int shipNumber) {
     GameData.setSelectedShip(shipNumber);
-    logger.log(Level.SEVERE, "Selected Spaceship: {0}", shipNumber);
+    logger.log(Level.INFO, "Selected Spaceship: {0}", shipNumber);
     FXGL.getSceneService().pushSubScene(new WeaponSelectionMenu());
   }
 }

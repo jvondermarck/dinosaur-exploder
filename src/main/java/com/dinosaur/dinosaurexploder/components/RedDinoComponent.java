@@ -99,8 +99,6 @@ public class RedDinoComponent extends Component implements Dinosaur {
 
   @Override
   public void onAdded() {
-    // Get the current enemy speed from the level manager
-    // levelManager = FXGL.geto("levelManager");
     firstTime = true;
   }
 

@@ -224,7 +224,7 @@ public class PlayerComponent extends Component implements Player {
     AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
     Point2D center = entity.getCenter();
     Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-    logger.info(String.format("Shoot with selected weapon: %s", selectedWeapon));
+    logger.info(() -> String.format("Shoot with selected weapon: %s", selectedWeapon));
 
     spawn(
         "basicProjectile",

@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SettingsProvider {
 
@@ -19,6 +21,7 @@ public class SettingsProvider {
   public static final String SETTING_VOLUME_SFX = "soundVolumeSfx";
   public static final String SETTINGS_MUTED_SFX = "soundMutedSfx";
   public static final String SETTINGS_LANGUAGE = "selectedLanguage";
+  private static final Logger logger = Logger.getLogger(SettingsProvider.class.getName());
 
   private SettingsProvider() {}
 
@@ -50,7 +53,7 @@ public class SettingsProvider {
     try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
       properties.store(writer, "store properties");
     } catch (Exception ex) {
-      System.err.println("Error saving settings " + ex.getMessage());
+      logger.log(Level.INFO, "Error saving settings {0}", ex.getMessage());
     }
   }
 

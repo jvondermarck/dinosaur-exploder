@@ -16,7 +16,6 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
-
 import java.util.logging.Logger;
 
 public class PlayerCoinCollision implements CollisionHandlerInterface {

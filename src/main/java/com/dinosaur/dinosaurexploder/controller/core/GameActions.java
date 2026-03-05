@@ -38,6 +38,7 @@ public class GameActions {
   private final Entity life;
   private final Entity levelProgressBar;
   private final Entity bomb;
+
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
 
   public GameActions(GameInitializer gameInitializer) {
@@ -72,7 +73,9 @@ public class GameActions {
    */
   public void damagePlayer() {
     if (player == null || life == null) {
+
       LOGGER.log(Level.WARNING, "damagePlayer() called but player or life entity is null.");
+
       return;
     }
 
@@ -88,6 +91,7 @@ public class GameActions {
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
       life.getComponent(LifeComponent.class).onUpdate(lives);
+
       LOGGER.log(Level.INFO, "Game Over!");
       gameOver();
     } else {

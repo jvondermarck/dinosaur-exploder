@@ -35,21 +35,25 @@ class DinosaurControllerTest {
         MockedConstruction<GameActions> actionsCons = mockConstruction(GameActions.class);
         MockedConstruction<EnemyProjectilePlayerCollision> c1 =
             mockConstruction(EnemyProjectilePlayerCollision.class);
-        MockedConstruction<PlayerCoinCollision> c2 = mockConstruction(PlayerCoinCollision.class);
-        MockedConstruction<PlayerGreenDinoCollision> c3 =
+        MockedConstruction<PlayerAsteroidsCollision> c2 =
+            mockConstruction(PlayerAsteroidsCollision.class);
+        MockedConstruction<PlayerCoinCollision> c3 = mockConstruction(PlayerCoinCollision.class);
+        MockedConstruction<PlayerGreenDinoCollision> c4 =
             mockConstruction(PlayerGreenDinoCollision.class);
-        MockedConstruction<PlayerHeartCollision> c4 = mockConstruction(PlayerHeartCollision.class);
-        MockedConstruction<PlayerOrangeDinoCollision> c5 =
+        MockedConstruction<PlayerHeartCollision> c5 = mockConstruction(PlayerHeartCollision.class);
+        MockedConstruction<PlayerOrangeDinoCollision> c6 =
             mockConstruction(PlayerOrangeDinoCollision.class);
-        MockedConstruction<PlayerRedDinoCollision> c6 =
+        MockedConstruction<PlayerRedDinoCollision> c7 =
             mockConstruction(PlayerRedDinoCollision.class);
-        MockedConstruction<ProjectileEnemyProjectileCollision> c7 =
+        MockedConstruction<ProjectileAsteroidsCollision> c8 =
+            mockConstruction(ProjectileAsteroidsCollision.class);
+        MockedConstruction<ProjectileEnemyProjectileCollision> c9 =
             mockConstruction(ProjectileEnemyProjectileCollision.class);
-        MockedConstruction<ProjectileGreenDinoCollision> c8 =
+        MockedConstruction<ProjectileGreenDinoCollision> c10 =
             mockConstruction(ProjectileGreenDinoCollision.class);
-        MockedConstruction<ProjectileOrangeDinoCollision> c9 =
+        MockedConstruction<ProjectileOrangeDinoCollision> c11 =
             mockConstruction(ProjectileOrangeDinoCollision.class);
-        MockedConstruction<ProjectileRedDinoCollision> c10 =
+        MockedConstruction<ProjectileRedDinoCollision> c12 =
             mockConstruction(ProjectileRedDinoCollision.class)) {
 
       DinosaurController controller = new DinosaurController();
@@ -62,7 +66,7 @@ class DinosaurControllerTest {
 
       controller.initPhysics();
 
-      verify(registry, times(10)).addCollision(any());
+      verify(registry, times(12)).addCollision(any());
 
       verify(registry).registerAll();
 
@@ -76,6 +80,8 @@ class DinosaurControllerTest {
       verify(registry).addCollision(c8.constructed().get(0));
       verify(registry).addCollision(c9.constructed().get(0));
       verify(registry).addCollision(c10.constructed().get(0));
+      verify(registry).addCollision(c11.constructed().get(0));
+      verify(registry).addCollision(c12.constructed().get(0));
     }
   }
 }

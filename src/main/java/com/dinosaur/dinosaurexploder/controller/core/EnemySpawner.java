@@ -18,7 +18,6 @@ import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 
 public class EnemySpawner {
-
   private final LevelManager levelManager;
   private final BossSpawner bossSpawner;
   private TimerAction enemySpawnTimer;

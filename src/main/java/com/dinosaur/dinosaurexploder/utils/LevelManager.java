@@ -20,6 +20,9 @@ public class LevelManager {
   private int defeatedBosses = 0;
   private double enemySpawnRate = 0.75;
   private double enemySpeed = 1.5;
+  private double asteroidsSpawnRate = 1.5;
+  private double asteroidsVerticalSpeed = 0.8;
+  private double asteroidsHorizontalSpeed = 0.2;
   private GameMode gameMode = GameMode.NORMAL;
 
   public int getCurrentLevel() {
@@ -51,6 +54,18 @@ public class LevelManager {
     return defeatedEnemies >= enemiesToDefeat || defeatedBosses >= bossesToDefeat;
   }
 
+  public double getAsteroidsVerticalSpeed() {
+    return asteroidsVerticalSpeed;
+  }
+
+  public double getAsteroidsHorizontalSpeed() {
+    return asteroidsHorizontalSpeed;
+  }
+
+  public double getAsteroidsSpawnRate() {
+    return asteroidsSpawnRate;
+  }
+
   public void nextLevel() {
     currentLevel++;
     defeatedEnemies = 0;
@@ -59,6 +74,7 @@ public class LevelManager {
 
     enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
     enemySpeed += 0.2;
+    asteroidsSpawnRate += 0.1;
   }
 
   public int getEnemiesToDefeat() {

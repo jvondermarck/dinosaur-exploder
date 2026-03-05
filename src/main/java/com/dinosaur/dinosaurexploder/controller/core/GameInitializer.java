@@ -33,6 +33,7 @@ public class GameInitializer {
   private final LanguageManager languageManager = LanguageManager.getInstance();
 
   private EnemySpawner enemySpawner;
+  private AsteroidsSpawner asteroidsSpawner;
   private CollisionHandler collisionHandler;
   private LevelManager levelManager;
   private BossSpawner bossSpawner;
@@ -88,9 +89,12 @@ public class GameInitializer {
               enemySpawner.resumeEnemySpawning();
               enemySpawner.spawnEnemies();
               coinSpawner.startSpawning();
+              asteroidsSpawner.resumeAsteroidsSpawning();
+              asteroidsSpawner.spawnAsteroids();
             });
 
     enemySpawner = new EnemySpawner(this);
+    asteroidsSpawner = new AsteroidsSpawner(this);
   }
 
   private void initGameEntities() {
@@ -134,6 +138,10 @@ public class GameInitializer {
 
   public EnemySpawner getEnemySpawner() {
     return enemySpawner;
+  }
+
+  public AsteroidsSpawner getAsteroidsSpawner() {
+    return asteroidsSpawner;
   }
 
   public CollisionHandler getCollisionHandler() {

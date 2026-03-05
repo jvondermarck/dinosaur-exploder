@@ -102,6 +102,10 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onUpdate(double tpf) {
     coolWeapon(tpf);
+    if (ally != null && ally.getDuration() <= 0) {
+      ally.getEntity().removeFromWorld();
+      ally = null;
+    }
   }
 
   public boolean isShieldActive() {
@@ -243,6 +247,9 @@ public class PlayerComponent extends Component implements Player {
                 center.getY() - 25) // adjust Accordingly
             // tamaño de la nave
             .put("direction", direction.toPoint2D()));
+    if (ally != null) {
+      ally.shoot();
+    }
     increaseWeaponHeat();
     shootTimer.capture();
   }

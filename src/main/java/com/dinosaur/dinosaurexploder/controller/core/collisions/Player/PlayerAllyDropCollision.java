@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.Player;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 
@@ -13,6 +13,7 @@ import com.dinosaur.dinosaurexploder.components.AllyDropComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.CollisionHandlerInterface;
 
 public class PlayerAllyDropCollision implements CollisionHandlerInterface {
   private GameActions gameActions;
@@ -36,6 +37,7 @@ public class PlayerAllyDropCollision implements CollisionHandlerInterface {
                     .spawnAlly(playerEntity.getX(), playerEntity.getY());
             player.setAlly(ally.getComponent(AllyComponent.class));
             gameActions.setAlly(ally.getComponent(AllyComponent.class));
+            gameActions.setAllyUse(true);
           }
         });
   }

@@ -25,5 +25,5 @@ public enum EntityType {
   SHIELD,
   ASTEROIDS,
   ALLY_DROP,
-  ALLY
+  ALLY,
 }

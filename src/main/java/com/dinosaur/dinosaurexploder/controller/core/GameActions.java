@@ -39,6 +39,7 @@ public class GameActions {
   private final Entity bomb;
   private AllyComponent ally;
   private Logger logger = Logger.getLogger(getClass().getName());
+  private boolean isAllyUse = false;
 
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
@@ -92,6 +93,15 @@ public class GameActions {
       gameOver();
     } else {
       logger.info(lives + " lives remaining ! ");
+    }
+  }
+
+  public void damageAlly() {
+    ally.setLife(ally.getLife() - 1);
+    if (ally.getLife() == 0) {
+      ally.getEntity().removeFromWorld();
+      ally = null;
+      player.getComponent(PlayerComponent.class).setAlly(ally);
     }
   }
 
@@ -202,5 +212,13 @@ public class GameActions {
 
   public void setAlly(AllyComponent ally) {
     this.ally = ally;
+  }
+
+  public boolean isAllyUse() {
+    return isAllyUse;
+  }
+
+  public void setAllyUse(boolean allyUse) {
+    this.isAllyUse = allyUse;
   }
 }

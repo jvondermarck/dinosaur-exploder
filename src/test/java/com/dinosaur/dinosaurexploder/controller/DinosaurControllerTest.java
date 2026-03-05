@@ -12,6 +12,7 @@ import com.dinosaur.dinosaurexploder.controller.core.CollisionRegistry;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.*;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.Player.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

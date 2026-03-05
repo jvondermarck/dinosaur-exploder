@@ -389,6 +389,25 @@ public class GameEntityFactory implements EntityFactory {
         .build();
   }
 
+  /** Summary : New allyProjectile creation will be handled in below Entity */
+  @Spawns("allyProjectile")
+  public Entity allyProjectile(SpawnData data) {
+    Point2D direction = data.get("direction");
+    int selectedWeapon = GameData.getSelectedWeapon();
+    int speed = 600 * (selectedWeapon);
+    String weaponImagePath = "assets/textures/projectiles/projectile1_1.png";
+
+    Image projectileImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + weaponImagePath)));
+    return entityBuilderBase(data, EntityType.PROJECTILE)
+        .with(new OffscreenCleanComponent())
+        .view(new ImageView(projectileImage))
+        .bbox(new HitBox(BoundingShape.box(50, 50)))
+        .collidable()
+        .with(new ProjectileComponent(direction, speed))
+        .build();
+  }
+
   /** Summary : Reusable part of every entity */
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder(data).type(type);

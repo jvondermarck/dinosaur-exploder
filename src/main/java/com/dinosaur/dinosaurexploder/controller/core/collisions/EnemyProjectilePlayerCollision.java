@@ -11,10 +11,12 @@ import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.util.logging.Logger;
 
 public class EnemyProjectilePlayerCollision implements CollisionHandlerInterface {
 
   private final GameActions gameActions;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public EnemyProjectilePlayerCollision(GameActions gameActions) {
     this.gameActions = gameActions;
@@ -28,7 +30,7 @@ public class EnemyProjectilePlayerCollision implements CollisionHandlerInterface
         (projectile, player) -> {
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
           projectile.removeFromWorld();
-          System.out.println("You got hit !\n");
+          logger.info("You got hit !\n");
           gameActions.damagePlayer();
         });
   }

@@ -13,6 +13,8 @@ import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -32,6 +34,8 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   private Text coinText;
   private Node coinUI;
   private Image coinImage;
+
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   @Override
   public void onAdded() {
@@ -84,7 +88,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         new ObjectOutputStream(new FileOutputStream(GameConstants.TOTAL_COINS_FILE))) {
       out.writeObject(totalCoins);
     } catch (IOException e) {
-      System.err.println("Error saving coins: " + e.getMessage());
+      logger.log(Level.SEVERE, "Error saving coins: {0}", e.getMessage());
     }
   }
 

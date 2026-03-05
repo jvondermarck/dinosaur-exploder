@@ -8,6 +8,8 @@ package com.dinosaur.dinosaurexploder.utils;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -19,6 +21,7 @@ public class AudioManager {
   private double sfxVolume = 1.0;
   private final List<MediaPlayer> activePlayers = new ArrayList<>();
   private MediaPlayer backgroundPlayer;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   private AudioManager() {
     Settings saved = SettingsProvider.loadSettings();
@@ -77,7 +80,7 @@ public class AudioManager {
       String resourcePath = "/assets/sounds/" + soundFile;
       var url = getClass().getResource(resourcePath);
       if (url == null) {
-        System.err.println("Sound resource not found: " + resourcePath);
+        logger.log(Level.INFO, "Sound resource not found: {0}", resourcePath);
         return;
       }
       MediaPlayer player = new MediaPlayer(new Media(url.toExternalForm()));
@@ -91,7 +94,7 @@ public class AudioManager {
             activePlayers.remove(player);
           });
     } catch (Exception e) {
-      System.err.println("Could not play sound: " + soundFile);
+      logger.log(Level.INFO, "Could not play sound: {0}", soundFile);
       e.printStackTrace();
     }
   }
@@ -102,7 +105,7 @@ public class AudioManager {
       String resourcePath = "/assets/sounds/" + soundFile;
       var url = getClass().getResource(resourcePath);
       if (url == null) {
-        System.err.println("Music resource not found: " + resourcePath);
+        logger.log(Level.INFO, "Music resource not found: {0}", resourcePath);
         return;
       }
       backgroundPlayer = new MediaPlayer(new Media(url.toExternalForm()));
@@ -111,7 +114,7 @@ public class AudioManager {
       backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
       backgroundPlayer.play();
     } catch (Exception e) {
-      System.err.println("Could not play music: " + soundFile);
+      logger.log(Level.INFO, "Could not play music: {0}", soundFile);
       e.printStackTrace();
     }
   }

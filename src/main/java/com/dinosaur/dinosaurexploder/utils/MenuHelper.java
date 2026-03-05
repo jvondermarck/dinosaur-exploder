@@ -28,6 +28,8 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 public class MenuHelper {
+  private MenuHelper() {}
+
   public static void showDialog(String title, String message) {
     LanguageManager lm = LanguageManager.getInstance();
     Button okButton = getUIFactoryService().newButton(lm.getTranslation("ok"));

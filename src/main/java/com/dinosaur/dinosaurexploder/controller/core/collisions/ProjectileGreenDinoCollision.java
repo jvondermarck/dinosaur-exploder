@@ -20,6 +20,7 @@ import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.util.logging.Logger;
 
 public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
 
@@ -28,6 +29,8 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
   private final CollisionHandler collisionHandler;
   private final Entity score;
   private final Entity levelProgressBar;
+
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public ProjectileGreenDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
     this.gameActions = gameActions;
@@ -56,7 +59,7 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
               score.getComponent(ScoreComponent.class),
               levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
             gameActions.showLevelMessage();
-            System.out.println("Level up!");
+            logger.info("Level up!");
           }
         });
   }

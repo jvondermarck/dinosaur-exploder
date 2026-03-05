@@ -23,6 +23,7 @@ import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
+import java.util.logging.Logger;
 
 public class ProjectileRedDinoCollision implements CollisionHandlerInterface {
 
@@ -32,6 +33,7 @@ public class ProjectileRedDinoCollision implements CollisionHandlerInterface {
   private final LevelManager levelManager;
   private final Entity score;
   private final Entity levelProgressBar;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public ProjectileRedDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
     this.gameActions = gameActions;
@@ -72,7 +74,7 @@ public class ProjectileRedDinoCollision implements CollisionHandlerInterface {
                 score.getComponent(ScoreComponent.class),
                 levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
               gameActions.showLevelMessage();
-              System.out.println("Level up!");
+              logger.info("Level up!");
             }
           } else {
             redDino.getComponent(RedDinoComponent.class).getHealthBar().updateBar();

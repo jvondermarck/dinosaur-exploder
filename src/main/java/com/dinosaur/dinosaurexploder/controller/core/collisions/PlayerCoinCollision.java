@@ -16,6 +16,7 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.util.logging.Logger;
 
 public class PlayerCoinCollision implements CollisionHandlerInterface {
 
@@ -23,6 +24,7 @@ public class PlayerCoinCollision implements CollisionHandlerInterface {
   private final CollectedCoinsComponent collectedCoinsComponent;
   private final Entity bomb;
   private final Entity score;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public PlayerCoinCollision(GameInitializer gameInitializer) {
     this.collisionHandler = gameInitializer.getCollisionHandler();
@@ -39,7 +41,7 @@ public class PlayerCoinCollision implements CollisionHandlerInterface {
         (player, coin) -> {
           AudioManager.getInstance().playSound(GameConstants.COIN_GAIN);
           coin.removeFromWorld();
-          System.out.println("You touched a coin!");
+          logger.info("You touched a coin!");
           BombComponent bombComponent = null;
           if (bomb.hasComponent(BombComponent.class))
             bombComponent = bomb.getComponent(BombComponent.class);

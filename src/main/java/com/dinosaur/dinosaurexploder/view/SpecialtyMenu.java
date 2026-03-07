@@ -13,6 +13,7 @@ import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -66,7 +67,7 @@ public class SpecialtyMenu extends FXGLMenu {
       String descriptionKey = String.format("%s_description", nameKey);
       String iconPath = String.format("%s.png", specialty.name().toLowerCase());
 
-      boolean isLocked = GameData.getTotalCoins() > specialty.costInCoins() && GameData.getHighScore() > specialty.costInHighScore();
+      boolean isLocked = GameData.getTotalCoins() < specialty.costInCoins() || GameData.getHighScore() < specialty.costInHighScore();
       viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath, isLocked, specialty));
     }
     return viewData;
@@ -138,6 +139,28 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyButton.setOnMouseExited(event -> specialtyButton.setEffect(null));
 
     specialtyButton.setOnAction(event -> {
+        if (specialty.isLocked()) {
+          BiFunction<String, Integer, String> createErrorMessage = (unlockKey, cost) -> {
+            return languageManager.getTranslation(unlockKey).replace("##", String.valueOf(cost));
+          };
+          int highScoreCost = specialty.specialty().costInHighScore();
+          int coinCost = specialty.specialty().costInCoins();
+
+          // Determine which error messages to show to the user
+          List<String> error_messages = new ArrayList<>(3);
+          error_messages.add(languageManager.getTranslation("specialty_locked"));
+
+          if (GameData.getHighScore() < highScoreCost) {
+            error_messages.add(createErrorMessage.apply("unlock_highScore", highScoreCost));
+          }
+          if (GameData.getTotalCoins() < coinCost) {
+            error_messages.add(createErrorMessage.apply("unlock_totalCoins", coinCost));
+          }
+
+          // Show the specialty locked dialogue 
+          MenuHelper.showDialog(languageManager.getTranslation("locked"), String.join("\n", error_messages));
+          return;
+        }
         specialtyName.setText(languageManager.getTranslation(specialty.nameKey()));
         specialtyDescription.setText(languageManager.getTranslation(specialty.descriptionKey()));
         GameData.setSelectedSpecialty(specialty.specialty());

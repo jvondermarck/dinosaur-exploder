@@ -42,6 +42,7 @@
     "level": "Level",
     "ship_locked" : "Spaceship is Locked.",
     "weapon_locked" : "Weapon is locked.",
+    "specialty_locked" : "Specialty is locked.",
     "unlock_highScore" : "To Unlock it, achieve a highscore of ##.",
     "unlock_totalCoins": "To unlock, reach a total of ## coins.",
     "ok" : "Ok",

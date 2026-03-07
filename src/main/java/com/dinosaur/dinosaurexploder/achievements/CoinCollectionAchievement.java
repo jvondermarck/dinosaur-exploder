@@ -7,29 +7,26 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
 
-/** Achievement for killing a specific number of dinosaurs. */
-public class KillCountAchievement extends Achievement {
+/** Achievement for collecting a specific number of coins. */
+public class CoinCollectionAchievement extends Achievement {
 
-  private final int targetKills;
-  private int currentKills = 0;
+  private final int targetCoins;
 
-  public KillCountAchievement(int targetKills, int rewardCoins) {
+  public CoinCollectionAchievement(int targetCoins, int rewardCoins) {
     super(rewardCoins);
-    this.targetKills = targetKills;
+    this.targetCoins = targetCoins;
   }
 
   @Override
   public String getDescription() {
-    return "Kill " + targetKills + " dinosaurs";
+    return "Collect " + targetCoins + " coins";
   }
 
   @Override
-  public void onDinosaurKilled() {
+  public void onCoinCollected(int totalCoins) {
     if (completed) return;
 
-    currentKills++;
-
-    if (currentKills >= targetKills) {
+    if (totalCoins >= targetCoins) {
       completed = true;
       onComplete();
     }
@@ -37,7 +34,7 @@ public class KillCountAchievement extends Achievement {
 
   @Override
   public void update(double tpf) {
-    // Not needed for count-based achievement
+    // Not needed for coin collection achievement
   }
 
   @Override

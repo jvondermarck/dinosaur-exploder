@@ -7,37 +7,29 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
 
-/** Achievement for killing a specific number of dinosaurs. */
-public class KillCountAchievement extends Achievement {
+/** Achievement for defeating a boss for the first time. */
+public class BossDefeatAchievement extends Achievement {
 
-  private final int targetKills;
-  private int currentKills = 0;
-
-  public KillCountAchievement(int targetKills, int rewardCoins) {
+  public BossDefeatAchievement(int rewardCoins) {
     super(rewardCoins);
-    this.targetKills = targetKills;
   }
 
   @Override
   public String getDescription() {
-    return "Kill " + targetKills + " dinosaurs";
+    return "Defeat your first boss";
   }
 
   @Override
-  public void onDinosaurKilled() {
+  public void onBossDefeated() {
     if (completed) return;
 
-    currentKills++;
-
-    if (currentKills >= targetKills) {
-      completed = true;
-      onComplete();
-    }
+    completed = true;
+    onComplete();
   }
 
   @Override
   public void update(double tpf) {
-    // Not needed for count-based achievement
+    // Not needed for boss defeat achievement
   }
 
   @Override

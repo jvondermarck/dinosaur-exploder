@@ -27,6 +27,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 /// The class responsible for creating and managing the SpecialtyMenu
@@ -87,10 +89,11 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyInfo.setPadding(new Insets(20, 0, 0, 0));
 
     specialtyName = new Label(languageManager.getTranslation("specialty_none")); 
-    specialtyName.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffcc00; -fx-font-size: 24px;"); 
+    specialtyName.setStyle("-fx-font-family: 'Public Pixel'; -fx-font-weight: bold; -fx-text-fill: #ffcc00; -fx-font-size: 24px;"); 
     specialtyDescription = new Label(languageManager.getTranslation("specialty_none_description")); 
-    specialtyDescription.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+    specialtyDescription.setStyle("-fx-text-fill: white; -fx-font-family: 'Public Pixel'; -fx-font-size: 14px;");
     specialtyDescription.setWrapText(true);
+    specialtyDescription.setTextAlignment(TextAlignment.CENTER);
     specialtyDescription.setAlignment(Pos.CENTER);
     specialtyDescription.setMaxWidth(getAppWidth() * 0.7);
 

@@ -16,13 +16,13 @@ public class SpecialtyManager {
       new Specialty("none", 0, 0, new NullSpecialtyEffect());
 
   private static final Specialty TANK_SPECIALTY =
-      new Specialty("more_hearts", 10, 10, new IncreasedLivesEffect(2));
+      new Specialty("more_hearts", 20, 20, new IncreasedLivesEffect(2));
 
   private static final Specialty MORE_BOMBS_SPECIALTY =
-      new Specialty("more_bombs", 10, 10, new MoreBombsEffect(5));
+      new Specialty("more_bombs", 30, 50, new MoreBombsEffect(5));
 
   private static final Specialty MINI_SPECIALTY =
-      new Specialty("smaller_hitbox", 10, 10, new ScaleHitBoxEffect(0.5));
+      new Specialty("smaller_hitbox", 40, 80, new ScaleHitBoxEffect(0.5));
 
   private static final List<Specialty> specialities =
       List.of(TANK_SPECIALTY, MORE_BOMBS_SPECIALTY, MINI_SPECIALTY, NULL_SPECIALTY);

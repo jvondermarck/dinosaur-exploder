@@ -67,7 +67,7 @@ public class SpecialtyMenu extends FXGLMenu {
       String descriptionKey = String.format("%s_description", nameKey);
       String iconPath = String.format("%s.png", specialty.name().toLowerCase());
 
-      boolean isLocked = GameData.getTotalCoins() < specialty.costInCoins() || GameData.getHighScore() < specialty.costInHighScore();
+      boolean isLocked = GameData.getTotalCoins() < specialty.costInCoins() || GameData.getMaxHighScore() < specialty.costInHighScore();
       viewData.add(new SpecialtyViewData(nameKey,descriptionKey, iconPath, isLocked, specialty));
     }
     return viewData;
@@ -149,7 +149,7 @@ public class SpecialtyMenu extends FXGLMenu {
           List<String> error_messages = new ArrayList<>(3);
           error_messages.add(languageManager.getTranslation("specialty_locked"));
 
-          if (GameData.getHighScore() < highScoreCost) {
+          if (GameData.getMaxHighScore() < highScoreCost) {
             error_messages.add(createErrorMessage.apply("unlock_highScore", highScoreCost));
           }
           if (GameData.getTotalCoins() < coinCost) {

@@ -90,6 +90,10 @@ public class GameData {
     selectedSpecialty = specialty;
   }
 
+  public static int getMaxHighScore() {
+    return new FileDataProvider().getHighScore().getHigh();
+  }
+
   // Getter for the high score
   public static int getHighScore() {
     highScore = new FileDataProvider().getHighScore().getHigh(selectedDifficulty.name());

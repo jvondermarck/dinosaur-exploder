@@ -79,7 +79,6 @@ public class SpecialtyMenu extends FXGLMenu {
 
   // ========== ZONE 1: HEADER =============
   private VBox createHeaderZone() {
-    // TODO: Add in other translations other than english
     TextFlow titleFlow = MenuHelper.createTitleFlow(languageManager.getTranslation("select_specialty"), getAppWidth() * 0.8);
 
     // Create the specialty description zone

@@ -45,5 +45,15 @@
   "language": "言語",
   "select_difficulty": "難易度を選択",
   "normal_mode": "ノーマル",
-  "expert_mode": "エキスパート"
+  "expert_mode": "エキスパート",
+  "select_specialty": "スペシャリティを選択",
+  "specialty_none": "なし",
+  "specialty_none_description": "",
+  "specialty_more_hearts": "タンク",
+  "specialty_more_hearts_description": "最大ライフ数を増やします。",
+  "specialty_more_bombs": "ボムのエキスパート",
+  "specialty_more_bombs_description": "所持できるボムの最大数を増やします。",
+  "specialty_smaller_hitbox": "ミニチュア",
+  "specialty_smaller_hitbox_description": "ヒットボックスのサイズを小さくします。",
+  "specialty_locked": "スペシャリティはロックされています。"
 }

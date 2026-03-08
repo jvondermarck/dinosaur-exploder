@@ -112,10 +112,10 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyGrid.setVgap(GRID_GAP);
     specialtyGrid.setPrefWidth(getAppWidth());
 
-    double zone_width = getAppWidth() * 0.8;
+    double zoneWidth = getAppWidth() * 0.8;
 
     for (int i = 0; i < specialtyViewData.size(); i++) {
-      StackPane specialtyContainer = createSpecialtyButton(specialtyViewData.get(i), (zone_width/ SPECIALTY_COLUMNS) * 0.9);
+      StackPane specialtyContainer = createSpecialtyButton(specialtyViewData.get(i), (zoneWidth/ SPECIALTY_COLUMNS) * 0.9);
       int row = i / SPECIALTY_COLUMNS;
       int col = i % SPECIALTY_COLUMNS;
 

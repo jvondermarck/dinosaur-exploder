@@ -149,18 +149,18 @@ public class SpecialtyMenu extends FXGLMenu {
           int coinCost = specialty.specialty().costInCoins();
 
           // Determine which error messages to show to the user
-          List<String> error_messages = new ArrayList<>(3);
-          error_messages.add(languageManager.getTranslation("specialty_locked"));
+          List<String> errorMessages = new ArrayList<>(3);
+          errorMessages.add(languageManager.getTranslation("specialty_locked"));
 
           if (GameData.getMaxHighScore() < highScoreCost) {
-            error_messages.add(createErrorMessage.apply("unlock_highScore", highScoreCost));
+            errorMessages.add(createErrorMessage.apply("unlock_highScore", highScoreCost));
           }
           if (GameData.getTotalCoins() < coinCost) {
-            error_messages.add(createErrorMessage.apply("unlock_totalCoins", coinCost));
+            errorMessages.add(createErrorMessage.apply("unlock_totalCoins", coinCost));
           }
 
           // Show the specialty locked dialogue 
-          MenuHelper.showDialog(languageManager.getTranslation("locked"), String.join("\n", error_messages));
+          MenuHelper.showDialog(languageManager.getTranslation("locked"), String.join("\n", errorMessages));
           return;
         }
         specialtyName.setText(languageManager.getTranslation(specialty.nameKey()));

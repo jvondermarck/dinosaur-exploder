@@ -16,7 +16,7 @@ public abstract class Achievement implements Serializable {
   protected boolean completed = false;
   protected final int rewardCoins;
 
-  public Achievement(int rewardCoins) {
+  protected Achievement(int rewardCoins) {
     this.rewardCoins = rewardCoins;
   }
 

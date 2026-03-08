@@ -111,7 +111,7 @@ public class BombComponent extends Component implements Bomb {
   protected void updateBombUI() {
     for (int i = 0; i < maximumBombCount; i++) {
       if (currentBombCount <= i) {
-        System.out.println("Removing bomb image: " + i);
+        logger.log(Level.INFO, "Removing bomb image: {0}", i);
       }
       bombImages.get(i).setVisible(currentBombCount > i);
     }

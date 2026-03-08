@@ -186,8 +186,8 @@ public class SpecialtyMenu extends FXGLMenu {
    * @return the created Image object
    */
   private Image createImage(String iconPath) {
-    String asset_path = String.format("/assets/textures/" + iconPath);
-    return new Image(Objects.requireNonNull(getClass().getResourceAsStream(asset_path)));
+    String assetPath = String.format("/assets/textures/%s", iconPath);
+    return new Image(Objects.requireNonNull(getClass().getResourceAsStream(assetPath)));
   }
 
   /// Create a zone with a back and next button

@@ -27,7 +27,6 @@ import com.dinosaur.dinosaurexploder.specialties.effects.SpecialtyEffect;
 import com.dinosaur.dinosaurexploder.specialties.effects.bomb.BombSpecialtyEffect;
 import com.dinosaur.dinosaurexploder.specialties.effects.life.LifeSpecialtyEffect;
 import com.dinosaur.dinosaurexploder.specialties.effects.player.PlayerSpecialtyEffect;
-import com.dinosaur.dinosaurexploder.specialties.effects.player.ScaleHitBoxEffect;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;

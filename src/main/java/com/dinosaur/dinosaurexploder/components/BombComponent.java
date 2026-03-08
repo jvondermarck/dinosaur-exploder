@@ -16,7 +16,6 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -134,11 +133,11 @@ public class BombComponent extends Component implements Bomb {
     for (int i = 0; i < maximumBombCount; i++) {
       ImageView bombImageView = new ImageView(bombImage);
       bombContainer.getChildren().add(bombImageView);
-      
+
       bombImages.add(bombImageView);
     }
   }
-  
+
   /** Summary: This method returns the current number of bombs. */
   @Override
   public int getBombCount() {

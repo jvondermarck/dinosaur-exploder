@@ -13,7 +13,6 @@ import java.util.List;
 
 public class SpecialtyManager {
   private SpecialtyManager() {}
-  ;
 
   public static final Specialty NULL_SPECIALTY =
       new Specialty("none", 0, 0, new NullSpecialtyEffect());

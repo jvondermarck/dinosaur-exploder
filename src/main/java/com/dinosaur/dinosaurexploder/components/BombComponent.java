@@ -234,10 +234,6 @@ public class BombComponent extends Component implements Bomb {
     updateBombUI();
   }
 
-  public int getCurrentBombCount() {
-    return currentBombCount;
-  }
-
   public void setCurrentBombCount(int currentBombCount) {
     this.currentBombCount = currentBombCount;
     updateBombUI();

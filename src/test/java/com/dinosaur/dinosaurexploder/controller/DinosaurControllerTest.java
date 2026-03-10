@@ -12,6 +12,10 @@ import com.dinosaur.dinosaurexploder.controller.core.CollisionRegistry;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.*;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyAsteroidsCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyGreenDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyOrangeDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyRedDinoCollision;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.Player.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -55,7 +59,17 @@ class DinosaurControllerTest {
         MockedConstruction<ProjectileOrangeDinoCollision> c11 =
             mockConstruction(ProjectileOrangeDinoCollision.class);
         MockedConstruction<ProjectileRedDinoCollision> c12 =
-            mockConstruction(ProjectileRedDinoCollision.class)) {
+            mockConstruction(ProjectileRedDinoCollision.class);
+        MockedConstruction<PlayerAllyDropCollision> c13 =
+            mockConstruction(PlayerAllyDropCollision.class);
+        MockedConstruction<AllyAsteroidsCollision> c14 =
+            mockConstruction(AllyAsteroidsCollision.class);
+        MockedConstruction<AllyRedDinoCollision> c15 =
+            mockConstruction(AllyRedDinoCollision.class);
+        MockedConstruction<AllyOrangeDinoCollision> c16 =
+            mockConstruction(AllyOrangeDinoCollision.class);
+        MockedConstruction<AllyGreenDinoCollision> c17 =
+            mockConstruction(AllyGreenDinoCollision.class); ) {
 
       DinosaurController controller = new DinosaurController();
 
@@ -67,7 +81,7 @@ class DinosaurControllerTest {
 
       controller.initPhysics();
 
-      verify(registry, times(12)).addCollision(any());
+      verify(registry, times(17)).addCollision(any());
 
       verify(registry).registerAll();
 
@@ -83,6 +97,11 @@ class DinosaurControllerTest {
       verify(registry).addCollision(c10.constructed().get(0));
       verify(registry).addCollision(c11.constructed().get(0));
       verify(registry).addCollision(c12.constructed().get(0));
+      verify(registry).addCollision(c13.constructed().get(0));
+      verify(registry).addCollision(c14.constructed().get(0));
+      verify(registry).addCollision(c15.constructed().get(0));
+      verify(registry).addCollision(c16.constructed().get(0));
+      verify(registry).addCollision(c17.constructed().get(0));
     }
   }
 }

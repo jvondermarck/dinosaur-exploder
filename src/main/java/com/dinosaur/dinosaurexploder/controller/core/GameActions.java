@@ -97,7 +97,7 @@ public class GameActions {
   }
 
   public void damageAlly() {
-    ally.setLife(ally.getLife() - 1);
+    ally = collisionHandler.onAllyHit(ally);
     if (ally.getLife() == 0) {
       ally.getEntity().removeFromWorld();
       ally = null;

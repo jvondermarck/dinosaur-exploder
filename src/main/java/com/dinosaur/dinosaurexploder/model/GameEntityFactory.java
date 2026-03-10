@@ -48,6 +48,7 @@ import javafx.util.Duration;
  */
 public class GameEntityFactory implements EntityFactory {
   private static final Logger logger = Logger.getLogger(GameEntityFactory.class.getName());
+  Point2D direction;
 
   /** Summary : New Background creation will be handled in below Entity */
   @Spawns("background")
@@ -100,7 +101,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New BasicProjectile creation will be handled in below Entity */
   @Spawns("basicProjectile")
   public Entity newBasicProjectile(SpawnData data) {
-    Point2D direction = data.get("direction");
+    direction = data.get("direction");
     int selectedShip = GameData.getSelectedShip();
     int selectedWeapon = GameData.getSelectedWeapon();
     int speed = 600 * (selectedWeapon);
@@ -124,7 +125,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New Enemy BasicProjectile creation will be handled in below Entity */
   @Spawns("basicEnemyProjectile")
   public Entity newBasicEnemyProjectile(SpawnData data) {
-    Point2D direction = data.get("direction");
+    direction = data.get("direction");
     return entityBuilderBase(data, EntityType.ENEMY_PROJECTILE)
         .with(new OffscreenCleanComponent())
         .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGE_FILE, 30, 17))
@@ -367,7 +368,7 @@ public class GameEntityFactory implements EntityFactory {
 
   /** Summary : Spawn of an ally drop in the window will be handled in below Entity */
   @Spawns("allyDrop")
-  public Entity AllyDrop(SpawnData data) {
+  public Entity allyDrop(SpawnData data) {
     logger.log(Level.INFO, "Loading ally texture: {0}", GameConstants.ALLY_DROP_IMAGE_FILE);
     return entityBuilderBase(data, EntityType.ALLY_DROP)
         .with(new OffscreenCleanComponent())
@@ -392,7 +393,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New allyProjectile creation will be handled in below Entity */
   @Spawns("allyProjectile")
   public Entity allyProjectile(SpawnData data) {
-    Point2D direction = data.get("direction");
+    direction = data.get("direction");
     int selectedWeapon = GameData.getSelectedWeapon();
     int speed = 600 * (selectedWeapon);
     String weaponImagePath = "assets/textures/projectiles/projectile1_1.png";

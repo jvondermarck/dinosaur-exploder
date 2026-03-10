@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions.Player;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.player;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 
@@ -14,12 +14,12 @@ import com.dinosaur.dinosaurexploder.controller.core.collisions.CollisionHandler
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import java.util.logging.Logger;
 
-public class PlayerRedDinoCollision implements CollisionHandlerInterface {
+public class PlayerOrangeDinoCollision implements CollisionHandlerInterface {
 
   private final GameActions gameActions;
   private Logger logger = Logger.getLogger(getClass().getName());
 
-  public PlayerRedDinoCollision(GameActions gameActions) {
+  public PlayerOrangeDinoCollision(GameActions gameActions) {
     this.gameActions = gameActions;
   }
 
@@ -27,10 +27,10 @@ public class PlayerRedDinoCollision implements CollisionHandlerInterface {
   public void register() {
     onCollisionBegin(
         EntityType.PLAYER,
-        EntityType.RED_DINO,
-        (player, redDino) -> {
+        EntityType.ORANGE_DINO,
+        (player, orangeDino) -> {
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
-          logger.info("You touched a red dino !");
+          logger.info("You touched a orange dino !");
           gameActions.damagePlayer();
         });
   }

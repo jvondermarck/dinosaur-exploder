@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions.Ally;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.player;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 
@@ -12,24 +12,27 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.CollisionHandlerInterface;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.util.logging.Logger;
 
-public class AllyOrangeDinoCollision implements CollisionHandlerInterface {
+public class PlayerGreenDinoCollision implements CollisionHandlerInterface {
 
   private final GameActions gameActions;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
-  public AllyOrangeDinoCollision(GameActions gameActions) {
+  public PlayerGreenDinoCollision(GameActions gameActions) {
     this.gameActions = gameActions;
   }
 
   @Override
   public void register() {
     onCollisionBegin(
-        EntityType.ALLY,
-        EntityType.ORANGE_DINO,
-        (ally, orangeDino) -> {
-          // Maybe we could add a different for when the ally is damage
+        EntityType.PLAYER,
+        EntityType.GREEN_DINO,
+        (player, greenDino) -> {
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
-          gameActions.damageAlly();
+          greenDino.removeFromWorld();
+          logger.info("You touched a dino !");
+          gameActions.damagePlayer();
         });
   }
 }

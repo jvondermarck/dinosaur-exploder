@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions.Ally;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.ally;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 
@@ -13,23 +13,23 @@ import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.CollisionHandlerInterface;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 
-public class AllyGreenDinoCollision implements CollisionHandlerInterface {
+public class EnemyProjectileAllyCollision implements CollisionHandlerInterface {
 
   private final GameActions gameActions;
 
-  public AllyGreenDinoCollision(GameActions gameActions) {
+  public EnemyProjectileAllyCollision(GameActions gameActions) {
     this.gameActions = gameActions;
   }
 
   @Override
   public void register() {
     onCollisionBegin(
+        EntityType.ENEMY_PROJECTILE,
         EntityType.ALLY,
-        EntityType.GREEN_DINO,
-        (ally, greenDino) -> {
+        (projectile, ally) -> {
           // Maybe we could add a different for when the ally is damage
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
-          greenDino.removeFromWorld();
+          projectile.removeFromWorld();
           gameActions.damageAlly();
         });
   }

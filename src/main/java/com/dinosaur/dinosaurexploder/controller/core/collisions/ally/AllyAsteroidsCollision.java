@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions.Ally;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.ally;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 

@@ -12,11 +12,11 @@ import com.dinosaur.dinosaurexploder.controller.core.CollisionRegistry;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.*;
-import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyAsteroidsCollision;
-import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyGreenDinoCollision;
-import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyOrangeDinoCollision;
-import com.dinosaur.dinosaurexploder.controller.core.collisions.Ally.AllyRedDinoCollision;
-import com.dinosaur.dinosaurexploder.controller.core.collisions.Player.*;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyAsteroidsCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyGreenDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyOrangeDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyRedDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.player.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 

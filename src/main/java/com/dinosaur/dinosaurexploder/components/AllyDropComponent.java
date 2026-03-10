@@ -16,7 +16,7 @@ public class AllyDropComponent extends Component {
   private static final double ALLY_SPEED = 100.0;
   private double verticalSpeed = ALLY_SPEED;
   private double horizontalSpeed = 0;
-  private static final int playerDistance = 60;
+  private static final int PLAYER_DISTANCE = 60;
 
   public void updateDirection(Direction direction) {
     switch (direction) {
@@ -51,6 +51,6 @@ public class AllyDropComponent extends Component {
   }
 
   public Entity spawnAlly(double x, double y) {
-    return spawn("ally", x + playerDistance, y);
+    return spawn("ally", x + PLAYER_DISTANCE, y);
   }
 }

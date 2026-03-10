@@ -101,7 +101,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New BasicProjectile creation will be handled in below Entity */
   @Spawns("basicProjectile")
   public Entity newBasicProjectile(SpawnData data) {
-    direction = data.get("direction");
+    updateDirection(data);
     int selectedShip = GameData.getSelectedShip();
     int selectedWeapon = GameData.getSelectedWeapon();
     int speed = 600 * (selectedWeapon);
@@ -125,7 +125,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New Enemy BasicProjectile creation will be handled in below Entity */
   @Spawns("basicEnemyProjectile")
   public Entity newBasicEnemyProjectile(SpawnData data) {
-    direction = data.get("direction");
+    updateDirection(data);
     return entityBuilderBase(data, EntityType.ENEMY_PROJECTILE)
         .with(new OffscreenCleanComponent())
         .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGE_FILE, 30, 17))
@@ -393,7 +393,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New allyProjectile creation will be handled in below Entity */
   @Spawns("allyProjectile")
   public Entity allyProjectile(SpawnData data) {
-    direction = data.get("direction");
+    updateDirection(data);
     int selectedWeapon = GameData.getSelectedWeapon();
     int speed = 600 * (selectedWeapon);
     String weaponImagePath = "assets/textures/projectiles/projectile1_1.png";
@@ -412,5 +412,9 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : Reusable part of every entity */
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder(data).type(type);
+  }
+
+  private void updateDirection(SpawnData data) {
+    direction = data.get("direction");
   }
 }

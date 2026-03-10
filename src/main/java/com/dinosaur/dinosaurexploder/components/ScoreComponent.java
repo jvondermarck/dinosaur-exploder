@@ -7,6 +7,7 @@ package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
@@ -114,6 +115,17 @@ public class ScoreComponent extends Component implements Score {
     if (score > highScore.getHigh(currGameMode.name())) {
       highScore.setHigh(currGameMode.name(), score);
       saveHighScore();
+    }
+    // Notify achievements about score change
+    // Notify achievements about score change
+    try {
+      AchievementManager achievementManager =
+          FXGL.getWorldProperties().getValue("achievementManager");
+      if (achievementManager != null) {
+        achievementManager.notifyScoreChanged(score);
+      }
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip achievement notification
     }
   }
 }

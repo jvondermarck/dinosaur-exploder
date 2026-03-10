@@ -17,6 +17,7 @@ import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
@@ -32,6 +33,7 @@ public class RedDinoComponent extends Component implements Dinosaur {
   private Direction direction = Direction.UP;
   private final GameTimer gameTimer;
   private HealthbarComponent healthBar;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public RedDinoComponent(GameTimer gameTimer) {
     this.gameTimer = gameTimer;
@@ -99,8 +101,6 @@ public class RedDinoComponent extends Component implements Dinosaur {
 
   @Override
   public void onAdded() {
-    // Get the current enemy speed from the level manager
-    // levelManager = FXGL.geto("levelManager");
     firstTime = true;
   }
 
@@ -113,7 +113,7 @@ public class RedDinoComponent extends Component implements Dinosaur {
     if (isPaused) return;
 
     if (firstTime) {
-      System.out.println("level: " + levelManager.getCurrentLevel());
+      logger.info("level: " + levelManager.getCurrentLevel());
       movementSpeed = levelManager.getEnemySpeed();
       updateDirection(direction);
       lives = levelManager.getCurrentLevel() * 2;

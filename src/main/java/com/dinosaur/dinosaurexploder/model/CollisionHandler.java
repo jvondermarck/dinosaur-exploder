@@ -24,12 +24,10 @@ public class CollisionHandler {
 
   public boolean isLevelUpAfterHitDino(
       ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
-
     scoreComponent.incrementScore(1);
     levelManager.incrementDefeatedEnemies();
     achievementManager.notifyDinosaurKilled();
     levelProgressBarComponent.updateProgress();
-
     return adjustLevel();
   }
 
@@ -53,6 +51,9 @@ public class CollisionHandler {
     levelManager.incrementDefeatedBosses();
     levelProgressBarComponent.updateProgress();
 
+    // Notify achievements when boss is defeated
+    achievementManager.notifyBossDefeated();
+
     return adjustLevel();
   }
 
@@ -64,13 +65,16 @@ public class CollisionHandler {
       CollectedCoinsComponent collectedCoinsComponent,
       ScoreComponent scoreComponent,
       @Nullable BombComponent bombComponent) {
-
     collectedCoinsComponent.incrementCoin();
     scoreComponent.incrementScore(2);
 
     if (bombComponent != null) {
       bombComponent.trackCoinForBombRegeneration();
     }
+
+    // Notify achievements about coin collection
+    int totalCoins = collectedCoinsComponent.getCoin();
+    achievementManager.notifyCoinCollected(totalCoins);
   }
 
   public void onPlayerGetHeart(LifeComponent lifeComponent) {

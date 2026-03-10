@@ -37,7 +37,7 @@ public class DinosaurGUI {
         });
 
     settings.setVersion(GameConstants.VERSION);
-    settings.setTicksPerSecond(60); // check info : settings.setProfilingEnabled(true);
+    settings.setTicksPerSecond(60);
     settings.setFontText(GameConstants.GAME_FONT_NAME);
     settings.setFontGame(GameConstants.GAME_FONT_NAME);
     settings.setFontMono(GameConstants.GAME_FONT_NAME);

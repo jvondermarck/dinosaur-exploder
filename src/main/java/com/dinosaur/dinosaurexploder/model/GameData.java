@@ -11,6 +11,7 @@ import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.utils.FileDataProvider;
 import com.dinosaur.dinosaurexploder.utils.ShipUnlockChecker;
 import com.dinosaur.dinosaurexploder.utils.WeaponUnlockChecker;
+import java.util.logging.Logger;
 
 public class GameData {
   // Static variable that stores the selected ship, weapon and difficulty
@@ -27,6 +28,10 @@ public class GameData {
 
   // Static variable that stores total coins
   private static int totalCoins;
+
+  private static Logger logger = Logger.getLogger(GameData.class.getName());
+
+  private GameData() {}
 
   // Getter and setter for the selected ship
   public static int getSelectedShip() {
@@ -89,7 +94,7 @@ public class GameData {
   // Getter for total coins
   public static int getTotalCoins() {
     totalCoins = new FileDataProvider().getTotalCoins().getTotal();
-    System.out.println("Total: " + totalCoins);
+    logger.info(() -> String.format("Total: %s", totalCoins));
     return totalCoins;
   }
 }

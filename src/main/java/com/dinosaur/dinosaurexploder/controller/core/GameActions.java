@@ -38,7 +38,8 @@ public class GameActions {
   private final Entity life;
   private final Entity levelProgressBar;
   private final Entity bomb;
-
+  private AllyComponent ally;
+  private boolean isAllyUse = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
 
   public GameActions(GameInitializer gameInitializer) {
@@ -96,6 +97,15 @@ public class GameActions {
       gameOver();
     } else {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
+    }
+  }
+
+  public void damageAlly() {
+    ally = collisionHandler.onAllyHit(ally);
+    if (ally.getLife() == 0) {
+      ally.getEntity().removeFromWorld();
+      ally = null;
+      player.getComponent(PlayerComponent.class).setAlly(ally);
     }
   }
 
@@ -198,5 +208,21 @@ public class GameActions {
   /** Summary : To detect whether the player lives are empty or not */
   public void gameOver() {
     new GameOverDialog(languageManager).createDialog();
+  }
+
+  public AllyComponent getAlly() {
+    return ally;
+  }
+
+  public void setAlly(AllyComponent ally) {
+    this.ally = ally;
+  }
+
+  public boolean isAllyUse() {
+    return isAllyUse;
+  }
+
+  public void setAllyUse(boolean allyUse) {
+    this.isAllyUse = allyUse;
   }
 }

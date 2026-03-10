@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.player;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 
@@ -12,6 +12,7 @@ import com.dinosaur.dinosaurexploder.components.LifeComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.CollisionHandlerInterface;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import java.util.logging.Logger;
 

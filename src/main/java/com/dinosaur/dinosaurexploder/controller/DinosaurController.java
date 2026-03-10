@@ -10,6 +10,11 @@ import com.dinosaur.dinosaurexploder.controller.core.CollisionRegistry;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.controller.core.collisions.*;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyAsteroidsCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyGreenDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyOrangeDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.ally.AllyRedDinoCollision;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.player.*;
 
 /**
  * Summary : The Factory handles the Dinosaur , player controls and collision detection of all
@@ -55,6 +60,11 @@ public class DinosaurController {
     collisionRegistry.addCollision(new ProjectileRedDinoCollision(gameInitializer, gameActions));
     collisionRegistry.addCollision(new PlayerAsteroidsCollision(gameActions));
     collisionRegistry.addCollision(new ProjectileAsteroidsCollision(gameInitializer));
+    collisionRegistry.addCollision(new PlayerAllyDropCollision(gameActions));
+    collisionRegistry.addCollision(new AllyAsteroidsCollision((gameActions)));
+    collisionRegistry.addCollision(new AllyRedDinoCollision((gameActions)));
+    collisionRegistry.addCollision(new AllyOrangeDinoCollision((gameActions)));
+    collisionRegistry.addCollision(new AllyGreenDinoCollision((gameActions)));
 
     collisionRegistry.registerAll();
   }

@@ -45,5 +45,15 @@
   "language": "idioma",
   "select_difficulty": "Selecione a dificuldade",
   "normal_mode": "Normal",
-  "expert_mode": "Especialista"
+  "expert_mode": "Especialista",
+  "select_specialty": "Selecionar uma Especialidade",
+  "specialty_none": "Nenhuma",
+  "specialty_none_description": "",
+  "specialty_more_hearts": "Tanque",
+  "specialty_more_hearts_description": "Aumenta a quantidade máxima de vidas.",
+  "specialty_more_bombs": "Especialista em Bombas",
+  "specialty_more_bombs_description": "Aumenta o número máximo de bombas carregadas.",
+  "specialty_smaller_hitbox": "Miniatura",
+  "specialty_smaller_hitbox_description": "Diminui o tamanho da sua hitbox.",
+  "specialty_locked": "A especialidade está bloqueada."
 }

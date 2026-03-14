@@ -5,8 +5,7 @@
 
 package com.dinosaur.dinosaurexploder.components;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameTimer;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.dsl.FXGL;

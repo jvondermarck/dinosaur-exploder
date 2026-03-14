@@ -5,13 +5,15 @@
 
 package com.dinosaur.dinosaurexploder.controller.core;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.runOnce;
+import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static javafx.util.Duration.seconds;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.particle.ParticleComponent;
+import com.almasb.fxgl.particle.ParticleEmitter;
+import com.almasb.fxgl.particle.ParticleEmitters;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
@@ -22,9 +24,11 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.view.GameOverDialog;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class GameActions {
 
@@ -88,6 +92,12 @@ public class GameActions {
     getGameScene().addUINode(flash);
     runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
 
+    if (lives == 2) {
+      changeFire(0.1, 4); // We can change the number to have more or less fire on the ship
+    }
+    if (lives == 1) {
+      changeFire(0.2, 4);
+    }
     if (lives <= 0) {
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
@@ -106,6 +116,17 @@ public class GameActions {
       ally.getEntity().removeFromWorld();
       ally = null;
       player.getComponent(PlayerComponent.class).setAlly(ally);
+    }
+  }
+
+  public void healPlayer() {
+    int lives = collisionHandler.getHealPlayerLife(life.getComponent(LifeComponent.class));
+
+    if (lives == 2) {
+      changeFire(0.1, 4); // We can change the number to have more or less fire on the ship
+    }
+    if (lives == 3) {
+      player.removeComponent(ParticleComponent.class);
     }
   }
 
@@ -224,5 +245,28 @@ public class GameActions {
 
   public void setAllyUse(boolean allyUse) {
     this.isAllyUse = allyUse;
+  }
+
+  /**
+   * @param emissionRate is how often the particle of fire will spawn. If emissionRate = 1, it means
+   *     particles will spawn every frame, 0,5 every two frame, ect.
+   * @param numParticles is the number of particle that will spawn when they spawn.
+   */
+  public void changeFire(double emissionRate, int numParticles) {
+    ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
+    emitter.setMaxEmissions(Integer.MAX_VALUE);
+    emitter.setSize(2, 4);
+    emitter.setStartColor(Color.color(1.0, 0.5, 0.0, 1.0));
+    emitter.setEndColor(Color.color(0.8, 0.1, 0.0, 0.0));
+    emitter.setScaleFunction(i -> new Point2D(random(0.5, 1.5), random(0.5, 1.5)));
+    emitter.setSpawnPointFunction(
+        i -> new Point2D(random(0, player.getWidth()), random(0, player.getHeight())));
+    emitter.setExpireFunction(i -> Duration.seconds(random(0.1, 0.6)));
+
+    player.removeComponent(ParticleComponent.class);
+    emitter.setEmissionRate(emissionRate);
+    emitter.setNumParticles(numParticles);
+    ParticleComponent particles = new ParticleComponent(emitter);
+    player.addComponent(particles);
   }
 }

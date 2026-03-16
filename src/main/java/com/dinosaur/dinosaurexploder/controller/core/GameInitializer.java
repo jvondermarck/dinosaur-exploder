@@ -44,6 +44,7 @@ public class GameInitializer {
   private Entity player;
   private Entity levelDisplay;
   private Entity levelProgressBar;
+  private Entity ally;
   private AchievementManager achievementManager;
 
   /** Summary : To move the space shuttle in forward , backward , right , left directions */
@@ -222,6 +223,14 @@ public class GameInitializer {
 
   public void setLevelProgressBar(Entity levelProgressBar) {
     this.levelProgressBar = levelProgressBar;
+  }
+
+  public Entity getAlly() {
+    return ally;
+  }
+
+  public void setAlly(Entity ally) {
+    this.ally = ally;
   }
 
   public LanguageManager getLanguageManager() {

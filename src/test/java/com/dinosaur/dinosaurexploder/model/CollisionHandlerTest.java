@@ -10,12 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.achievements.Achievement;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
-import com.dinosaur.dinosaurexploder.components.BombComponent;
-import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
-import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
-import com.dinosaur.dinosaurexploder.components.LifeComponent;
-import com.dinosaur.dinosaurexploder.components.RedDinoComponent;
-import com.dinosaur.dinosaurexploder.components.ScoreComponent;
+import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.MockGameTimer;
 import java.util.ArrayList;
@@ -113,6 +108,14 @@ class CollisionHandlerTest {
     int playerLife = collisionHandler.getDamagedPlayerLife(lifeComponent);
 
     assertEquals(playerLife, PLAYER_MAX_LIVES - 1);
+  }
+
+  @Test
+  void damageAllyLife() {
+    AllyComponent ally = new AllyComponent();
+    AllyComponent ally2 = collisionHandler.onAllyHit(ally);
+
+    assertEquals(1, ally2.getLife());
   }
 
   @Test

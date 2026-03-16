@@ -63,6 +63,7 @@ public class PlayerComponent extends Component implements Player {
   // cached Images to prevent memory load
   private Image shipImage;
   private Image projectileImage;
+  private AllyComponent ally;
 
   private Logger logger = Logger.getLogger(getClass().getName());
 
@@ -104,6 +105,10 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onUpdate(double tpf) {
     coolWeapon(tpf);
+    if (ally != null && ally.getDuration() <= 0) {
+      ally.getEntity().removeFromWorld();
+      ally = null;
+    }
   }
 
   public boolean isShieldActive() {
@@ -179,6 +184,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateY(-movementSpeed);
+    if (ally != null) {
+      ally.moveUp(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -189,6 +197,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateY(movementSpeed);
+    if (ally != null) {
+      ally.moveDown(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -199,6 +210,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateX(movementSpeed);
+    if (ally != null) {
+      ally.moveRight(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -209,6 +223,9 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     entity.translateX(-movementSpeed);
+    if (ally != null) {
+      ally.moveLeft(movementSpeed);
+    }
     spawnMovementAnimation();
   }
 
@@ -233,6 +250,9 @@ public class PlayerComponent extends Component implements Player {
                 center.getY() - 25) // adjust Accordingly
             // tamaño de la nave
             .put("direction", direction.toPoint2D()));
+    if (ally != null) {
+      ally.shoot();
+    }
     increaseWeaponHeat();
     shootTimer.capture();
   }
@@ -288,5 +308,13 @@ public class PlayerComponent extends Component implements Player {
 
   public double getWeaponHeatPercentage() {
     return (weaponHeat / MAX_WEAPON_HEAT) * 100.0;
+  }
+
+  public AllyComponent getAlly() {
+    return ally;
+  }
+
+  public void setAlly(AllyComponent ally) {
+    this.ally = ally;
   }
 }

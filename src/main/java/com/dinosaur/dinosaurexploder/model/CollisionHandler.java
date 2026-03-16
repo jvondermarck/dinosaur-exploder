@@ -6,11 +6,7 @@
 package com.dinosaur.dinosaurexploder.model;
 
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
-import com.dinosaur.dinosaurexploder.components.BombComponent;
-import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
-import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
-import com.dinosaur.dinosaurexploder.components.LifeComponent;
-import com.dinosaur.dinosaurexploder.components.ScoreComponent;
+import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.interfaces.Asteroids;
 import com.dinosaur.dinosaurexploder.interfaces.Dinosaur;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -91,5 +87,10 @@ public class CollisionHandler {
       return true;
     }
     return false;
+  }
+
+  public AllyComponent onAllyHit(AllyComponent ally) {
+    ally.setLife(ally.getLife() - 1);
+    return ally;
   }
 }

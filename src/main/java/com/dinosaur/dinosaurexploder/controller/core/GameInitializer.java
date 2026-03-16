@@ -22,6 +22,11 @@ import com.dinosaur.dinosaurexploder.controller.CountdownAnimation;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.Settings;
+import com.dinosaur.dinosaurexploder.specialties.Specialty;
+import com.dinosaur.dinosaurexploder.specialties.effects.SpecialtyEffect;
+import com.dinosaur.dinosaurexploder.specialties.effects.bomb.BombSpecialtyEffect;
+import com.dinosaur.dinosaurexploder.specialties.effects.life.LifeSpecialtyEffect;
+import com.dinosaur.dinosaurexploder.specialties.effects.player.PlayerSpecialtyEffect;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
@@ -83,6 +88,8 @@ public class GameInitializer {
 
     CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
+    applySpecialty();
+
     new CountdownAnimation(3)
         .startCountdown(
             () -> {
@@ -134,6 +141,18 @@ public class GameInitializer {
         "weaponHeat",
         new SpawnData(getAppCenter().getX() + 170, getAppCenter().getY() + 340)
             .put("playerComponent", player.getComponent(PlayerComponent.class)));
+  }
+
+  private void applySpecialty() {
+    Specialty specialty = GameData.getSelectedSpecialty();
+    SpecialtyEffect effect = specialty.effect();
+
+    switch (effect) {
+      case BombSpecialtyEffect be -> be.applyTo(bomb);
+      case LifeSpecialtyEffect le -> le.applyTo(life);
+      case PlayerSpecialtyEffect pe -> pe.applyTo(player);
+      default -> effect.applyTo(player);
+    }
   }
 
   public EnemySpawner getEnemySpawner() {

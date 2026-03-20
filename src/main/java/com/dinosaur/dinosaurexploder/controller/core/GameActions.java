@@ -77,6 +77,8 @@ public class GameActions {
    * Summary : Detecting the player damage to decrease the lives and checking if the game is over
    */
   public void damagePlayer() {
+    double emissionRate;
+    int numParticles;
     if (player == null || life == null) {
 
       LOGGER.log(Level.WARNING, "damagePlayer() called but player or life entity is null.");
@@ -93,10 +95,14 @@ public class GameActions {
     runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
 
     if (lives == 2) {
-      changeFire(0.1, 4); // We can change the number to have more or less fire on the ship
+      emissionRate = 0.1; // We can change the number to have more or less fire on the ship
+      numParticles = 4;
+      changeFire(emissionRate, numParticles);
     }
     if (lives == 1) {
-      changeFire(0.2, 4);
+      emissionRate = 0.2;
+      numParticles = 4;
+      changeFire(emissionRate, numParticles);
     }
     if (lives <= 0) {
       // Added extra line of code to sync the lives counter after death
@@ -253,15 +259,22 @@ public class GameActions {
    * @param numParticles is the number of particle that will spawn when they spawn.
    */
   public void changeFire(double emissionRate, int numParticles) {
+    double minScale = 0.5;
+    double maxScale = 1.5;
+    double minDuration = 0.1;
+    double maxDuration = 0.6;
+    double minEmitterSize = 2;
+    double maxEmitterSize = 4;
     ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
     emitter.setMaxEmissions(Integer.MAX_VALUE);
-    emitter.setSize(2, 4);
+    emitter.setSize(minEmitterSize, maxEmitterSize);
     emitter.setStartColor(Color.color(1.0, 0.5, 0.0, 1.0));
     emitter.setEndColor(Color.color(0.8, 0.1, 0.0, 0.0));
-    emitter.setScaleFunction(i -> new Point2D(random(0.5, 1.5), random(0.5, 1.5)));
+    emitter.setScaleFunction(
+        i -> new Point2D(random(minScale, maxScale), random(minScale, maxScale)));
     emitter.setSpawnPointFunction(
         i -> new Point2D(random(0, player.getWidth()), random(0, player.getHeight())));
-    emitter.setExpireFunction(i -> Duration.seconds(random(0.1, 0.6)));
+    emitter.setExpireFunction(i -> Duration.seconds(random(minDuration, maxDuration)));
 
     player.removeComponent(ParticleComponent.class);
     emitter.setEmissionRate(emissionRate);

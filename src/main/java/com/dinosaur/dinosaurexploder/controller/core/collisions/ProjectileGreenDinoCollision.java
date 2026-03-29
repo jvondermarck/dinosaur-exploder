@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller.core.collisions;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
@@ -5,6 +10,8 @@ import static com.almasb.fxgl.dsl.FXGL.random;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.entity.Entity;
+import com.dinosaur.dinosaurexploder.components.GreenDinoComponent;
+import com.dinosaur.dinosaurexploder.components.Heart;
 import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
@@ -13,6 +20,7 @@ import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.util.logging.Logger;
 
 public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
 
@@ -21,6 +29,8 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
   private final CollisionHandler collisionHandler;
   private final Entity score;
   private final Entity levelProgressBar;
+
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public ProjectileGreenDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
     this.gameActions = gameActions;
@@ -37,7 +47,10 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
         (projectile, greenDino) -> {
           spawn("explosion", greenDino.getX() - 25, greenDino.getY() - 30);
           if (random(0, 100) < 5) {
-            spawn("heart", greenDino.getX(), greenDino.getY());
+            Entity heart = spawn("heart", greenDino.getX(), greenDino.getY());
+            heart
+                .getComponent(Heart.class)
+                .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());
           }
           AudioManager.getInstance().playSound(GameConstants.ENEMY_EXPLODE_SOUND);
           projectile.removeFromWorld();
@@ -46,7 +59,7 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
               score.getComponent(ScoreComponent.class),
               levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
             gameActions.showLevelMessage();
-            System.out.println("Level up!");
+            logger.info("Level up!");
           }
         });
   }

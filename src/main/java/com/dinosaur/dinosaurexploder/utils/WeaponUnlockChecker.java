@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
@@ -19,6 +24,8 @@ public class WeaponUnlockChecker {
           1, 0,
           2, 5,
           3, 10);
+
+  private static final String WEAPON_LOCKED = "weapon_locked";
 
   private HighScore highScore = new HighScore();
   private TotalCoins totalCoins = new TotalCoins();
@@ -42,24 +49,25 @@ public class WeaponUnlockChecker {
     int lowerScoreLimit = scoreMap.getOrDefault(weaponNumber, 0);
     int lowerCoinLimit = coinMap.getOrDefault(weaponNumber, 0);
 
-    if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) return;
-    else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+    if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
+      /* return */
+    } else if (lowerScoreLimit > highScore.getHigh() && lowerCoinLimit <= totalCoins.getTotal()) {
       throw new LockedWeaponException(
-          languageManager.getTranslation("weapon_locked")
+          languageManager.getTranslation(WEAPON_LOCKED)
               + "\n"
               + languageManager
                   .getTranslation("unlock_highScore")
                   .replace("##", String.valueOf(lowerScoreLimit)));
     } else if (lowerScoreLimit <= highScore.getHigh() && lowerCoinLimit > totalCoins.getTotal()) {
       throw new LockedWeaponException(
-          languageManager.getTranslation("weapon_locked")
+          languageManager.getTranslation(WEAPON_LOCKED)
               + "\n"
               + languageManager
                   .getTranslation("unlock_totalCoins")
                   .replace("##", String.valueOf(lowerCoinLimit)));
     } else {
       throw new LockedWeaponException(
-          languageManager.getTranslation("weapon_locked")
+          languageManager.getTranslation(WEAPON_LOCKED)
               + "\n"
               + languageManager
                   .getTranslation("unlock_highScore")

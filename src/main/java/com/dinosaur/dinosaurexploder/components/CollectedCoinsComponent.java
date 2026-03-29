@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.components;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -8,6 +13,8 @@ import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -18,7 +25,7 @@ import javafx.scene.text.Text;
 
 public class CollectedCoinsComponent extends Component implements CollectedCoins {
   private int coin = 0;
-  private final int COIN_VALUE = 1;
+  private static final int COIN_VALUE = 1;
 
   private static TotalCoins totalCoins = new TotalCoins();
 
@@ -26,10 +33,16 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
 
   private Text coinText;
   private Node coinUI;
+  private Image coinImage;
+
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   @Override
   public void onAdded() {
     loadTotalCoins(); // Deserialize once when the component is added
+
+    // load coin Image once
+    coinImage = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
 
     // Create UI elements
     coinText =
@@ -52,8 +65,8 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   private Node createCoinUI() {
-    Image image = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
-    ImageView imageView = new ImageView(image);
+
+    ImageView imageView = new ImageView(coinImage);
 
     HBox container = new HBox(5, coinText, imageView);
     container.setAlignment(Pos.CENTER_LEFT);
@@ -75,7 +88,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
         new ObjectOutputStream(new FileOutputStream(GameConstants.TOTAL_COINS_FILE))) {
       out.writeObject(totalCoins);
     } catch (IOException e) {
-      System.err.println("Error saving coins: " + e.getMessage());
+      logger.log(Level.SEVERE, "Error saving coins: {0}", e.getMessage());
     }
   }
 

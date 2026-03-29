@@ -42,5 +42,18 @@
   "error_loading_contributors": "Не удалось загрузить участников. Пожалуйста, проверьте подключение к интернету.",
   "credits_subtitle": "Спасибо всем нашим участникам",
   "options": "опции",
-  "language": "язык"
+  "language": "язык",
+  "select_difficulty": "Выберите сложность",
+  "normal_mode": "Нормальный",
+  "expert_mode": "Эксперт",
+  "select_specialty": "Выберите специализацию",
+  "specialty_none": "Ничего",
+  "specialty_none_description": "",
+  "specialty_more_hearts": "Танк",
+  "specialty_more_hearts_description": "Увеличивает максимальное количество жизней.",
+  "specialty_more_bombs": "Эксперт по бомбам",
+  "specialty_more_bombs_description": "Увеличивает максимальное количество переносимых бомб.",
+  "specialty_smaller_hitbox": "Миниатюра",
+  "specialty_smaller_hitbox_description": "Уменьшает размер вашего хитбокса.",
+  "specialty_locked": "Специализация заблокирована."
 }

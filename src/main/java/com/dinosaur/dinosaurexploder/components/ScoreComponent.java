@@ -1,12 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +31,8 @@ public class ScoreComponent extends Component implements Score {
 
   private Text scoreText;
   private Text highScoreText;
+
+  protected Logger logger = Logger.getLogger(getClass().getName());
 
   @Override
   public void onAdded() {
@@ -59,8 +70,12 @@ public class ScoreComponent extends Component implements Score {
 
   private void updateTexts() {
     scoreText.setText(languageManager.getTranslation("score").toUpperCase() + ": " + score);
+    GameMode currentMode = GameData.getSelectedDifficulty();
+
     highScoreText.setText(
-        languageManager.getTranslation("high_score").toUpperCase() + ": " + highScore.getHigh());
+        languageManager.getTranslation("high_score").toUpperCase()
+            + ": "
+            + highScore.getHigh(currentMode.name()));
   }
 
   private void loadHighScore() {
@@ -77,7 +92,7 @@ public class ScoreComponent extends Component implements Score {
         new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {
       out.writeObject(highScore);
     } catch (IOException e) {
-      System.err.println("Error saving high score: " + e.getMessage());
+      logger.info("Error saving high score: " + e.getMessage());
     }
   }
 
@@ -95,9 +110,22 @@ public class ScoreComponent extends Component implements Score {
   public void incrementScore(int increment) {
     score += increment;
 
-    if (score > highScore.getHigh()) {
-      highScore = new HighScore(score);
+    GameMode currGameMode = GameData.getSelectedDifficulty();
+
+    if (score > highScore.getHigh(currGameMode.name())) {
+      highScore.setHigh(currGameMode.name(), score);
       saveHighScore();
+    }
+    // Notify achievements about score change
+    // Notify achievements about score change
+    try {
+      AchievementManager achievementManager =
+          FXGL.getWorldProperties().getValue("achievementManager");
+      if (achievementManager != null) {
+        achievementManager.notifyScoreChanged(score);
+      }
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip achievement notification
     }
   }
 }

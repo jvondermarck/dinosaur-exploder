@@ -1,6 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.components;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameTimer;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.core.math.Vec2;
@@ -18,6 +23,7 @@ import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -33,6 +39,7 @@ public class PlayerComponent extends Component implements Player {
       30.0; // these variables can be adjusted as needed
   private static final double SLOWDOWN_THRESHOLD = 90.0;
   private static final double SLOWED_SHOT_COOLDOWN_SECONDS = 0.28;
+  private static final String OUT_OF_BOUNDS = "Out of bounds";
   // Shield fields
   private boolean shieldActive = false;
   private double shieldTimeLeft = 0;
@@ -52,6 +59,12 @@ public class PlayerComponent extends Component implements Player {
   private boolean isInvincible = false;
   private double weaponHeat = 0.0;
   private final GameTimer shootTimer;
+
+  // cached Images to prevent memory load
+  private Image shipImage;
+  private Image projectileImage;
+
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {
@@ -79,6 +92,13 @@ public class PlayerComponent extends Component implements Player {
   @Override
   public void onAdded() {
     shootTimer.capture();
+    // Load images once when component is added
+    // Use resource stream for both images to ensure consistency
+    shipImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + shipImagePath)));
+
+    projectileImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
   }
 
   @Override
@@ -155,7 +175,7 @@ public class PlayerComponent extends Component implements Player {
 
   public void moveUp() {
     if (entity.getY() < 0) {
-      System.out.println("Out of bounds");
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(-movementSpeed);
@@ -164,8 +184,8 @@ public class PlayerComponent extends Component implements Player {
 
   /** Summary : This method is overriding the superclass method to limit the downSide movement. */
   public void moveDown() {
-    if (!(entity.getY() < DinosaurGUI.HEIGHT - entity.getHeight())) {
-      System.out.println("Out of bounds");
+    if (entity.getY() >= DinosaurGUI.HEIGHT - entity.getHeight()) {
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateY(movementSpeed);
@@ -174,8 +194,8 @@ public class PlayerComponent extends Component implements Player {
 
   /** Summary : This method is overriding the superclass method to limit the rightSide movement. */
   public void moveRight() {
-    if (!(entity.getX() < DinosaurGUI.WIDTH - entity.getWidth())) {
-      System.out.println("Out of bounds");
+    if (entity.getX() >= DinosaurGUI.WIDTH - entity.getWidth()) {
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(movementSpeed);
@@ -185,7 +205,7 @@ public class PlayerComponent extends Component implements Player {
   /** Summary : This method is overriding the superclass method to limit the leftSide movement. */
   public void moveLeft() {
     if (entity.getX() < 0) {
-      System.out.println("Out of bounds");
+      logger.info(OUT_OF_BOUNDS);
       return;
     }
     entity.translateX(-movementSpeed);
@@ -204,14 +224,13 @@ public class PlayerComponent extends Component implements Player {
     AudioManager.getInstance().playSound(GameConstants.SHOOT_SOUND);
     Point2D center = entity.getCenter();
     Vec2 direction = Vec2.fromAngle(entity.getRotation() - 90);
-    System.out.println("Shoot with selected weapon: " + selectedWeapon);
-    Image projImg =
-        new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
+    logger.info(() -> String.format("Shoot with selected weapon: %s", selectedWeapon));
 
     spawn(
         "basicProjectile",
         new SpawnData(
-                center.getX() - (projImg.getWidth() / 2) + 3, center.getY() - 25) // Ajusta según el
+                center.getX() - (projectileImage.getWidth() / 2) + 3,
+                center.getY() - 25) // adjust Accordingly
             // tamaño de la nave
             .put("direction", direction.toPoint2D()));
     increaseWeaponHeat();
@@ -219,10 +238,20 @@ public class PlayerComponent extends Component implements Player {
   }
 
   private void spawnMovementAnimation() {
-    Image spcshpImg = new Image(shipImagePath);
+    double scaleX = entity.getScaleX();
+    double scaleY = entity.getScaleY();
+
+    Texture texture = new Texture(shipImage);
+    texture.setScaleX(scaleX);
+    texture.setScaleY(scaleY);
+    texture.setRotate(entity.getRotation());
+
     FXGL.entityBuilder()
-        .at(getEntity().getCenter().subtract(spcshpImg.getWidth() / 2, spcshpImg.getHeight() / 2))
-        .view(new Texture(spcshpImg))
+        .at(
+            entity
+                .getCenter()
+                .subtract(shipImage.getWidth() * scaleX / 2, shipImage.getHeight() * scaleY / 2))
+        .view(texture)
         .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
         .buildAndAttach();
   }
@@ -246,6 +275,17 @@ public class PlayerComponent extends Component implements Player {
       return;
     }
     weaponHeat = Math.max(0.0, weaponHeat - (COOLING_RATE_PER_SECOND * tpf));
+  }
+
+  @Override
+  public void onRemoved() {
+    // clean up timer actions to prevent memory leaks
+    if (shieldTimerAction != null && !shieldTimerAction.isExpired()) {
+      shieldTimerAction.expire();
+    }
+    if (shieldCooldownAction != null && !shieldCooldownAction.isExpired()) {
+      shieldCooldownAction.expire();
+    }
   }
 
   // Getter for weapon heat for fron end feature

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder;
 
 import com.almasb.fxgl.app.GameApplication;
@@ -41,10 +46,10 @@ public class DinosaurApp extends GameApplication {
   @Override
   protected void initGame() {
     FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
-    controller.initGame();
     achievementManager = new AchievementManager();
     achievementManager.init();
     FXGL.getWorldProperties().setValue("achievementManager", achievementManager);
+    controller.initGame(achievementManager);
   }
 
   /**

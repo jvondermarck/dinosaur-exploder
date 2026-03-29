@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller.core.collisions;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
@@ -5,6 +10,7 @@ import static com.almasb.fxgl.dsl.FXGL.random;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.entity.Entity;
+import com.dinosaur.dinosaurexploder.components.LevelProgressBarComponent;
 import com.dinosaur.dinosaurexploder.components.OrangeDinoComponent;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
@@ -15,6 +21,7 @@ import com.dinosaur.dinosaurexploder.controller.core.GameInitializer;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
+import java.util.logging.Logger;
 
 public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface {
 
@@ -24,6 +31,8 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
   private final LevelManager levelManager;
   private final BossSpawner bossSpawner;
   private final Entity score;
+  private final Entity levelProgressBar;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public ProjectileOrangeDinoCollision(GameInitializer gameInitializer, GameActions gameActions) {
     this.gameActions = gameActions;
@@ -31,6 +40,7 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
     this.levelManager = gameInitializer.getLevelManager();
     this.bossSpawner = gameInitializer.getBossSpawner();
     this.score = gameInitializer.getScore();
+    this.levelProgressBar = gameInitializer.getLevelProgressBar();
   }
 
   @Override
@@ -52,14 +62,16 @@ public class ProjectileOrangeDinoCollision implements CollisionHandlerInterface 
               spawn(
                   "coin", orangeDino.getX() + random(-25, 25), orangeDino.getY() + random(-25, 25));
             }
-            bossSpawner.removeBossEntities();
+            bossSpawner.removeBossEntity(orangeDino);
 
-            collisionHandler.handleBossDefeat(score.getComponent(ScoreComponent.class));
-
-            gameActions.showLevelMessage();
-            System.out.println("Level up!");
+            if (collisionHandler.isLevelUpAfterBossDefeat(
+                score.getComponent(ScoreComponent.class),
+                levelProgressBar.getComponent(LevelProgressBarComponent.class))) {
+              gameActions.showLevelMessage();
+              logger.info("Level up!");
+            }
           } else {
-            bossSpawner.updateHealthBar();
+            orangeDino.getComponent(OrangeDinoComponent.class).getHealthBar().updateBar();
           }
         });
   }

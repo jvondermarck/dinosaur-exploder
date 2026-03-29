@@ -1,11 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.model;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.exception.LockedShipException;
 import com.dinosaur.dinosaurexploder.utils.DataProvider;
 import com.dinosaur.dinosaurexploder.utils.ShipUnlockChecker;
 import com.dinosaur.dinosaurexploder.utils.WeaponUnlockChecker;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class SelectionTest {
@@ -43,7 +51,11 @@ class SelectionTest {
   class MockDataProvider implements DataProvider {
     @Override
     public HighScore getHighScore() {
-      return new HighScore(HIGH_SCORE);
+      Map<String, Integer> scores = new HashMap<>();
+      scores.put(GameMode.NORMAL.name(), HIGH_SCORE);
+      scores.put(GameMode.EXPERT.name(), 0);
+
+      return new HighScore(scores);
     }
 
     @Override

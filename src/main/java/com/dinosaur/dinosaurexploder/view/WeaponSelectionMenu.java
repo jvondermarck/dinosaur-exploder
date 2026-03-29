@@ -1,13 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.dsl.FXGL;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.exception.LockedWeaponException;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -31,6 +39,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
   // ============ FIELDS ============
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private GridPane weaponGrid;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   // ============ CONSTRUCTOR ============
   public WeaponSelectionMenu() {
@@ -170,7 +179,7 @@ public class WeaponSelectionMenu extends FXGLMenu {
 
   private void selectWeapon(int weaponNumber) {
     GameData.setSelectedWeapon(weaponNumber);
-    System.out.println("Selected Weapon: " + weaponNumber);
-    fireNewGame();
+    logger.log(Level.INFO, "Selected Weapon: {0}", weaponNumber);
+    FXGL.getSceneService().pushSubScene(new SpecialtyMenu());
   }
 }

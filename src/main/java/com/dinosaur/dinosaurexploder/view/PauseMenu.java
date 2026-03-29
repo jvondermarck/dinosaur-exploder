@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.view;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -19,6 +24,8 @@ import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -43,6 +50,7 @@ public class PauseMenu extends FXGLMenu {
   private ImageView imageViewPlayingMenuSound;
   private ImageView imageViewPlayingSfxSounds;
   private static final String LABEL_FORMAT = "%.0f%%";
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   LanguageManager languageManager = LanguageManager.getInstance();
   PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
@@ -149,7 +157,7 @@ public class PauseMenu extends FXGLMenu {
             SettingsProvider.saveSettings(settings);
           });
     } catch (FileNotFoundException e) {
-      System.out.println("File not found" + e.getMessage());
+      logger.log(Level.INFO, "File not found {0}", e.getMessage());
     }
 
     updateTexts();

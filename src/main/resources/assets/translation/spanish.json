@@ -42,5 +42,18 @@
   "error_loading_contributors": "No se pudieron cargar los colaboradores. Por favor, revisa tu conexión a Internet.",
   "credits_subtitle": "Gracias a todos nuestros colaboradores",
   "options": "opciones",
-  "language": "idioma"
+  "language": "idioma",
+  "select_difficulty": "Seleccione la dificultad",
+  "normal_mode": "Normal",
+  "expert_mode": "Experto",
+  "select_specialty": "Seleccionar una especialidad",
+  "specialty_none": "Ninguna",
+  "specialty_none_description": "",
+  "specialty_more_hearts": "Tanque",
+  "specialty_more_hearts_description": "Aumenta la cantidad máxima de vidas.",
+  "specialty_more_bombs": "Experto en bombas",
+  "specialty_more_bombs_description": "Aumenta el número máximo de bombas permitidas.",
+  "specialty_smaller_hitbox": "Miniatura",
+  "specialty_smaller_hitbox_description": "Disminuye el tamaño de tu hitbox.",
+  "specialty_locked": "La especialidad está bloqueada."
 }

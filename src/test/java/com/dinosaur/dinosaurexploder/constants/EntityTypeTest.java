@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.constants;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +14,7 @@ public class EntityTypeTest {
   @Test
   public void entityTest() {
     EntityType[] values = EntityType.values();
-    assertEquals(16, values.length, "EntityType count should match");
+    assertEquals(17, values.length, "EntityType count should match");
 
     assertArrayEquals(
         new EntityType[] {
@@ -28,7 +33,8 @@ public class EntityTypeTest {
           EntityType.HEALTHBAR,
           EntityType.LEVEL_PROGRESS_BAR,
           EntityType.WEAPON_HEAT,
-          EntityType.SHIELD
+          EntityType.SHIELD,
+          EntityType.ASTEROIDS
         },
         values);
   }

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller.core.collisions;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
@@ -6,10 +11,12 @@ import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
+import java.util.logging.Logger;
 
 public class PlayerGreenDinoCollision implements CollisionHandlerInterface {
 
   private final GameActions gameActions;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public PlayerGreenDinoCollision(GameActions gameActions) {
     this.gameActions = gameActions;
@@ -23,7 +30,7 @@ public class PlayerGreenDinoCollision implements CollisionHandlerInterface {
         (player, greenDino) -> {
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
           greenDino.removeFromWorld();
-          System.out.println("You touched a dino !");
+          logger.info("You touched a dino !");
           gameActions.damagePlayer();
         });
   }

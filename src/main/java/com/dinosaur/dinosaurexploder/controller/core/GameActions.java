@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller.core;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
@@ -15,6 +20,8 @@ import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.TextUtils;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.view.GameOverDialog;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -22,6 +29,7 @@ import javafx.scene.text.Text;
 public class GameActions {
 
   private final EnemySpawner enemySpawner;
+  private final AsteroidsSpawner asteroidsSpawner;
   private final CollisionHandler collisionHandler;
   private final LevelManager levelManager;
   private final LanguageManager languageManager;
@@ -31,8 +39,11 @@ public class GameActions {
   private final Entity levelProgressBar;
   private final Entity bomb;
 
+  private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
+
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
+    this.asteroidsSpawner = gameInitializer.getAsteroidsSpawner();
     this.collisionHandler = gameInitializer.getCollisionHandler();
     this.levelManager = gameInitializer.getLevelManager();
     this.languageManager = gameInitializer.getLanguageManager();
@@ -62,7 +73,9 @@ public class GameActions {
    */
   public void damagePlayer() {
     if (player == null || life == null) {
-      System.err.println("damagePlayer() called but player or life entity is null.");
+
+      LOGGER.log(Level.WARNING, "damagePlayer() called but player or life entity is null.");
+
       return;
     }
 
@@ -78,10 +91,11 @@ public class GameActions {
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
       life.getComponent(LifeComponent.class).onUpdate(lives);
-      System.out.println("Game Over!");
+
+      LOGGER.log(Level.INFO, "Game Over!");
       gameOver();
     } else {
-      System.out.printf("%d lives remaining ! ", lives);
+      LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
     }
   }
 
@@ -90,22 +104,13 @@ public class GameActions {
    * level is changed
    */
   public void showLevelMessage() {
-    // Hide the progress bar for boss levels
-    if (levelManager.getCurrentLevel() % 5 == 0) {
+    // Hide the progress bar for boss levels if there are less than 2 bosses to defeat
+    if (singleBoss()) {
       levelProgressBar.setVisible(false);
     }
 
     // Pause game elements during level transition
-    FXGL.getGameWorld()
-        .getEntitiesByType(EntityType.GREEN_DINO)
-        .forEach(
-            e -> {
-              if (e.hasComponent(GreenDinoComponent.class)) {
-                e.getComponent(GreenDinoComponent.class).setPaused(true);
-              }
-            });
-
-    enemySpawner.pauseEnemySpawning();
+    pauseElement();
 
     // Display centered level notification
     Text levelText =
@@ -122,15 +127,12 @@ public class GameActions {
     getGameScene().addUINode(levelText);
 
     // Trigger bomb regeneration for level advancement
-    if (bomb.hasComponent(BombComponent.class)) {
-      bomb.getComponent(BombComponent.class)
-          .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
-    }
+    regenerateBombe();
 
     // Resume gameplay after a delay
     runOnce(
         () -> {
-          if (levelManager.getCurrentLevel() % 5 != 0) {
+          if (!singleBoss()) {
             levelProgressBar.setVisible(true);
           }
 
@@ -147,21 +149,50 @@ public class GameActions {
                   e -> {
                     if (e.hasComponent(GreenDinoComponent.class)) {
                       e.getComponent(GreenDinoComponent.class).setPaused(false);
+                    } else if (e.hasComponent(AsteroidsComponent.class)) {
+                      e.getComponent(AsteroidsComponent.class).setPaused(false);
                     }
                   });
 
           enemySpawner.resumeEnemySpawning();
+          asteroidsSpawner.resumeAsteroidsSpawning();
 
           player.getComponent(PlayerComponent.class).setInvincible(true);
           runOnce(
               () -> {
-                if (player != null && player.isActive()) {
+                if (player.isActive()) {
                   player.getComponent(PlayerComponent.class).setInvincible(false);
                 }
               },
               seconds(3));
         },
         seconds(2));
+  }
+
+  public void pauseElement() {
+    FXGL.getGameWorld()
+        .getEntitiesByType(EntityType.GREEN_DINO)
+        .forEach(
+            e -> {
+              if (e.hasComponent(GreenDinoComponent.class)) {
+                e.getComponent(GreenDinoComponent.class).setPaused(true);
+              } else if (e.hasComponent(AsteroidsComponent.class)) {
+                e.getComponent(AsteroidsComponent.class).setPaused(true);
+              }
+            });
+    enemySpawner.pauseEnemySpawning();
+    asteroidsSpawner.pauseAsteroidsSpawning();
+  }
+
+  public void regenerateBombe() {
+    if (bomb.hasComponent(BombComponent.class)) {
+      bomb.getComponent(BombComponent.class)
+          .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+    }
+  }
+
+  private boolean singleBoss() {
+    return levelManager.getBossesToDefeat() < 2 && levelManager.getCurrentLevel() % 5 == 0;
   }
 
   /** Summary : To detect whether the player lives are empty or not */

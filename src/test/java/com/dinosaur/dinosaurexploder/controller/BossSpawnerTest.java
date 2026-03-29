@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -135,7 +140,7 @@ class BossSpawnerTest {
 
       spawner.spawnNewBoss("red");
 
-      spawner.updateHealthBar();
+      spawner.updateHealthBars();
 
       verify(hbComp).updateBar();
     }
@@ -154,8 +159,11 @@ class BossSpawnerTest {
     RedDinoComponent redComp = mock(RedDinoComponent.class);
     HealthbarComponent hbComp = mock(HealthbarComponent.class);
 
+    when(redEntity.hasComponent(RedDinoComponent.class)).thenReturn(true);
     when(redEntity.getComponent(RedDinoComponent.class)).thenReturn(redComp);
     when(healthBarEntity.getComponent(HealthbarComponent.class)).thenReturn(hbComp);
+    when(redComp.getHealthBar()).thenReturn(hbComp);
+    when(hbComp.getEntity()).thenReturn(healthBarEntity);
 
     try (MockedStatic<FXGL> fxglMock = mockStatic(FXGL.class);
         MockedStatic<FXGLForKtKt> spawnMock = mockStatic(FXGLForKtKt.class)) {

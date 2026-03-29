@@ -1,8 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller.core;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.almasb.fxgl.dsl.FXGL.getAppCenter;
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 import com.almasb.fxgl.dsl.FXGL;
@@ -12,11 +15,18 @@ import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.controller.CoinSpawner;
 import com.dinosaur.dinosaurexploder.controller.CountdownAnimation;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.Settings;
+import com.dinosaur.dinosaurexploder.specialties.Specialty;
+import com.dinosaur.dinosaurexploder.specialties.effects.SpecialtyEffect;
+import com.dinosaur.dinosaurexploder.specialties.effects.bomb.BombSpecialtyEffect;
+import com.dinosaur.dinosaurexploder.specialties.effects.life.LifeSpecialtyEffect;
+import com.dinosaur.dinosaurexploder.specialties.effects.player.PlayerSpecialtyEffect;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
@@ -28,6 +38,7 @@ public class GameInitializer {
   private final LanguageManager languageManager = LanguageManager.getInstance();
 
   private EnemySpawner enemySpawner;
+  private AsteroidsSpawner asteroidsSpawner;
   private CollisionHandler collisionHandler;
   private LevelManager levelManager;
   private BossSpawner bossSpawner;
@@ -38,6 +49,7 @@ public class GameInitializer {
   private Entity player;
   private Entity levelDisplay;
   private Entity levelProgressBar;
+  private AchievementManager achievementManager;
 
   /** Summary : To move the space shuttle in forward , backward , right , left directions */
   public void initInput() {
@@ -63,11 +75,12 @@ public class GameInitializer {
   public void initGame() {
 
     levelManager = new LevelManager();
+    levelManager.setGameMode(GameData.getSelectedDifficulty()); // Set the difficulty from GameData
+    levelManager.setBossesToDefeat(GameData.getSelectedDifficulty() == GameMode.EXPERT ? 2 : 1);
+
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();
-    AchievementManager achievementManager = new AchievementManager();
-    achievementManager.init();
 
     collisionHandler = new CollisionHandler(levelManager, achievementManager);
 
@@ -75,15 +88,20 @@ public class GameInitializer {
 
     CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
+    applySpecialty();
+
     new CountdownAnimation(3)
         .startCountdown(
             () -> {
               enemySpawner.resumeEnemySpawning();
               enemySpawner.spawnEnemies();
               coinSpawner.startSpawning();
+              asteroidsSpawner.resumeAsteroidsSpawning();
+              asteroidsSpawner.spawnAsteroids();
             });
 
     enemySpawner = new EnemySpawner(this);
+    asteroidsSpawner = new AsteroidsSpawner(this);
   }
 
   private void initGameEntities() {
@@ -125,8 +143,24 @@ public class GameInitializer {
             .put("playerComponent", player.getComponent(PlayerComponent.class)));
   }
 
+  private void applySpecialty() {
+    Specialty specialty = GameData.getSelectedSpecialty();
+    SpecialtyEffect effect = specialty.effect();
+
+    switch (effect) {
+      case BombSpecialtyEffect be -> be.applyTo(bomb);
+      case LifeSpecialtyEffect le -> le.applyTo(life);
+      case PlayerSpecialtyEffect pe -> pe.applyTo(player);
+      default -> effect.applyTo(player);
+    }
+  }
+
   public EnemySpawner getEnemySpawner() {
     return enemySpawner;
+  }
+
+  public AsteroidsSpawner getAsteroidsSpawner() {
+    return asteroidsSpawner;
   }
 
   public CollisionHandler getCollisionHandler() {
@@ -211,5 +245,9 @@ public class GameInitializer {
 
   public LanguageManager getLanguageManager() {
     return languageManager;
+  }
+
+  public void setAchievementManager(AchievementManager achievementManager) {
+    this.achievementManager = achievementManager;
   }
 }

@@ -1,28 +1,29 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
 
+/** Achievement for killing a specific number of dinosaurs. */
 public class KillCountAchievement extends Achievement {
 
   private final int targetKills;
-  private final int rewardCoins;
-
   private int currentKills = 0;
-  private boolean completed = false;
 
   public KillCountAchievement(int targetKills, int rewardCoins) {
+    super(rewardCoins);
     this.targetKills = targetKills;
-    this.rewardCoins = rewardCoins;
   }
 
+  @Override
   public String getDescription() {
     return "Kill " + targetKills + " dinosaurs";
   }
 
-  public boolean isCompleted() {
-    return completed;
-  }
-
+  @Override
   public void onDinosaurKilled() {
     if (completed) return;
 
@@ -39,11 +40,12 @@ public class KillCountAchievement extends Achievement {
     // Not needed for count-based achievement
   }
 
-  public void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
-  }
-
-  public int getRewardCoins() {
-    return rewardCoins;
+  @Override
+  protected void onComplete() {
+    try {
+      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip notification
+    }
   }
 }

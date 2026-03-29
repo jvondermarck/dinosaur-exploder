@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.constants;
 
 /** This handles with all the entities in the game like lives, player projectile etc. */
@@ -17,5 +22,6 @@ public enum EntityType {
   HEALTHBAR,
   LEVEL_PROGRESS_BAR,
   WEAPON_HEAT,
-  SHIELD
+  SHIELD,
+  ASTEROIDS
 }

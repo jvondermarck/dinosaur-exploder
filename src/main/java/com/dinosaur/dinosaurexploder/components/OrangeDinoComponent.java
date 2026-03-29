@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.components;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.random;
@@ -27,6 +32,7 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
   private final GameTimer gameTimer;
   private final PlayerComponent playerComponent;
   Point2D playerPosition;
+  private HealthbarComponent healthBar;
 
   // Logging
   private static final Logger LOGGER = Logger.getLogger(OrangeDinoComponent.class.getName());
@@ -63,6 +69,14 @@ public class OrangeDinoComponent extends Component implements Dinosaur {
 
   public void setPaused(boolean paused) {
     isPaused = paused;
+  }
+
+  public void setHealthBar(HealthbarComponent healthBar) {
+    this.healthBar = healthBar;
+  }
+
+  public HealthbarComponent getHealthBar() {
+    return healthBar;
   }
 
   @Override

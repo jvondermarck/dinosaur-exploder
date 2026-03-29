@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.model;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
@@ -17,9 +22,9 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.dinosaur.dinosaurexploder.components.*;
-import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -65,6 +70,8 @@ public class GameEntityFactory implements EntityFactory {
   public Entity newPlayer(SpawnData data) {
     // Get the selected ship
     int selectedShip = GameData.getSelectedShip();
+    GameMode mode = GameData.getSelectedDifficulty();
+
     String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
     logger.log(Level.INFO, "Spaceship selected in newPlayer: {0}", selectedShip);
 
@@ -76,12 +83,18 @@ public class GameEntityFactory implements EntityFactory {
     double width = shipImage.getWidth();
     double height = shipImage.getHeight();
 
-    return entityBuilderBase(data, EntityType.PLAYER)
-        .view(new ImageView(shipImage))
-        .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(width, height))) // la nave
-        .collidable()
-        .with(new PlayerComponent())
-        .build();
+    EntityBuilder builder =
+        entityBuilderBase(data, EntityType.PLAYER)
+            .view(new ImageView(shipImage))
+            .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(width, height))) // la nave
+            .collidable()
+            .with(new PlayerComponent());
+
+    if (mode == GameMode.EXPERT) {
+      builder.with(new PlayerRotationComponent());
+    }
+
+    return builder.build();
   }
 
   /** Summary : New BasicProjectile creation will be handled in below Entity */
@@ -316,6 +329,39 @@ public class GameEntityFactory implements EntityFactory {
     return entityBuilderBase(data, EntityType.WEAPON_HEAT)
         .view(heatBar)
         .with(new WeaponHeatComponent(fill, playerComponent)) // ← Add component
+        .build();
+  }
+
+  @Spawns("littleAsteroids")
+  public Entity littleAsteroids(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ASTEROIDS)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ASTEROIDS_IMAGE_FILE, 80, 80))
+        .bbox(new HitBox(BoundingShape.box(60, 60)))
+        .collidable()
+        .with(new AsteroidsComponent(1))
+        .build();
+  }
+
+  @Spawns("mediumAsteroids")
+  public Entity mediumAsteroids(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ASTEROIDS)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ASTEROIDS_IMAGE_FILE, 120, 120))
+        .bbox(new HitBox(BoundingShape.box(100, 100)))
+        .collidable()
+        .with(new AsteroidsComponent(2))
+        .build();
+  }
+
+  @Spawns("bigAsteroids")
+  public Entity bigAsteroids(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ASTEROIDS)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ASTEROIDS_IMAGE_FILE, 160, 160))
+        .bbox(new HitBox(BoundingShape.box(140, 140)))
+        .collidable()
+        .with(new AsteroidsComponent(3))
         .build();
   }
 

@@ -42,5 +42,18 @@
   "error_loading_contributors": "Mitwirkende konnten nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung.",
   "credits_subtitle": "Danke an alle Mitwirkenden",
   "options": "Optionen",
-  "language": "Sprache"
+  "language": "Sprache",
+  "select_difficulty": "Schwierigkeitsgrad auswählen",
+  "normal_mode": "Normal",
+  "expert_mode": "Experte",
+  "select_specialty": "Spezialisierung wählen",
+  "specialty_none": "Keine",
+  "specialty_none_description": "",
+  "specialty_more_hearts": "Tank",
+  "specialty_more_hearts_description": "Erhöht die maximale Anzahl an Leben.",
+  "specialty_more_bombs": "Bombenexperte",
+  "specialty_more_bombs_description": "Erhöht die maximale Anzahl an Bomben, die getragen werden können.",
+  "specialty_smaller_hitbox": "Miniatur",
+  "specialty_smaller_hitbox_description": "Verringert die Größe deiner Hitbox.",
+  "specialty_locked": "Spezialisierung ist gesperrt."
 }

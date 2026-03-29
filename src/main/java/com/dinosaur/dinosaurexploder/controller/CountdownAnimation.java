@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.controller;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -8,6 +13,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.time.TimerAction;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -18,6 +24,7 @@ public class CountdownAnimation {
   private TimerAction countDownAction;
   private int countDown;
   private Text countDownText;
+  private Logger logger = Logger.getLogger(getClass().getName());
 
   public CountdownAnimation(int numbersToCount) {
     countDown = numbersToCount;
@@ -50,8 +57,8 @@ public class CountdownAnimation {
     getGameScene().addUINode(countDownText);
     FXGL.animationBuilder()
         .interpolator(Interpolators.ELASTIC.EASE_OUT())
-        .onCycleFinished(() -> System.out.println("Countdown: " + countDown))
-        .onFinished(() -> System.out.println("Countdown animation finished"))
+        .onCycleFinished(() -> logger.info("Countdown: " + countDown))
+        .onFinished(() -> logger.info("Countdown animation finished"))
         .duration(Duration.seconds(1))
         .repeat(4)
         .translate(countDownText)

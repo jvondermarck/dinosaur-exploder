@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.constants;
 
 /** This holds every constant in the project */
@@ -28,6 +33,7 @@ public class GameConstants {
   public static final String SILENT_IMAGE_PATH = "assets/textures/silent.png";
   public static final String PLAYING_IMAGE_PATH = "assets/textures/playing.png";
   public static final String GAME_LOGO_DINOSAUR = "assets/textures/dinomenu.png";
+  public static final String ASTEROIDS_IMAGE_FILE = "asteroids.png";
 
   /*
    *CONSTANTS FOR FONTS
@@ -60,6 +66,7 @@ public class GameConstants {
    */
   public static final String HIGH_SCORE_FILE = "highScore.ser";
   public static final String TOTAL_COINS_FILE = "totalCoins.ser";
+  public static final String ACHIEVEMENTS_FILE = "achievements.ser";
 
   /*
    * CONSTANTS FOR TEXT

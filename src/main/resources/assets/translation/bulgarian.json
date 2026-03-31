@@ -46,4 +46,14 @@
   "select_difficulty": "Изберете трудност",
   "normal_mode": "Нормален",
   "expert_mode": "Експертен"
+  "select_specialty": "Изберете специализация",
+  "specialty_none": "Нищо",
+  "specialty_none_description": "",
+  "specialty_more_hearts": "Танк",
+  "specialty_more_hearts_description": "Увеличава максималния брой животи.",
+  "specialty_more_bombs": "Експерт по бомби",
+  "specialty_more_bombs_description": "Увеличава максималния брой носени бомби.",
+  "specialty_smaller_hitbox": "Миниатюра",
+  "specialty_smaller_hitbox_description": "Намалява размера на вашето поле за попадение (hitbox).",
+  "specialty_locked": "Специализацията е заключена."
 }

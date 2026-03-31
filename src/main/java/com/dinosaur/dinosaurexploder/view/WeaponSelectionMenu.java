@@ -180,6 +180,6 @@ public class WeaponSelectionMenu extends FXGLMenu {
   private void selectWeapon(int weaponNumber) {
     GameData.setSelectedWeapon(weaponNumber);
     logger.log(Level.INFO, "Selected Weapon: {0}", weaponNumber);
-    FXGL.getSceneService().pushSubScene(new DifficultySelectionMenu());
+    FXGL.getSceneService().pushSubScene(new SpecialtyMenu());
   }
 }

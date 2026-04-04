@@ -27,10 +27,12 @@ public class SettingsMenu extends FXGLMenu {
   public static final int SPACE_ZONE = 50;
   public static final String SCORE_LABEL = "score_label";
   public static final String CONTROLS = "controls";
+  public static final String ACHIEVEMENTS = "achievements";
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private Text title;
   private Button soundButton;
   private Button statsButton;
+  private Button achievementsButton;
   private Button keyButton;
   private Button languageButton;
   private Button backButton;
@@ -83,6 +85,11 @@ public class SettingsMenu extends FXGLMenu {
     statsButton.setMinSize(getAppWidth() * 0.8, 60);
     statsButton.setWrapText(true);
     statsButton.setOnAction(e -> createScoreDialog());
+    achievementsButton =
+        getUIFactoryService().newButton(languageManager.getTranslation(ACHIEVEMENTS).toUpperCase());
+    achievementsButton.setMinSize(getAppWidth() * 0.8, 60);
+    achievementsButton.setWrapText(true);
+    achievementsButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new AchievementsMenu()));
     keyButton =
         getUIFactoryService().newButton(languageManager.getTranslation(CONTROLS).toUpperCase());
     keyButton.setWrapText(true);
@@ -95,7 +102,8 @@ public class SettingsMenu extends FXGLMenu {
     languageButton.setAlignment(Pos.CENTER);
     languageButton.setOnAction(
         e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
-    options.getChildren().addAll(statsButton, keyButton, soundButton, languageButton);
+    options.getChildren()
+        .addAll(statsButton, achievementsButton, keyButton, soundButton, languageButton);
 
     return options;
   }
@@ -133,6 +141,7 @@ public class SettingsMenu extends FXGLMenu {
     soundButton.setText(languageManager.getTranslation("sound").toUpperCase());
     languageButton.setText(languageManager.getTranslation("language").toUpperCase());
     statsButton.setText(languageManager.getTranslation(SCORE_LABEL).toUpperCase());
+    achievementsButton.setText(languageManager.getTranslation(ACHIEVEMENTS).toUpperCase());
     keyButton.setText(languageManager.getTranslation(CONTROLS).toUpperCase());
     backButton.setText(languageManager.getTranslation("back").toUpperCase());
   }

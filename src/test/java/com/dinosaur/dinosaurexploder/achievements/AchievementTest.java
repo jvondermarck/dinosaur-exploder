@@ -68,6 +68,23 @@ public class AchievementTest {
     assertTrue(singleAchievementManager.getActiveAchievement().isCompleted());
   }
 
+  @Test
+  void shouldSplitAchievementsIntoPendingAndCompletedLists() {
+    AchievementManager singleAchievementManager =
+        new AchievementManager(
+            AchievementCatalog.of(
+                () -> new KillCountAchievement(1, 10), () -> new ScoreAchievement(9999, 10)));
+    singleAchievementManager.saveAchievement(emptyAchievements);
+    singleAchievementManager.init();
+
+    singleAchievementManager.notifyDinosaurKilled();
+
+    assertEquals(1, singleAchievementManager.getCompletedAchievements().size());
+    assertEquals(1, singleAchievementManager.getPendingAchievements().size());
+    assertTrue(singleAchievementManager.getCompletedAchievements().getFirst().isCompleted());
+    assertFalse(singleAchievementManager.getPendingAchievements().getFirst().isCompleted());
+  }
+
   @AfterEach
   void setAchievementBack() {
     achievementManager.saveAchievement(currentAchievement);

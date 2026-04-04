@@ -115,6 +115,14 @@ public class AchievementManager {
     return allAchievements;
   }
 
+  public List<Achievement> getPendingAchievements() {
+    return activeAchievements.stream().filter(achievement -> !achievement.isCompleted()).toList();
+  }
+
+  public List<Achievement> getCompletedAchievements() {
+    return activeAchievements.stream().filter(Achievement::isCompleted).toList();
+  }
+
   public Achievement getActiveAchievement() {
     if (activeAchievements.isEmpty()) {
       return null;

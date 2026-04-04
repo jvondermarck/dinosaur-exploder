@@ -41,6 +41,16 @@ public abstract class Achievement implements Serializable {
    */
   public abstract void update(double tpf);
 
+  public final void handleEvent(AchievementEvent event) {
+    switch (event.type()) {
+      case DINOSAUR_KILLED -> onDinosaurKilled();
+      case SCORE_CHANGED -> onScoreChanged(event.intValue());
+      case COIN_COLLECTED -> onCoinCollected(event.intValue());
+      case BOSS_DEFEATED -> onBossDefeated();
+      case TIME_ELAPSED -> update(event.doubleValue());
+    }
+  }
+
   /** Called when a dinosaur is killed. Override this in achievements that track kills. */
   public void onDinosaurKilled() {
     // Default: do nothing. Override in subclasses if needed.

@@ -14,78 +14,46 @@ import java.util.stream.Collectors;
 
 public class AchievementManager {
 
-  private final List<Achievement> allAchievements = new ArrayList<>();
+  private final List<Achievement> allAchievements;
   private final List<Achievement> activeAchievements = new ArrayList<>();
   private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
 
   public AchievementManager() {
-    registerAchievements();
+    this(AchievementCatalog.defaults());
   }
 
-  /**
-   * Registers all available achievements. Add new achievements here to make them available in the
-   * game.
-   */
-  private void registerAchievements() {
-    // Kill Count Achievements
-    allAchievements.add(new KillCountAchievement(10, 50));
-    allAchievements.add(new KillCountAchievement(20, 100));
-    allAchievements.add(new KillCountAchievement(50, 250));
-
-    // Score Achievements
-    allAchievements.add(new ScoreAchievement(5000, 75));
-    allAchievements.add(new ScoreAchievement(10000, 150));
-
-    // Coin Collection Achievements
-    allAchievements.add(new CoinCollectionAchievement(100, 50));
-    allAchievements.add(new CoinCollectionAchievement(500, 200));
-
-    // Survival Time Achievements
-    allAchievements.add(new SurvivalTimeAchievement(1, 50)); // 1 minute
-    allAchievements.add(new SurvivalTimeAchievement(3, 150)); // 3 minutes
-
-    // Boss Defeat Achievement
-    allAchievements.add(new BossDefeatAchievement(200));
+  AchievementManager(AchievementCatalog catalog) {
+    this.allAchievements = new ArrayList<>(catalog.createAchievements());
   }
 
   /** Called once when the game starts. Loads achievements from file or creates new ones. */
   public void init() {
-    if (allAchievements.isEmpty()) return;
+    if (allAchievements.isEmpty()) {
+      return;
+    }
 
     activeAchievements.addAll(loadAchievement());
     if (activeAchievements.isEmpty()) {
-      saveAchievement(allAchievements);
       activeAchievements.addAll(allAchievements);
-    }
-    if (allAchievements.size() > activeAchievements.size()) {
-
-      Set<String> activeDescriptions =
-          activeAchievements.stream().map(Achievement::getDescription).collect(Collectors.toSet());
-
-      List<Achievement> toAdd =
-          allAchievements.stream()
-              .filter(a -> !activeDescriptions.contains(a.getDescription()))
-              .toList();
-
-      activeAchievements.addAll(toAdd);
       saveAchievement(activeAchievements);
+      return;
     }
+
+    addMissingAchievements();
   }
 
   public void update(double tpf) {
+    AchievementEvent timeElapsedEvent = AchievementEvent.timeElapsed(tpf);
     for (Achievement achievement : activeAchievements) {
       if (!achievement.isCompleted()) {
-        achievement.update(tpf);
+        achievement.handleEvent(timeElapsedEvent);
       }
     }
   }
 
   /** Called when a dinosaur is killed. Notifies all active kill-based achievements. */
   public void notifyDinosaurKilled() {
-    for (Achievement achievement : activeAchievements) {
-      achievement.onDinosaurKilled();
-    }
-    saveAchievement(activeAchievements);
+    dispatchAndSave(AchievementEvent.dinosaurKilled());
   }
 
   /**
@@ -94,10 +62,7 @@ public class AchievementManager {
    * @param newScore The current score
    */
   public void notifyScoreChanged(int newScore) {
-    for (Achievement achievement : activeAchievements) {
-      achievement.onScoreChanged(newScore);
-    }
-    saveAchievement(activeAchievements);
+    dispatchAndSave(AchievementEvent.scoreChanged(newScore));
   }
 
   /**
@@ -106,16 +71,38 @@ public class AchievementManager {
    * @param totalCoins The total number of coins collected
    */
   public void notifyCoinCollected(int totalCoins) {
-    for (Achievement achievement : activeAchievements) {
-      achievement.onCoinCollected(totalCoins);
-    }
-    saveAchievement(activeAchievements);
+    dispatchAndSave(AchievementEvent.coinCollected(totalCoins));
   }
 
   /** Called when a boss is defeated. Notifies all active boss-defeat achievements. */
   public void notifyBossDefeated() {
+    dispatchAndSave(AchievementEvent.bossDefeated());
+  }
+
+  private void addMissingAchievements() {
+    if (allAchievements.size() <= activeAchievements.size()) {
+      return;
+    }
+
+    Set<String> activeDescriptions =
+        activeAchievements.stream().map(Achievement::getDescription).collect(Collectors.toSet());
+
+    List<Achievement> toAdd =
+        allAchievements.stream()
+            .filter(a -> !activeDescriptions.contains(a.getDescription()))
+            .toList();
+
+    if (toAdd.isEmpty()) {
+      return;
+    }
+
+    activeAchievements.addAll(toAdd);
+    saveAchievement(activeAchievements);
+  }
+
+  private void dispatchAndSave(AchievementEvent event) {
     for (Achievement achievement : activeAchievements) {
-      achievement.onBossDefeated();
+      achievement.handleEvent(event);
     }
     saveAchievement(activeAchievements);
   }

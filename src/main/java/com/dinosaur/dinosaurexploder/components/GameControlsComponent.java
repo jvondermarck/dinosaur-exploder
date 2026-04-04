@@ -5,6 +5,8 @@
 
 package com.dinosaur.dinosaurexploder.components;
 
+import com.dinosaur.dinosaurexploder.constants.GameMode;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,18 +37,18 @@ public class GameControlsComponent {
 
   /** Inner class to represent a control mapping */
   private static class ControlMapping {
-    final String keys;
     final String translationKey;
 
-    ControlMapping(String keys, String translationKey) {
-      this.keys = keys;
+    ControlMapping(String translationKey) {
       this.translationKey = translationKey;
     }
 
-    String getDisplayText(LanguageManager languageManager, DisplayMode mode) {
-      String translation = languageManager.getTranslation(translationKey);
-
-      String text = keys + ": " + translation;
+    String getDisplayText(
+        ControlType controlType, LanguageManager languageManager, DisplayMode mode) {
+      String text =
+          getKeys(controlType)
+              + ": "
+              + formatActionLabel(languageManager.getTranslation(translationKey));
 
       return mode == DisplayMode.DIALOG ? text + "\n" : text;
     }
@@ -57,14 +59,36 @@ public class GameControlsComponent {
   private static final Map<ControlType, ControlMapping> CONTROLS = new LinkedHashMap<>();
 
   static {
-    CONTROLS.put(ControlType.MOVE_UP, new ControlMapping("↑ / W", "move_up"));
-    CONTROLS.put(ControlType.MOVE_DOWN, new ControlMapping("↓ / S", "move_down"));
-    CONTROLS.put(ControlType.MOVE_LEFT, new ControlMapping("← / A", "move_left"));
-    CONTROLS.put(ControlType.MOVE_RIGHT, new ControlMapping("→ / D", "move_right"));
-    CONTROLS.put(ControlType.PAUSE_GAME, new ControlMapping("ESC", "pause_game"));
-    CONTROLS.put(ControlType.SHOOT, new ControlMapping("Space", "shoot"));
-    CONTROLS.put(ControlType.BOMB, new ControlMapping("B", "bomb"));
-    CONTROLS.put(ControlType.SHIELD, new ControlMapping("E", "shield"));
+    CONTROLS.put(ControlType.MOVE_UP, new ControlMapping("move_up"));
+    CONTROLS.put(ControlType.MOVE_DOWN, new ControlMapping("move_down"));
+    CONTROLS.put(ControlType.MOVE_LEFT, new ControlMapping("move_left"));
+    CONTROLS.put(ControlType.MOVE_RIGHT, new ControlMapping("move_right"));
+    CONTROLS.put(ControlType.PAUSE_GAME, new ControlMapping("pause_game"));
+    CONTROLS.put(ControlType.SHOOT, new ControlMapping("shoot"));
+    CONTROLS.put(ControlType.BOMB, new ControlMapping("bomb"));
+    CONTROLS.put(ControlType.SHIELD, new ControlMapping("shield"));
+  }
+
+  private static String getKeys(ControlType controlType) {
+    return switch (controlType) {
+      case MOVE_UP -> "↑ / W";
+      case MOVE_DOWN -> "↓ / S";
+      case MOVE_LEFT -> "← / A";
+      case MOVE_RIGHT -> "→ / D";
+      case PAUSE_GAME -> "ESC";
+      case SHOOT -> isExpertMode() ? "Space / Left Click" : "Space";
+      case BOMB -> "B";
+      case SHIELD -> "E";
+    };
+  }
+
+  private static boolean isExpertMode() {
+    return GameData.getSelectedDifficulty() == GameMode.EXPERT;
+  }
+
+  static String formatActionLabel(String translation) {
+    int separatorIndex = translation.indexOf(':');
+    return separatorIndex >= 0 ? translation.substring(separatorIndex + 1).trim() : translation;
   }
 
   /**
@@ -77,8 +101,9 @@ public class GameControlsComponent {
 
     StringBuilder controlsText = new StringBuilder();
 
-    for (ControlMapping mapping : CONTROLS.values()) {
-      controlsText.append(mapping.getDisplayText(languageManager, DisplayMode.DIALOG));
+    for (Map.Entry<ControlType, ControlMapping> entry : CONTROLS.entrySet()) {
+      controlsText.append(
+          entry.getValue().getDisplayText(entry.getKey(), languageManager, DisplayMode.DIALOG));
     }
 
     // Remove trailing newline
@@ -100,7 +125,8 @@ public class GameControlsComponent {
     if (mapping == null) {
       return "";
     }
-    return mapping.getDisplayText(LanguageManager.getInstance(), DisplayMode.BUTTON_LIST);
+    return mapping.getDisplayText(
+        controlType, LanguageManager.getInstance(), DisplayMode.BUTTON_LIST);
   }
 
   /**
@@ -110,8 +136,12 @@ public class GameControlsComponent {
    */
   public static String[] getAllControlTexts() {
     LanguageManager languageManager = LanguageManager.getInstance();
-    return CONTROLS.values().stream()
-        .map(mapping -> mapping.getDisplayText(languageManager, DisplayMode.BUTTON_LIST))
+    return CONTROLS.entrySet().stream()
+        .map(
+            entry ->
+                entry
+                    .getValue()
+                    .getDisplayText(entry.getKey(), languageManager, DisplayMode.BUTTON_LIST))
         .toArray(String[]::new);
   }
 }

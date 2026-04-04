@@ -10,7 +10,8 @@
             "Made with Java, JavaFX & FXGL.",
             "Pure pixel action. Pure fun!"
         ],
-        "button": "View on Github",
+        "button": "View on GitHub",
+        "playButton": "Play online",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -19,6 +20,7 @@
     },
 
     "NavBar": {
+        "play": "Play",
         "howGameWorks": "How game works",
         "credits": "Credits",
         "contact": "Contact",
@@ -33,6 +35,14 @@
     ],
 
     "footer": "Dinosaur Exploder — made with love — Java/JavaFX/FXGL — open source",
+
+    "playPage": {
+        "title": "Play online",
+        "kicker": "Browser build",
+        "description": "Try the browser version right here. It keeps the retro feel, keyboard controls, and score chase without making you install Java first.",
+        "noteTitle": "Before you start",
+        "note": "Tip: click inside the game area first, then use the keyboard to fly and shoot."
+    },
 
     "howGameWorks": {
         "title": "How the game works",
@@ -106,6 +116,24 @@
             "sponsor": {
                 "title": "Sponsor",
                 "description": "Support development if you like the project."
+            }
+        },
+        "review": {
+            "title": "Leave a review",
+            "description": "Tried the game or the website? Help the project grow with a quick note or a star.",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "Share feedback, screenshots, and ideas."
+                },
+                "star": {
+                    "title": "Star the repo",
+                    "description": "A star is the fastest public thumbs-up."
+                },
+                "discord": {
+                    "title": "Discord feedback",
+                    "description": "Drop quick reactions and suggestions in chat."
+                }
             }
         },
         "contribute": {

@@ -12,6 +12,7 @@
         ],
         
         "button": "Δείτε το στο Github",
+        "playButton": "Παίξτε online",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -20,6 +21,7 @@
     },
 
     "NavBar": {
+        "play": "Παίξε",
         "howGameWorks": "Πώς παίζεται",
         "credits": "Συντελεστές",
         "contact": "Επικοινωνία",
@@ -34,6 +36,14 @@
     ],
 
     "footer": "Dinosaur Exploder — φτιαγμένο με αγάπη — Java/JavaFX/FXGL — ανοιχτού λογισμικού",
+
+    "playPage": {
+        "title": "Παίξτε online",
+        "kicker": "Έκδοση browser",
+        "description": "Δοκίμασε την browser έκδοση εδώ. Κρατάει το ρετρό ύφος, το παιχνίδι με πληκτρολόγιο και το κυνήγι του σκορ χωρίς να χρειάζεται εγκατάσταση Java.",
+        "noteTitle": "Πριν ξεκινήσεις",
+        "note": "Συμβουλή: κάνε πρώτα κλικ μέσα στο παιχνίδι και μετά χρησιμοποίησε το πληκτρολόγιο για κίνηση και βολές."
+    },
 
     "howGameWorks": {
         "title": "Πώς παίζεται",
@@ -93,7 +103,7 @@
         "description": "Πώς να έρθεις σε επαφή με την κοινότητα και τους δημιουργούς του Dinosaur Exploder.",
         "links": {
             "github": {
-                "title": "GitHub",
+                "title": "GitHub Discussions",
                 "description": "Κάνε ερωτήσεις, πρότεινε ιδέες, και ζήτα βοήθεια."
             },
             "discord": {
@@ -107,6 +117,24 @@
             "sponsor": {
                 "title": "Υποστήριξη",
                 "description": "Στήριξε την ανάπτυξη του project, αν σου αρέσει."
+            }
+        },
+        "review": {
+            "title": "Άφησε ένα review",
+            "description": "Δοκίμασες το παιχνίδι ή την ιστοσελίδα; Βοήθησε το project να μεγαλώσει με ένα σύντομο σχόλιο ή ένα star.",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "Μοιράσου feedback, screenshots και ιδέες."
+                },
+                "star": {
+                    "title": "Κάνε star το repo",
+                    "description": "Ένα star είναι το πιο γρήγορο δημόσιο μπράβο."
+                },
+                "discord": {
+                    "title": "Feedback στο Discord",
+                    "description": "Στείλε γρήγορες εντυπώσεις και προτάσεις στο chat."
+                }
             }
         },
         "contribute": {

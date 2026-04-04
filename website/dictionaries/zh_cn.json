@@ -11,6 +11,7 @@
             "纯粹的像素射击，纯粹的乐趣！"
         ],
         "button": "GitHub",
+        "playButton": "在线游玩",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -19,6 +20,7 @@
     },
 
     "NavBar": {
+        "play": "开始游戏",
         "howGameWorks": "游戏机制",
         "credits": "特别鸣谢",
         "contact": "联系我们",
@@ -33,6 +35,14 @@
     ],
 
     "footer": "Dinosaur Exploder — 用爱发电 — Java/JavaFX/FXGL — 开源",
+
+    "playPage": {
+        "title": "在线游玩",
+        "kicker": "浏览器版本",
+        "description": "直接在这里体验浏览器版。保留了复古风格、键盘操作和冲分乐趣，不用先安装 Java。",
+        "noteTitle": "开始前",
+        "note": "提示：先点击游戏区域，再用键盘操控飞船和射击。"
+    },
 
     "howGameWorks": {
         "title": "游戏机制",
@@ -106,6 +116,24 @@
             "sponsor": {
                 "title": "Sponsor",
                 "description": "如果你喜欢这个项目，可以赞助我们的开发。"
+            }
+        },
+        "review": {
+            "title": "留下评价",
+            "description": "如果你试玩了游戏或网站，欢迎留下一句反馈或点一个 Star，能帮项目被更多人看到。",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "分享反馈、截图和点子。"
+                },
+                "star": {
+                    "title": "Star 仓库",
+                    "description": "点一个 Star，就是最快的公开支持。"
+                },
+                "discord": {
+                    "title": "Discord 反馈",
+                    "description": "在聊天频道里留下你的建议和感受。"
+                }
             }
         },
         "contribute": {

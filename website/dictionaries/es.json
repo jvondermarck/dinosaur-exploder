@@ -1,0 +1,144 @@
+{
+    "switcherLabel": "Idioma:",
+
+    "homePage": {
+        "title": "Arcade retro",
+        "subtitle": "Matamarcianos",
+        "description": [
+            "Dinosaur Exploder",
+            "es un shooter arcade clásico y de código abierto.",
+            "Hecho con Java, JavaFX y FXGL.",
+            "Acción pixel pura. Diversión pura."
+        ],
+        "button": "Ver en GitHub",
+        "playButton": "Jugar online",
+        "sponsorDescr": {
+            "title": "Patrocina a Julien Von Der Marck en GitHub Sponsors",
+            "heart": "Patrocinar",
+            "descr": "Desarrollador apasionado por el código abierto. Mantengo Dinosaur Exploder, un shoot 'em up gratuito hecho con Java/FXGL. Ayudo a nuevos contribuidores cada día. 🦖✨"
+        }
+    },
+
+    "NavBar": {
+        "play": "Jugar",
+        "howGameWorks": "Cómo se juega",
+        "credits": "Créditos",
+        "contact": "Contacto",
+        "star": "Star",
+        "sponsor": "Patrocinar"
+    },
+
+    "features": [
+        {"icon": "🦖", "title": "ACCIÓN DINO EN PÍXELES"},
+        {"icon": "🕹️", "title": "GAMEPLAY CLÁSICO"},
+        {"icon": "🌍","title": "CÓDIGO ABIERTO Y GRATIS"}
+    ],
+
+    "footer": "Dinosaur Exploder — hecho con cariño — Java/JavaFX/FXGL — código abierto",
+
+    "playPage": {
+        "title": "Jugar online",
+        "kicker": "Versión web",
+        "description": "Prueba la versión del navegador aquí mismo. Mantiene el estilo retro, los controles con teclado y la persecución de puntuación sin obligarte a instalar Java primero.",
+        "noteTitle": "Antes de empezar",
+        "note": "Consejo: haz clic dentro del juego primero y después usa el teclado para moverte y disparar."
+    },
+
+    "howGameWorks": {
+        "title": "Cómo funciona el juego",
+        "goal": {
+            "title": "Objetivo",
+            "descr": "Controlas una nave espacial en una arena arcade retro. Tu objetivo es simple: sobrevivir a oleadas de dinosaurios y conseguir tantos puntos como puedas."
+        },
+        "gameplay": {
+            "title": "Bucle de juego",
+            "steps": [
+                "Mueve tu nave para esquivar dinosaurios y peligros.",
+                "Dispara a los dinosaurios para ganar puntos y limpiar la pantalla.",
+                "Usa tu escudo para sobrevivir en los momentos difíciles.",
+                "Usa una bomba cuando la pantalla esté llena de enemigos (elimina a todos los dinosaurios de la pantalla)."
+            ],
+            "difficulty": "La dificultad aumenta con el tiempo a medida que aparecen más dinosaurios."
+        },
+        "controls": {
+            "title": "Controles",
+            "headers": {
+                "key": "Tecla",
+                "action": "Acción"
+            },
+            "list": [
+                {"key": "↑ ↓ ← →", "action": "Mover la nave"},
+                {"key": "Space", "action": "Disparar"},
+                {"key": "E", "action": "Activar escudo (corta duración)"},
+                {"key": "B", "action": "Bomba (elimina a todos los dinosaurios en pantalla)"},
+                {"key": "Esc", "action": "Pausa"}
+            ]
+        },
+        "demo": {
+            "title": "Demo de gameplay",
+            "error": "Tu navegador no soporta la etiqueta de video.",
+            "description": "Una demo corta mostrando movimiento, disparos y oleadas de enemigos."
+        },
+        "help": {
+            "title": "¿Quieres ayudar?",
+            "description": "Puedes contribuir al juego (Java/FXGL) o al sitio web (Next.js). Mira los issues de GitHub y empieza por algo pequeño."
+        }
+    },
+
+    "credits": {
+        "title": "Créditos",
+        "description": "Este proyecto existe gracias a la comunidad. Aquí están las personas que han contribuido en GitHub ❤️",
+        "error": "No pudimos cargar a los contribuidores ahora mismo (límite de GitHub API o problema de red). Inténtalo de nuevo más tarde.",
+        "single": "contribución",
+        "plural": "contribuciones",
+        "addName": {
+            "title": "Añade tu nombre aquí",
+            "description": "¿Quieres aparecer en esta lista? Haz un PR (del juego o del sitio) y GitHub te incluirá automáticamente."
+        }
+    },
+
+    "contact": {
+        "title": "Contacto",
+        "description": "La forma más rápida de encontrarnos es a través de los canales de la comunidad.",
+        "links": {
+            "github": {
+                "title": "GitHub Discussions",
+                "description": "Haz preguntas, propone ideas y consigue ayuda."
+            },
+            "discord": {
+                "title": "Discord",
+                "description": "Chat rápido con la comunidad."
+            },
+            "twitter": {
+                "title": "Twitter",
+                "description": "Sigue novedades y anuncios."
+            },
+            "sponsor": {
+                "title": "Patrocinar",
+                "description": "Apoya el desarrollo si te gusta el proyecto."
+            }
+        },
+        "review": {
+            "title": "Deja una reseña",
+            "description": "¿Probaste el juego o la web? Ayuda al proyecto a crecer con una nota rápida o un star.",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "Comparte feedback, capturas e ideas."
+                },
+                "star": {
+                    "title": "Haz star al repo",
+                    "description": "Un star es la forma más rápida de apoyar en público."
+                },
+                "discord": {
+                    "title": "Feedback en Discord",
+                    "description": "Deja reacciones rápidas y sugerencias en el chat."
+                }
+            }
+        },
+        "contribute": {
+            "title": "Contribuir",
+            "description": "¿Quieres ayudar? Elige un issue en GitHub o contribuye al sitio web en la carpeta /website."
+        }
+    }
+}

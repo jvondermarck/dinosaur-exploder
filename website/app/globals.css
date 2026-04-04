@@ -21,8 +21,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), var(--font-ibm-plex-sans);
+  --font-mono: var(--font-geist-mono), var(--font-ibm-plex-mono);
   --font-arcade: var(--font-press-start-2p), var(--font-fushion-12);
 }
 
@@ -38,10 +38,43 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), var(--font-ibm-plex-sans), Arial, Helvetica,
+    sans-serif;
 }
 
 .font-retro {
   font-family: var(--font-arcade);
   letter-spacing: 2px;
+}
+
+html[data-script="greek"] body {
+  font-family: var(--font-ibm-plex-sans), Arial, Helvetica, sans-serif;
+}
+
+html[data-script="greek"] .font-retro {
+  font-family: var(--font-ibm-plex-mono), var(--font-ibm-plex-sans), monospace;
+  letter-spacing: 1px;
+}
+
+html[data-script="cyrillic"] body {
+  font-family: var(--font-ibm-plex-sans), Arial, Helvetica, sans-serif;
+}
+
+html[data-script="cyrillic"] .font-retro {
+  font-family: var(--font-ibm-plex-mono), var(--font-ibm-plex-sans), monospace;
+  letter-spacing: 1px;
+}
+
+html[data-script="han"] body {
+  font-family:
+    var(--font-geist-sans),
+    "Noto Sans SC",
+    "Microsoft YaHei",
+    "PingFang SC",
+    sans-serif;
+}
+
+html[data-script="han"] .font-retro {
+  font-family: var(--font-fushion-12), "Noto Sans SC", sans-serif;
+  letter-spacing: 0;
 }

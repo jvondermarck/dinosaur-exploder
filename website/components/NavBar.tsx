@@ -7,16 +7,28 @@
  */
 
 import Link from "next/link";
-import { usePathname, useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 
-export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
+type NavDictionary = {
+  NavBar: {
+    play: string;
+    howGameWorks: string;
+    credits: string;
+    contact: string;
+    star: string;
+    sponsor: string;
+  };
+};
+
+export default function NavBar({ lang, dict }: { lang: string; dict: NavDictionary }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const navItems = [
+    { href: "/play", label: dict.NavBar.play },
     { href: "/how-game-works", label: dict.NavBar.howGameWorks },
     { href: "/credits", label: dict.NavBar.credits },
     { href: "/contact", label: dict.NavBar.contact },
@@ -198,5 +210,3 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
     </nav>
   );
 }
-
-

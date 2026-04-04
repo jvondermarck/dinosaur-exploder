@@ -3,13 +3,35 @@
  * SPDX-License-Identifier: MIT
  */
 
+import type { Metadata } from "next";
 import FeatureSection from "@/components/FeatureSection";
 import Image from "next/image";
+import Link from "next/link";
 import { getDictionary } from "@/getDictionary";
+import { buildPageMetadata, resolveLocale, SITE_NAME } from "@/lib/site";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = resolveLocale(lang);
+  const dict = await getDictionary(locale);
+
+  return buildPageMetadata({
+    locale,
+    title: SITE_NAME,
+    description: dict.homePage.description.join(" "),
+    pathname: "/",
+    keywords: ["open source game", "fxgl", "java arcade", "play online"],
+  });
+}
 
 export default async function Home({params}: {params: Promise<{lang: string}>}) {
   const {lang} = await params;
-  const dict = await getDictionary(lang as any);
+  const locale = resolveLocale(lang);
+  const dict = await getDictionary(locale);
 
   return (
     <div className="flex flex-col">
@@ -36,8 +58,8 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
         {/* Right/Text */}
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
           <h1 className="font-retro text-4xl lg:text-6xl font-extrabold text-green-800 dark:text-green-200 mb-6 leading-tight">
-            Retro Arcade<br />
-            <span className="text-black dark:text-white bg-green-200 dark:bg-green-700 px-2 rounded">Shoot &apos;em up </span>
+            {dict.homePage.title}<br />
+            <span className="text-black dark:text-white bg-green-200 dark:bg-green-700 px-2 rounded">{dict.homePage.subtitle}</span>
           </h1>
           <p className="text-lg mb-6 max-w-xl text-green-900 dark:text-green-100 font-mono bg-white/80 dark:bg-neutral-800/80 rounded-lg border-l-4 border-green-700 dark:border-green-500 py-4 px-4 shadow-md">
            {dict.homePage.description.map((line: string, index: number) => (
@@ -57,6 +79,12 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
             >
               {dict.homePage.button}
             </a>
+            <Link
+              href={`/${locale}/play`}
+              className="inline-block font-retro px-7 py-3 rounded-full border-2 border-green-700 dark:border-green-500 bg-white dark:bg-neutral-800 text-green-800 dark:text-green-200 text-lg shadow-lg transition hover:scale-110 hover:bg-green-700 dark:hover:bg-green-600 hover:text-white"
+            >
+              {dict.homePage.playButton}
+            </Link>
           </div>
         </div>
       </section>

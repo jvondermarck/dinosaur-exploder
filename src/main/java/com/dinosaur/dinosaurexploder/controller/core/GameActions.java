@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class GameActions {
 
@@ -40,6 +41,8 @@ public class GameActions {
   private final Entity bomb;
   private AllyComponent ally;
   private boolean isAllyUse = false;
+  private final long sessionStartNanos;
+  private boolean gameOverTriggered = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
 
   public GameActions(GameInitializer gameInitializer) {
@@ -53,6 +56,7 @@ public class GameActions {
     this.life = gameInitializer.getLife();
     this.levelProgressBar = gameInitializer.getLevelProgressBar();
     this.bomb = gameInitializer.getBomb();
+    this.sessionStartNanos = System.nanoTime();
   }
 
   public void updateLevelDisplay() {
@@ -83,18 +87,22 @@ public class GameActions {
     if (player.getComponent(PlayerComponent.class).isInvincible()) {
       return;
     }
+    if (gameOverTriggered) {
+      return;
+    }
     int lives = collisionHandler.getDamagedPlayerLife(life.getComponent(LifeComponent.class));
     var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));
     getGameScene().addUINode(flash);
     runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
 
     if (lives <= 0) {
+      gameOverTriggered = true;
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
       life.getComponent(LifeComponent.class).onUpdate(lives);
 
       LOGGER.log(Level.INFO, "Game Over!");
-      gameOver();
+      startGameOverSequence();
     } else {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
     }
@@ -205,9 +213,32 @@ public class GameActions {
     return levelManager.getBossesToDefeat() < 2 && levelManager.getCurrentLevel() % 5 == 0;
   }
 
+  private void startGameOverSequence() {
+    pauseElement();
+    player.getComponent(PlayerComponent.class).setInvincible(true);
+    player.getViewComponent().setOpacity(0);
+    FXGL.spawn("explosion", player.getCenter());
+
+    Text gameOverText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("game_over").toUpperCase(), Color.ORANGERED, 30);
+    gameOverText.setStroke(Color.BLACK);
+    gameOverText.setStrokeWidth(1.5);
+    TextUtils.centerText(gameOverText);
+    getGameScene().addUINode(gameOverText);
+
+    runOnce(
+        () -> {
+          getGameScene().removeUINode(gameOverText);
+          gameOver();
+        },
+        Duration.seconds(1.5));
+  }
+
   /** Summary : To detect whether the player lives are empty or not */
   public void gameOver() {
-    new GameOverDialog(languageManager).createDialog();
+    new GameOverDialog(languageManager, levelManager, sessionStartNanos).createDialog();
   }
 
   public AllyComponent getAlly() {

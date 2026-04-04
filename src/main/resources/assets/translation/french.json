@@ -41,6 +41,7 @@
     "commits": "commits",
     "error_loading_contributors": "Impossible de charger les contributeurs. Veuillez vérifier votre connexion Internet.",
     "credits_subtitle": "Merci à tous nos contributeurs",
+    "time_played": "Temps de jeu",
     "options": "Paramètres",
     "language": "langue",
     "select_difficulty": "Sélectionnez la difficulté",

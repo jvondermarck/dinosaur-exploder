@@ -23,5 +23,7 @@ public enum EntityType {
   LEVEL_PROGRESS_BAR,
   WEAPON_HEAT,
   SHIELD,
-  ASTEROIDS
+  ASTEROIDS,
+  ALLY_DROP,
+  ALLY,
 }

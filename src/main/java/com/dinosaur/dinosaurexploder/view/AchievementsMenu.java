@@ -81,7 +81,8 @@ public class AchievementsMenu extends FXGLMenu {
   private ScrollPane createContent() {
     List<Achievement> achievements = achievementManager.getActiveAchievements();
     List<Achievement> completed = achievements.stream().filter(Achievement::isCompleted).toList();
-    List<Achievement> toDo = achievements.stream().filter(achievement -> !achievement.isCompleted()).toList();
+    List<Achievement> toDo =
+        achievements.stream().filter(achievement -> !achievement.isCompleted()).toList();
 
     VBox sections =
         new VBox(

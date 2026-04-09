@@ -89,7 +89,8 @@ public class SettingsMenu extends FXGLMenu {
         getUIFactoryService().newButton(languageManager.getTranslation(ACHIEVEMENTS).toUpperCase());
     achievementsButton.setMinSize(getAppWidth() * 0.8, 60);
     achievementsButton.setWrapText(true);
-    achievementsButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new AchievementsMenu()));
+    achievementsButton.setOnAction(
+        e -> FXGL.getSceneService().pushSubScene(new AchievementsMenu()));
     keyButton =
         getUIFactoryService().newButton(languageManager.getTranslation(CONTROLS).toUpperCase());
     keyButton.setWrapText(true);
@@ -102,7 +103,8 @@ public class SettingsMenu extends FXGLMenu {
     languageButton.setAlignment(Pos.CENTER);
     languageButton.setOnAction(
         e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
-    options.getChildren()
+    options
+        .getChildren()
         .addAll(statsButton, achievementsButton, keyButton, soundButton, languageButton);
 
     return options;

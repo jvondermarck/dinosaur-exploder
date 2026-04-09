@@ -5,8 +5,8 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
-import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.model.GameData;

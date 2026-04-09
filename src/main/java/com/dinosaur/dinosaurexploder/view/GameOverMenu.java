@@ -67,7 +67,8 @@ public class GameOverMenu extends FXGLMenu {
     VBox statsCard =
         new VBox(
             12,
-            createStatLine(languageManager.getTranslation("score"), String.valueOf(stats.finalScore())),
+            createStatLine(
+                languageManager.getTranslation("score"), String.valueOf(stats.finalScore())),
             createStatLine(
                 languageManager.getTranslation("high_score"), String.valueOf(stats.highScore())),
             createStatLine(
@@ -88,10 +89,18 @@ public class GameOverMenu extends FXGLMenu {
 
   private HBox createStatLine(String label, String value) {
     Text labelText =
-        com.almasb.fxgl.dsl.FXGL.getUIFactoryService()
+        com.almasb
+            .fxgl
+            .dsl
+            .FXGL
+            .getUIFactoryService()
             .newText(label.toUpperCase() + ":", Color.LIGHTGREEN, GameConstants.TEXT_SUB_DETAILS);
     Text valueText =
-        com.almasb.fxgl.dsl.FXGL.getUIFactoryService()
+        com.almasb
+            .fxgl
+            .dsl
+            .FXGL
+            .getUIFactoryService()
             .newText(value, Color.WHITE, GameConstants.TEXT_SUB_DETAILS);
 
     HBox row = new HBox(12, labelText, valueText);

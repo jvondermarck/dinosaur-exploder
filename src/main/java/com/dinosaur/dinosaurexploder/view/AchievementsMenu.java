@@ -30,7 +30,7 @@ import javafx.scene.text.TextFlow;
 
 public class AchievementsMenu extends FXGLMenu {
 
-  private static final double CONTENT_WIDTH = 500;
+  private static final double CONTENT_WIDTH = 460;
   private static final double CONTENT_HEIGHT = 420;
   private static final Logger LOGGER = Logger.getLogger(AchievementsMenu.class.getName());
 
@@ -154,6 +154,7 @@ public class AchievementsMenu extends FXGLMenu {
                     + languageManager.getTranslation("achievement_reward_coins").toLowerCase(),
                 Color.rgb(180, 255, 180),
                 GameConstants.TEXT_SIZE_GAME_INFO);
+    reward.setWrappingWidth(CONTENT_WIDTH - 80);
 
     Text status =
         getUIFactoryService()
@@ -163,6 +164,7 @@ public class AchievementsMenu extends FXGLMenu {
                     : languageManager.getTranslation("achievements_todo"),
                 completed ? Color.CYAN : Color.ORANGE,
                 GameConstants.TEXT_SIZE_GAME_INFO);
+    status.setWrappingWidth(CONTENT_WIDTH - 80);
 
     VBox card = new VBox(8, description, reward, status);
     card.setPadding(new Insets(14));

@@ -15,6 +15,7 @@ const languageNames: Record<string, string> = {
   en: "English",
   el: "Ελληνικά",
   zh_cn: "简体中文",
+  fr: "Français"
 };
 
 export default function LocaleSwitcher() {

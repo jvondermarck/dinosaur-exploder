@@ -41,11 +41,12 @@
   "commits": "комити",
   "error_loading_contributors": "Неуспешно зареждане на сътрудниците. Моля, проверете интернет връзката си.",
   "credits_subtitle": "Благодарим на всички наши сътрудници",
+  "time_played": "Време в игра",
   "options": "опции",
   "language": "език",
   "select_difficulty": "Изберете трудност",
   "normal_mode": "Нормален",
-  "expert_mode": "Експертен"
+  "expert_mode": "Експертен",
   "select_specialty": "Изберете специализация",
   "specialty_none": "Нищо",
   "specialty_none_description": "",

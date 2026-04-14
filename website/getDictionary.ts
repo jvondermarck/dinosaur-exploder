@@ -9,10 +9,11 @@ import 'server-only'
 const dictionaries = {
     en: () => import('./dictionaries/en.json').then((module) => module.default),
     el: () => import('./dictionaries/el.json').then((module) => module.default),
-    zh_cn: () => import('./dictionaries/zh_cn.json').then((module) => module.default)
+    zh_cn: () => import('./dictionaries/zh_cn.json').then((module) => module.default),
+    fr: () => import('./dictionaries/fr.json').then((module) => module.default)
 }
 
-export const getDictionary = async (locale: 'en' | 'el' | 'zh_cn') => {
+export const getDictionary = async (locale: 'en' | 'el' | 'zh_cn' | 'fr') => {
     //set english as default language
     return dictionaries[locale] ? dictionaries[locale]() : dictionaries.en()
 }

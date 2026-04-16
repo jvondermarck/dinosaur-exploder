@@ -11,6 +11,7 @@
             "纯粹的像素射击，纯粹的乐趣！"
         ],
         "button": "GitHub",
+        "playButton": "试玩网页演示",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -19,6 +20,7 @@
     },
 
     "NavBar": {
+        "play": "开始游戏",
         "howGameWorks": "游戏机制",
         "credits": "特别鸣谢",
         "contact": "联系我们",
@@ -33,6 +35,23 @@
     ],
 
     "footer": "Dinosaur Exploder — 用爱发电 — Java/JavaFX/FXGL — 开源",
+
+    "playPage": {
+        "title": "试试浏览器演示版",
+        "kicker": "先下载正式版",
+        "description": "请先下载 Dinosaur Exploder 的正式版本，或先打开安装说明。下面这个小小的网页演示版只是让你在电脑下载正式游戏时顺手玩一会儿。",
+        "officialEyebrow": "官方桌面版",
+        "officialTitle": "下载 Dinosaur Exploder",
+        "officialDescription": "真正的 Dinosaur Exploder 运行在你的电脑上，基于 Java、JavaFX 和 FXGL。你可以先打开 GitHub 最新版本页面，或查看 README 安装指南。",
+        "downloadButton": "打开 GitHub 发布页",
+        "readmeButton": "打开 README 安装指南",
+        "demoEyebrow": "小游戏加餐",
+        "demoTitle": "小型浏览器演示",
+        "demoDescription": "这个网页游戏不是官方版 Dinosaur Exploder。它只是一个小小的网页演示，让你在正式游戏下载时先玩一会儿。",
+        "noteTitle": "开始演示前",
+        "note": "提示：先点击演示区域，再使用下方的键盘控制。",
+        "controlsTitle": "浏览器演示控制"
+    },
 
     "howGameWorks": {
         "title": "游戏机制",
@@ -106,6 +125,24 @@
             "sponsor": {
                 "title": "Sponsor",
                 "description": "如果你喜欢这个项目，可以赞助我们的开发。"
+            }
+        },
+        "review": {
+            "title": "留下评价",
+            "description": "如果你试玩了游戏或网站，欢迎留下一句反馈或点一个 Star，能帮项目被更多人看到。",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "分享反馈、截图和点子。"
+                },
+                "star": {
+                    "title": "Star 仓库",
+                    "description": "点一个 Star，就是最快的公开支持。"
+                },
+                "discord": {
+                    "title": "Discord 反馈",
+                    "description": "在聊天频道里留下你的建议和感受。"
+                }
             }
         },
         "contribute": {

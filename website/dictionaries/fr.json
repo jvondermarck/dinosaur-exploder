@@ -11,6 +11,7 @@
             "De l'action en pixels purs. Du pur plaisir !"
         ],
         "button": "Voir sur Github",
+        "playButton": "Essayer la démo web",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -19,6 +20,7 @@
     },
 
     "NavBar": {
+        "play": "Jouer",
         "howGameWorks": "Comment le jeu fonctionne",
         "credits": "Crédits",
         "contact": "Contact",
@@ -33,6 +35,23 @@
     ],
 
     "footer": "Dinosaur Exploder — réalisé avec amour — Java/JavaFX/FXGL — open source",
+
+    "playPage": {
+        "title": "Essayez la démo navigateur",
+        "kicker": "Le jeu officiel d'abord",
+        "description": "Téléchargez d'abord la version officielle de Dinosaur Exploder ou ouvrez le guide d'installation. La petite démo web ci-dessous est juste un bonus amusant pendant que le vrai jeu se télécharge sur votre ordinateur.",
+        "officialEyebrow": "Jeu officiel sur ordinateur",
+        "officialTitle": "Télécharger Dinosaur Exploder",
+        "officialDescription": "La vraie expérience Dinosaur Exploder tourne sur votre ordinateur avec Java, JavaFX et FXGL. Commencez par la dernière release GitHub ou suivez le guide d'installation du README.",
+        "downloadButton": "Ouvrir les releases GitHub",
+        "readmeButton": "Ouvrir le guide README",
+        "demoEyebrow": "Petit bonus web",
+        "demoTitle": "Petite démo navigateur",
+        "demoDescription": "Ce jeu dans le navigateur n'est PAS le jeu officiel Dinosaur Exploder. C'est seulement une petite démo web pour vous amuser pendant que le vrai jeu se télécharge.",
+        "noteTitle": "Avant de lancer la démo",
+        "note": "Astuce : cliquez d'abord dans la démo, puis utilisez les contrôles clavier ci-dessous.",
+        "controlsTitle": "Contrôles de la démo navigateur"
+    },
 
     "howGameWorks": {
         "title": "Comment le jeu fonctionne",
@@ -106,6 +125,24 @@
             "sponsor": {
                 "title": "Sponsor",
                 "description": "Soutenir le développement si vous aimez le projet."
+            }
+        },
+        "review": {
+            "title": "Laisser un avis",
+            "description": "Vous avez essayé le jeu ou le site ? Aidez le projet à grandir avec un petit message ou une étoile.",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "Partagez vos retours, captures d'écran et idées."
+                },
+                "star": {
+                    "title": "Mettre une étoile au dépôt",
+                    "description": "Une étoile est la manière la plus rapide de montrer votre soutien."
+                },
+                "discord": {
+                    "title": "Retour sur Discord",
+                    "description": "Laissez des réactions rapides et des suggestions dans le chat."
+                }
             }
         },
         "contribute": {

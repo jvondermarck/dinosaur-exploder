@@ -6,15 +6,30 @@
 import type { Metadata } from "next";
 import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../../i18n-config";
+import { buildPageMetadata, resolveLocale, SITE_NAME } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "How it works · Dinosaur Exploder",
-  description: "Learn the basic gameplay loop, controls, and goals of Dinosaur Exploder.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = resolveLocale(lang);
+  const dict = await getDictionary(locale);
+
+  return buildPageMetadata({
+    locale,
+    title: `${dict.howGameWorks.title} | ${SITE_NAME}`,
+    description: dict.howGameWorks.goal.descr,
+    pathname: "/how-game-works",
+    keywords: ["gameplay", "controls", "guide", "arcade shooter"],
+  });
+}
 
 export default async function HowGameWorksPage({params,}: {params: Promise<{lang: string}>;}) {
   const {lang} = await params;
-  const dict = await getDictionary(lang as Locale);
+  const locale = resolveLocale(lang);
+  const dict = await getDictionary(locale as Locale);
   const { title, goal, gameplay, controls, demo, help } = dict.howGameWorks;
   
   return (
@@ -54,7 +69,7 @@ export default async function HowGameWorksPage({params,}: {params: Promise<{lang
                 </tr>
               </thead>
               <tbody>
-                {controls.list.map((item: any, index: number) => (
+                {controls.list.map((item: { key: string; action: string }, index: number) => (
                   <tr key={index} className="border-t border-green-200 dark:border-green-500/40 text-black dark:text-neutral-200">
                     <td className="py-2 pr-3 font-bold text-green-700 dark:text-green-400">{item.key}</td>
                     <td className="py-2">{item.action}</td>

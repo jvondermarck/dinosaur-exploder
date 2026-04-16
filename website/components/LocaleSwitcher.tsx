@@ -10,13 +10,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { i18n } from "../i18n-config";
 import { useState } from "react";
-
-const languageNames: Record<string, string> = {
-  en: "English",
-  el: "Ελληνικά",
-  zh_cn: "简体中文",
-  fr: "Français"
-};
+import { getLocaleLabel, isLocale } from "@/lib/site";
 
 export default function LocaleSwitcher() {
   const pathname = usePathname();
@@ -29,7 +23,8 @@ export default function LocaleSwitcher() {
     return segments.join("/");
   };
 
-  const currentLocale = pathname.split("/")[1] || i18n.defaultLocale;
+  const localeSegment = pathname?.split("/")[1] || i18n.defaultLocale;
+  const currentLocale = isLocale(localeSegment) ? localeSegment : i18n.defaultLocale;
 
   return (
     <div className="relative inline-block text-left">
@@ -39,7 +34,7 @@ export default function LocaleSwitcher() {
             onClick={() => setIsOpen(!isOpen)}
             className="bg-white dark:bg-neutral-800 border-2 border-green-700 dark:border-green-500 text-green-700 dark:text-green-400 px-3 py-1 font-mono text-xs font-bold uppercase hover:bg-green-700 dark:hover:bg-green-600 hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(21,128,61,1)] dark:shadow-[2px_2px_0px_0px_theme(colors.green.500)] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
           >
-            {languageNames[currentLocale]} {isOpen ? "▲" : "▼"}
+            {getLocaleLabel(currentLocale)} {isOpen ? "▲" : "▼"}
           </button>
         </div>
 
@@ -57,7 +52,7 @@ export default function LocaleSwitcher() {
                       : "text-green-700 dark:text-green-400 hover:bg-green-700 dark:hover:bg-green-600 hover:text-white"
                   }`}
                 >
-                  {languageNames[locale]}
+                  {getLocaleLabel(locale)}
                 </Link>
               ))}
             </div>

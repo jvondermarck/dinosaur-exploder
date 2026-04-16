@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../../i18n-config";
+import { buildPageMetadata, resolveLocale, SITE_NAME } from "@/lib/site";
 
 type Contributor = {
   id: number;
@@ -16,10 +17,23 @@ type Contributor = {
   contributions: number;
 };
 
-export const metadata: Metadata = {
-  title: "Credits · Dinosaur Exploder",
-  description: "A big thank-you to everyone who contributed to Dinosaur Exploder.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = resolveLocale(lang);
+  const dict = await getDictionary(locale);
+
+  return buildPageMetadata({
+    locale,
+    title: `${dict.credits.title} | ${SITE_NAME}`,
+    description: dict.credits.description,
+    pathname: "/credits",
+    keywords: ["contributors", "open source", "community"],
+  });
+}
 
 async function getContributors(): Promise<Contributor[]> {
   const res = await fetch(
@@ -40,7 +54,8 @@ async function getContributors(): Promise<Contributor[]> {
 export default async function CreditsPage({params,}: {params: Promise<{lang: string}>;}) {
   const contributors = await getContributors();
   const {lang} = await params;
-  const dict = await getDictionary(lang as Locale);
+  const locale = resolveLocale(lang);
+  const dict = await getDictionary(locale as Locale);
 
   return (
     <div className="max-w-5xl mx-auto w-full px-4 md:px-8 py-10">

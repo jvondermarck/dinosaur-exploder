@@ -7,13 +7,18 @@ import { render, screen } from "@testing-library/react";
 import ContactPage from "../app/[lang]/contact/page";
 
 describe("ContactPage", () => {
-  it("renders the Contact heading", () => {
-    render(<ContactPage />);
+  async function renderPage() {
+    const ui = await ContactPage({ params: Promise.resolve({ lang: "en" }) });
+    render(ui);
+  }
+
+  it("renders the Contact heading", async () => {
+    await renderPage();
     expect(screen.getByRole("heading", { name: /contact/i })).toBeInTheDocument();
   });
 
-  it("contains the main community links", () => {
-    render(<ContactPage />);
+  it("contains the main community links", async () => {
+    await renderPage();
 
     const links = screen.getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href") || "");
@@ -28,8 +33,11 @@ describe("ContactPage", () => {
     );
   });
 
-  it("renders the Contribute section", () => {
-    render(<ContactPage />);
+  it("renders the Contribute and review sections", async () => {
+    await renderPage();
+    expect(
+      screen.getByRole("heading", { name: /leave a review/i })
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /contribute/i })
     ).toBeInTheDocument();

@@ -10,7 +10,8 @@
             "Made with Java, JavaFX & FXGL.",
             "Pure pixel action. Pure fun!"
         ],
-        "button": "View on Github",
+        "button": "View on GitHub",
+        "playButton": "Try browser demo",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -19,6 +20,7 @@
     },
 
     "NavBar": {
+        "play": "Play",
         "howGameWorks": "How game works",
         "credits": "Credits",
         "contact": "Contact",
@@ -33,6 +35,23 @@
     ],
 
     "footer": "Dinosaur Exploder — made with love — Java/JavaFX/FXGL — open source",
+
+    "playPage": {
+        "title": "Try the browser demo",
+        "kicker": "Official game first",
+        "description": "Download the official Dinosaur Exploder release or open the install guide first. The tiny browser demo below is just a fun extra while the real game downloads on your computer.",
+        "officialEyebrow": "Official desktop game",
+        "officialTitle": "Download Dinosaur Exploder",
+        "officialDescription": "The real Dinosaur Exploder experience runs on your computer with Java, JavaFX, and FXGL. Start with the latest GitHub release or follow the README install guide.",
+        "downloadButton": "Open GitHub releases",
+        "readmeButton": "Open README install guide",
+        "demoEyebrow": "Small web extra",
+        "demoTitle": "Tiny browser demo",
+        "demoDescription": "This browser game is not the official Dinosaur Exploder game. It is only a small web demo to enjoy while the real game downloads.",
+        "noteTitle": "Before you start the demo",
+        "note": "Tip: click inside the demo first, then use the browser-demo controls below.",
+        "controlsTitle": "Browser demo controls"
+    },
 
     "howGameWorks": {
         "title": "How the game works",
@@ -106,6 +125,24 @@
             "sponsor": {
                 "title": "Sponsor",
                 "description": "Support development if you like the project."
+            }
+        },
+        "review": {
+            "title": "Leave a review",
+            "description": "Tried the game or the website? Help the project grow with a quick note or a star.",
+            "links": {
+                "github": {
+                    "title": "GitHub Discussions",
+                    "description": "Share feedback, screenshots, and ideas."
+                },
+                "star": {
+                    "title": "Star the repo",
+                    "description": "A star is the fastest public thumbs-up."
+                },
+                "discord": {
+                    "title": "Discord feedback",
+                    "description": "Drop quick reactions and suggestions in chat."
+                }
             }
         },
         "contribute": {

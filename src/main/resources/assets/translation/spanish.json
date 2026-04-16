@@ -41,6 +41,7 @@
   "commits": "commits",
   "error_loading_contributors": "No se pudieron cargar los colaboradores. Por favor, revisa tu conexión a Internet.",
   "credits_subtitle": "Gracias a todos nuestros colaboradores",
+  "time_played": "Tiempo jugado",
   "options": "opciones",
   "language": "idioma",
   "achievements": "Logros",

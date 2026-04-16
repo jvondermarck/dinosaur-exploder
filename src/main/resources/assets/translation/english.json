@@ -64,5 +64,6 @@
     "achievements_completed": "Completed",
     "achievements_empty": "No achievements in this section yet.",
     "achievement_reward": "Reward",
-    "achievement_reward_coins": "coins"
+    "achievement_reward_coins": "coins",
+    "time_played": "Time Played"
 }

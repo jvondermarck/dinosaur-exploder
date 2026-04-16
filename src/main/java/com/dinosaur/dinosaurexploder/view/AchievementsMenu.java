@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -30,8 +32,12 @@ import javafx.scene.text.TextFlow;
 
 public class AchievementsMenu extends FXGLMenu {
 
-  private static final double CONTENT_WIDTH = 460;
-  private static final double CONTENT_HEIGHT = 420;
+  private static final double CONTENT_WIDTH = 440;
+  private static final double CONTENT_HEIGHT = 400;
+  private static final double CONTENT_SPACING = 18;
+  private static final Insets SECTIONS_PADDING = new Insets(12);
+  private static final Insets CARD_PADDING = new Insets(14);
+  private static final double HORIZONTAL_SCROLL_LOCK = 0.0;
   private static final Logger LOGGER = Logger.getLogger(AchievementsMenu.class.getName());
 
   private final LanguageManager languageManager = LanguageManager.getInstance();
@@ -86,15 +92,17 @@ public class AchievementsMenu extends FXGLMenu {
 
     VBox sections =
         new VBox(
-            20,
+            CONTENT_SPACING,
             createSection(languageManager.getTranslation("achievements_todo"), toDo, false),
             createSection(
                 languageManager.getTranslation("achievements_completed"), completed, true));
-    sections.setPadding(new Insets(15));
+    sections.setPadding(SECTIONS_PADDING);
     sections.setFillWidth(true);
+    sections.setMinWidth(0);
 
     ScrollPane pane = new ScrollPane(sections);
     pane.setFitToWidth(true);
+    pane.setPannable(false);
     pane.setPrefWidth(CONTENT_WIDTH);
     pane.setMaxWidth(CONTENT_WIDTH);
     pane.setPrefViewportHeight(CONTENT_HEIGHT);
@@ -107,6 +115,15 @@ public class AchievementsMenu extends FXGLMenu {
             + "-fx-background-radius: 10;");
     pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+    pane.viewportBoundsProperty()
+        .addListener((obs, oldBounds, newBounds) -> updateContentWidth(pane, sections, newBounds));
+    pane.hvalueProperty()
+        .addListener(
+            (obs, oldValue, newValue) -> {
+              if (Double.compare(newValue.doubleValue(), HORIZONTAL_SCROLL_LOCK) != 0) {
+                pane.setHvalue(HORIZONTAL_SCROLL_LOCK);
+              }
+            });
     pane.getStylesheets()
         .add(
             Objects.requireNonNull(getClass().getResource("/styles/scrollbar.css"))
@@ -114,10 +131,18 @@ public class AchievementsMenu extends FXGLMenu {
     return pane;
   }
 
+  private void updateContentWidth(ScrollPane pane, VBox sections, Bounds viewportBounds) {
+    double viewportWidth = Math.max(0, viewportBounds.getWidth());
+    sections.setPrefWidth(viewportWidth);
+    sections.setMaxWidth(viewportWidth);
+    pane.setHvalue(HORIZONTAL_SCROLL_LOCK);
+  }
+
   private VBox createSection(String title, List<Achievement> achievements, boolean completed) {
-    Text heading = MenuHelper.createSubtitle(title, CONTENT_WIDTH - 40, false);
+    Text heading = MenuHelper.createSubtitle(title, CONTENT_WIDTH - 80, false);
     VBox cards = new VBox(12);
     cards.setFillWidth(true);
+    cards.setMaxWidth(Double.MAX_VALUE);
 
     if (achievements.isEmpty()) {
       Text emptyLabel =
@@ -126,7 +151,7 @@ public class AchievementsMenu extends FXGLMenu {
                   languageManager.getTranslation("achievements_empty"),
                   Color.rgb(180, 255, 180),
                   GameConstants.TEXT_SUB_DETAILS);
-      emptyLabel.setWrappingWidth(CONTENT_WIDTH - 80);
+      emptyLabel.wrappingWidthProperty().bind(Bindings.max(0, cards.widthProperty().subtract(12)));
       cards.getChildren().add(emptyLabel);
     } else {
       achievements.forEach(
@@ -134,7 +159,10 @@ public class AchievementsMenu extends FXGLMenu {
     }
 
     VBox section = new VBox(10, heading, cards);
+    section.setFillWidth(true);
+    section.setMaxWidth(Double.MAX_VALUE);
     section.setPadding(new Insets(10, 0, 0, 0));
+    heading.wrappingWidthProperty().bind(Bindings.max(0, section.widthProperty().subtract(8)));
     return section;
   }
 
@@ -142,7 +170,6 @@ public class AchievementsMenu extends FXGLMenu {
     Text description =
         getUIFactoryService()
             .newText(achievement.getDescription(), Color.LIME, GameConstants.TEXT_SUB_DETAILS);
-    description.setWrappingWidth(CONTENT_WIDTH - 80);
 
     Text reward =
         getUIFactoryService()
@@ -154,7 +181,6 @@ public class AchievementsMenu extends FXGLMenu {
                     + languageManager.getTranslation("achievement_reward_coins").toLowerCase(),
                 Color.rgb(180, 255, 180),
                 GameConstants.TEXT_SIZE_GAME_INFO);
-    reward.setWrappingWidth(CONTENT_WIDTH - 80);
 
     Text status =
         getUIFactoryService()
@@ -164,11 +190,14 @@ public class AchievementsMenu extends FXGLMenu {
                     : languageManager.getTranslation("achievements_todo"),
                 completed ? Color.CYAN : Color.ORANGE,
                 GameConstants.TEXT_SIZE_GAME_INFO);
-    status.setWrappingWidth(CONTENT_WIDTH - 80);
 
     VBox card = new VBox(8, description, reward, status);
-    card.setPadding(new Insets(14));
+    card.setPadding(CARD_PADDING);
     card.setFillWidth(true);
+    card.setMaxWidth(Double.MAX_VALUE);
+    description.wrappingWidthProperty().bind(Bindings.max(0, card.widthProperty().subtract(42)));
+    reward.wrappingWidthProperty().bind(Bindings.max(0, card.widthProperty().subtract(42)));
+    status.wrappingWidthProperty().bind(Bindings.max(0, card.widthProperty().subtract(42)));
     card.setStyle(
         "-fx-background-color: rgba(0, 0, 0, 0.72);"
             + "-fx-border-color: "

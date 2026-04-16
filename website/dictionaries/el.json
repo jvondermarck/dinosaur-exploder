@@ -12,7 +12,7 @@
         ],
         
         "button": "Δείτε το στο Github",
-        "playButton": "Παίξτε online",
+        "playButton": "Δοκίμασε τη web demo",
         "sponsorDescr": {
             "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
             "heart": "Sponsor",
@@ -38,11 +38,20 @@
     "footer": "Dinosaur Exploder — φτιαγμένο με αγάπη — Java/JavaFX/FXGL — ανοιχτού λογισμικού",
 
     "playPage": {
-        "title": "Παίξτε online",
-        "kicker": "Έκδοση browser",
-        "description": "Δοκίμασε την browser έκδοση εδώ. Κρατάει το ρετρό ύφος, το παιχνίδι με πληκτρολόγιο και το κυνήγι του σκορ χωρίς να χρειάζεται εγκατάσταση Java.",
-        "noteTitle": "Πριν ξεκινήσεις",
-        "note": "Συμβουλή: κάνε πρώτα κλικ μέσα στο παιχνίδι και μετά χρησιμοποίησε το πληκτρολόγιο για κίνηση και βολές."
+        "title": "Δοκίμασε τη browser demo",
+        "kicker": "Πρώτα το επίσημο παιχνίδι",
+        "description": "Κατέβασε πρώτα την επίσημη έκδοση του Dinosaur Exploder ή άνοιξε τον οδηγό εγκατάστασης. Η μικρή browser demo πιο κάτω είναι απλώς ένα fun extra όσο κατεβαίνει το κανονικό παιχνίδι στον υπολογιστή σου.",
+        "officialEyebrow": "Επίσημο desktop game",
+        "officialTitle": "Κατέβασε το Dinosaur Exploder",
+        "officialDescription": "Η πραγματική εμπειρία του Dinosaur Exploder τρέχει στον υπολογιστή σου με Java, JavaFX και FXGL. Ξεκίνα από το τελευταίο GitHub release ή ακολούθησε τον οδηγό εγκατάστασης στο README.",
+        "downloadButton": "Άνοιξε τα GitHub releases",
+        "readmeButton": "Άνοιξε τον οδηγό README",
+        "demoEyebrow": "Μικρό web extra",
+        "demoTitle": "Μικρή browser demo",
+        "demoDescription": "Αυτό το browser game ΔΕΝ είναι το επίσημο Dinosaur Exploder. Είναι μόνο μια μικρή web demo για να διασκεδάσεις όσο κατεβαίνει το κανονικό παιχνίδι.",
+        "noteTitle": "Πριν ξεκινήσεις το demo",
+        "note": "Συμβουλή: κάνε πρώτα κλικ μέσα στο demo και μετά χρησιμοποίησε τα παρακάτω controls.",
+        "controlsTitle": "Χειριστήρια browser demo"
     },
 
     "howGameWorks": {

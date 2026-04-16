@@ -48,6 +48,7 @@ import javafx.util.Duration;
  */
 public class GameEntityFactory implements EntityFactory {
   private static final Logger logger = Logger.getLogger(GameEntityFactory.class.getName());
+  Point2D direction;
 
   /** Summary : New Background creation will be handled in below Entity */
   @Spawns("background")
@@ -100,7 +101,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New BasicProjectile creation will be handled in below Entity */
   @Spawns("basicProjectile")
   public Entity newBasicProjectile(SpawnData data) {
-    Point2D direction = data.get("direction");
+    updateDirection(data);
     int selectedShip = GameData.getSelectedShip();
     int selectedWeapon = GameData.getSelectedWeapon();
     int speed = 600 * (selectedWeapon);
@@ -124,7 +125,7 @@ public class GameEntityFactory implements EntityFactory {
   /** Summary : New Enemy BasicProjectile creation will be handled in below Entity */
   @Spawns("basicEnemyProjectile")
   public Entity newBasicEnemyProjectile(SpawnData data) {
-    Point2D direction = data.get("direction");
+    updateDirection(data);
     return entityBuilderBase(data, EntityType.ENEMY_PROJECTILE)
         .with(new OffscreenCleanComponent())
         .view(texture(GameConstants.ENEMY_PROJECTILE_IMAGE_FILE, 30, 17))
@@ -365,8 +366,55 @@ public class GameEntityFactory implements EntityFactory {
         .build();
   }
 
+  /** Summary : Spawn of an ally drop in the window will be handled in below Entity */
+  @Spawns("allyDrop")
+  public Entity allyDrop(SpawnData data) {
+    logger.log(Level.INFO, "Loading ally texture: {0}", GameConstants.ALLY_DROP_IMAGE_FILE);
+    return entityBuilderBase(data, EntityType.ALLY_DROP)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ALLY_DROP_IMAGE_FILE, 50, 50))
+        .bbox(new HitBox(BoundingShape.box(50, 50)))
+        .collidable()
+        .with(new AllyDropComponent())
+        .build();
+  }
+
+  @Spawns("ally")
+  public Entity ally(SpawnData data) {
+    return entityBuilderBase(data, EntityType.ALLY)
+        .with(new OffscreenCleanComponent())
+        .view(texture(GameConstants.ALLY_IMAGE_FILE, 80, 80))
+        .bbox(new HitBox(BoundingShape.box(80, 80)))
+        .collidable()
+        .with(new AllyComponent())
+        .build();
+  }
+
+  /** Summary : New allyProjectile creation will be handled in below Entity */
+  @Spawns("allyProjectile")
+  public Entity allyProjectile(SpawnData data) {
+    updateDirection(data);
+    int selectedWeapon = GameData.getSelectedWeapon();
+    int speed = 600 * (selectedWeapon);
+    String weaponImagePath = "assets/textures/projectiles/projectile1_1.png";
+
+    Image projectileImage =
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + weaponImagePath)));
+    return entityBuilderBase(data, EntityType.PROJECTILE)
+        .with(new OffscreenCleanComponent())
+        .view(new ImageView(projectileImage))
+        .bbox(new HitBox(BoundingShape.box(50, 50)))
+        .collidable()
+        .with(new ProjectileComponent(direction, speed))
+        .build();
+  }
+
   /** Summary : Reusable part of every entity */
   private EntityBuilder entityBuilderBase(SpawnData data, EntityType type) {
     return FXGL.entityBuilder(data).type(type);
+  }
+
+  private void updateDirection(SpawnData data) {
+    direction = data.get("direction");
   }
 }

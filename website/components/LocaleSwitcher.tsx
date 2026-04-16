@@ -23,7 +23,7 @@ export default function LocaleSwitcher() {
     return segments.join("/");
   };
 
-  const localeSegment = pathname.split("/")[1] || i18n.defaultLocale;
+  const localeSegment = pathname?.split("/")[1] || i18n.defaultLocale;
   const currentLocale = isLocale(localeSegment) ? localeSegment : i18n.defaultLocale;
 
   return (

@@ -11,7 +11,7 @@
             "Acción pixel pura. Diversión pura."
         ],
         "button": "Ver en GitHub",
-        "playButton": "Jugar online",
+        "playButton": "Probar demo web",
         "sponsorDescr": {
             "title": "Patrocina a Julien Von Der Marck en GitHub Sponsors",
             "heart": "Patrocinar",
@@ -37,11 +37,20 @@
     "footer": "Dinosaur Exploder — hecho con cariño — Java/JavaFX/FXGL — código abierto",
 
     "playPage": {
-        "title": "Jugar online",
-        "kicker": "Versión web",
-        "description": "Prueba la versión del navegador aquí mismo. Mantiene el estilo retro, los controles con teclado y la persecución de puntuación sin obligarte a instalar Java primero.",
-        "noteTitle": "Antes de empezar",
-        "note": "Consejo: haz clic dentro del juego primero y después usa el teclado para moverte y disparar."
+        "title": "Prueba la demo del navegador",
+        "kicker": "Primero, el juego oficial",
+        "description": "Descarga primero la versión oficial de Dinosaur Exploder o abre la guía de instalación. La pequeña demo web de abajo es solo un extra divertido mientras el juego real se descarga en tu ordenador.",
+        "officialEyebrow": "Juego oficial de escritorio",
+        "officialTitle": "Descarga Dinosaur Exploder",
+        "officialDescription": "La experiencia real de Dinosaur Exploder se ejecuta en tu ordenador con Java, JavaFX y FXGL. Empieza con la última release de GitHub o sigue la guía de instalación del README.",
+        "downloadButton": "Abrir las releases de GitHub",
+        "readmeButton": "Abrir la guía del README",
+        "demoEyebrow": "Pequeño extra web",
+        "demoTitle": "Pequeña demo del navegador",
+        "demoDescription": "Este juego en el navegador NO es el juego oficial de Dinosaur Exploder. Es solo una pequeña demo web para divertirte mientras el juego real se descarga.",
+        "noteTitle": "Antes de empezar la demo",
+        "note": "Consejo: haz clic dentro de la demo primero y luego usa los controles de abajo.",
+        "controlsTitle": "Controles de la demo web"
     },
 
     "howGameWorks": {

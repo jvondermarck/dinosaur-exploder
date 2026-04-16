@@ -109,7 +109,7 @@ A classic arcade shooter with:
 - Git
 - IDE (IntelliJ IDEA recommended)
 
-#### Installation
+#### Java Installation
 ```bash
 # 1. Fork the repo on GitHub
 # 2. Clone your fork
@@ -155,7 +155,7 @@ mvn jpro:run
 - Git
 - IDE (VS Code recommended for Next.js)
 
-#### Installation
+#### Website Installation
 ```bash
 # 1. Fork the repo on GitHub
 # 2. Clone your fork

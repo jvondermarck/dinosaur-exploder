@@ -43,6 +43,11 @@ export const LOCALE_DETAILS: Record<Locale, LocaleDetails> = {
     languageTag: "zh-CN",
     script: "han",
   },
+  fr: {
+    label: "Français",
+    languageTag: "fr-FR",
+    script: "latin",
+  },
 };
 
 const localeEntries = Object.entries(LOCALE_DETAILS) as [Locale, LocaleDetails][];

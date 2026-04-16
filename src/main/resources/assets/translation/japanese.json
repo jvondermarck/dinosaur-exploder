@@ -41,6 +41,7 @@
   "commits": "コミット",
   "error_loading_contributors": "貢献者を読み込めません。インターネット接続を確認してください。",
   "credits_subtitle": "すべての貢献者の皆様に感謝します",
+  "time_played": "プレイ時間",
   "options": "オプション",
   "language": "言語",
   "select_difficulty": "難易度を選択",

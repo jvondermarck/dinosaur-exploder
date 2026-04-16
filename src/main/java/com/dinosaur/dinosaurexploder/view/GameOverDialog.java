@@ -5,38 +5,30 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
-import static com.almasb.fxgl.dsl.FXGL.getDialogService;
-import static com.almasb.fxgl.dsl.FXGL.getGameController;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.model.GameData;
+import com.dinosaur.dinosaurexploder.model.GameOverStats;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import com.dinosaur.dinosaurexploder.utils.LevelManager;
+import java.time.Duration;
 
 public class GameOverDialog {
 
   private final LanguageManager languageManager;
+  private final LevelManager levelManager;
+  private final long sessionStartNanos;
 
-  public GameOverDialog(LanguageManager languageManager) {
+  public GameOverDialog(
+      LanguageManager languageManager, LevelManager levelManager, long sessionStartNanos) {
     this.languageManager = languageManager;
+    this.levelManager = levelManager;
+    this.sessionStartNanos = sessionStartNanos;
   }
 
   public void createDialog() {
-    Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
-    btnYes.setMinWidth(200);
-    btnYes.setOnAction(e -> getGameController().startNewGame());
-
-    Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
-    btnNo.setMinWidth(200);
-    btnNo.setOnAction(e -> getGameController().gotoMainMenu());
-
-    // Get score
     int finalScore = 0;
     try {
       var scoreEntities = getGameWorld().getEntitiesByComponent(ScoreComponent.class);
@@ -47,31 +39,11 @@ public class GameOverDialog {
     } catch (Exception ignored) {
     }
 
-    // Display question text
-    var questionText =
-        getUIFactoryService()
-            .newText(
-                languageManager.getTranslation("new_game"),
-                Color.WHITE,
-                GameConstants.TEXT_SUB_DETAILS);
-    questionText.setWrappingWidth(450);
-    questionText.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-    questionText.setLineSpacing(8);
+    long survivedSeconds = Duration.ofNanos(System.nanoTime() - sessionStartNanos).toSeconds();
+    GameOverStats stats =
+        new GameOverStats(
+            finalScore, GameData.getHighScore(), levelManager.getCurrentLevel(), survivedSeconds);
 
-    // Display text score
-    Text scoreText =
-        getUIFactoryService()
-            .newText(
-                languageManager.getTranslation("score") + ": " + finalScore,
-                Color.YELLOW,
-                GameConstants.TEXT_SUB_DETAILS);
-
-    VBox box = new VBox(20, questionText, scoreText);
-    box.setAlignment(Pos.CENTER);
-    box.setPadding(new javafx.geometry.Insets(20));
-    box.setMinWidth(500);
-
-    getDialogService()
-        .showBox(languageManager.getTranslation("game_over").toUpperCase(), box, btnYes, btnNo);
+    getSceneService().pushSubScene(new GameOverMenu(languageManager, stats));
   }
 }

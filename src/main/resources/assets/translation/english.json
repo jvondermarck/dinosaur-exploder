@@ -56,5 +56,14 @@
     "commits": "commits",
     "error_loading_contributors": "Unable to load contributors. Please check your internet connection.",
     "credits_subtitle": "Thank you to all our contributors",
+    "options": "Options",
+    "language": "Language",
+    "achievements": "Achievements",
+    "achievements_subtitle": "Track what you've unlocked and what is left.",
+    "achievements_todo": "To do",
+    "achievements_completed": "Completed",
+    "achievements_empty": "No achievements in this section yet.",
+    "achievement_reward": "Reward",
+    "achievement_reward_coins": "coins",
     "time_played": "Time Played"
 }

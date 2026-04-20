@@ -52,6 +52,19 @@ public class GameControlsComponent {
 
       return mode == DisplayMode.DIALOG ? text + "\n" : text;
     }
+
+    private static String getKeys(ControlType controlType) {
+      return switch (controlType) {
+        case MOVE_UP -> "↑ / W";
+        case MOVE_DOWN -> "↓ / S";
+        case MOVE_LEFT -> "← / A";
+        case MOVE_RIGHT -> "→ / D";
+        case PAUSE_GAME -> "ESC";
+        case SHOOT -> isExpertMode() ? "Space / Left Click" : "Space";
+        case BOMB -> "B";
+        case SHIELD -> "E";
+      };
+    }
   }
 
   // Master control mappings
@@ -67,19 +80,6 @@ public class GameControlsComponent {
     CONTROLS.put(ControlType.SHOOT, new ControlMapping("shoot"));
     CONTROLS.put(ControlType.BOMB, new ControlMapping("bomb"));
     CONTROLS.put(ControlType.SHIELD, new ControlMapping("shield"));
-  }
-
-  private static String getKeys(ControlType controlType) {
-    return switch (controlType) {
-      case MOVE_UP -> "↑ / W";
-      case MOVE_DOWN -> "↓ / S";
-      case MOVE_LEFT -> "← / A";
-      case MOVE_RIGHT -> "→ / D";
-      case PAUSE_GAME -> "ESC";
-      case SHOOT -> isExpertMode() ? "Space / Left Click" : "Space";
-      case BOMB -> "B";
-      case SHIELD -> "E";
-    };
   }
 
   private static boolean isExpertMode() {
@@ -107,7 +107,7 @@ public class GameControlsComponent {
     }
 
     // Remove trailing newline
-    if (controlsText.length() > 0) {
+    if (!controlsText.isEmpty()) {
       controlsText.setLength(controlsText.length() - 1);
     }
 

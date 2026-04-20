@@ -86,7 +86,6 @@ public class GameControlsComponent {
     CONTROLS.put(ControlType.SHIELD, new ControlMapping("shield"));
   }
 
-
   static String formatActionLabel(String translation) {
     int separatorIndex = translation.indexOf(':');
     return separatorIndex >= 0 ? translation.substring(separatorIndex + 1).trim() : translation;

@@ -41,6 +41,6 @@ public class SurvivalTimeAchievement extends Achievement {
 
   @Override
   protected void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    showBanner();
   }
 }

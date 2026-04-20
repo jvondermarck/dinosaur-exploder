@@ -40,7 +40,7 @@ public class CoinCollectionAchievement extends Achievement {
   @Override
   protected void onComplete() {
     try {
-      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+      showBanner();
     } catch (Exception e) {
       // FXGL not initialized (e.g., in tests) - skip notification
     }

@@ -56,5 +56,6 @@
     "commits": "commits",
     "error_loading_contributors": "Unable to load contributors. Please check your internet connection.",
     "credits_subtitle": "Thank you to all our contributors",
-    "time_played": "Time Played"
+    "time_played": "Time Played",
+    "achievements": "Achievements"
 }

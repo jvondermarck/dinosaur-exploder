@@ -2,7 +2,7 @@
     "start": "Commencer le jeu",
     "quit": "Quitter",
     "score": "Score",
-    "language_label" : "Choisir la langue:",
+    "language_label": "Choisir la langue:",
     "select_ship": "Sélectionnez votre vaisseau",
     "select_weapon": "Sélectionnez votre arme",
     "game_over": "Jeu terminé.",
@@ -26,11 +26,11 @@
     "coin": "Pièce",
     "total_coins": "Total des pièces",
     "level": "Niveau",
-    "ship_locked" : "Le vaisseau est verrouillé.",
-    "weapon_locked" : "L'arme est verrouillée.",
-    "unlock_highScore" : "Pour le déverrouiller, atteignez un score élevé de ##.",
+    "ship_locked": "Le vaisseau est verrouillé.",
+    "weapon_locked": "L'arme est verrouillée.",
+    "unlock_highScore": "Pour le déverrouiller, atteignez un score élevé de ##.",
     "unlock_totalCoins": "Pour le déverrouiller, atteignez un total de ## pièces.",
-    "ok" : "D'accord",
+    "ok": "D'accord",
     "shield": "Bouclier",
     "sound": "Son",
     "sound_main": "Arrière-plan",
@@ -56,5 +56,6 @@
     "specialty_more_bombs_description": "Augmente le nombre maximum de bombes portées.",
     "specialty_smaller_hitbox": "Miniature",
     "specialty_smaller_hitbox_description": "Réduit la taille de votre hitbox.",
-    "specialty_locked": "La spécialité est verrouillée."
+    "specialty_locked": "La spécialité est verrouillée.",
+    "achievements": "Succès"
 }

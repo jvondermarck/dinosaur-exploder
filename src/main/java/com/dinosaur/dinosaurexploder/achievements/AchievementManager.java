@@ -28,24 +28,33 @@ public class AchievementManager {
    */
   private void registerAchievements() {
     // Kill Count Achievements
-    allAchievements.add(new KillCountAchievement(10, 50));
-    allAchievements.add(new KillCountAchievement(20, 100));
-    allAchievements.add(new KillCountAchievement(50, 250));
+    // Ship 3 costs 10 coins → killing 10 dinos earns enough for the first upgrade
+    allAchievements.add(new KillCountAchievement(10, 12));
+    // Ship 4 costs 50 → killing 20 dinos gives a solid contribution
+    allAchievements.add(new KillCountAchievement(20, 35));
+    // Ship 5 costs 100 → killing 50 dinos is a big milestone, big reward
+    allAchievements.add(new KillCountAchievement(50, 90));
 
     // Score Achievements
-    allAchievements.add(new ScoreAchievement(5000, 75));
-    allAchievements.add(new ScoreAchievement(10000, 150));
+    // Weapon 2 costs 5 → reaching 5000 pts gives one weapon upgrade
+    allAchievements.add(new ScoreAchievement(5000, 20));
+    // Weapon 3 costs 10 → reaching 10000 pts covers weapon 3 + extra
+    allAchievements.add(new ScoreAchievement(10000, 55));
 
     // Coin Collection Achievements
-    allAchievements.add(new CoinCollectionAchievement(100, 50));
-    allAchievements.add(new CoinCollectionAchievement(500, 200));
+    // Reaching 100 collected coins → reward helps unlock ship 4 (50 coins)
+    allAchievements.add(new CoinCollectionAchievement(100, 18));
+    // Reaching 500 collected coins → big milestone, ship 6 (150 coins) becomes reachable
+    allAchievements.add(new CoinCollectionAchievement(500, 70));
 
     // Survival Time Achievements
-    allAchievements.add(new SurvivalTimeAchievement(1, 50)); // 1 minute
-    allAchievements.add(new SurvivalTimeAchievement(3, 150)); // 3 minutes
+    // 1 minute is relatively easy → small reward
+    allAchievements.add(new SurvivalTimeAchievement(1, 15)); // 1 minute
+    // 3 minutes is challenging → reward towards ship 5 (100 coins)
+    allAchievements.add(new SurvivalTimeAchievement(3, 45)); // 3 minutes
 
-    // Boss Defeat Achievement
-    allAchievements.add(new BossDefeatAchievement(200));
+    // Boss Defeat Achievement — hardest challenge → biggest single reward
+    allAchievements.add(new BossDefeatAchievement(120));
   }
 
   /** Called once when the game starts. Loads achievements from file or creates new ones. */

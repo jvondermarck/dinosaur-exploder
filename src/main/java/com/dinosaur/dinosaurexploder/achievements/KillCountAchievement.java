@@ -5,8 +5,6 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
-import com.almasb.fxgl.dsl.FXGL;
-
 /** Achievement for killing a specific number of dinosaurs. */
 public class KillCountAchievement extends Achievement {
 
@@ -42,10 +40,6 @@ public class KillCountAchievement extends Achievement {
 
   @Override
   protected void onComplete() {
-    try {
-      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
-    } catch (Exception e) {
-      // FXGL not initialized (e.g., in tests) - skip notification
-    }
+    showBanner();
   }
 }

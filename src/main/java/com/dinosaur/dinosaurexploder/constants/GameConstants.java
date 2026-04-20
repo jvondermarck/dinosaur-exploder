@@ -53,6 +53,7 @@ public class GameConstants {
   public static final String PLAYER_HIT_SOUND = "playerHit.wav";
   public static final String COIN_GAIN = "coinHit.wav";
   public static final String HEART_HIT_SOUND = "heartHit.wav";
+  public static final String ACHIEVEMENT_SOUND = "achievement.wav";
 
   /*
    * CONSTANTS FOR UI

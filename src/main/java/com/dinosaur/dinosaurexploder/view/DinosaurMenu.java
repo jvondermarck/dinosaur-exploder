@@ -53,6 +53,7 @@ public class DinosaurMenu extends FXGLMenu {
   private final Button startButton = new Button("Start Game".toUpperCase());
   private final Button quitButton = new Button("Quit".toUpperCase());
   private final Button settingsButton = new Button("Options".toUpperCase());
+  private final Button achievementsButton = new Button("Achievements".toUpperCase());
   private final Label languageLabel = new Label("Select Language:");
 
   public DinosaurMenu() {
@@ -262,11 +263,16 @@ public class DinosaurMenu extends FXGLMenu {
     startButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new ShipSelectionMenu()));
 
     settingsButton.setMinSize(140, 60);
-    settingsButton.setTranslateY(500);
+    settingsButton.setTranslateY(490);
     settingsButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new SettingsMenu()));
 
+    achievementsButton.setMinSize(140, 60);
+    achievementsButton.setTranslateY(560);
+    achievementsButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new AchievementsMenu()));
+    applyStylesheet(achievementsButton);
+
     quitButton.setMinSize(140, 60);
-    quitButton.setTranslateY(580);
+    quitButton.setTranslateY(630);
     quitButton.setOnAction(event -> fireExit());
   }
 
@@ -314,8 +320,9 @@ public class DinosaurMenu extends FXGLMenu {
             background,
             title,
             startButton,
-            quitButton,
             settingsButton,
+            achievementsButton,
+            quitButton,
             dino,
             creditsBadge,
             mute,
@@ -350,11 +357,21 @@ public class DinosaurMenu extends FXGLMenu {
               }
             });
 
+    achievementsButton
+        .layoutBoundsProperty()
+        .addListener(
+            (obs, oldBounds, newBounds) -> {
+              if (newBounds.getWidth() > 0) {
+                achievementsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+              }
+            });
+
     javafx.application.Platform.runLater(
         () -> {
           startButton.requestLayout();
           quitButton.requestLayout();
           settingsButton.requestLayout();
+          achievementsButton.requestLayout();
         });
   }
 
@@ -371,6 +388,7 @@ public class DinosaurMenu extends FXGLMenu {
     startButton.setText(languageManager.getTranslation("start").toUpperCase());
     quitButton.setText(languageManager.getTranslation("quit").toUpperCase());
     settingsButton.setText(languageManager.getTranslation("options").toUpperCase());
+    achievementsButton.setText(languageManager.getTranslation("achievements").toUpperCase());
     languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
   }
 

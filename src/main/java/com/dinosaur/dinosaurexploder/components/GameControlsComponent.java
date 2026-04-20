@@ -65,6 +65,10 @@ public class GameControlsComponent {
         case SHIELD -> "E";
       };
     }
+
+    private static boolean isExpertMode() {
+      return GameData.getSelectedDifficulty() == GameMode.EXPERT;
+    }
   }
 
   // Master control mappings
@@ -82,9 +86,6 @@ public class GameControlsComponent {
     CONTROLS.put(ControlType.SHIELD, new ControlMapping("shield"));
   }
 
-  private static boolean isExpertMode() {
-    return GameData.getSelectedDifficulty() == GameMode.EXPERT;
-  }
 
   static String formatActionLabel(String translation) {
     int separatorIndex = translation.indexOf(':');

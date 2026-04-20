@@ -12,11 +12,11 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.components.AchievementsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
 import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
 import com.dinosaur.dinosaurexploder.components.GameControlsComponent.ControlType;
-import com.dinosaur.dinosaurexploder.components.AchievementsComponent;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -299,9 +299,7 @@ public class PauseMenu extends FXGLMenu {
               new PauseButton(
                   languageManager.getTranslation("back"),
                   () -> {
-                    getContentRoot()
-                        .getChildren()
-                        .removeAll(achievementsBg, achievementsContainer);
+                    getContentRoot().getChildren().removeAll(achievementsBg, achievementsContainer);
                     btnBack.enable();
                     btnQuitGame.enable();
                     btnControls.enable();
@@ -315,8 +313,7 @@ public class PauseMenu extends FXGLMenu {
               .getChildren()
               .addAll(
                   btnBackFromAchievements,
-                  AchievementsComponent.createContent(
-                      AchievementsComponent.loadAchievements()));
+                  AchievementsComponent.createContent(AchievementsComponent.loadAchievements()));
 
           btnBack.disable();
           btnQuitGame.disable();

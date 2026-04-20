@@ -5,8 +5,8 @@
 
 package com.dinosaur.dinosaurexploder.components;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 import com.dinosaur.dinosaurexploder.achievements.Achievement;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
@@ -20,15 +20,14 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
- * Reusable component for displaying the achievements list.
- * Eliminates duplication between AchievementsMenu and PauseMenu.
+ * Reusable component for displaying the achievements list. Eliminates duplication between
+ * AchievementsMenu and PauseMenu.
  */
 public class AchievementsComponent {
 
@@ -45,8 +44,8 @@ public class AchievementsComponent {
   }
 
   /**
-   * Loads the AchievementManager from world properties, falling back to a local instance
-   * if the game world is not available (e.g. from the main menu).
+   * Loads the AchievementManager from world properties, falling back to a local instance if the
+   * game world is not available (e.g. from the main menu).
    */
   public static AchievementManager loadAchievements() {
     try {
@@ -64,8 +63,8 @@ public class AchievementsComponent {
   }
 
   /**
-   * Creates and returns the scrollable achievements content pane.
-   * Can be embedded in any menu (AchievementsMenu, PauseMenu overlay, etc.).
+   * Creates and returns the scrollable achievements content pane. Can be embedded in any menu
+   * (AchievementsMenu, PauseMenu overlay, etc.).
    */
   public static ScrollPane createContent(AchievementManager achievementManager) {
     LanguageManager languageManager = LanguageManager.getInstance();
@@ -110,8 +109,7 @@ public class AchievementsComponent {
             });
     pane.getStylesheets()
         .add(
-            Objects.requireNonNull(
-                    AchievementsComponent.class.getResource("/styles/scrollbar.css"))
+            Objects.requireNonNull(AchievementsComponent.class.getResource("/styles/scrollbar.css"))
                 .toExternalForm());
     return pane;
   }

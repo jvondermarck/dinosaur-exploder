@@ -215,6 +215,9 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+# Local Maven installation (no debe commitearse)
+.mvn/maven/
+mvnw
 
 # Eclipse m2e generated files
 # Eclipse Core

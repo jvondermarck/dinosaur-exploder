@@ -1,0 +1,8 @@
+feat(pause-menu): agregar pantalla de logros al menú de pausa sin duplicación de código
+
+## Resumen
+Se agregó la pantalla de Logros al Menú de Pausa, replicando el mismo
+comportamiento que ya existía en la pantalla de inicio (Configuración → Logros).
+La implementación sigue el mismo patrón utilizado para el botón "Controles":
+un componente reutilizable es compartido entre ambos menús, de modo que un
+cambio en un lugar se refleja automáticamente en el otro.

@@ -40,7 +40,8 @@ export default async function PlayPage({
   const { lang } = await params;
   const locale = resolveLocale(lang);
   const dict = await getDictionary(locale);
-  const { playPage, howGameWorks, contact } = dict;
+  const { playPage, contact } = dict;
+  const browserControls = playPage.browserControls;
 
   return (
     <div className="max-w-6xl mx-auto w-full px-4 md:px-8 py-10">
@@ -122,11 +123,36 @@ export default async function PlayPage({
               <h2 className="font-retro text-xl text-green-800 dark:text-green-200 mb-3">
                 {playPage.controlsTitle}
               </h2>
+
+              <h3 className="font-retro text-xs uppercase tracking-[0.2em] text-green-700 dark:text-green-300 mb-2">
+                {browserControls.desktopTitle}
+              </h3>
               <div className="space-y-3">
-                {howGameWorks.controls.list.map(
+                {browserControls.desktop.map(
                   (item: { key: string; action: string }, index: number) => (
                     <div
-                      key={`${item.key}-${index}`}
+                      key={`desktop-${item.key}-${index}`}
+                      className="rounded-xl border border-green-200/80 dark:border-green-500/30 bg-green-50/80 dark:bg-neutral-900/70 px-4 py-3"
+                    >
+                      <div className="font-retro text-sm text-green-700 dark:text-green-300">
+                        {item.key}
+                      </div>
+                      <div className="font-mono text-sm text-green-950 dark:text-green-100 mt-1">
+                        {item.action}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+
+              <h3 className="font-retro text-xs uppercase tracking-[0.2em] text-green-700 dark:text-green-300 mt-5 mb-2">
+                {browserControls.mobileTitle}
+              </h3>
+              <div className="space-y-3">
+                {browserControls.mobile.map(
+                  (item: { key: string; action: string }, index: number) => (
+                    <div
+                      key={`mobile-${item.key}-${index}`}
                       className="rounded-xl border border-green-200/80 dark:border-green-500/30 bg-green-50/80 dark:bg-neutral-900/70 px-4 py-3"
                     >
                       <div className="font-retro text-sm text-green-700 dark:text-green-300">

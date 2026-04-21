@@ -40,6 +40,10 @@ describe("PlayPage", () => {
     expect(
       screen.getByRole("heading", { name: /browser demo controls/i })
     ).toBeInTheDocument();
+    expect(screen.getByText(/Hold SPACE/i)).toBeInTheDocument();
+    expect(screen.getByText(/Release SPACE/i)).toBeInTheDocument();
+    expect(screen.getByText(/LEFT button/i)).toBeInTheDocument();
+    expect(screen.getByText(/RIGHT button/i)).toBeInTheDocument();
     expect(screen.getByTestId("arcade-game")).toBeInTheDocument();
   });
 });

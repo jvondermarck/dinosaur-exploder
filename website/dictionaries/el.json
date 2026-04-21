@@ -51,7 +51,20 @@
         "demoDescription": "Αυτό το browser game ΔΕΝ είναι το επίσημο Dinosaur Exploder. Είναι μόνο μια μικρή web demo για να διασκεδάσεις όσο κατεβαίνει το κανονικό παιχνίδι.",
         "noteTitle": "Πριν ξεκινήσεις το demo",
         "note": "Συμβουλή: κάνε πρώτα κλικ μέσα στο demo και μετά χρησιμοποίησε τα παρακάτω controls.",
-        "controlsTitle": "Χειριστήρια browser demo"
+        "controlsTitle": "Χειριστήρια browser demo",
+        "browserControls": {
+            "desktopTitle": "Υπολογιστής",
+            "mobileTitle": "Κινητό / αφή",
+            "desktop": [
+                {"key": "Κράτα το SPACE", "action": "Ανέβασε το διαστημόπλοιο"},
+                {"key": "Άφησε το SPACE", "action": "Γλίστρα προς τα κάτω"},
+                {"key": "Κλικ στο canvas", "action": "Εστίασε πριν παίξεις"}
+            ],
+            "mobile": [
+                {"key": "◀ Κουμπί ΑΡΙΣΤΕΡΑ", "action": "Μετακίνηση αριστερά"},
+                {"key": "▶ Κουμπί ΔΕΞΙΑ", "action": "Μετακίνηση δεξιά"}
+            ]
+        }
     },
 
     "howGameWorks": {

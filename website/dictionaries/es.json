@@ -50,7 +50,20 @@
         "demoDescription": "Este juego en el navegador NO es el juego oficial de Dinosaur Exploder. Es solo una pequeña demo web para divertirte mientras el juego real se descarga.",
         "noteTitle": "Antes de empezar la demo",
         "note": "Consejo: haz clic dentro de la demo primero y luego usa los controles de abajo.",
-        "controlsTitle": "Controles de la demo web"
+        "controlsTitle": "Controles de la demo web",
+        "browserControls": {
+            "desktopTitle": "Escritorio",
+            "mobileTitle": "Móvil / táctil",
+            "desktop": [
+                {"key": "Mantener ESPACIO", "action": "Subir la nave"},
+                {"key": "Soltar ESPACIO", "action": "Bajar planeando"},
+                {"key": "Haz clic en el canvas", "action": "Enfocar antes de jugar"}
+            ],
+            "mobile": [
+                {"key": "◀ Botón IZQUIERDA", "action": "Mover a la izquierda"},
+                {"key": "▶ Botón DERECHA", "action": "Mover a la derecha"}
+            ]
+        }
     },
 
     "howGameWorks": {

@@ -9,6 +9,7 @@ import {
   Geist_Mono,
   IBM_Plex_Mono,
   IBM_Plex_Sans,
+  Pixelify_Sans,
   Press_Start_2P,
 } from "next/font/google";
 import "../globals.css";
@@ -49,6 +50,13 @@ const pressStart2P = Press_Start_2P({
   weight: "400",
   variable: "--font-press-start-2p",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const pixelifySans = Pixelify_Sans({
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-pixelify-sans",
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
 });
 
@@ -106,7 +114,7 @@ export default async function RootLayout({
             data-locale={locale}
             data-script={getLocaleScript(locale)}
             suppressHydrationWarning
-            className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
+            className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${pixelifySans.variable} ${fushion_12.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
         >
             <body className="antialiased">
                 <ThemeProvider>

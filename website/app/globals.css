@@ -51,18 +51,23 @@ html[data-script="greek"] body {
   font-family: var(--font-ibm-plex-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Keep Press Start 2P retro look for Latin glyphs (brand name etc.), fall back to IBM Plex for Greek glyphs. */
 html[data-script="greek"] .font-retro {
-  font-family: var(--font-ibm-plex-mono), var(--font-ibm-plex-sans), monospace;
-  letter-spacing: 1px;
+  font-family: var(--font-press-start-2p), var(--font-ibm-plex-mono),
+    var(--font-ibm-plex-sans), monospace;
+  letter-spacing: 2px;
 }
 
 html[data-script="cyrillic"] body {
   font-family: var(--font-ibm-plex-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Press Start 2P handles Latin (brand name), Pixelify Sans is a pixel/retro font with Cyrillic glyphs,
+   IBM Plex Mono is the final readable fallback. */
 html[data-script="cyrillic"] .font-retro {
-  font-family: var(--font-ibm-plex-mono), var(--font-ibm-plex-sans), monospace;
-  letter-spacing: 1px;
+  font-family: var(--font-press-start-2p), var(--font-pixelify-sans),
+    var(--font-ibm-plex-mono), var(--font-ibm-plex-sans), monospace;
+  letter-spacing: 2px;
 }
 
 html[data-script="han"] body {

@@ -50,7 +50,20 @@
         "demoDescription": "这个网页游戏不是官方版 Dinosaur Exploder。它只是一个小小的网页演示，让你在正式游戏下载时先玩一会儿。",
         "noteTitle": "开始演示前",
         "note": "提示：先点击演示区域，再使用下方的键盘控制。",
-        "controlsTitle": "浏览器演示控制"
+        "controlsTitle": "浏览器演示控制",
+        "browserControls": {
+            "desktopTitle": "电脑",
+            "mobileTitle": "手机 / 触控",
+            "desktop": [
+                {"key": "按住 SPACE", "action": "飞船向上移动"},
+                {"key": "松开 SPACE", "action": "飞船滑回下方"},
+                {"key": "点击画布", "action": "开始前先获得焦点"}
+            ],
+            "mobile": [
+                {"key": "◀ 左按钮", "action": "向左移动"},
+                {"key": "▶ 右按钮", "action": "向右移动"}
+            ]
+        }
     },
 
     "howGameWorks": {

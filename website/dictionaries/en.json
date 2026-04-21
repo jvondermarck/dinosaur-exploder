@@ -50,7 +50,20 @@
         "demoDescription": "This browser game is not the official Dinosaur Exploder game. It is only a small web demo to enjoy while the real game downloads.",
         "noteTitle": "Before you start the demo",
         "note": "Tip: click inside the demo first, then use the browser-demo controls below.",
-        "controlsTitle": "Browser demo controls"
+        "controlsTitle": "Browser demo controls",
+        "browserControls": {
+            "desktopTitle": "Desktop",
+            "mobileTitle": "Mobile / touch",
+            "desktop": [
+                {"key": "Hold SPACE", "action": "Move the spaceship up"},
+                {"key": "Release SPACE", "action": "Glide back down"},
+                {"key": "Click the canvas", "action": "Focus before playing"}
+            ],
+            "mobile": [
+                {"key": "◀ LEFT button", "action": "Move left"},
+                {"key": "▶ RIGHT button", "action": "Move right"}
+            ]
+        }
     },
 
     "howGameWorks": {

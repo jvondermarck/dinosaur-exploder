@@ -12,6 +12,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.components.AchievementsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
 import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
@@ -57,6 +58,7 @@ public class PauseMenu extends FXGLMenu {
   PauseButton btnQuitGame = new PauseButton(languageManager.getTranslation("quit"), this::exit);
   ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
   ControlButton btnSound = new ControlButton(languageManager.getTranslation("sound"));
+  ControlButton btnAchievements = new ControlButton(languageManager.getTranslation("achievements"));
   OptionsButton btnSoundMain = new OptionsButton(languageManager.getTranslation("sound_main"));
   OptionsButton btnSoundSfx = new OptionsButton(languageManager.getTranslation("sound_sfx"));
 
@@ -195,6 +197,8 @@ public class PauseMenu extends FXGLMenu {
                     btnBack.enable();
                     btnQuitGame.enable();
                     btnControls.enable();
+                    btnSound.enable();
+                    btnAchievements.enable();
                   });
 
           VBox.setMargin(btnBackFromControls, new Insets(0, 0, 40, 0));
@@ -217,6 +221,8 @@ public class PauseMenu extends FXGLMenu {
           btnBack.disable();
           btnQuitGame.disable();
           btnControls.disable();
+          btnSound.disable();
+          btnAchievements.disable();
 
           // ✅ Ajout à l'affichage (le container est par-dessus le reste)
           getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
@@ -248,6 +254,7 @@ public class PauseMenu extends FXGLMenu {
                     btnSound.enable();
                     btnQuitGame.enable();
                     btnControls.enable();
+                    btnAchievements.enable();
                   });
 
           VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
@@ -269,8 +276,52 @@ public class PauseMenu extends FXGLMenu {
           btnSound.disable();
           btnQuitGame.disable();
           btnControls.disable();
+          btnAchievements.disable();
 
           getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
+        });
+
+    // Achievements button action → Opens achievements overlay
+    btnAchievements.setControlAction(
+        () -> {
+          var achievementsBg =
+              new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
+
+          var achievementsBox = new VBox(10);
+          achievementsBox.setAlignment(Pos.CENTER);
+          achievementsBox.setMaxWidth(getAppWidth() * 0.7);
+
+          StackPane achievementsContainer = new StackPane(achievementsBox);
+          achievementsContainer.setPrefSize(getAppWidth(), getAppHeight());
+          achievementsContainer.setAlignment(Pos.CENTER);
+
+          PauseButton btnBackFromAchievements =
+              new PauseButton(
+                  languageManager.getTranslation("back"),
+                  () -> {
+                    getContentRoot().getChildren().removeAll(achievementsBg, achievementsContainer);
+                    btnBack.enable();
+                    btnQuitGame.enable();
+                    btnControls.enable();
+                    btnSound.enable();
+                    btnAchievements.enable();
+                  });
+
+          VBox.setMargin(btnBackFromAchievements, new Insets(0, 0, 20, 0));
+
+          achievementsBox
+              .getChildren()
+              .addAll(
+                  btnBackFromAchievements,
+                  AchievementsComponent.createContent(AchievementsComponent.loadAchievements()));
+
+          btnBack.disable();
+          btnQuitGame.disable();
+          btnControls.disable();
+          btnSound.disable();
+          btnAchievements.disable();
+
+          getContentRoot().getChildren().addAll(achievementsBg, achievementsContainer);
         });
 
     // --- MISE EN PAGE DU MENU PRINCIPAL ---
@@ -293,7 +344,7 @@ public class PauseMenu extends FXGLMenu {
     titleContainer.setTranslateY(100);
 
     // Menu principal (les 3 boutons)
-    var box = new VBox(15, btnBack, btnSound, btnControls, btnQuitGame);
+    var box = new VBox(15, btnBack, btnSound, btnControls, btnAchievements, btnQuitGame);
     box.setAlignment(Pos.CENTER);
 
     StackPane buttonContainer = new StackPane(box);
@@ -414,6 +465,7 @@ public class PauseMenu extends FXGLMenu {
     btnSoundSfx.setText(languageManager.getTranslation("sound_sfx"));
     btnQuitGame.setText(languageManager.getTranslation("quit").toUpperCase());
     btnControls.setText(languageManager.getTranslation("controls").toUpperCase());
+    btnAchievements.setText(languageManager.getTranslation("achievements").toUpperCase());
 
     // Update control buttons using GameControlsComponent
     btnMoveUp.setText(GameControlsComponent.getControlText(ControlType.MOVE_UP));

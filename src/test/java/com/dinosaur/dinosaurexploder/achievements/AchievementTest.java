@@ -5,25 +5,25 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class AchievementTest {
 
+  private final List<Achievement> emptyAchievements = new ArrayList<>();
   private List<Achievement> currentAchievement = new ArrayList<>();
-  AchievementManager achievementManager = new AchievementManager();
+  private AchievementManager achievementManager;
 
   @BeforeEach
   void setUp() {
-
-    List<Achievement> emptyList = new ArrayList<>();
+    achievementManager = new AchievementManager();
     currentAchievement = achievementManager.loadAchievement();
-    achievementManager.saveAchievement(emptyList);
+    achievementManager.saveAchievement(emptyAchievements);
     achievementManager.init();
   }
 
@@ -34,42 +34,55 @@ public class AchievementTest {
     achievementManager.getActiveAchievement().completed = true;
     achievementManager.saveAchievement(achievementManager.getActiveAchievements());
     listToCheck = achievementManager.loadAchievement();
-    assert listToCheck.getFirst().isCompleted();
+    assertTrue(listToCheck.getFirst().isCompleted());
+  }
+
+  @Test
+  void shouldRegisterDefaultAchievementsFromCatalog() {
+    assertEquals(10, achievementManager.getAllAchievements().size());
   }
 
   @Test
   void addAchievementInAlreadyExistingAchievements() {
-    List<Achievement> listStartAchievement = achievementManager.loadAchievement();
-    int numberOfStartAchievement = listStartAchievement.size();
+    int numberOfStartAchievement = achievementManager.loadAchievement().size();
 
-    List<Achievement> listAchievementsGreater = new ArrayList<>();
-    for (int i = 1; i < listStartAchievement.size() + 2; i++) {
-      listAchievementsGreater.add(new KillCountAchievement(i, i));
-    }
-    mockInitFromAchievementManager(listAchievementsGreater, listStartAchievement);
-    assert numberOfStartAchievement < achievementManager.loadAchievement().size();
+    AchievementManager managerWithExtraAchievement =
+        new AchievementManager(
+            AchievementCatalog.defaults().with(() -> new KillCountAchievement(99, 999)));
+
+    managerWithExtraAchievement.init();
+
+    assertEquals(
+        numberOfStartAchievement + 1, managerWithExtraAchievement.loadAchievement().size());
   }
 
-  private void mockInitFromAchievementManager(
-      List<Achievement> allAchievements, List<Achievement> activeAchievements) {
+  @Test
+  void shouldDispatchEventsThroughSharedEventPath() {
+    AchievementManager singleAchievementManager =
+        new AchievementManager(AchievementCatalog.of(() -> new KillCountAchievement(1, 10)));
+    singleAchievementManager.saveAchievement(emptyAchievements);
+    singleAchievementManager.init();
 
-    if (activeAchievements.isEmpty()) {
-      achievementManager.saveAchievement(allAchievements);
-      activeAchievements.addAll(allAchievements);
-    }
-    if (allAchievements.size() > activeAchievements.size()) {
+    singleAchievementManager.notifyDinosaurKilled();
 
-      Set<String> activeDescriptions =
-          activeAchievements.stream().map(Achievement::getDescription).collect(Collectors.toSet());
+    assertTrue(singleAchievementManager.getActiveAchievement().isCompleted());
+  }
 
-      List<Achievement> toAdd =
-          allAchievements.stream()
-              .filter(a -> !activeDescriptions.contains(a.getDescription()))
-              .toList();
+  @Test
+  void shouldSplitAchievementsIntoPendingAndCompletedLists() {
+    AchievementManager singleAchievementManager =
+        new AchievementManager(
+            AchievementCatalog.of(
+                () -> new KillCountAchievement(1, 10), () -> new ScoreAchievement(9999, 10)));
+    singleAchievementManager.saveAchievement(emptyAchievements);
+    singleAchievementManager.init();
 
-      activeAchievements.addAll(toAdd);
-      achievementManager.saveAchievement(activeAchievements);
-    }
+    singleAchievementManager.notifyDinosaurKilled();
+
+    assertEquals(1, singleAchievementManager.getCompletedAchievements().size());
+    assertEquals(1, singleAchievementManager.getPendingAchievements().size());
+    assertTrue(singleAchievementManager.getCompletedAchievements().getFirst().isCompleted());
+    assertFalse(singleAchievementManager.getPendingAchievements().getFirst().isCompleted());
   }
 
   @AfterEach

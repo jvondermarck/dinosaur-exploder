@@ -1,0 +1,116 @@
+{
+  "switcherLabel": "Idioma:",
+
+  "homePage": {
+    "title": "Retro Arcade",
+    "subtitle": "Shoot 'em up",
+    "description": [
+      "Dinosaur Exploder",
+      "es un shooter arcade clasico de codigo abierto.",
+      "Hecho con Java, JavaFX y FXGL.",
+      "Accion pixel pura. Diversion pura!"
+    ],
+    "button": "Ver en GitHub",
+    "sponsorDescr": {
+      "title": "Patrocina a Julien Von Der Marck en GitHub Sponsors",
+      "heart": "Patrocinar",
+      "descr": "Desarrollador apasionado de codigo abierto. Mantengo Dinosaur Exploder, un shoot 'em up gratuito de Java/FXGL. Doy la bienvenida y guio a nuevos contribuidores cada dia! 🦖✨"
+    }
+  },
+
+  "NavBar": {
+    "howGameWorks": "Como funciona el juego",
+    "credits": "Creditos",
+    "contact": "Contacto",
+    "star": "Star",
+    "sponsor": "Patrocinar"
+  },
+
+  "features": [
+    { "icon": "🦖", "title": "ACCION DINO PIXEL" },
+    { "icon": "🕹️", "title": "JUGABILIDAD CLASICA" },
+    { "icon": "🌍", "title": "CODIGO ABIERTO Y GRATIS" }
+  ],
+
+  "footer": "Dinosaur Exploder - hecho con amor - Java/JavaFX/FXGL - codigo abierto",
+
+  "howGameWorks": {
+    "title": "Como funciona el juego",
+    "goal": {
+      "title": "Objetivo",
+      "descr": "Controlas una nave espacial en una arena arcade retro. Tu objetivo es simple: sobrevivir a oleadas de dinosaurios y conseguir la mayor cantidad de puntos posible."
+    },
+    "gameplay": {
+      "title": "Bucle de juego",
+      "steps": [
+        "Mueve tu nave espacial para esquivar dinosaurios y peligros.",
+        "Dispara a los dinosaurios para ganar puntos y limpiar la pantalla.",
+        "Usa tu escudo para sobrevivir en momentos criticos.",
+        "Usa una bomba cuando la pantalla este llena (elimina todos los dinosaurios)."
+      ],
+      "difficulty": "La dificultad aumenta con el tiempo a medida que aparecen mas dinosaurios."
+    },
+    "controls": {
+      "title": "Controles",
+      "headers": {
+        "key": "Tecla",
+        "action": "Accion"
+      },
+      "list": [
+        { "key": "↑ ↓ ← →", "action": "Mover la nave espacial" },
+        { "key": "Space", "action": "Disparar" },
+        { "key": "E", "action": "Activar escudo (duracion corta)" },
+        { "key": "B", "action": "Bomba (elimina todos los dinosaurios en pantalla)" },
+        { "key": "Esc", "action": "Pausa" }
+      ]
+    },
+    "demo": {
+      "title": "Demostracion de jugabilidad",
+      "error": "Tu navegador no soporta la etiqueta de video.",
+      "description": "Breve demostracion de jugabilidad que muestra movimiento, disparo y oleadas de enemigos."
+    },
+    "help": {
+      "title": "Quieres ayudar?",
+      "description": "Puedes contribuir al juego (Java/FXGL) o al sitio web (Next.js). Revisa los issues de GitHub y elige algo pequeno para empezar."
+    }
+  },
+
+  "credits": {
+    "title": "Creditos",
+    "description": "Este proyecto existe gracias a la comunidad. Aqui estan los contribuidores de GitHub ❤️",
+    "error": "No se pudieron cargar los contribuidores en este momento (limite de API de GitHub o red). Intentalo de nuevo mas tarde.",
+    "single": "contribucion",
+    "plural": "contribuciones",
+    "addName": {
+      "title": "Agrega tu nombre aqui",
+      "description": "Quieres aparecer en esta lista? Haz un PR (juego o sitio web), y GitHub te incluira automaticamente."
+    }
+  },
+
+  "contact": {
+    "title": "Contacto",
+    "description": "La forma mas rapida de contactarnos es a traves de los canales de la comunidad a continuacion.",
+    "links": {
+      "github": {
+        "title": "GitHub Discussions",
+        "description": "Haz preguntas, propone ideas y obten ayuda."
+      },
+      "discord": {
+        "title": "Discord",
+        "description": "Chat rapido con la comunidad."
+      },
+      "twitter": {
+        "title": "Twitter",
+        "description": "Sigue actualizaciones y anuncios."
+      },
+      "sponsor": {
+        "title": "Patrocinar",
+        "description": "Apoya el desarrollo si te gusta el proyecto."
+      }
+    },
+    "contribute": {
+      "title": "Contribuir",
+      "description": "Quieres ayudar? Elige un issue en GitHub o contribuye al sitio web en la carpeta /website."
+    }
+  }
+}

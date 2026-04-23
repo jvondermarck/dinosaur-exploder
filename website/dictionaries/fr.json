@@ -1,0 +1,116 @@
+{
+    "switcherLabel": "Langue :",
+
+    "homePage": {
+        "title": "Retro Arcade",
+        "subtitle": "Shoot 'em up",
+        "description": [
+            "Dinosaur Exploder",
+            "est un jeu de tir arcade classique gratuit et open source.",
+            "Réalisé avec Java, JavaFX et FXGL.",
+            "De l'action en pixels purs. Du pur plaisir !"
+        ],
+        "button": "Voir sur Github",
+        "sponsorDescr": {
+            "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
+            "heart": "Sponsor",
+            "descr": "Passionate open-source dev. I maintain Dinosaur Exploder, a free Java/FXGL shoot ’em up. Welcoming & guiding new contributors every day! 🦖✨"
+        }
+    },
+
+    "NavBar": {
+        "howGameWorks": "Comment le jeu fonctionne",
+        "credits": "Crédits",
+        "contact": "Contact",
+        "star": "Star",
+        "sponsor": "Soutenir" 
+    },
+
+    "features": [
+        {"icon": "🦖", "title": "ACTION DINO EN PIXELS"},
+        {"icon": "🕹️", "title": "JEU CLASSIQUE"},
+        {"icon": "🌍","title": "OPEN SOURCE ET GRATUIT"}
+    ],
+
+    "footer": "Dinosaur Exploder — réalisé avec amour — Java/JavaFX/FXGL — open source",
+
+    "howGameWorks": {
+        "title": "Comment le jeu fonctionne",
+        "goal": {
+            "title": "Objectif",
+            "descr": "Vous contrôlez un vaisseau spatial dans une arène arcade rétro. Votre objectif est simple : survivre aux vagues de dinosaures entrants et marquer autant de points que possible."
+        },
+        "gameplay":{
+            "title": "Boucle de jeu",
+            "steps": [
+                "Déplacez votre vaisseau pour éviter les dinosaures et les dangers.",
+                "Tirez sur les dinosaures pour marquer des points et nettoyer l'écran.",
+                "Utilisez votre bouclier pour survivre aux moments difficiles.",
+                "Utilisez une bombe lorsque l'écran est encombré (elle efface tous les dinosaures)."
+            ],
+            "difficulty": "La difficulté augmente au fil du temps avec l'apparition de plus de dinosaures."
+        },
+        "controls": {
+            "title": "Contrôles",
+            "headers": {
+                "key": "Touche",
+                "action": "Action"
+            },
+            "list": [
+                {"key": "↑ ↓ ← →", "action": "Déplacer le vaisseau spatial"},
+                {"key": "Space", "action": "Tirer"},
+                {"key": "E", "action": "Activer le bouclier (courte durée)"},
+                {"key": "B", "action": "Bombe (élimine tous les dinosaures à l'écran)"},
+                {"key": "Esc", "action": "Pause"}
+            ]
+        },
+        "demo": {
+            "title": "Démo de gameplay",
+            "error": "Votre navigateur ne supporte pas la balise vidéo.",
+            "description": "Courte démo de gameplay montrant le mouvement, le tir et les vagues d'ennemis."
+        },
+        "help":{
+            "title": "Vous voulez aider ?",
+            "description": "Vous pouvez contribuer au jeu (Java/FXGL) ou au site Web (Next.js). Consultez les problèmes GitHub et choisissez quelque chose de petit pour commencer."
+        }
+    },
+
+    "credits": {
+        "title": "Crédits",
+        "description": "Ce projet existe grâce à la communauté. Voici les contributeurs GitHub ❤️",
+        "error": "Impossible de charger les contributeurs pour l'instant (limite de l'API GitHub ou réseau). Veuillez réessayer plus tard.",
+        "single": "contribution",
+        "plural": "contributions",
+        "addName": {
+            "title": "Ajoutez votre nom ici",
+            "description": "Voulez-vous figurer sur cette liste ? Faites un PR (jeu ou site Web), et GitHub vous inclura automatiquement."
+        }
+    },
+
+    "contact": {
+        "title": "Contact",
+        "description": "Le moyen le plus rapide de nous contacter est par les canaux communautaires ci-dessous.",
+        "links": {
+            "github": {
+                "title": "GitHub Discussions",
+                "description": "Posez des questions, proposez des idées et obtenez de l'aide."
+            },
+            "discord": {
+                "title": "Discord",
+                "description": "Chat rapide avec la communauté."
+            },
+            "twitter": {
+                "title": "Twitter",
+                "description": "Suivez les mises à jour et les annonces."
+            },
+            "sponsor": {
+                "title": "Sponsor",
+                "description": "Soutenir le développement si vous aimez le projet."
+            }
+        },
+        "contribute": {
+            "title": "Contribuer",
+            "description": "Vous voulez aider ? Choisissez un problème sur GitHub ou contribuez au site Web dans le dossier /website."
+        }
+    }
+}

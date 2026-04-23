@@ -34,6 +34,8 @@ public class GameConstants {
   public static final String PLAYING_IMAGE_PATH = "assets/textures/playing.png";
   public static final String GAME_LOGO_DINOSAUR = "assets/textures/dinomenu.png";
   public static final String ASTEROIDS_IMAGE_FILE = "asteroids.png";
+  public static final String ALLY_IMAGE_FILE = "blue_ship.png";
+  public static final String ALLY_DROP_IMAGE_FILE = "blue_ship_drop.png";
 
   /*
    *CONSTANTS FOR FONTS

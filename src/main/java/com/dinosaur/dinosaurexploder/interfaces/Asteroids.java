@@ -8,13 +8,13 @@ package com.dinosaur.dinosaurexploder.interfaces;
 public interface Asteroids {
 
   /**
-   * Summary: This method returns the lives that the dino has currently.
+   * Summary: This method returns the lives that the asteroids has currently.
    *
    * @return lives
    */
   int getLives();
 
-  /** Summary: This method damages the dino */
+  /** Summary: This method damages the asteroids */
   void damage(int damage);
 
   /**

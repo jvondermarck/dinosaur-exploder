@@ -63,8 +63,7 @@ public class MenuHelper {
     noButton.setPrefWidth(200);
     noButton.setOnAction(e -> onNo.run());
 
-    String newTitle = isQuestion ? title.concat("?") : title;
-
+    String newTitle = Boolean.TRUE.equals(isQuestion) ? title + "?" : title;
     getDialogService().showBox(newTitle, new VBox(), yesButton, noButton);
   }
 

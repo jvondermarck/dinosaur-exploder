@@ -42,7 +42,9 @@ public class LanguageManager {
           "Greek",
           "Ελληνικά",
           "Bulgarian",
-          "Български");
+          "Български",
+          "Italian",
+          "Italiano");
 
   private static final String RESOURCE_PATH_SEPARATOR = "/"; // Always forward slash for classpath
   private static final String TRANSLATION_PATH_NO_SLASH = "assets/translation/";
@@ -156,6 +158,7 @@ public class LanguageManager {
       "french",
       "german",
       "spanish",
+      "italian",
       "japanese",
       "russian",
       "portuguese",

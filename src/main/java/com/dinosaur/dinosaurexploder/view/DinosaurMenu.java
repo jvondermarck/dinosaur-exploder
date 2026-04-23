@@ -385,6 +385,9 @@ public class DinosaurMenu extends FXGLMenu {
 
   public void exit() {
     MenuHelper.showConfirmationDialog(
-        languageManager.getTranslation("quit_game"), true, () -> getGameController().exit(), () -> {});
+        languageManager.getTranslation("quit_game"),
+        true,
+        () -> getGameController().exit(),
+        () -> {});
   }
 }

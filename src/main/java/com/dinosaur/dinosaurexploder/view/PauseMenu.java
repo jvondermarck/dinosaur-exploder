@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -431,7 +430,8 @@ public class PauseMenu extends FXGLMenu {
 
   public void exit() {
     MenuHelper.showConfirmationDialog(
-        languageManager.getTranslation("quit_game"),false,
+        languageManager.getTranslation("quit_game"),
+        false,
         () -> getGameController().gotoMainMenu(),
         () -> getGameController().resumeEngine());
   }

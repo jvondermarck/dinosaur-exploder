@@ -51,7 +51,8 @@ public class MenuHelper {
     getDialogService().showBox(title, content, okButton);
   }
 
-  public static void showConfirmationDialog(String title, Boolean isQuestion, Runnable onYes, Runnable onNo) {
+  public static void showConfirmationDialog(
+      String title, Boolean isQuestion, Runnable onYes, Runnable onNo) {
     LanguageManager lm = LanguageManager.getInstance();
 
     Button yesButton = getUIFactoryService().newButton(lm.getTranslation("yes"));

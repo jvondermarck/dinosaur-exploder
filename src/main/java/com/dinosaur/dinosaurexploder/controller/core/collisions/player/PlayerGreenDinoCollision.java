@@ -3,22 +3,23 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.dinosaur.dinosaurexploder.controller.core.collisions;
+package com.dinosaur.dinosaurexploder.controller.core.collisions.player;
 
 import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.core.GameActions;
+import com.dinosaur.dinosaurexploder.controller.core.collisions.CollisionHandlerInterface;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import java.util.logging.Logger;
 
-public class PlayerOrangeDinoCollision implements CollisionHandlerInterface {
+public class PlayerGreenDinoCollision implements CollisionHandlerInterface {
 
   private final GameActions gameActions;
   private Logger logger = Logger.getLogger(getClass().getName());
 
-  public PlayerOrangeDinoCollision(GameActions gameActions) {
+  public PlayerGreenDinoCollision(GameActions gameActions) {
     this.gameActions = gameActions;
   }
 
@@ -26,10 +27,11 @@ public class PlayerOrangeDinoCollision implements CollisionHandlerInterface {
   public void register() {
     onCollisionBegin(
         EntityType.PLAYER,
-        EntityType.ORANGE_DINO,
-        (player, orangeDino) -> {
+        EntityType.GREEN_DINO,
+        (player, greenDino) -> {
           AudioManager.getInstance().playSound(GameConstants.PLAYER_HIT_SOUND);
-          logger.info("You touched a orange dino !");
+          greenDino.removeFromWorld();
+          logger.info("You touched a dino !");
           gameActions.damagePlayer();
         });
   }

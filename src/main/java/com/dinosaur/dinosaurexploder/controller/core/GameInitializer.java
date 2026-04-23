@@ -31,6 +31,7 @@ import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 
 public class GameInitializer {
 
@@ -49,6 +50,7 @@ public class GameInitializer {
   private Entity player;
   private Entity levelDisplay;
   private Entity levelProgressBar;
+  private Entity ally;
   private AchievementManager achievementManager;
 
   /** Summary : To move the space shuttle in forward , backward , right , left directions */
@@ -68,6 +70,11 @@ public class GameInitializer {
     onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
     onKey(KeyCode.A, () -> player.getComponent(PlayerComponent.class).moveLeft());
     onKey(KeyCode.D, () -> player.getComponent(PlayerComponent.class).moveRight());
+
+    if (GameData.getSelectedDifficulty() == GameMode.EXPERT) {
+      // Expert mode already aims with the mouse, so let players hold left click to keep firing.
+      onBtn(MouseButton.PRIMARY, () -> player.getComponent(PlayerComponent.class).shoot());
+    }
 
     onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
   }
@@ -241,6 +248,14 @@ public class GameInitializer {
 
   public void setLevelProgressBar(Entity levelProgressBar) {
     this.levelProgressBar = levelProgressBar;
+  }
+
+  public Entity getAlly() {
+    return ally;
+  }
+
+  public void setAlly(Entity ally) {
+    this.ally = ally;
   }
 
   public LanguageManager getLanguageManager() {

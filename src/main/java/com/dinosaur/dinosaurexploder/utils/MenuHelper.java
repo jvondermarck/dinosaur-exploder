@@ -51,6 +51,22 @@ public class MenuHelper {
     getDialogService().showBox(title, content, okButton);
   }
 
+  public static void showConfirmationDialog(String title, Boolean isQuestion, Runnable onYes, Runnable onNo) {
+    LanguageManager lm = LanguageManager.getInstance();
+
+    Button yesButton = getUIFactoryService().newButton(lm.getTranslation("yes"));
+    yesButton.setPrefWidth(200);
+    yesButton.setOnAction(e -> onYes.run());
+
+    Button noButton = getUIFactoryService().newButton(lm.getTranslation("no"));
+    noButton.setPrefWidth(200);
+    noButton.setOnAction(e -> onNo.run());
+
+    String newTitle = isQuestion ? title.concat("?") : title;
+
+    getDialogService().showBox(newTitle, new VBox(), yesButton, noButton);
+  }
+
   public static ImageView createItemImageView(Image image, double size, boolean isLocked) {
     ImageView imageView = new ImageView(image);
     imageView.setFitHeight(size);

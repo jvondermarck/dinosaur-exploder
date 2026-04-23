@@ -20,6 +20,7 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -429,15 +430,9 @@ public class PauseMenu extends FXGLMenu {
   // ------------------- QUIT POPUP -----------------------
 
   public void exit() {
-    Button btnYes = getUIFactoryService().newButton(languageManager.getTranslation("yes"));
-    btnYes.setPrefWidth(200);
-    btnYes.setOnAction(e -> getGameController().gotoMainMenu());
-
-    Button btnNo = getUIFactoryService().newButton(languageManager.getTranslation("no"));
-    btnNo.setPrefWidth(200);
-    btnNo.setOnAction(e -> getGameController().resumeEngine());
-
-    getDialogService()
-        .showBox(languageManager.getTranslation("quit_game"), new VBox(), btnYes, btnNo);
+    MenuHelper.showConfirmationDialog(
+        languageManager.getTranslation("quit_game"),false,
+        () -> getGameController().gotoMainMenu(),
+        () -> getGameController().resumeEngine());
   }
 }

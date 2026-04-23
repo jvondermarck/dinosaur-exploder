@@ -5,6 +5,7 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameController;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
@@ -18,6 +19,7 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -267,7 +269,7 @@ public class DinosaurMenu extends FXGLMenu {
 
     quitButton.setMinSize(140, 60);
     quitButton.setTranslateY(580);
-    quitButton.setOnAction(event -> fireExit());
+    quitButton.setOnAction(event -> exit());
   }
 
   // ============ HELPER METHODS ============
@@ -379,5 +381,10 @@ public class DinosaurMenu extends FXGLMenu {
     super.onEnteredFrom(prevState);
     mainMenuSound.setMute(AudioManager.getInstance().isMuted());
     mainMenuSound.setVolume(AudioManager.getInstance().getVolume());
+  }
+
+  public void exit() {
+    MenuHelper.showConfirmationDialog(
+        languageManager.getTranslation("quit_game"), true, () -> getGameController().exit(), () -> {});
   }
 }

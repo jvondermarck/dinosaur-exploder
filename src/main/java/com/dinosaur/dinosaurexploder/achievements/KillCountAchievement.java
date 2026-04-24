@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
 /** Achievement for killing a specific number of dinosaurs. */
 public class KillCountAchievement extends Achievement {
@@ -20,7 +21,9 @@ public class KillCountAchievement extends Achievement {
 
   @Override
   public String getDescription() {
-    return "Kill " + targetKills + " dinosaurs";
+    return LanguageManager.getInstance()
+        .getTranslation("ach_kill_dinos")
+        .replace("##", String.valueOf(this.targetKills));
   }
 
   @Override

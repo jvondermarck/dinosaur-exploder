@@ -56,5 +56,11 @@
   "specialty_more_bombs_description": "Aumenta il numero massimo di bombe trasportabili.",
   "specialty_smaller_hitbox": "Miniatura",
   "specialty_smaller_hitbox_description": "Riduce le dimensioni della tua hitbox.",
-  "specialty_locked": "La specialità è bloccata."
+  "specialty_locked": "La specialità è bloccata.",
+  "ach_collect_coins": "Raccogli ## monete",
+  "ach_defeat_boss": "Sconfiggi il tuo primo boss",
+  "ach_survive_1min": "Sopravvivi per 1 minuto",
+  "ach_survive_mins": "Sopravvivi per ## minuti",
+  "ach_kill_dinos": "Uccidi ## dinosauri",
+  "ach_reach_score": "Raggiungi ## punti"
 }

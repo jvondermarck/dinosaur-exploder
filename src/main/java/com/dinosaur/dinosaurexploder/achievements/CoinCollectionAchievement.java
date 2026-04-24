@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
 /** Achievement for collecting a specific number of coins. */
 public class CoinCollectionAchievement extends Achievement {
@@ -19,7 +20,9 @@ public class CoinCollectionAchievement extends Achievement {
 
   @Override
   public String getDescription() {
-    return "Collect " + targetCoins + " coins";
+    return LanguageManager.getInstance()
+        .getTranslation("ach_collect_coins")
+        .replace("##", String.valueOf(targetCoins));
   }
 
   @Override

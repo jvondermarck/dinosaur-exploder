@@ -25,9 +25,9 @@ public class LanguageManager {
   public static final String DEFAULT_LANGUAGE = "English";
   private final StringProperty selectedLanguage = new SimpleStringProperty(DEFAULT_LANGUAGE);
   private Map<String, String> translations = new HashMap<>();
-  private final Map<String, String> NATIVE_LANGUAGE_NAMES =
+  private final Map<String, String> nativeLanguageNames =
       Map.ofEntries(
-          entry("english", "English"),
+          entry("english", DEFAULT_LANGUAGE),
           entry("french", "Français"),
           entry("german", "Deutsch"),
           entry("spanish", "Español"),
@@ -87,7 +87,7 @@ public class LanguageManager {
   // Returns the language name in the native word (ex. English->English, Spanish->Español). Default
   // returns word in english
   public String getNativeLanguageName(String language) {
-    return NATIVE_LANGUAGE_NAMES.getOrDefault(language.toLowerCase(), language);
+    return nativeLanguageNames.getOrDefault(language.toLowerCase(), language);
   }
 
   // Check if the application is running inside a JAR

@@ -44,12 +44,14 @@ public class GameActions {
   private final Entity bomb;
   private AllyComponent ally;
   private boolean isAllyUse = false;
+  private final long sessionStartNanos;
+  private boolean gameOverTriggered = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
   private double emissionRate; // emissionRate is how often the particle of fire will spawn.
   // If emissionRate = 1, it means particles will spawn every frame, 0,5 every two frame, ect.
   private final int numParticles; // numParticles is the number of particle that will spawn when
   // they spawn.
-  private double emissionRateAugmentation; // How much the emissionRate will increase each
+  private final double emissionRateAugmentation; // How much the emissionRate will increase each
 
   // time the player lose a life
 
@@ -64,6 +66,7 @@ public class GameActions {
     this.life = gameInitializer.getLife();
     this.levelProgressBar = gameInitializer.getLevelProgressBar();
     this.bomb = gameInitializer.getBomb();
+
     this.numParticles = 4;
     if (life.getComponent(LifeComponent.class).getLife() == 5) {
       this.emissionRateAugmentation = 0.1;
@@ -72,6 +75,8 @@ public class GameActions {
       this.emissionRateAugmentation = 0.2;
       this.emissionRate = 0;
     }
+
+    this.sessionStartNanos = System.nanoTime();
   }
 
   public void updateLevelDisplay() {
@@ -102,6 +107,9 @@ public class GameActions {
     if (player.getComponent(PlayerComponent.class).isInvincible()) {
       return;
     }
+    if (gameOverTriggered) {
+      return;
+    }
     int lives = collisionHandler.getDamagedPlayerLife(life.getComponent(LifeComponent.class));
     var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));
     getGameScene().addUINode(flash);
@@ -111,12 +119,13 @@ public class GameActions {
     changeFire();
 
     if (lives <= 0) {
+      gameOverTriggered = true;
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
       life.getComponent(LifeComponent.class).onUpdate(lives);
 
       LOGGER.log(Level.INFO, "Game Over!");
-      gameOver();
+      startGameOverSequence();
     } else {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
     }
@@ -237,9 +246,32 @@ public class GameActions {
     return levelManager.getBossesToDefeat() < 2 && levelManager.getCurrentLevel() % 5 == 0;
   }
 
+  private void startGameOverSequence() {
+    pauseElement();
+    player.getComponent(PlayerComponent.class).setInvincible(true);
+    player.getViewComponent().setOpacity(0);
+    FXGL.spawn("explosion", player.getCenter());
+
+    Text gameOverText =
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("game_over").toUpperCase(), Color.ORANGERED, 30);
+    gameOverText.setStroke(Color.BLACK);
+    gameOverText.setStrokeWidth(1.5);
+    TextUtils.centerText(gameOverText);
+    getGameScene().addUINode(gameOverText);
+
+    runOnce(
+        () -> {
+          getGameScene().removeUINode(gameOverText);
+          gameOver();
+        },
+        Duration.seconds(1.5));
+  }
+
   /** Summary : To detect whether the player lives are empty or not */
   public void gameOver() {
-    new GameOverDialog(languageManager).createDialog();
+    new GameOverDialog(languageManager, levelManager, sessionStartNanos).createDialog();
   }
 
   public AllyComponent getAlly() {

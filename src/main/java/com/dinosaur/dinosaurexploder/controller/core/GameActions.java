@@ -45,6 +45,13 @@ public class GameActions {
   private AllyComponent ally;
   private boolean isAllyUse = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
+  private double emissionRate; // emissionRate is how often the particle of fire will spawn.
+  // If emissionRate = 1, it means particles will spawn every frame, 0,5 every two frame, ect.
+  private final int numParticles; // numParticles is the number of particle that will spawn when
+  // they spawn.
+  private double emissionRateAugmentation; // How much the emissionRate will increase each
+
+  // time the player lose a life
 
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
@@ -57,6 +64,14 @@ public class GameActions {
     this.life = gameInitializer.getLife();
     this.levelProgressBar = gameInitializer.getLevelProgressBar();
     this.bomb = gameInitializer.getBomb();
+    this.numParticles = 4;
+    if (life.getComponent(LifeComponent.class).getLife() == 5) {
+      this.emissionRateAugmentation = 0.1;
+      this.emissionRate = -0.1;
+    } else {
+      this.emissionRateAugmentation = 0.2;
+      this.emissionRate = 0;
+    }
   }
 
   public void updateLevelDisplay() {
@@ -77,8 +92,6 @@ public class GameActions {
    * Summary : Detecting the player damage to decrease the lives and checking if the game is over
    */
   public void damagePlayer() {
-    double emissionRate;
-    int numParticles;
     if (player == null || life == null) {
 
       LOGGER.log(Level.WARNING, "damagePlayer() called but player or life entity is null.");
@@ -94,16 +107,9 @@ public class GameActions {
     getGameScene().addUINode(flash);
     runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
 
-    if (lives == 2) {
-      emissionRate = 0.1; // We can change the number to have more or less fire on the ship
-      numParticles = 4;
-      changeFire(emissionRate, numParticles);
-    }
-    if (lives == 1) {
-      emissionRate = 0.2;
-      numParticles = 4;
-      changeFire(emissionRate, numParticles);
-    }
+    emissionRate += emissionRateAugmentation;
+    changeFire();
+
     if (lives <= 0) {
       // Added extra line of code to sync the lives counter after death
       // All hearts disappear after death
@@ -127,11 +133,10 @@ public class GameActions {
 
   public void healPlayer() {
     int lives = collisionHandler.getHealPlayerLife(life.getComponent(LifeComponent.class));
+    emissionRate -= emissionRateAugmentation;
+    changeFire();
 
-    if (lives == 2) {
-      changeFire(0.1, 4); // We can change the number to have more or less fire on the ship
-    }
-    if (lives == 3) {
+    if (lives == 3 || lives >= 4) {
       player.removeComponent(ParticleComponent.class);
     }
   }
@@ -253,12 +258,7 @@ public class GameActions {
     this.isAllyUse = allyUse;
   }
 
-  /**
-   * @param emissionRate is how often the particle of fire will spawn. If emissionRate = 1, it means
-   *     particles will spawn every frame, 0,5 every two frame, ect.
-   * @param numParticles is the number of particle that will spawn when they spawn.
-   */
-  public void changeFire(double emissionRate, int numParticles) {
+  public void changeFire() {
     double minScale = 0.5;
     double maxScale = 1.5;
     double minDuration = 0.1;

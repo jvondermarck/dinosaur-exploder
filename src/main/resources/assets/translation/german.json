@@ -63,5 +63,11 @@
   "specialty_more_bombs_description": "Erhöht die maximale Anzahl an Bomben, die getragen werden können.",
   "specialty_smaller_hitbox": "Miniatur",
   "specialty_smaller_hitbox_description": "Verringert die Größe deiner Hitbox.",
-  "specialty_locked": "Spezialisierung ist gesperrt."
+  "specialty_locked": "Spezialisierung ist gesperrt.",
+  "ach_collect_coins": "Sammle ## Münzen",
+  "ach_defeat_boss": "Besiege deinen ersten Boss",
+  "ach_survive_1min": "Überlebe für 1 Minute",
+  "ach_survive_mins": "Überlebe für ## Minuten",
+  "ach_kill_dinos": "Erlege ## Dinosaurier",
+  "ach_reach_score": "Erreiche ## Punkte"
 }

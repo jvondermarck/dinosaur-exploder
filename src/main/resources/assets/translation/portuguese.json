@@ -63,5 +63,11 @@
   "specialty_more_bombs_description": "Aumenta o número máximo de bombas carregadas.",
   "specialty_smaller_hitbox": "Miniatura",
   "specialty_smaller_hitbox_description": "Diminui o tamanho da sua hitbox.",
-  "specialty_locked": "A especialidade está bloqueada."
+  "specialty_locked": "A especialidade está bloqueada.",
+  "ach_collect_coins": "Colete ## moedas",
+  "ach_defeat_boss": "Derrote o seu primeiro chefe",
+  "ach_survive_1min": "Sobreviva por 1 minuto",
+  "ach_survive_mins": "Sobreviva por ## minutos",
+  "ach_kill_dinos": "Elimine ## dinossauros",
+  "ach_reach_score": "Alcance ## pontos"
 }

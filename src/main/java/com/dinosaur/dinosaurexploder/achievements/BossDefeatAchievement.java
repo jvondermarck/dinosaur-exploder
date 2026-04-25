@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
 /** Achievement for defeating a boss for the first time. */
 public class BossDefeatAchievement extends Achievement {
@@ -16,7 +17,7 @@ public class BossDefeatAchievement extends Achievement {
 
   @Override
   public String getDescription() {
-    return "Defeat your first boss";
+    return LanguageManager.getInstance().getTranslation("ach_defeat_boss");
   }
 
   @Override

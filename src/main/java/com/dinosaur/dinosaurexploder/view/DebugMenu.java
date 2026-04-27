@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
- package com.dinosaur.dinosaurexploder.view; 
+ package com.dinosaur.dinosaurexploder.view;
 
- import com.dinosaur.dinosaurexploder.components.ScoreComponent;
+ import com.almasb.fxgl.app.scene.FXGLMenu;
+ import com.almasb.fxgl.app.scene.MenuType;
  import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
+ import com.dinosaur.dinosaurexploder.components.ScoreComponent;
  import javafx.geometry.Insets;
  import javafx.geometry.Pos;
  import javafx.scene.control.Button;
@@ -21,16 +23,19 @@
   * Developer-only debug menu for manually overriding game state during testing.
   * This view should never be exposed to players in production builds.
   */
- public class DebugMenuView extends VBox {
+ public class DebugMenu extends FXGLMenu {
  
-     public DebugMenuView(ScoreComponent scoreComponent, CollectedCoinsComponent coinsComponent) {
-         super(12);
-         setPadding(new Insets(16));
-         setAlignment(Pos.TOP_LEFT);
-         setStyle("-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: yellow; -fx-border-width: 2;");
-         setMaxWidth(280);
+     public DebugMenu(ScoreComponent scoreComponent, CollectedCoinsComponent coinsComponent) {
+         super(MenuType.GAME_MENU); // ← FXGLMenu requires a MenuType, not a spacing int
  
-         Label title = new Label("🛠 DEBUG MENU [DEV ONLY]");
+         // Build a VBox to hold all the controls, same layout as before
+         VBox layout = new VBox(12);
+         layout.setPadding(new Insets(16));
+         layout.setAlignment(Pos.TOP_LEFT);
+         layout.setStyle("-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: yellow; -fx-border-width: 2;");
+         layout.setMaxWidth(280);
+ 
+         Label title = new Label("DEBUG MENU [DEV ONLY]");
          title.setTextFill(Color.YELLOW);
          title.setFont(Font.font("System", FontWeight.BOLD, 14));
  
@@ -61,14 +66,17 @@
          coinsField.setPromptText("Enter coin amount...");
          Button setCoinsButton = new Button("Set Coins");
          setCoinsButton.setOnAction(e -> {
-            // TODO: requires CollectedCoinsComponent.setCoin(int) to be added first
+             // TODO: requires CollectedCoinsComponent.setCoin(int) to be added first
          });
  
-         getChildren().addAll(
+         layout.getChildren().addAll(
              title,
              scoreLabel, scoreField, setScoreButton,
              highScoreLabel, highScoreField, setHighScoreButton,
              coinsLabel, coinsField, setCoinsButton
          );
+ 
+         // ← FXGLMenu uses getContentRoot(), not getChildren() directly
+         getContentRoot().getChildren().add(layout);
      }
  }

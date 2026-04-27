@@ -55,6 +55,9 @@ public class DinosaurMenu extends FXGLMenu {
   private final Button startButton = new Button("Start Game".toUpperCase());
   private final Button quitButton = new Button("Quit".toUpperCase());
   private final Button settingsButton = new Button("Options".toUpperCase());
+  // Dev-only debug menu button
+  private final Button debugButton = new Button("Debug Menu".toUpperCase());
+
   private final Label languageLabel = new Label("Select Language:");
 
   public DinosaurMenu() {
@@ -258,6 +261,7 @@ public class DinosaurMenu extends FXGLMenu {
     applyStylesheet(startButton);
     applyStylesheet(quitButton);
     applyStylesheet(settingsButton);
+    applyStylesheet (debugButton); // debug button configured
 
     startButton.setMinSize(140, 60);
     startButton.setTranslateY(420);
@@ -270,6 +274,10 @@ public class DinosaurMenu extends FXGLMenu {
     quitButton.setMinSize(140, 60);
     quitButton.setTranslateY(580);
     quitButton.setOnAction(event -> exit());
+
+    debugButton.setMinSize(140, 60);
+    debugButton.setTranslateY(660);
+    debugButton.setOnAction (event -> FXGL.getSceneService().pushSubScene(new DebugMenu(null, null)));
   }
 
   // ============ HELPER METHODS ============
@@ -321,7 +329,8 @@ public class DinosaurMenu extends FXGLMenu {
             dino,
             creditsBadge,
             mute,
-            volumeControls);
+            volumeControls,
+            debugButton);
   }
 
   private void setupButtonCentering() {
@@ -351,12 +360,21 @@ public class DinosaurMenu extends FXGLMenu {
                 settingsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
               }
             });
+    debugButton
+      .layoutBoundsProperty()
+      .addListener(
+          (obs, oldBounds, newBounds) -> {
+            if (newBounds.getWidth() > 0) {
+              debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+            }
+          });
 
     javafx.application.Platform.runLater(
         () -> {
           startButton.requestLayout();
           quitButton.requestLayout();
           settingsButton.requestLayout();
+          debugButton.requestLayout();
         });
   }
 

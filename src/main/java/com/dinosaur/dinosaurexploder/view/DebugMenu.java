@@ -4,7 +4,9 @@
  */
 
 package com.dinosaur.dinosaurexploder.view;
-
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
+import com.almasb.fxgl.ui.FontType;
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
@@ -19,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * Developer-only debug menu for manually overriding game state during testing. This view should
@@ -26,10 +29,7 @@ import javafx.scene.text.FontWeight;
  */
 public class DebugMenu extends FXGLMenu {
 
-  private Label title;
-  private Label scoreLabel;
-  private Label highScoreLabel;
-  private Label coinsLabel;
+  private Text title;
   TextField scoreField;
   TextField highScoreField;
   TextField coinsField;
@@ -37,6 +37,7 @@ public class DebugMenu extends FXGLMenu {
   private Button setHighScoreButton;
   private Button setCoinsButton;
   private Button backButton;
+  private static final double CONTENT_SPACING = 18;
 
   public DebugMenu(ScoreComponent scoreComponent, CollectedCoinsComponent coinsComponent) {
     super(MenuType.GAME_MENU);
@@ -55,13 +56,10 @@ public class DebugMenu extends FXGLMenu {
         .getChildren()
         .addAll(
             title,
-            scoreLabel,
             scoreField,
             setScoreButton,
-            highScoreLabel,
             highScoreField,
             setHighScoreButton,
-            coinsLabel,
             coinsField,
             setCoinsButton,
             backButton);
@@ -69,28 +67,32 @@ public class DebugMenu extends FXGLMenu {
   }
 
   private VBox createLayout() {
-    VBox layout = new VBox(12);
+    VBox layout = new VBox(CONTENT_SPACING);
     layout.setPadding(new Insets(16));
     layout.setAlignment(Pos.TOP_LEFT);
     layout.setStyle(
-        "-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: yellow; -fx-border-width: 2;");
-    layout.setMaxWidth(280);
+        "-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: lime; -fx-border-width: 2;");
+    layout.setMaxWidth(400);
     return layout;
   }
 
-  private Label createTitle() {
-    title = new Label("DEBUG MENU [DEV ONLY]");
-    title.setTextFill(Color.YELLOW);
-    title.setFont(Font.font("System", FontWeight.BOLD, 14));
+  private Text createTitle() {
+    title =
+    getUIFactoryService()
+            .newText(
+                "DEBUG MENU [DEV-ONLY]",
+                Color.LIME,
+                FontType.MONO,
+                GameConstants.TEXT_SUB_DETAILS);
     return title;
   }
 
   private Button createSetScoreButton() {
-    scoreLabel = new Label("Set Score:");
-    scoreLabel.setTextFill(Color.WHITE);
     scoreField = new TextField();
-    scoreField.setPromptText("Enter score value...");
-    setScoreButton = new Button("Set Score");
+    scoreField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
+    scoreField.setPromptText("ENTER SCORE VALUE...");
+    setScoreButton = getUIFactoryService().newButton("SET SCORE");
+    setScoreButton.setPrefWidth(1500);
     setScoreButton.setOnAction(
         e -> {
           // TODO: wire up to scoreComponent.setScore(int)
@@ -99,11 +101,11 @@ public class DebugMenu extends FXGLMenu {
   }
 
   private Button createSetHighScoreButton() {
-    highScoreLabel = new Label("Set High Score:");
-    highScoreLabel.setTextFill(Color.WHITE);
     highScoreField = new TextField();
-    highScoreField.setPromptText("Enter high score value...");
-    setHighScoreButton = new Button("Set High Score");
+    highScoreField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
+    highScoreField.setPromptText("ENTER HIGH SCORE VALUE...");
+    setHighScoreButton = getUIFactoryService().newButton("SET HIGH SCORE");
+    setHighScoreButton.setPrefWidth(1500);
     setHighScoreButton.setOnAction(
         e -> {
           // TODO: wire up to HighScore.setHigh(...)
@@ -113,11 +115,12 @@ public class DebugMenu extends FXGLMenu {
   }
 
   private Button createSetCoinsButton() {
-    coinsLabel = new Label("Set Coins:");
-    coinsLabel.setTextFill(Color.WHITE);
     coinsField = new TextField();
-    coinsField.setPromptText("Enter coin amount...");
-    setCoinsButton = new Button("Set Coins");
+    coinsField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
+    coinsField.setPromptText("ENTER COIN AMOUNT...");
+    //setCoinsButton = new Button("Set Coins");
+    setCoinsButton = getUIFactoryService().newButton("SET COINS");
+    setCoinsButton.setPrefWidth(1500);
     setCoinsButton.setOnAction(
         e -> {
           // TODO: requires CollectedCoinsComponent.setCoin(int) to be added first

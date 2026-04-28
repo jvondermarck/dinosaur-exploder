@@ -261,7 +261,7 @@ public class DinosaurMenu extends FXGLMenu {
     applyStylesheet(startButton);
     applyStylesheet(quitButton);
     applyStylesheet(settingsButton);
-    applyStylesheet (debugButton); // debug button configured
+    applyStylesheet(debugButton); // debug button configured
 
     startButton.setMinSize(140, 60);
     startButton.setTranslateY(420);
@@ -277,7 +277,8 @@ public class DinosaurMenu extends FXGLMenu {
 
     debugButton.setMinSize(140, 60);
     debugButton.setTranslateY(660);
-    debugButton.setOnAction (event -> FXGL.getSceneService().pushSubScene(new DebugMenu(null, null)));
+    debugButton.setOnAction(
+        event -> FXGL.getSceneService().pushSubScene(new DebugMenu(null, null)));
   }
 
   // ============ HELPER METHODS ============
@@ -361,13 +362,13 @@ public class DinosaurMenu extends FXGLMenu {
               }
             });
     debugButton
-      .layoutBoundsProperty()
-      .addListener(
-          (obs, oldBounds, newBounds) -> {
-            if (newBounds.getWidth() > 0) {
-              debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-            }
-          });
+        .layoutBoundsProperty()
+        .addListener(
+            (obs, oldBounds, newBounds) -> {
+              if (newBounds.getWidth() > 0) {
+                debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+              }
+            });
 
     javafx.application.Platform.runLater(
         () -> {

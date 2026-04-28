@@ -30,8 +30,34 @@ public class AudioControlsComponent {
 
   /** Volume types supported by the audio system. */
   public enum VolumeType {
-    MUSIC, // background music
-    SFX // sound effects
+    MUSIC {
+      @Override
+      double getVolume(Settings settings) {
+        return settings.getVolume();
+      }
+
+      @Override
+      void updateVolume(Settings settings, double volume) {
+        AudioManager.getInstance().setVolume(volume);
+        settings.setVolume(volume);
+      }
+    },
+    SFX {
+      @Override
+      double getVolume(Settings settings) {
+        return settings.getSfxVolume();
+      }
+
+      @Override
+      void updateVolume(Settings settings, double volume) {
+        AudioManager.getInstance().setSfxVolume(volume);
+        settings.setSfxVolume(volume);
+      }
+    };
+
+    abstract double getVolume(Settings settings);
+
+    abstract void updateVolume(Settings settings, double volume);
   }
 
   /**
@@ -76,8 +102,7 @@ public class AudioControlsComponent {
   public static Slider createVolumeSlider(VolumeType type, Settings settings, Double maxWidth) {
     Slider slider = new Slider(SLIDER_MIN, SLIDER_MAX, SLIDER_MAX);
 
-    double initialValue =
-        (type == VolumeType.MUSIC) ? settings.getVolume() : settings.getSfxVolume();
+    double initialValue = type.getVolume(settings);
     slider.adjustValue(initialValue);
     slider.setBlockIncrement(SLIDER_INCREMENT);
 
@@ -103,8 +128,7 @@ public class AudioControlsComponent {
    * @return Label that shows volume percentage
    */
   public static Label createVolumeLabel(Slider slider, VolumeType type, Settings settings) {
-    double initialVolume =
-        (type == VolumeType.MUSIC) ? settings.getVolume() : settings.getSfxVolume();
+    double initialVolume = type.getVolume(settings);
 
     Label label = new Label(String.format(LABEL_FORMAT, initialVolume * 100));
     label.setStyle("-fx-text-fill: #61C181;");
@@ -148,13 +172,7 @@ public class AudioControlsComponent {
             (observable, oldValue, newValue) -> {
               double volume = newValue.doubleValue();
 
-              if (type == VolumeType.MUSIC) {
-                AudioManager.getInstance().setVolume(volume);
-                settings.setVolume(volume);
-              } else {
-                AudioManager.getInstance().setSfxVolume(volume);
-                settings.setSfxVolume(volume);
-              }
+              type.updateVolume(settings, volume);
 
               SettingsProvider.saveSettings(settings);
 

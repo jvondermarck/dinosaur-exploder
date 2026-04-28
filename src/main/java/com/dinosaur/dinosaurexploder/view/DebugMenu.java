@@ -68,7 +68,7 @@ public class DebugMenu extends FXGLMenu {
 
   private VBox createLayout() {
     VBox layout = new VBox(CONTENT_SPACING);
-    layout.setPadding(new Insets(16));
+    layout.setPadding(new Insets(20));
     layout.setAlignment(Pos.TOP_LEFT);
     layout.setStyle(
         "-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: lime; -fx-border-width: 2;");
@@ -118,7 +118,6 @@ public class DebugMenu extends FXGLMenu {
     coinsField = new TextField();
     coinsField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
     coinsField.setPromptText("ENTER COIN AMOUNT...");
-    //setCoinsButton = new Button("Set Coins");
     setCoinsButton = getUIFactoryService().newButton("SET COINS");
     setCoinsButton.setPrefWidth(1500);
     setCoinsButton.setOnAction(

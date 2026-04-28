@@ -46,6 +46,9 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class DinosaurMenu extends FXGLMenu {
+  private static final boolean DEBUG_MENU_ENABLED =
+      Boolean.parseBoolean(System.getProperty("debugMenu", "false"));
+
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
   private final MediaPlayer mainMenuSound;
@@ -319,19 +322,20 @@ public class DinosaurMenu extends FXGLMenu {
       ImageView mute,
       // VBox language,
       VBox volumeControls) {
-    getContentRoot()
-        .getChildren()
-        .addAll(
-            background,
-            title,
-            startButton,
-            quitButton,
-            settingsButton,
-            dino,
-            creditsBadge,
-            mute,
-            volumeControls,
-            debugButton);
+    var children = getContentRoot().getChildren();
+    children.addAll(
+        background,
+        title,
+        startButton,
+        quitButton,
+        settingsButton,
+        dino,
+        creditsBadge,
+        mute,
+        volumeControls);
+    if (DEBUG_MENU_ENABLED) {
+      children.add(debugButton);
+    }
   }
 
   private void setupButtonCentering() {
@@ -375,7 +379,9 @@ public class DinosaurMenu extends FXGLMenu {
           startButton.requestLayout();
           quitButton.requestLayout();
           settingsButton.requestLayout();
-          debugButton.requestLayout();
+          if (DEBUG_MENU_ENABLED) {
+            debugButton.requestLayout();
+          }
         });
   }
 

@@ -19,6 +19,7 @@
         <junit.version>6.0.3</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
+        <debugMenu>false</debugMenu>
         <sonar.projectKey>jvondermarck_dinosaur-exploder</sonar.projectKey>
         <sonar.organization>jvondermarck</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -160,6 +161,9 @@
                     <jlinkImageName>game</jlinkImageName>
                     <jlinkZipName>fxgl-game</jlinkZipName>
                     <mainClass>${mainClassName}</mainClass>
+                    <options>
+                        <option>-DdebugMenu=${debugMenu}</option>
+                    </options>
                 </configuration>
             </plugin>
 
@@ -170,6 +174,9 @@
                 <version>${jpro.version}</version>
                 <configuration>
                     <mainClassName>${mainClassJProName}</mainClassName>
+                    <JVMArgs>
+                        <JVMArg>-DdebugMenu=${debugMenu}</JVMArg>
+                    </JVMArgs>
                 </configuration>
             </plugin>
 

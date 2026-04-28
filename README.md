@@ -143,6 +143,15 @@ mvn jpro:run
 # Open http://localhost:8080
 ```
 
+#### Debug Menu (Developers Only)
+The debug menu is hidden by default. To enable it, pass `-DdebugMenu=true` when running:
+```bash
+mvn javafx:run -DdebugMenu=true
+
+# Or with the browser version:
+mvn jpro:run -DdebugMenu=true
+```
+
 📖 **More details:** [Java Setup Guide](https://github.com/jvondermarck/dinosaur-exploder/wiki/Java-Installation-Guide)
 
 </details>

@@ -80,7 +80,7 @@ public class DebugMenu extends FXGLMenu {
     title =
     getUIFactoryService()
             .newText(
-                "DEBUG MENU [DEV-ONLY]",
+                "DEBUG MENU [DEV ONLY]",
                 Color.LIME,
                 FontType.MONO,
                 GameConstants.TEXT_SUB_DETAILS);

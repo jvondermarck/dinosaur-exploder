@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
 public class ScoreAchievement extends Achievement {
 
@@ -18,7 +19,9 @@ public class ScoreAchievement extends Achievement {
 
   @Override
   public String getDescription() {
-    return "Reach " + targetScore + " points";
+    return LanguageManager.getInstance()
+        .getTranslation("ach_reach_score")
+        .replace("##", String.valueOf(targetScore));
   }
 
   @Override

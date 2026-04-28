@@ -264,12 +264,7 @@ public class DinosaurMenu extends FXGLMenu {
     applyStylesheet(startButton);
     applyStylesheet(quitButton);
     applyStylesheet(settingsButton);
-    if (DEBUG_MENU_ENABLED) {
-      applyStylesheet(debugButton);
-      debugButton.setMinSize(140, 60);
-      debugButton.setTranslateY(660);
-      debugButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new DebugMenu(null, null)));
-    }
+    applyStylesheet(debugButton); // debug button configured
 
     startButton.setMinSize(140, 60);
     startButton.setTranslateY(420);
@@ -282,6 +277,11 @@ public class DinosaurMenu extends FXGLMenu {
     quitButton.setMinSize(140, 60);
     quitButton.setTranslateY(580);
     quitButton.setOnAction(event -> exit());
+
+    debugButton.setMinSize(140, 60);
+    debugButton.setTranslateY(660);
+    debugButton.setOnAction(
+        event -> FXGL.getSceneService().pushSubScene(new DebugMenu(null, null)));
   }
 
   // ============ HELPER METHODS ============
@@ -365,16 +365,14 @@ public class DinosaurMenu extends FXGLMenu {
                 settingsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
               }
             });
-    if (DEBUG_MENU_ENABLED) {
-      debugButton
-          .layoutBoundsProperty()
-          .addListener(
-              (obs, oldBounds, newBounds) -> {
-                if (newBounds.getWidth() > 0) {
-                  debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-                }
-              });
-    }
+    debugButton
+        .layoutBoundsProperty()
+        .addListener(
+            (obs, oldBounds, newBounds) -> {
+              if (newBounds.getWidth() > 0) {
+                debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+              }
+            });
 
     javafx.application.Platform.runLater(
         () -> {

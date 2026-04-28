@@ -65,5 +65,11 @@
     "achievements_empty": "No achievements in this section yet.",
     "achievement_reward": "Reward",
     "achievement_reward_coins": "coins",
-    "time_played": "Time Played"
+    "time_played": "Time Played",
+    "ach_collect_coins": "Collect ## coins",
+    "ach_defeat_boss": "Defeat your first boss",
+    "ach_survive_1min": "Survive for 1 minute",
+    "ach_survive_mins": "Survive for ## minutes",
+    "ach_kill_dinos": "Kill ## dinosaurs",
+    "ach_reach_score": "Reach ## points"
 }

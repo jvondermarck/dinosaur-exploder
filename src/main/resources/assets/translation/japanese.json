@@ -63,5 +63,11 @@
   "specialty_more_bombs_description": "所持できるボムの最大数を増やします。",
   "specialty_smaller_hitbox": "ミニチュア",
   "specialty_smaller_hitbox_description": "ヒットボックスのサイズを小さくします。",
-  "specialty_locked": "スペシャリティはロックされています。"
+  "specialty_locked": "スペシャリティはロックされています。",
+  "ach_collect_coins": "コインを##枚集める",
+  "ach_defeat_boss": "最初のボスを倒す",
+  "ach_survive_1min": "1分間生き残る",
+  "ach_survive_mins": "##分間生き残る",
+  "ach_kill_dinos": "恐竜を##体倒す",
+  "ach_reach_score": "##スコアに到達する"
 }

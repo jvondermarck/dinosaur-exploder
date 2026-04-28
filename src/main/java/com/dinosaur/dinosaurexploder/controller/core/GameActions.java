@@ -5,13 +5,15 @@
 
 package com.dinosaur.dinosaurexploder.controller.core;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.runOnce;
+import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import static javafx.util.Duration.seconds;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.particle.ParticleComponent;
+import com.almasb.fxgl.particle.ParticleEmitter;
+import com.almasb.fxgl.particle.ParticleEmitters;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
@@ -22,6 +24,7 @@ import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import com.dinosaur.dinosaurexploder.view.GameOverDialog;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -44,6 +47,13 @@ public class GameActions {
   private final long sessionStartNanos;
   private boolean gameOverTriggered = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
+  private double emissionRate; // emissionRate is how often the particle of fire will spawn.
+  // If emissionRate = 1, it means particles will spawn every frame, 0,5 every two frame, ect.
+  private final int numParticles; // numParticles is the number of particle that will spawn when
+  // they spawn.
+  private final double emissionRateAugmentation; // How much the emissionRate will increase each
+
+  // time the player lose a life
 
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
@@ -56,6 +66,16 @@ public class GameActions {
     this.life = gameInitializer.getLife();
     this.levelProgressBar = gameInitializer.getLevelProgressBar();
     this.bomb = gameInitializer.getBomb();
+
+    this.numParticles = 4;
+    if (life.getComponent(LifeComponent.class).getLife() == 5) {
+      this.emissionRateAugmentation = 0.1;
+      this.emissionRate = -0.1;
+    } else {
+      this.emissionRateAugmentation = 0.2;
+      this.emissionRate = 0;
+    }
+
     this.sessionStartNanos = System.nanoTime();
   }
 
@@ -95,6 +115,9 @@ public class GameActions {
     getGameScene().addUINode(flash);
     runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
 
+    emissionRate += emissionRateAugmentation;
+    changeFire();
+
     if (lives <= 0) {
       gameOverTriggered = true;
       // Added extra line of code to sync the lives counter after death
@@ -114,6 +137,16 @@ public class GameActions {
       ally.getEntity().removeFromWorld();
       ally = null;
       player.getComponent(PlayerComponent.class).setAlly(ally);
+    }
+  }
+
+  public void healPlayer() {
+    int lives = collisionHandler.getHealPlayerLife(life.getComponent(LifeComponent.class));
+    emissionRate -= emissionRateAugmentation;
+    changeFire();
+
+    if (lives == 3 || lives >= 4) {
+      player.removeComponent(ParticleComponent.class);
     }
   }
 
@@ -255,5 +288,30 @@ public class GameActions {
 
   public void setAllyUse(boolean allyUse) {
     this.isAllyUse = allyUse;
+  }
+
+  public void changeFire() {
+    double minScale = 0.5;
+    double maxScale = 1.5;
+    double minDuration = 0.1;
+    double maxDuration = 0.6;
+    double minEmitterSize = 2;
+    double maxEmitterSize = 4;
+    ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
+    emitter.setMaxEmissions(Integer.MAX_VALUE);
+    emitter.setSize(minEmitterSize, maxEmitterSize);
+    emitter.setStartColor(Color.color(1.0, 0.5, 0.0, 1.0));
+    emitter.setEndColor(Color.color(0.8, 0.1, 0.0, 0.0));
+    emitter.setScaleFunction(
+        i -> new Point2D(random(minScale, maxScale), random(minScale, maxScale)));
+    emitter.setSpawnPointFunction(
+        i -> new Point2D(random(0, player.getWidth()), random(0, player.getHeight())));
+    emitter.setExpireFunction(i -> Duration.seconds(random(minDuration, maxDuration)));
+
+    player.removeComponent(ParticleComponent.class);
+    emitter.setEmissionRate(emissionRate);
+    emitter.setNumParticles(numParticles);
+    ParticleComponent particles = new ParticleComponent(emitter);
+    player.addComponent(particles);
   }
 }

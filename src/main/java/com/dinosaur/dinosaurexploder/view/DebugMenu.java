@@ -56,8 +56,6 @@ public class DebugMenu extends FXGLMenu {
         .getChildren()
         .addAll(
             title,
-            scoreField,
-            setScoreButton,
             highScoreField,
             setHighScoreButton,
             coinsField,
@@ -90,7 +88,7 @@ public class DebugMenu extends FXGLMenu {
   private Button createSetScoreButton() {
     scoreField = new TextField();
     scoreField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
-    scoreField.setPromptText("ENTER SCORE VALUE...");
+    scoreField.setPromptText("ENTER SCORE VALUE");
     setScoreButton = getUIFactoryService().newButton("SET SCORE");
     setScoreButton.setPrefWidth(1500);
     setScoreButton.setOnAction(
@@ -103,7 +101,7 @@ public class DebugMenu extends FXGLMenu {
   private Button createSetHighScoreButton() {
     highScoreField = new TextField();
     highScoreField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
-    highScoreField.setPromptText("ENTER HIGH SCORE VALUE...");
+    highScoreField.setPromptText("ENTER HIGH SCORE VALUE");
     setHighScoreButton = getUIFactoryService().newButton("SET HIGH SCORE");
     setHighScoreButton.setPrefWidth(1500);
     setHighScoreButton.setOnAction(
@@ -117,7 +115,7 @@ public class DebugMenu extends FXGLMenu {
   private Button createSetCoinsButton() {
     coinsField = new TextField();
     coinsField.setFont (Font.font(GameConstants.GAME_FONT_NAME, 20));
-    coinsField.setPromptText("ENTER COIN AMOUNT...");
+    coinsField.setPromptText("ENTER COIN AMOUNT");
     setCoinsButton = getUIFactoryService().newButton("SET COINS");
     setCoinsButton.setPrefWidth(1500);
     setCoinsButton.setOnAction(

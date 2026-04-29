@@ -106,6 +106,12 @@ public class ScoreComponent extends Component implements Score {
     this.score = score;
   }
 
+  public void setHighScore(int value) {
+    GameMode currentMode = GameData.getSelectedDifficulty();
+    highScore.setHigh(currentMode.name(), value);
+    saveHighScore();
+  }
+
   @Override
   public void incrementScore(int increment) {
     score += increment;

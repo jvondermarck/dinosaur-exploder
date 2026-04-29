@@ -107,4 +107,11 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   public int getCoin() {
     return coin;
   }
+
+  public void setCoin(int amount) {
+    coin = amount;
+    totalCoins.setTotal(amount);
+    updateText();
+    saveTotalCoins();
+  }
 }

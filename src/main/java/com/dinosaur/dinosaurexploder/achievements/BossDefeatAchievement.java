@@ -8,6 +8,7 @@ package com.dinosaur.dinosaurexploder.achievements;
 import com.almasb.fxgl.dsl.FXGL;
 
 /** Achievement for defeating a boss for the first time. */
+@RegisterAchievement(reward = 200)
 public class BossDefeatAchievement extends Achievement {
 
   public BossDefeatAchievement(int rewardCoins) {

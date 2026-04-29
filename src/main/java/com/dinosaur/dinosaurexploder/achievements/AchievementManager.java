@@ -7,7 +7,14 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.*;
+import java.lang.reflect.Modifier;
+import java.net.JarURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -18,8 +25,12 @@ public class AchievementManager {
   private final List<Achievement> activeAchievements = new ArrayList<>();
   private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
 
+  /**
+   * Default constructor. Discovers all {@link Achievement} subclasses in this package that carry a
+   * {@link RegisterAchievement} annotation and registers one instance per annotation entry.
+   */
   public AchievementManager() {
-    this(AchievementCatalog.defaults());
+    this(buildCatalogFromAnnotations());
   }
 
   AchievementManager(AchievementCatalog catalog) {
@@ -42,41 +53,30 @@ public class AchievementManager {
     addMissingAchievements();
   }
 
-  public void update(double tpf) {
-    AchievementEvent timeElapsedEvent = AchievementEvent.timeElapsed(tpf);
-    for (Achievement achievement : activeAchievements) {
-      if (!achievement.isCompleted()) {
-        achievement.handleEvent(timeElapsedEvent);
+  /**
+   * Dispatches an event to all active achievements.
+   *
+   * <p>{@link AchievementEventType#TIME_ELAPSED} events are forwarded only to incomplete
+   * achievements and do not trigger a save, avoiding per-frame I/O overhead. All other events are
+   * forwarded to every active achievement and the updated state is persisted immediately.
+   *
+   * @param event the event to dispatch
+   */
+  public void dispatch(AchievementEvent event) {
+    if (event.type() == AchievementEventType.TIME_ELAPSED) {
+      for (Achievement achievement : activeAchievements) {
+        if (!achievement.isCompleted()) {
+          achievement.handleEvent(event);
+        }
       }
+    } else {
+      dispatchAndSave(event);
     }
   }
 
-  /** Called when a dinosaur is killed. Notifies all active kill-based achievements. */
-  public void notifyDinosaurKilled() {
-    dispatchAndSave(AchievementEvent.dinosaurKilled());
-  }
-
-  /**
-   * Called when the player's score changes. Notifies all active score-based achievements.
-   *
-   * @param newScore The current score
-   */
-  public void notifyScoreChanged(int newScore) {
-    dispatchAndSave(AchievementEvent.scoreChanged(newScore));
-  }
-
-  /**
-   * Called when coins are collected. Notifies all active coin-based achievements.
-   *
-   * @param totalCoins The total number of coins collected
-   */
-  public void notifyCoinCollected(int totalCoins) {
-    dispatchAndSave(AchievementEvent.coinCollected(totalCoins));
-  }
-
-  /** Called when a boss is defeated. Notifies all active boss-defeat achievements. */
-  public void notifyBossDefeated() {
-    dispatchAndSave(AchievementEvent.bossDefeated());
+  /** Advances time-based achievements by one frame. */
+  public void update(double tpf) {
+    dispatch(AchievementEvent.timeElapsed(tpf));
   }
 
   private void addMissingAchievements() {
@@ -107,22 +107,31 @@ public class AchievementManager {
     saveAchievement(activeAchievements);
   }
 
+  /** Returns all achievements currently tracked in the active session. */
   public List<Achievement> getActiveAchievements() {
     return activeAchievements;
   }
 
+  /** Returns every achievement registered at startup, regardless of completion status. */
   public List<Achievement> getAllAchievements() {
     return allAchievements;
   }
 
+  /** Returns active achievements that have not yet been completed. */
   public List<Achievement> getPendingAchievements() {
     return activeAchievements.stream().filter(achievement -> !achievement.isCompleted()).toList();
   }
 
+  /** Returns active achievements that have been completed. */
   public List<Achievement> getCompletedAchievements() {
     return activeAchievements.stream().filter(Achievement::isCompleted).toList();
   }
 
+  /**
+   * Returns the first active achievement, or {@code null} if there are none.
+   *
+   * @return the first active achievement, or {@code null}
+   */
   public Achievement getActiveAchievement() {
     if (activeAchievements.isEmpty()) {
       return null;
@@ -149,6 +158,141 @@ public class AchievementManager {
       out.writeObject(listToSave);
     } catch (IOException e) {
       LOGGER.log(Level.WARNING, "Error saving achievement : {0}", e.getMessage());
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Annotation-based auto-registration
+  // ---------------------------------------------------------------------------
+
+  // Finds annotated classes, sorts them for deterministic order, and builds the catalog.
+  @SuppressWarnings("unchecked")
+  private static AchievementCatalog buildCatalogFromAnnotations() {
+    List<Class<? extends Achievement>> classes = findAnnotatedClasses();
+    classes.sort(Comparator.comparing(Class::getSimpleName));
+    return AchievementCatalog.of(buildFactories(classes).toArray(Supplier[]::new));
+  }
+
+  // Converts a sorted list of annotated classes into one factory per @RegisterAchievement entry.
+  private static List<Supplier<Achievement>> buildFactories(
+      List<Class<? extends Achievement>> classes) {
+    List<Supplier<Achievement>> factories = new ArrayList<>();
+    for (Class<? extends Achievement> clazz : classes) {
+      for (RegisterAchievement cfg : clazz.getAnnotationsByType(RegisterAchievement.class)) {
+        factories.add(() -> instantiate(clazz, cfg));
+      }
+    }
+    return factories;
+  }
+
+  // Scans the classpath for concrete Achievement subclasses in this package that carry
+  // @RegisterAchievement. Works with both exploded-directory and fat-JAR layouts.
+  private static List<Class<? extends Achievement>> findAnnotatedClasses() {
+    String packageName = AchievementManager.class.getPackageName();
+    String packagePath = packageName.replace('.', '/');
+    List<Class<? extends Achievement>> result = new ArrayList<>();
+
+    ClassLoader cl = AchievementManager.class.getClassLoader();
+    if (cl == null) {
+      cl = ClassLoader.getSystemClassLoader();
+    }
+
+    try {
+      Enumeration<URL> resources = cl.getResources(packagePath);
+      while (resources.hasMoreElements()) {
+        collectClasses(resources.nextElement(), packageName, cl, result);
+      }
+    } catch (IOException e) {
+      LOGGER.log(Level.WARNING, "Achievement auto-registration scan failed: {0}", e.getMessage());
+    }
+    return result;
+  }
+
+  private static void collectClasses(
+      URL resource, String packageName, ClassLoader cl, List<Class<? extends Achievement>> result) {
+
+    if ("file".equals(resource.getProtocol())) {
+      collectFromDirectory(resource, packageName, cl, result);
+    } else if ("jar".equals(resource.getProtocol())) {
+      collectFromJar(resource, packageName, cl, result);
+    }
+  }
+
+  private static void collectFromDirectory(
+      URL resource, String packageName, ClassLoader cl, List<Class<? extends Achievement>> result) {
+
+    File dir;
+    try {
+      dir = new File(resource.toURI());
+    } catch (URISyntaxException e) {
+      dir = new File(resource.getPath());
+    }
+
+    File[] files =
+        dir.listFiles(
+            f -> f.isFile() && f.getName().endsWith(".class") && !f.getName().contains("$"));
+    if (files == null) {
+      return;
+    }
+
+    for (File file : files) {
+      loadIfAnnotated(packageName + "." + file.getName().replace(".class", ""), cl, result);
+    }
+  }
+
+  private static void collectFromJar(
+      URL resource, String packageName, ClassLoader cl, List<Class<? extends Achievement>> result) {
+
+    String prefix = packageName.replace('.', '/') + "/";
+    try {
+      JarURLConnection conn = (JarURLConnection) resource.openConnection();
+      try (JarFile jar = conn.getJarFile()) {
+        Enumeration<JarEntry> entries = jar.entries();
+        while (entries.hasMoreElements()) {
+          String name = entries.nextElement().getName();
+          if (name.startsWith(prefix) && name.endsWith(".class") && !name.contains("$")) {
+            loadIfAnnotated(name.replace('/', '.').replace(".class", ""), cl, result);
+          }
+        }
+      }
+    } catch (IOException e) {
+      LOGGER.log(
+          Level.WARNING, "Failed to scan JAR {0}: {1}", new Object[] {resource, e.getMessage()});
+    }
+  }
+
+  private static void loadIfAnnotated(
+      String className, ClassLoader cl, List<Class<? extends Achievement>> result) {
+
+    try {
+      Class<?> clazz = Class.forName(className, false, cl);
+      if (Achievement.class.isAssignableFrom(clazz)
+          && !Modifier.isAbstract(clazz.getModifiers())
+          && clazz.getAnnotationsByType(RegisterAchievement.class).length > 0) {
+        result.add(clazz.asSubclass(Achievement.class));
+      }
+    } catch (ClassNotFoundException e) {
+      LOGGER.log(
+          Level.WARNING, "Could not load class {0}: {1}", new Object[] {className, e.getMessage()});
+    }
+  }
+
+  // Tries (int target, int reward) constructor first; falls back to (int reward) for
+  // achievements without a target parameter (e.g. BossDefeatAchievement).
+  private static Achievement instantiate(
+      Class<? extends Achievement> clazz, RegisterAchievement cfg) {
+    try {
+      return clazz
+          .getDeclaredConstructor(int.class, int.class)
+          .newInstance(cfg.target(), cfg.reward());
+    } catch (NoSuchMethodException e) {
+      try {
+        return clazz.getDeclaredConstructor(int.class).newInstance(cfg.reward());
+      } catch (ReflectiveOperationException ex) {
+        throw new IllegalStateException("No suitable constructor on " + clazz.getSimpleName(), ex);
+      }
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException("Failed to create " + clazz.getSimpleName(), e);
     }
   }
 }

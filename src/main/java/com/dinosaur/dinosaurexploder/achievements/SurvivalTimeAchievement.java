@@ -8,6 +8,8 @@ package com.dinosaur.dinosaurexploder.achievements;
 import com.almasb.fxgl.dsl.FXGL;
 
 /** Achievement for surviving a specific amount of time. */
+@RegisterAchievement(target = 1, reward = 50)
+@RegisterAchievement(target = 3, reward = 150)
 public class SurvivalTimeAchievement extends Achievement {
 
   private final double targetSeconds;

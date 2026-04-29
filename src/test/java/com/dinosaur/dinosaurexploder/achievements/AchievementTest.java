@@ -38,32 +38,55 @@ public class AchievementTest {
   }
 
   @Test
-  void shouldRegisterDefaultAchievementsFromCatalog() {
+  void shouldRegisterDefaultAchievementsFromAnnotations() {
+    // 5 annotated classes: 1 + 2 + 3 + 2 + 2 = 10 instances total
     assertEquals(10, achievementManager.getAllAchievements().size());
   }
 
   @Test
-  void addAchievementInAlreadyExistingAchievements() {
-    int numberOfStartAchievement = achievementManager.loadAchievement().size();
+  void annotationsShouldProduceExpectedDescriptions() {
+    List<String> descriptions =
+        achievementManager.getAllAchievements().stream().map(Achievement::getDescription).toList();
 
-    AchievementManager managerWithExtraAchievement =
-        new AchievementManager(
-            AchievementCatalog.defaults().with(() -> new KillCountAchievement(99, 999)));
-
-    managerWithExtraAchievement.init();
-
-    assertEquals(
-        numberOfStartAchievement + 1, managerWithExtraAchievement.loadAchievement().size());
+    assertTrue(descriptions.contains("Kill 10 dinosaurs"));
+    assertTrue(descriptions.contains("Kill 50 dinosaurs"));
+    assertTrue(descriptions.contains("Reach 5000 points"));
+    assertTrue(descriptions.contains("Collect 100 coins"));
+    assertTrue(descriptions.contains("Survive for 1 minute"));
+    assertTrue(descriptions.contains("Defeat your first boss"));
   }
 
   @Test
-  void shouldDispatchEventsThroughSharedEventPath() {
+  void addAchievementInAlreadyExistingAchievements() {
+    // Seed the file with a known 2-achievement catalog
+    AchievementManager baseManager =
+        new AchievementManager(
+            AchievementCatalog.of(
+                () -> new KillCountAchievement(10, 50), () -> new KillCountAchievement(20, 100)));
+    baseManager.saveAchievement(emptyAchievements);
+    baseManager.init();
+    int baseCount = baseManager.loadAchievement().size(); // 2
+
+    // A new manager with the same 2 + 1 extra achievement
+    AchievementManager managerWithExtraAchievement =
+        new AchievementManager(
+            AchievementCatalog.of(
+                () -> new KillCountAchievement(10, 50),
+                () -> new KillCountAchievement(20, 100),
+                () -> new KillCountAchievement(99, 999)));
+    managerWithExtraAchievement.init();
+
+    assertEquals(baseCount + 1, managerWithExtraAchievement.loadAchievement().size());
+  }
+
+  @Test
+  void shouldDispatchEventsThroughBus() {
     AchievementManager singleAchievementManager =
         new AchievementManager(AchievementCatalog.of(() -> new KillCountAchievement(1, 10)));
     singleAchievementManager.saveAchievement(emptyAchievements);
     singleAchievementManager.init();
 
-    singleAchievementManager.notifyDinosaurKilled();
+    singleAchievementManager.dispatch(AchievementEvent.dinosaurKilled());
 
     assertTrue(singleAchievementManager.getActiveAchievement().isCompleted());
   }
@@ -77,7 +100,7 @@ public class AchievementTest {
     singleAchievementManager.saveAchievement(emptyAchievements);
     singleAchievementManager.init();
 
-    singleAchievementManager.notifyDinosaurKilled();
+    singleAchievementManager.dispatch(AchievementEvent.dinosaurKilled());
 
     assertEquals(1, singleAchievementManager.getCompletedAchievements().size());
     assertEquals(1, singleAchievementManager.getPendingAchievements().size());

@@ -236,8 +236,7 @@ public class AchievementManager {
     }
 
     for (File file : files) {
-      loadIfAnnotated(
-          packageName + "." + file.getName().replace(CLASS_EXTENSION, ""), cl, result);
+      loadIfAnnotated(packageName + "." + file.getName().replace(CLASS_EXTENSION, ""), cl, result);
     }
   }
 

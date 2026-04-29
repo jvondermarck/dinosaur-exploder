@@ -230,10 +230,7 @@ public class AchievementManager {
 
     File[] files =
         dir.listFiles(
-            f ->
-                f.isFile()
-                    && f.getName().endsWith(CLASS_EXTENSION)
-                    && !f.getName().contains("$"));
+            f -> f.isFile() && f.getName().endsWith(CLASS_EXTENSION) && !f.getName().contains("$"));
     if (files == null) {
       return;
     }

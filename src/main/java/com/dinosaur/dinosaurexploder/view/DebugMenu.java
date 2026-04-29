@@ -4,11 +4,8 @@
  */
 
 package com.dinosaur.dinosaurexploder.view;
-
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.ui.FontType;
@@ -129,7 +126,7 @@ public class DebugMenu extends FXGLMenu {
             highScoreField.setPromptText(t("debug_high_score_prompt") + value);
           } catch (NumberFormatException ex) {
             highScoreField.clear();
-            highScoreField.setPromptText(t("debug_high_score_prompt_error"));
+            highScoreField.setPromptText(t("number_error"));
           }
         });
     return setHighScoreButton;
@@ -156,7 +153,7 @@ public class DebugMenu extends FXGLMenu {
             coinsField.setPromptText(t("debug_coins_prompt") + value);
           } catch (NumberFormatException ex) {
             coinsField.clear();
-            coinsField.setPromptText(t("debug_high_score_prompt_error"));
+            coinsField.setPromptText(t("number_error"));
           }
         });
     return setCoinsButton;

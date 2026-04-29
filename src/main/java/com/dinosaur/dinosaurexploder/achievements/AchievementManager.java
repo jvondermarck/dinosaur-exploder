@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class AchievementManager {
-
+  private static final String CLASS_EXTENSION = ".class";
   private final List<Achievement> allAchievements;
   private final List<Achievement> activeAchievements = new ArrayList<>();
   private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
@@ -230,13 +230,17 @@ public class AchievementManager {
 
     File[] files =
         dir.listFiles(
-            f -> f.isFile() && f.getName().endsWith(".class") && !f.getName().contains("$"));
+            f ->
+                f.isFile()
+                    && f.getName().endsWith(CLASS_EXTENSION)
+                    && !f.getName().contains("$"));
     if (files == null) {
       return;
     }
 
     for (File file : files) {
-      loadIfAnnotated(packageName + "." + file.getName().replace(".class", ""), cl, result);
+      loadIfAnnotated(
+          packageName + "." + file.getName().replace(CLASS_EXTENSION, ""), cl, result);
     }
   }
 
@@ -250,8 +254,8 @@ public class AchievementManager {
         Enumeration<JarEntry> entries = jar.entries();
         while (entries.hasMoreElements()) {
           String name = entries.nextElement().getName();
-          if (name.startsWith(prefix) && name.endsWith(".class") && !name.contains("$")) {
-            loadIfAnnotated(name.replace('/', '.').replace(".class", ""), cl, result);
+          if (name.startsWith(prefix) && name.endsWith(CLASS_EXTENSION) && !name.contains("$")) {
+            loadIfAnnotated(name.replace('/', '.').replace(CLASS_EXTENSION, ""), cl, result);
           }
         }
       }

@@ -51,7 +51,7 @@ public class DinosaurController {
     collisionRegistry.addCollision(new EnemyProjectilePlayerCollision(gameActions));
     collisionRegistry.addCollision(new PlayerCoinCollision(gameInitializer));
     collisionRegistry.addCollision(new PlayerGreenDinoCollision(gameActions));
-    collisionRegistry.addCollision(new PlayerHeartCollision(gameInitializer));
+    collisionRegistry.addCollision(new PlayerHeartCollision(gameActions));
     collisionRegistry.addCollision(new PlayerOrangeDinoCollision(gameActions));
     collisionRegistry.addCollision(new PlayerRedDinoCollision(gameActions));
     collisionRegistry.addCollision(new ProjectileEnemyProjectileCollision());

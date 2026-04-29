@@ -62,6 +62,10 @@ public class CollisionHandler {
     return lifeComponent.decreaseLife(1);
   }
 
+  public int getHealPlayerLife(LifeComponent lifeComponent) {
+    return lifeComponent.increaseLife(1);
+  }
+
   public void onPlayerGetCoin(
       CollectedCoinsComponent collectedCoinsComponent,
       ScoreComponent scoreComponent,

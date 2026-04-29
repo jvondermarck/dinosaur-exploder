@@ -63,5 +63,11 @@
   "specialty_more_bombs_description": "Αυξάνει τον μέγιστο αριθμό βομβών που μπορείτε να κρατάτε.",
   "specialty_smaller_hitbox": "Μινιατούρα",
   "specialty_smaller_hitbox_description": "Μειώνει το μέγεθος του hitbox σας.",
-  "specialty_locked": "Η Ειδικότητα είναι κλειδωμένη."
+  "specialty_locked": "Η Ειδικότητα είναι κλειδωμένη.",
+  "ach_collect_coins": "Συλλέξτε ## νομίσματα",
+  "ach_defeat_boss": "Νικήστε το πρώτο σας αφεντικό",
+  "ach_survive_1min": "Επιβιώστε για 1 λεπτό",
+  "ach_survive_mins": "Επιβιώστε για ## λεπτά",
+  "ach_kill_dinos": "Εξοντώστε ## δεινόσαυρους",
+  "ach_reach_score": "Φτάστε τους ## πόντους"
 }

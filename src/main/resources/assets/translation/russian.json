@@ -63,5 +63,11 @@
   "specialty_more_bombs_description": "Увеличивает максимальное количество переносимых бомб.",
   "specialty_smaller_hitbox": "Миниатюра",
   "specialty_smaller_hitbox_description": "Уменьшает размер вашего хитбокса.",
-  "specialty_locked": "Специализация заблокирована."
+  "specialty_locked": "Специализация заблокирована.",
+  "ach_collect_coins": "Соберите ## монет",
+  "ach_defeat_boss": "Победите своего первого босса",
+  "ach_survive_1min": "Выживите в течение 1 минуты",
+  "ach_survive_mins": "Выживите в течение ## минут",
+  "ach_kill_dinos": "Убейте ## динозавров",
+  "ach_reach_score": "Наберите ## очков"
 }

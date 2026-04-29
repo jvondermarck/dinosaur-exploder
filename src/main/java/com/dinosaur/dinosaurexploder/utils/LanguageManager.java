@@ -5,6 +5,8 @@
 
 package com.dinosaur.dinosaurexploder.utils;
 
+import static java.util.Map.entry;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -23,28 +25,19 @@ public class LanguageManager {
   public static final String DEFAULT_LANGUAGE = "English";
   private final StringProperty selectedLanguage = new SimpleStringProperty(DEFAULT_LANGUAGE);
   private Map<String, String> translations = new HashMap<>();
-  private static final Map<String, String> NATIVE_LANGUAGE_NAMES =
-      Map.of(
-          DEFAULT_LANGUAGE,
-          DEFAULT_LANGUAGE,
-          "French",
-          "Français",
-          "German",
-          "Deutsch",
-          "Spanish",
-          "Español",
-          "Japanese",
-          "日本語",
-          "Russian",
-          "Русский",
-          "Portuguese",
-          "Português",
-          "Greek",
-          "Ελληνικά",
-          "Bulgarian",
-          "Български",
-          "Italian",
-          "Italiano");
+  private final Map<String, String> nativeLanguageNames =
+      Map.ofEntries(
+          entry("english", DEFAULT_LANGUAGE),
+          entry("french", "Français"),
+          entry("german", "Deutsch"),
+          entry("spanish", "Español"),
+          entry("russian", "Русский"),
+          entry("japanese", "日本語"),
+          entry("chinese", "中文"),
+          entry("italian", "Italiano"),
+          entry("greek", "Ελληνικά"),
+          entry("bulgarian", "Български"),
+          entry("portuguese", "Português"));
 
   private static final String RESOURCE_PATH_SEPARATOR = "/"; // Always forward slash for classpath
   private static final String TRANSLATION_PATH_NO_SLASH = "assets/translation/";
@@ -94,7 +87,7 @@ public class LanguageManager {
   // Returns the language name in the native word (ex. English->English, Spanish->Español). Default
   // returns word in english
   public String getNativeLanguageName(String language) {
-    return NATIVE_LANGUAGE_NAMES.getOrDefault(language, language);
+    return nativeLanguageNames.getOrDefault(language.toLowerCase(), language);
   }
 
   // Check if the application is running inside a JAR
@@ -159,6 +152,7 @@ public class LanguageManager {
       "german",
       "spanish",
       "italian",
+      "chinese",
       "japanese",
       "russian",
       "portuguese",

@@ -63,5 +63,11 @@
   "specialty_more_bombs_description": "Увеличава максималния брой носени бомби.",
   "specialty_smaller_hitbox": "Миниатюра",
   "specialty_smaller_hitbox_description": "Намалява размера на вашето поле за попадение (hitbox).",
-  "specialty_locked": "Специализацията е заключена."
+  "specialty_locked": "Специализацията е заключена.",
+  "ach_collect_coins": "Съберете ## монети",
+  "ach_defeat_boss": "Победете първия си бос",
+  "ach_survive_1min": "Оцелейте за 1 минута",
+  "ach_survive_mins": "Оцелейте за ## минути",
+  "ach_kill_dinos": "Убийте ## динозавъра",
+  "ach_reach_score": "Достигнете ## точки"
 }

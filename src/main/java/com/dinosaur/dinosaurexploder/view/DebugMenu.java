@@ -50,8 +50,8 @@ public class DebugMenu extends FXGLMenu {
   private static final double CONTENT_SPACING = 18;
   private static final double BASE_WIDTH = 800.0;
   private static final double MENU_WIDTH_RATIO = 0.75;
-  private static final double MAX_MENU_WIDTH = 520;
-  private static final double MIN_MENU_WIDTH = 320;
+  private static final double MAX_MENU_WIDTH = 720;
+  private static final double MIN_MENU_WIDTH = 500;
   private static final Logger logger = Logger.getLogger(DebugMenu.class.getName());
 
   // Helper funtion for translating into other languages 
@@ -64,7 +64,7 @@ public class DebugMenu extends FXGLMenu {
   }
 
   private double scale() {
-    return Math.max(0.75, Math.min(getAppWidth() / BASE_WIDTH, 1.15));
+    return Math.max(1, Math.min(getAppWidth() / BASE_WIDTH, 1.15));
   }
 
   public DebugMenu() {
@@ -113,6 +113,7 @@ public class DebugMenu extends FXGLMenu {
    */
   private Button createSetHighScoreButton() {
     highScoreField = new TextField();
+    highScoreField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
     highScoreField.setPromptText(t("debug_high_score_prompt"));
     setHighScoreButton = getUIFactoryService().newButton(t("debug_set_high_score"));
     setHighScoreButton.setPrefWidth(menuWidth() - 40);

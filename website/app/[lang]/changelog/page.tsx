@@ -4,6 +4,7 @@
  */
 
 import type { Metadata } from "next";
+import ReleaseBody from "@/components/changelog/ReleaseBody";
 
 type Release = {
   id: number;
@@ -60,7 +61,7 @@ export default async function ChangelogPage() {
               key={release.id}
               className="bg-white/80 dark:bg-neutral-800/80 rounded-xl border border-green-200 dark:border-green-500/40 p-5 shadow-sm"
             >
-              <div className="flex flex-wrap items-center gap-3 mb-3">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
                 <a
                   href={release.html_url}
                   target="_blank"
@@ -83,9 +84,7 @@ export default async function ChangelogPage() {
                 </span>
               </div>
               {release.body ? (
-                <pre className="font-mono text-sm text-green-950 dark:text-green-100 whitespace-pre-wrap leading-relaxed">
-                  {release.body}
-                </pre>
+                <ReleaseBody body={release.body} />
               ) : (
                 <p className="font-mono text-sm text-green-950 dark:text-green-300 opacity-60 italic">
                   No description provided.

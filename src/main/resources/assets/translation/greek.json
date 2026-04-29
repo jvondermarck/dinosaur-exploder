@@ -75,6 +75,7 @@
   "debug_menu_button": "Μενού αποσφαλμάτωσης",
   "debug_set_coins": "Ορισμός νομισμάτων",
   "debug_set_high_score": "Ορισμός μέγιστου σκορ",
+  "debug_set_high_score_error": "ΜΗ ΕΓΚΥΡΟ — ΕΙΣΑΓΕΤΕ ΑΡΙΘΜΟ",
   "debug_set_score": "Ορισμός σκορ",
   "debug_coins_prompt": "Εισάγετε αριθμό νομισμάτων",
   "debug_high_score_prompt": "Εισάγετε μέγιστο σκορ",

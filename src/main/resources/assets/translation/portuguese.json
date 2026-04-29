@@ -75,6 +75,7 @@
   "debug_menu_button": "Menu de depuração",
   "debug_set_coins": "Definir moedas",
   "debug_set_high_score": "Definir recorde",
+  "debug_set_high_score_error": "INVÁLIDO — INSIRA UM NÚMERO",
   "debug_set_score": "Definir pontuação",
   "debug_coins_prompt": "Digite a quantidade de moedas",
   "debug_high_score_prompt": "Digite o recorde",

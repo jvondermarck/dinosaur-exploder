@@ -75,6 +75,7 @@
   "debug_menu_button": "デバッグメニュー",
   "debug_set_coins": "コインを設定",
   "debug_set_high_score": "ハイスコアを設定",
+  "debug_set_high_score_error": "無効 — 数値を入力してください",
   "debug_set_score": "スコアを設定",
   "debug_coins_prompt": "コイン数を入力",
   "debug_high_score_prompt": "ハイスコアを入力",

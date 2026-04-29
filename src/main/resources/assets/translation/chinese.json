@@ -76,6 +76,7 @@
     "debug_menu_button": "调试菜单",
     "debug_set_coins": "设置金币",
     "debug_set_high_score": "设置最高分",
+    "debug_set_high_score_error": "无效 — 请输入数字",
     "debug_set_score": "设置分数",
     "debug_coins_prompt": "输入金币数量",
     "debug_high_score_prompt": "输入最高分数",

@@ -75,6 +75,7 @@
     "debug_menu_button": "Menu de débogage",
     "debug_set_coins": "Définir les pièces",
     "debug_set_high_score": "Définir le meilleur score",
+    "debug_set_high_score_error": "INVALIDE — ENTREZ UN NOMBRE",
     "debug_set_score": "Définir le score",
     "debug_coins_prompt": "Entrez le nombre de pièces",
     "debug_high_score_prompt": "Entrez le meilleur score",

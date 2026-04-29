@@ -67,7 +67,7 @@ public class DebugMenu extends FXGLMenu {
   private VBox createLayout() {
     VBox layout = new VBox(CONTENT_SPACING);
     layout.setPadding(new Insets(20));
-    layout.setAlignment(Pos.TOP_LEFT);
+    layout.setAlignment(Pos.TOP_CENTER);
     layout.setStyle(
         "-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: lime; -fx-border-width: 2;");
     layout.setMaxWidth(400);

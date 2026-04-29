@@ -7,6 +7,8 @@ package com.dinosaur.dinosaurexploder.view;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.ui.FontType;
@@ -34,6 +36,9 @@ import javafx.scene.text.Text;
  *
  * <p>Enabled by passing -DdebugMenu=true at launch.
  */
+
+
+
 public class DebugMenu extends FXGLMenu {
 
   private Text title;
@@ -43,7 +48,24 @@ public class DebugMenu extends FXGLMenu {
   private Button setCoinsButton;
   private Button backButton;
   private static final double CONTENT_SPACING = 18;
+  private static final double BASE_WIDTH = 800.0;
+  private static final double MENU_WIDTH_RATIO = 0.75;
+  private static final double MAX_MENU_WIDTH = 520;
+  private static final double MIN_MENU_WIDTH = 320;
   private static final Logger logger = Logger.getLogger(DebugMenu.class.getName());
+
+  // Helper funtion for translating into other languages 
+  private String t(String key) {
+    return LanguageManager.getInstance().getTranslation(key);
+  }
+
+  private double menuWidth() {
+  return Math.max(MIN_MENU_WIDTH, Math.min(getAppWidth() * MENU_WIDTH_RATIO, MAX_MENU_WIDTH));
+  }
+
+  private double scale() {
+    return Math.max(0.75, Math.min(getAppWidth() / BASE_WIDTH, 1.15));
+  }
 
   public DebugMenu() {
     super(MenuType.GAME_MENU);
@@ -69,16 +91,20 @@ public class DebugMenu extends FXGLMenu {
     layout.setAlignment(Pos.TOP_LEFT);
     layout.setStyle(
         "-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: lime; -fx-border-width: 2;");
-    layout.setMaxWidth(400);
+    layout.setMaxWidth(menuWidth());
+    layout.setPrefWidth(menuWidth());
+    layout.setScaleX(scale());
+    layout.setScaleY(scale());
     return layout;
   }
 
   private Text createTitle() {
-    title =
-        getUIFactoryService()
-            .newText(
-                "DEBUG MENU [DEV ONLY]", Color.LIME, FontType.MONO, GameConstants.TEXT_SUB_DETAILS);
-    return title;
+  title =
+      getUIFactoryService()
+          .newText(
+              t("debug_menu_title"), Color.LIME, FontType.MONO, GameConstants.TEXT_SUB_DETAILS);
+  title.setWrappingWidth(menuWidth() - 40);
+  return title;
   }
 
   /**
@@ -87,10 +113,10 @@ public class DebugMenu extends FXGLMenu {
    */
   private Button createSetHighScoreButton() {
     highScoreField = new TextField();
-    highScoreField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
-    highScoreField.setPromptText("ENTER HIGH SCORE VALUE");
-    setHighScoreButton = getUIFactoryService().newButton("SET HIGH SCORE");
-    setHighScoreButton.setPrefWidth(1500);
+    highScoreField.setPromptText(t("debug_high_score_prompt"));
+    setHighScoreButton = getUIFactoryService().newButton(t("debug_set_high_score"));
+    setHighScoreButton.setPrefWidth(menuWidth() - 40);
+    setHighScoreButton.setWrapText(true);
     setHighScoreButton.setOnAction(
         e -> {
           try {
@@ -99,10 +125,10 @@ public class DebugMenu extends FXGLMenu {
             hs.setHigh(GameData.getSelectedDifficulty().name(), value);
             saveHighScore(hs);
             highScoreField.clear();
-            highScoreField.setPromptText("HIGH SCORE SET TO " + value);
+            highScoreField.setPromptText(t("debug_high_score_prompt") + value);
           } catch (NumberFormatException ex) {
             highScoreField.clear();
-            highScoreField.setPromptText("INVALID — ENTER A NUMBER");
+            highScoreField.setPromptText(t("debug_high_score_prompt_error"));
           }
         });
     return setHighScoreButton;
@@ -114,9 +140,10 @@ public class DebugMenu extends FXGLMenu {
   private Button createSetCoinsButton() {
     coinsField = new TextField();
     coinsField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
-    coinsField.setPromptText("ENTER COIN AMOUNT");
-    setCoinsButton = getUIFactoryService().newButton("SET COINS");
-    setCoinsButton.setPrefWidth(1500);
+    coinsField.setPromptText(t("debug_coins_prompt"));
+    setCoinsButton = getUIFactoryService().newButton(t("debug_set_coins"));
+    setCoinsButton.setPrefWidth(menuWidth() - 40);
+    setCoinsButton.setWrapText(true);
     setCoinsButton.setOnAction(
         e -> {
           try {
@@ -125,17 +152,17 @@ public class DebugMenu extends FXGLMenu {
             tc.setTotal(value);
             saveTotalCoins(tc);
             coinsField.clear();
-            coinsField.setPromptText("COINS SET TO " + value);
+            coinsField.setPromptText(t("debug_coins_prompt") + value);
           } catch (NumberFormatException ex) {
             coinsField.clear();
-            coinsField.setPromptText("INVALID — ENTER A NUMBER");
+            coinsField.setPromptText(t("debug_high_score_prompt_error"));
           }
         });
     return setCoinsButton;
   }
 
   private Button createBackButton() {
-    backButton = MenuHelper.createStyledButton("Back");
+    backButton = MenuHelper.createStyledButton(t("debug_back"));
     backButton.setOnAction(event -> fireResume());
     return backButton;
   }

@@ -77,9 +77,11 @@
     "debug_menu_button": "Debug Menu",
     "debug_set_coins": "Set Coins",
     "debug_set_high_score": "Set High Score",
+    "debug_set_high_score_error": "INVALID — ENTER A NUMBER",
     "debug_set_score": "Set Score",
     "debug_coins_prompt": "Enter coin amount",
     "debug_high_score_prompt": "Enter high score value",
     "debug_score_prompt": "Enter score value",
     "debug_back": "Back"
+    
 }

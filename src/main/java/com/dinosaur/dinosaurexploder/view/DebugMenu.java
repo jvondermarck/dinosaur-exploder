@@ -129,7 +129,7 @@ public class DebugMenu extends FXGLMenu {
             highScoreField.setPromptText(t("debug_high_score_prompt") + value);
           } catch (NumberFormatException ex) {
             highScoreField.clear();
-            highScoreField.setPromptText(t("prompt_error"));
+            highScoreField.setPromptText(t("debug_high_score_prompt_error"));
           }
         });
     return setHighScoreButton;
@@ -156,7 +156,7 @@ public class DebugMenu extends FXGLMenu {
             coinsField.setPromptText(t("debug_coins_prompt") + value);
           } catch (NumberFormatException ex) {
             coinsField.clear();
-            coinsField.setPromptText(t("prompt_error"));
+            coinsField.setPromptText(t("debug_high_score_prompt_error"));
           }
         });
     return setCoinsButton;

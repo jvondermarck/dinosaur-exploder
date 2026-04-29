@@ -70,11 +70,12 @@
   "ach_survive_mins": "Überlebe für ## Minuten",
   "ach_kill_dinos": "Erlege ## Dinosaurier",
   "ach_reach_score": "Erreiche ## Punkte",
+
   "debug_menu_title": "Debug-Menü (nur für Entwickler)",
   "debug_menu_button": "Debug-Menü",
   "debug_set_coins": "Münzen festlegen",
   "debug_set_high_score": "Höchstpunktzahl festlegen",
-  "prompt_error":"UNGÜLTIG — ZAHL EINGEBEN",
+  "debug_set_high_score_error": "UNGÜLTIG — ZAHL EINGEBEN",
   "debug_set_score": "Punktzahl festlegen",
   "debug_coins_prompt": "Münzanzahl eingeben",
   "debug_high_score_prompt": "Höchstpunktzahl eingeben",

@@ -70,11 +70,12 @@
   "ach_survive_mins": "Выживите в течение ## минут",
   "ach_kill_dinos": "Убейте ## динозавров",
   "ach_reach_score": "Наберите ## очков",
+
   "debug_menu_title": "Меню отладки (только для разработчиков)",
   "debug_menu_button": "Меню отладки",
   "debug_set_coins": "Установить монеты",
   "debug_set_high_score": "Установить максимальный счёт",
-  "prompt_error": "НЕДОПУСТИМО — ВВЕДИТЕ ЧИСЛО",
+  "debug_set_high_score_error": "НЕДОПУСТИМО — ВВЕДИТЕ ЧИСЛО",
   "debug_set_score": "Установить счёт",
   "debug_coins_prompt": "Введите количество монет",
   "debug_high_score_prompt": "Введите максимальный счёт",

@@ -72,11 +72,12 @@
     "ach_survive_mins": "Survive for ## minutes",
     "ach_kill_dinos": "Kill ## dinosaurs",
     "ach_reach_score": "Reach ## points",
+    
     "debug_menu_title": "Debug Menu (Developers Only)",
     "debug_menu_button": "Debug Menu",
     "debug_set_coins": "Set Coins",
     "debug_set_high_score": "Set High Score",
-    "prompt_error": "INVALID — ENTER A NUMBER",
+    "debug_set_high_score_error": "INVALID — ENTER A NUMBER",
     "debug_set_score": "Set Score",
     "debug_coins_prompt": "Enter coin amount",
     "debug_high_score_prompt": "Enter high score value",

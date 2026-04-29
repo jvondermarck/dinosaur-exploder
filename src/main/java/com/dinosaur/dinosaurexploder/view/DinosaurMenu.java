@@ -280,8 +280,7 @@ public class DinosaurMenu extends FXGLMenu {
 
     debugButton.setMinSize(140, 60);
     debugButton.setTranslateY(660);
-    debugButton.setOnAction(
-        event -> FXGL.getSceneService().pushSubScene(new DebugMenu(null, null)));
+    debugButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new DebugMenu()));
   }
 
   // ============ HELPER METHODS ============

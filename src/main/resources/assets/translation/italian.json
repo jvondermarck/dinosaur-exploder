@@ -62,5 +62,15 @@
   "ach_survive_1min": "Sopravvivi per 1 minuto",
   "ach_survive_mins": "Sopravvivi per ## minuti",
   "ach_kill_dinos": "Uccidi ## dinosauri",
-  "ach_reach_score": "Raggiungi ## punti"
+  "ach_reach_score": "Raggiungi ## punti",
+
+  "debug_menu_title": "Menu di debug (solo per sviluppatori)",
+  "debug_menu_button": "Menu di debug",
+  "debug_set_coins": "Imposta monete",
+  "debug_set_high_score": "Imposta record",
+  "debug_set_score": "Imposta punteggio",
+  "debug_coins_prompt": "Inserisci il numero di monete",
+  "debug_high_score_prompt": "Inserisci il record",
+  "debug_score_prompt": "Inserisci il punteggio",
+  "debug_back": "Indietro"
 }

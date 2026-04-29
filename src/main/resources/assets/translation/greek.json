@@ -69,5 +69,15 @@
   "ach_survive_1min": "Επιβιώστε για 1 λεπτό",
   "ach_survive_mins": "Επιβιώστε για ## λεπτά",
   "ach_kill_dinos": "Εξοντώστε ## δεινόσαυρους",
-  "ach_reach_score": "Φτάστε τους ## πόντους"
+  "ach_reach_score": "Φτάστε τους ## πόντους",
+
+  "debug_menu_title": "Μενού αποσφαλμάτωσης (μόνο για προγραμματιστές)",
+  "debug_menu_button": "Μενού αποσφαλμάτωσης",
+  "debug_set_coins": "Ορισμός νομισμάτων",
+  "debug_set_high_score": "Ορισμός μέγιστου σκορ",
+  "debug_set_score": "Ορισμός σκορ",
+  "debug_coins_prompt": "Εισάγετε αριθμό νομισμάτων",
+  "debug_high_score_prompt": "Εισάγετε μέγιστο σκορ",
+  "debug_score_prompt": "Εισάγετε σκορ",
+  "debug_back": "Πίσω"
 }

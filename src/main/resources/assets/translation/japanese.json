@@ -69,5 +69,15 @@
   "ach_survive_1min": "1分間生き残る",
   "ach_survive_mins": "##分間生き残る",
   "ach_kill_dinos": "恐竜を##体倒す",
-  "ach_reach_score": "##スコアに到達する"
+  "ach_reach_score": "##スコアに到達する",
+
+  "debug_menu_title": "デバッグメニュー（開発者専用）",
+  "debug_menu_button": "デバッグメニュー",
+  "debug_set_coins": "コインを設定",
+  "debug_set_high_score": "ハイスコアを設定",
+  "debug_set_score": "スコアを設定",
+  "debug_coins_prompt": "コイン数を入力",
+  "debug_high_score_prompt": "ハイスコアを入力",
+  "debug_score_prompt": "スコアを入力",
+  "debug_back": "戻る"
 }

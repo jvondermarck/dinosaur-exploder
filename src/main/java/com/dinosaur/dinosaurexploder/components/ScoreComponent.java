@@ -106,6 +106,12 @@ public class ScoreComponent extends Component implements Score {
     this.score = score;
   }
 
+  /**
+   * Overrides the saved high score for the current difficulty mode. Persists the new value to disk
+   * immediately.
+   *
+   * @param value the new high score to set
+   */
   public void setHighScore(int value) {
     GameMode currentMode = GameData.getSelectedDifficulty();
     highScore.setHigh(currentMode.name(), value);

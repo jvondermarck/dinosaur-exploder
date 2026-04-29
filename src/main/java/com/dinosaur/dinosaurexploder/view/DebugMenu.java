@@ -28,8 +28,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- * Developer-only debug menu for manually overriding game state during testing. This view should
- * never be exposed to players in production builds.
+ * Developer-only debug menu for manually overriding game state during testing. Provides controls to
+ * set high score and total coins directly via save files. This view should never be exposed to
+ * players in production builds.
+ *
+ * <p>Enabled by passing -DdebugMenu=true at launch.
  */
 public class DebugMenu extends FXGLMenu {
 
@@ -78,6 +81,10 @@ public class DebugMenu extends FXGLMenu {
     return title;
   }
 
+  /**
+   * Creates the high score input field and button. Reads and overwrites the high score save file
+   * for the current difficulty mode.
+   */
   private Button createSetHighScoreButton() {
     highScoreField = new TextField();
     highScoreField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
@@ -101,6 +108,9 @@ public class DebugMenu extends FXGLMenu {
     return setHighScoreButton;
   }
 
+  /**
+   * Creates the coin amount input field and button. Reads and overwrites the total coins save file.
+   */
   private Button createSetCoinsButton() {
     coinsField = new TextField();
     coinsField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
@@ -130,6 +140,7 @@ public class DebugMenu extends FXGLMenu {
     return backButton;
   }
 
+  /** Loads the high score from the save file. */
   private HighScore loadHighScore() {
     try (ObjectInputStream in =
         new ObjectInputStream(new FileInputStream(GameConstants.HIGH_SCORE_FILE))) {
@@ -139,6 +150,7 @@ public class DebugMenu extends FXGLMenu {
     }
   }
 
+  /** Persists the given HighScore object to disk. */
   private void saveHighScore(HighScore hs) {
     try (ObjectOutputStream out =
         new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {

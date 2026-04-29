@@ -7,20 +7,24 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.*;
-import java.lang.reflect.Modifier;
-import java.net.JarURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class AchievementManager {
-  private static final String CLASS_EXTENSION = ".class";
+
+  // Static list of all achievement classes. To add a new achievement, create the annotated class
+  // and add it here.
+  private static final List<Class<? extends Achievement>> ACHIEVEMENT_CLASSES =
+      List.of(
+          BossDefeatAchievement.class,
+          CoinCollectionAchievement.class,
+          KillCountAchievement.class,
+          ScoreAchievement.class,
+          SurvivalTimeAchievement.class);
+
   private final List<Achievement> allAchievements;
   private final List<Achievement> activeAchievements = new ArrayList<>();
   private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
@@ -165,116 +169,16 @@ public class AchievementManager {
   // Annotation-based auto-registration
   // ---------------------------------------------------------------------------
 
-  // Finds annotated classes, sorts them for deterministic order, and builds the catalog.
+  // Reads @RegisterAchievement annotations from ACHIEVEMENT_CLASSES and builds the catalog.
   @SuppressWarnings("unchecked")
   private static AchievementCatalog buildCatalogFromAnnotations() {
-    List<Class<? extends Achievement>> classes = findAnnotatedClasses();
-    classes.sort(Comparator.comparing(Class::getSimpleName));
-    return AchievementCatalog.of(buildFactories(classes).toArray(Supplier[]::new));
-  }
-
-  // Converts a sorted list of annotated classes into one factory per @RegisterAchievement entry.
-  private static List<Supplier<Achievement>> buildFactories(
-      List<Class<? extends Achievement>> classes) {
     List<Supplier<Achievement>> factories = new ArrayList<>();
-    for (Class<? extends Achievement> clazz : classes) {
+    for (Class<? extends Achievement> clazz : ACHIEVEMENT_CLASSES) {
       for (RegisterAchievement cfg : clazz.getAnnotationsByType(RegisterAchievement.class)) {
         factories.add(() -> instantiate(clazz, cfg));
       }
     }
-    return factories;
-  }
-
-  // Scans the classpath for concrete Achievement subclasses in this package that carry
-  // @RegisterAchievement. Works with both exploded-directory and fat-JAR layouts.
-  private static List<Class<? extends Achievement>> findAnnotatedClasses() {
-    String packageName = AchievementManager.class.getPackageName();
-    String packagePath = packageName.replace('.', '/');
-    List<Class<? extends Achievement>> result = new ArrayList<>();
-
-    ClassLoader cl = AchievementManager.class.getClassLoader();
-    if (cl == null) {
-      cl = ClassLoader.getSystemClassLoader();
-    }
-
-    try {
-      Enumeration<URL> resources = cl.getResources(packagePath);
-      while (resources.hasMoreElements()) {
-        collectClasses(resources.nextElement(), packageName, cl, result);
-      }
-    } catch (IOException e) {
-      LOGGER.log(Level.WARNING, "Achievement auto-registration scan failed: {0}", e.getMessage());
-    }
-    return result;
-  }
-
-  private static void collectClasses(
-      URL resource, String packageName, ClassLoader cl, List<Class<? extends Achievement>> result) {
-
-    if ("file".equals(resource.getProtocol())) {
-      collectFromDirectory(resource, packageName, cl, result);
-    } else if ("jar".equals(resource.getProtocol())) {
-      collectFromJar(resource, packageName, cl, result);
-    }
-  }
-
-  private static void collectFromDirectory(
-      URL resource, String packageName, ClassLoader cl, List<Class<? extends Achievement>> result) {
-
-    File dir;
-    try {
-      dir = new File(resource.toURI());
-    } catch (URISyntaxException e) {
-      dir = new File(resource.getPath());
-    }
-
-    File[] files =
-        dir.listFiles(
-            f -> f.isFile() && f.getName().endsWith(CLASS_EXTENSION) && !f.getName().contains("$"));
-    if (files == null) {
-      return;
-    }
-
-    for (File file : files) {
-      loadIfAnnotated(packageName + "." + file.getName().replace(CLASS_EXTENSION, ""), cl, result);
-    }
-  }
-
-  private static void collectFromJar(
-      URL resource, String packageName, ClassLoader cl, List<Class<? extends Achievement>> result) {
-
-    String prefix = packageName.replace('.', '/') + "/";
-    try {
-      JarURLConnection conn = (JarURLConnection) resource.openConnection();
-      try (JarFile jar = conn.getJarFile()) {
-        Enumeration<JarEntry> entries = jar.entries();
-        while (entries.hasMoreElements()) {
-          String name = entries.nextElement().getName();
-          if (name.startsWith(prefix) && name.endsWith(CLASS_EXTENSION) && !name.contains("$")) {
-            loadIfAnnotated(name.replace('/', '.').replace(CLASS_EXTENSION, ""), cl, result);
-          }
-        }
-      }
-    } catch (IOException e) {
-      LOGGER.log(
-          Level.WARNING, "Failed to scan JAR {0}: {1}", new Object[] {resource, e.getMessage()});
-    }
-  }
-
-  private static void loadIfAnnotated(
-      String className, ClassLoader cl, List<Class<? extends Achievement>> result) {
-
-    try {
-      Class<?> clazz = Class.forName(className, false, cl);
-      if (Achievement.class.isAssignableFrom(clazz)
-          && !Modifier.isAbstract(clazz.getModifiers())
-          && clazz.getAnnotationsByType(RegisterAchievement.class).length > 0) {
-        result.add(clazz.asSubclass(Achievement.class));
-      }
-    } catch (ClassNotFoundException e) {
-      LOGGER.log(
-          Level.WARNING, "Could not load class {0}: {1}", new Object[] {className, e.getMessage()});
-    }
+    return AchievementCatalog.of(factories.toArray(Supplier[]::new));
   }
 
   // Tries (int target, int reward) constructor first; falls back to (int reward) for

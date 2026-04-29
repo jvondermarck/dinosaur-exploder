@@ -108,6 +108,72 @@ public class AchievementTest {
     assertFalse(singleAchievementManager.getPendingAchievements().getFirst().isCompleted());
   }
 
+  @Test
+  void shouldCompleteScoreAchievementOnScoreEvent() {
+    AchievementManager mgr =
+        new AchievementManager(AchievementCatalog.of(() -> new ScoreAchievement(100, 10)));
+    mgr.saveAchievement(emptyAchievements);
+    mgr.init();
+
+    mgr.dispatch(AchievementEvent.scoreChanged(50));
+    assertFalse(mgr.getActiveAchievement().isCompleted());
+
+    mgr.dispatch(AchievementEvent.scoreChanged(100));
+    assertTrue(mgr.getActiveAchievement().isCompleted());
+  }
+
+  @Test
+  void shouldCompleteCoinAchievementOnCoinEvent() {
+    AchievementManager mgr =
+        new AchievementManager(AchievementCatalog.of(() -> new CoinCollectionAchievement(50, 10)));
+    mgr.saveAchievement(emptyAchievements);
+    mgr.init();
+
+    mgr.dispatch(AchievementEvent.coinCollected(49));
+    assertFalse(mgr.getActiveAchievement().isCompleted());
+
+    mgr.dispatch(AchievementEvent.coinCollected(50));
+    assertTrue(mgr.getActiveAchievement().isCompleted());
+  }
+
+  @Test
+  void shouldCompleteBossDefeatAchievementOnBossEvent() {
+    AchievementManager mgr =
+        new AchievementManager(AchievementCatalog.of(() -> new BossDefeatAchievement(10)));
+    mgr.saveAchievement(emptyAchievements);
+    mgr.init();
+
+    assertFalse(mgr.getActiveAchievement().isCompleted());
+
+    mgr.dispatch(AchievementEvent.bossDefeated());
+    assertTrue(mgr.getActiveAchievement().isCompleted());
+  }
+
+  @Test
+  void shouldCompleteSurvivalAchievementViaUpdate() {
+    // Target: 1 minute = 60 seconds
+    AchievementManager mgr =
+        new AchievementManager(AchievementCatalog.of(() -> new SurvivalTimeAchievement(1, 10)));
+    mgr.saveAchievement(emptyAchievements);
+    mgr.init();
+
+    mgr.update(30.0);
+    assertFalse(mgr.getActiveAchievement().isCompleted());
+
+    mgr.update(30.0);
+    assertTrue(mgr.getActiveAchievement().isCompleted());
+  }
+
+  @Test
+  void shouldReturnNullWhenNoActiveAchievements() {
+    AchievementManager mgr = new AchievementManager(AchievementCatalog.of());
+    mgr.saveAchievement(emptyAchievements);
+    mgr.init();
+
+    assertNull(mgr.getActiveAchievement());
+    assertTrue(mgr.getActiveAchievements().isEmpty());
+  }
+
   @AfterEach
   void setAchievementBack() {
     achievementManager.saveAchievement(currentAchievement);

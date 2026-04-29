@@ -75,7 +75,7 @@
   "debug_menu_title": "МЕНЮ ЗА РАЗРАБОТЧИЦИ [САМО ЗА РАЗРАБОТЧИЦИ]",
   "debug_set_score": "ЗАДАЙ ТОЧКИ",
   "debug_set_high_score": "ЗАДАЙ МАКСИМАЛЕН РЕЗУЛТАТ",
-  "debug_set_high_score_error": "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО",
+  "prompt_error": "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО",
   "debug_set_coins": "ЗАДАЙ МОНЕТИ",
   "debug_score_prompt": "ВЪВЕДЕТЕ СТОЙНОСТ ЗА ТОЧКИ",
   "debug_high_score_prompt": "ВЪВЕДЕТЕ НАЙ-ВИСОК РЕЗУЛТАТ",

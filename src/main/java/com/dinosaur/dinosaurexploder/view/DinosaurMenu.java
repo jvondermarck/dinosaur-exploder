@@ -59,7 +59,7 @@ public class DinosaurMenu extends FXGLMenu {
   private final Button quitButton = new Button("Quit".toUpperCase());
   private final Button settingsButton = new Button("Options".toUpperCase());
   // Dev-only debug menu button
-  private final Button debugButton = new Button("Debug Menu".toUpperCase());
+  private final Button debugButton = new Button();
 
   private final Label languageLabel = new Label("Select Language:");
 
@@ -398,6 +398,7 @@ public class DinosaurMenu extends FXGLMenu {
     quitButton.setText(languageManager.getTranslation("quit").toUpperCase());
     settingsButton.setText(languageManager.getTranslation("options").toUpperCase());
     languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
+    debugButton.setText(languageManager.getTranslation("debug_menu_button").toUpperCase());
   }
 
   @Override

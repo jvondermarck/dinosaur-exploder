@@ -4,11 +4,8 @@
  */
 
 package com.dinosaur.dinosaurexploder.view;
-
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
-
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.ui.FontType;
@@ -102,7 +99,7 @@ public class DebugMenu extends FXGLMenu {
   title =
       getUIFactoryService()
           .newText(
-              t("debug_menu_title").toUpperCase(), Color.LIME, FontType.MONO, GameConstants.TEXT_SUB_DETAILS);
+              t("debug_menu_title"), Color.LIME, FontType.MONO, GameConstants.TEXT_SUB_DETAILS);
   title.setWrappingWidth(menuWidth() - 40);
   return title;
   }
@@ -114,8 +111,8 @@ public class DebugMenu extends FXGLMenu {
   private Button createSetHighScoreButton() {
     highScoreField = new TextField();
     highScoreField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
-    highScoreField.setPromptText(t("debug_high_score_prompt").toUpperCase());
-    setHighScoreButton = getUIFactoryService().newButton(t("debug_set_high_score").toUpperCase());
+    highScoreField.setPromptText(t("debug_high_score_prompt"));
+    setHighScoreButton = getUIFactoryService().newButton(t("debug_set_high_score"));
     setHighScoreButton.setPrefWidth(menuWidth() - 40);
     setHighScoreButton.setWrapText(true);
     setHighScoreButton.setOnAction(
@@ -126,10 +123,10 @@ public class DebugMenu extends FXGLMenu {
             hs.setHigh(GameData.getSelectedDifficulty().name(), value);
             saveHighScore(hs);
             highScoreField.clear();
-            highScoreField.setPromptText(t("debug_high_score_prompt").toUpperCase() + value);
+            highScoreField.setPromptText(t("debug_high_score_prompt") + value);
           } catch (NumberFormatException ex) {
             highScoreField.clear();
-            highScoreField.setPromptText(t("debug_set_high_score_error").toUpperCase());
+            highScoreField.setPromptText(t("number_error"));
           }
         });
     return setHighScoreButton;
@@ -141,8 +138,8 @@ public class DebugMenu extends FXGLMenu {
   private Button createSetCoinsButton() {
     coinsField = new TextField();
     coinsField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
-    coinsField.setPromptText(t("debug_coins_prompt").toUpperCase());
-    setCoinsButton = getUIFactoryService().newButton(t("debug_set_coins").toUpperCase());
+    coinsField.setPromptText(t("debug_coins_prompt"));
+    setCoinsButton = getUIFactoryService().newButton(t("debug_set_coins"));
     setCoinsButton.setPrefWidth(menuWidth() - 40);
     setCoinsButton.setWrapText(true);
     setCoinsButton.setOnAction(
@@ -153,17 +150,17 @@ public class DebugMenu extends FXGLMenu {
             tc.setTotal(value);
             saveTotalCoins(tc);
             coinsField.clear();
-            coinsField.setPromptText(t("debug_coins_prompt").toUpperCase() + value);
+            coinsField.setPromptText(t("debug_coins_prompt") + value);
           } catch (NumberFormatException ex) {
             coinsField.clear();
-            coinsField.setPromptText(t("debug_set_high_score_error").toUpperCase());
+            coinsField.setPromptText(t("number_error"));
           }
         });
     return setCoinsButton;
   }
 
   private Button createBackButton() {
-    backButton = MenuHelper.createStyledButton(t("debug_back").toUpperCase());
+    backButton = MenuHelper.createStyledButton(t("debug_back"));
     backButton.setOnAction(event -> fireResume());
     return backButton;
   }

@@ -107,4 +107,17 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   public int getCoin() {
     return coin;
   }
+
+  /**
+   * Overrides the current session coin count and total saved coins. Persists the new value to disk
+   * immediately.
+   *
+   * @param amount the new coin amount to set
+   */
+  public void setCoin(int amount) {
+    coin = amount;
+    totalCoins.setTotal(amount);
+    updateText();
+    saveTotalCoins();
+  }
 }

@@ -70,5 +70,15 @@
     "ach_survive_1min": "存活 1 分钟",
     "ach_survive_mins": "存活 ## 分钟",
     "ach_kill_dinos": "打败 ## 只恐龙",
-    "ach_reach_score": "达到 ## 分数"
+    "ach_reach_score": "达到 ## 分数",
+    "debug_menu_title": "调试菜单（仅限开发者）",
+    "debug_menu_button": "调试菜单",
+    "debug_set_coins": "设置金币",
+    "debug_set_high_score": "设置最高分",
+    "number_error": "无效 — 请输入数字",
+    "debug_set_score": "设置分数",
+    "debug_coins_prompt": "输入金币数量",
+    "debug_high_score_prompt": "输入最高分数",
+    "debug_score_prompt": "输入分数",
+    "debug_back": "返回"
 }

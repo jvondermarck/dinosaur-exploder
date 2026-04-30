@@ -21,21 +21,25 @@ const COMMIT_STYLES: Record<string, { bg: string; text: string }> = {
 };
 const FALLBACK_STYLE = { bg: "bg-neutral-200 dark:bg-neutral-700/60", text: "text-neutral-600 dark:text-neutral-400" };
 
-// g-flag regexes are reset via lastIndex before each use
 const COMMIT_TYPE_RE    = /^(feat|fix|chore|docs|style|refactor|test|ci|perf|build|revert)(!?)(\([^)]*\))?\s*:/i;
-const PR_URL_RE         = /https:\/\/github\.com\/[^\s/]+\/[^\s/]+\/pull\/(\d+)/g;
-const MENTION_RE        = /@([a-zA-Z0-9-]+)/g;
 const FULL_CHANGELOG_RE = /^\*{0,2}Full Changelog\*{0,2}:\s*(https:\/\/github\.com\/\S+)/i;
+
+const isSafeGitHubUrl = (url: string): boolean =>
+  /^https:\/\/github\.com\//.test(url);
 
 // Splits a text fragment into plain strings and React nodes (PR links, @mentions)
 function parseInline(text: string, prefix: string): ReactNode[] {
+  // New regex instances per call — no shared mutable lastIndex state
+  const PR_URL_RE  = /https:\/\/github\.com\/[^\s/]+\/[^\s/]+\/pull\/(\d+)/g;
+  const MENTION_RE = /@([a-zA-Z0-9-]+)/g;
+
   const hits: Array<{ index: number; end: number; node: ReactNode }> = [];
   let m: RegExpExecArray | null;
 
-  PR_URL_RE.lastIndex = 0;
   while ((m = PR_URL_RE.exec(text)) !== null) {
     const url   = m[0];
     const prNum = m[1];
+    if (!isSafeGitHubUrl(url)) continue;
     hits.push({
       index: m.index,
       end:   m.index + url.length,
@@ -53,16 +57,16 @@ function parseInline(text: string, prefix: string): ReactNode[] {
     });
   }
 
-  MENTION_RE.lastIndex = 0;
   while ((m = MENTION_RE.exec(text)) !== null) {
     const username = m[1];
+    const mentionUrl = `https://github.com/${username}`;
     hits.push({
       index: m.index,
       end:   m.index + m[0].length,
       node: (
         <a
           key={`${prefix}-mention-${m.index}`}
-          href={`https://github.com/${username}`}
+          href={mentionUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-blue-700 dark:text-blue-400 hover:underline"

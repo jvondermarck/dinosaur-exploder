@@ -45,23 +45,10 @@ public class DebugMenu extends FXGLMenu {
   private Button backButton;
   private static final double CONTENT_SPACING = 18;
   private static final double BASE_WIDTH = 800.0;
-  private static final double MENU_WIDTH_RATIO = 0.75;
+  private static final double MENU_WIDTH_RATIO = 0.95;
   private static final double MAX_MENU_WIDTH = 720;
   private static final double MIN_MENU_WIDTH = 500;
   private static final Logger logger = Logger.getLogger(DebugMenu.class.getName());
-
-  // Helper funtion for translating into other languages
-  private String t(String key) {
-    return LanguageManager.getInstance().getTranslation(key);
-  }
-
-  private double menuWidth() {
-    return Math.max(MIN_MENU_WIDTH, Math.min(getAppWidth() * MENU_WIDTH_RATIO, MAX_MENU_WIDTH));
-  }
-
-  private double scale() {
-    return Math.max(1, Math.min(getAppWidth() / BASE_WIDTH, 1.15));
-  }
 
   public DebugMenu() {
     super(MenuType.GAME_MENU);
@@ -79,16 +66,20 @@ public class DebugMenu extends FXGLMenu {
         .getChildren()
         .addAll(title, highScoreField, setHighScoreButton, coinsField, setCoinsButton, backButton);
     getContentRoot().getChildren().add(layout);
+
+    layout.setTranslateX((getAppWidth() - layout.getPrefWidth()) / 2.0);
+    layout.setTranslateY((getAppHeight() - layout.getPrefHeight()) / 2.0);
   }
 
   private VBox createLayout() {
     VBox layout = new VBox(CONTENT_SPACING);
+    layout.setAlignment(Pos.CENTER);
     layout.setPadding(new Insets(20));
-    layout.setAlignment(Pos.TOP_LEFT);
     layout.setStyle(
         "-fx-background-color: rgba(0,0,0,0.85); -fx-border-color: lime; -fx-border-width: 2;");
     layout.setMaxWidth(menuWidth());
     layout.setPrefWidth(menuWidth());
+    layout.setPrefHeight(400.0);
     layout.setScaleX(scale());
     layout.setScaleY(scale());
     return layout;
@@ -102,6 +93,7 @@ public class DebugMenu extends FXGLMenu {
                 Color.LIME,
                 FontType.MONO,
                 GameConstants.TEXT_SUB_DETAILS);
+    title.setStyle("-fx-alignment: center; -fx-text-alignment: center;");
     title.setWrappingWidth(menuWidth() - 40);
     return title;
   }
@@ -115,6 +107,7 @@ public class DebugMenu extends FXGLMenu {
     highScoreField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
     highScoreField.setPromptText(t("debug_high_score_prompt").toUpperCase());
     setHighScoreButton = getUIFactoryService().newButton(t("debug_set_high_score").toUpperCase());
+    setHighScoreButton.setStyle("-fx-alignment: center; -fx-text-alignment: center;");
     setHighScoreButton.setPrefWidth(menuWidth() - 40);
     setHighScoreButton.setWrapText(true);
     setHighScoreButton.setOnAction(
@@ -125,7 +118,7 @@ public class DebugMenu extends FXGLMenu {
             hs.setHigh(GameData.getSelectedDifficulty().name(), value);
             saveHighScore(hs);
             highScoreField.clear();
-            highScoreField.setPromptText(t("debug_high_score_prompt").toUpperCase() + " " + value);
+            highScoreField.setPromptText(t("debug_saved").toUpperCase() + ": " + value);
           } catch (NumberFormatException ex) {
             highScoreField.clear();
             highScoreField.setPromptText(t("number_error").toUpperCase());
@@ -142,6 +135,7 @@ public class DebugMenu extends FXGLMenu {
     coinsField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
     coinsField.setPromptText(t("debug_coins_prompt").toUpperCase());
     setCoinsButton = getUIFactoryService().newButton(t("debug_set_coins").toUpperCase());
+    setCoinsButton.setStyle("-fx-alignment: center; -fx-text-alignment: center;");
     setCoinsButton.setPrefWidth(menuWidth() - 40);
     setCoinsButton.setWrapText(true);
     setCoinsButton.setOnAction(
@@ -152,7 +146,7 @@ public class DebugMenu extends FXGLMenu {
             tc.setTotal(value);
             saveTotalCoins(tc);
             coinsField.clear();
-            coinsField.setPromptText(t("debug_coins_prompt").toUpperCase() + " " + value);
+            coinsField.setPromptText(t("debug_saved").toUpperCase() + ": " + value);
           } catch (NumberFormatException ex) {
             coinsField.clear();
             coinsField.setPromptText(t("number_error").toUpperCase());
@@ -203,5 +197,18 @@ public class DebugMenu extends FXGLMenu {
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Error saving coins: {0}", e.getMessage());
     }
+  }
+
+  // Helper funtion for translating into other languages
+  private String t(String key) {
+    return LanguageManager.getInstance().getTranslation(key);
+  }
+
+  private double menuWidth() {
+    return Math.max(MIN_MENU_WIDTH, Math.min(getAppWidth() * MENU_WIDTH_RATIO, MAX_MENU_WIDTH));
+  }
+
+  private double scale() {
+    return Math.max(1, Math.min(getAppWidth() / BASE_WIDTH, 1.15));
   }
 }

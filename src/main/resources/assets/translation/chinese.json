@@ -79,6 +79,7 @@
     "debug_set_score": "设置分数",
     "debug_coins_prompt": "输入金币数量",
     "debug_high_score_prompt": "输入最高分数",
+    "debug_saved": "更改成功",
     "debug_score_prompt": "输入分数",
     "debug_back": "返回"
 }

@@ -79,6 +79,7 @@
   "debug_set_score": "Punktzahl festlegen",
   "debug_coins_prompt": "Münzanzahl eingeben",
   "debug_high_score_prompt": "Höchstpunktzahl eingeben",
+  "debug_saved":"ÄNDERUNG ERFOLGREICH",
   "debug_score_prompt": "Punktzahl eingeben",
   "debug_back": "Zurück"
 }

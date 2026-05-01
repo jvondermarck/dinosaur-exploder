@@ -81,6 +81,7 @@
     "debug_coins_prompt": "Enter coin amount",
     "debug_high_score_prompt": "Enter high score value",
     "debug_score_prompt": "Enter score value",
+    "debug_saved": "Change successful",
     "debug_back": "Back"
     
 }

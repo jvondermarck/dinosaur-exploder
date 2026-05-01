@@ -78,6 +78,7 @@
   "debug_set_score": "Ορισμός σκορ",
   "debug_coins_prompt": "Εισάγετε αριθμό νομισμάτων",
   "debug_high_score_prompt": "Εισάγετε μέγιστο σκορ",
+  "debug_saved":"Η ΑΛΛΑΓΗ ΕΠΙΤΥΧΗΣ",
   "debug_score_prompt": "Εισάγετε σκορ",
   "debug_back": "Πίσω"
 }

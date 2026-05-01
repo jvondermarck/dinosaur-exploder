@@ -78,6 +78,7 @@
     "debug_set_score": "Définir le score",
     "debug_coins_prompt": "Entrez le nombre de pièces",
     "debug_high_score_prompt": "Entrez le meilleur score",
+    "debug_saved":"MODIFICATION RÉUSSIE",
     "debug_score_prompt": "Entrez le score",
     "debug_back": "Retour"
 }

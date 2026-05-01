@@ -78,6 +78,7 @@
   "debug_set_score": "Установить счёт",
   "debug_coins_prompt": "Введите количество монет",
   "debug_high_score_prompt": "Введите максимальный счёт",
+  "debug_saved":"ИЗМЕНЕНИЕ УСПЕШНО",
   "debug_score_prompt": "Введите счёт",
   "debug_back": "Назад"
 }

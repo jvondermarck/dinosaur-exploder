@@ -79,5 +79,6 @@
   "debug_coins_prompt": "Ingrese la cantidad de monedas",
   "debug_high_score_prompt": "Ingrese la puntuación máxima",
   "debug_score_prompt": "Ingrese el puntaje",
+  "debug_saved":"CAMBIO EXITOSO",
   "debug_back": "Atrás"
 }

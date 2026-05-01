@@ -79,6 +79,7 @@
   "debug_set_score": "スコアを設定",
   "debug_coins_prompt": "コイン数を入力",
   "debug_high_score_prompt": "ハイスコアを入力",
+  "debug_saved":"変更成功",
   "debug_score_prompt": "スコアを入力",
   "debug_back": "戻る"
 }

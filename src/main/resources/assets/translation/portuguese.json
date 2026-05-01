@@ -78,6 +78,7 @@
   "debug_set_score": "Definir pontuação",
   "debug_coins_prompt": "Digite a quantidade de moedas",
   "debug_high_score_prompt": "Digite o recorde",
+  "debug_saved":"ALTERAÇÃO BEM-SUCEDIDA",
   "debug_score_prompt": "Digite a pontuação",
   "debug_back": "Voltar"
 }

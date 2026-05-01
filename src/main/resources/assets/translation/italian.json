@@ -71,6 +71,7 @@
   "debug_set_score": "Imposta punteggio",
   "debug_coins_prompt": "Inserisci il numero di monete",
   "debug_high_score_prompt": "Inserisci il record",
+  "debug_saved":"MODIFICA RIUSCITA",
   "debug_score_prompt": "Inserisci il punteggio",
   "debug_back": "Indietro"
 }

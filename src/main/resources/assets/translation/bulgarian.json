@@ -78,6 +78,7 @@
   "debug_set_coins": "ЗАДАЙ МОНЕТИ",
   "debug_score_prompt": "ВЪВЕДЕТЕ СТОЙНОСТ ЗА ТОЧКИ",
   "debug_high_score_prompt": "ВЪВЕДЕТЕ НАЙ-ВИСОК РЕЗУЛТАТ",
-  "debug_coins_prompt": "ВЪВЕДЕТЕ БРОЙ МОНЕТИ",
-  "debug_invalid_number": "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО"
+  "debug_saved" : "промяната е успешна",
+  "debug_coins_prompt" : "ВЪВЕДЕТЕ БРОЙ МОНЕТИ",
+  "debug_invalid_number" : "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО"
 }

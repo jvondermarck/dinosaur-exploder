@@ -5,6 +5,7 @@
 
 package com.dinosaur.dinosaurexploder.model;
 
+import com.dinosaur.dinosaurexploder.achievements.AchievementEvent;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.interfaces.Asteroids;
@@ -26,7 +27,7 @@ public class CollisionHandler {
       ScoreComponent scoreComponent, LevelProgressBarComponent levelProgressBarComponent) {
     scoreComponent.incrementScore(1);
     levelManager.incrementDefeatedEnemies();
-    achievementManager.notifyDinosaurKilled();
+    achievementManager.dispatch(AchievementEvent.dinosaurKilled());
     levelProgressBarComponent.updateProgress();
     return adjustLevel();
   }
@@ -52,7 +53,7 @@ public class CollisionHandler {
     levelProgressBarComponent.updateProgress();
 
     // Notify achievements when boss is defeated
-    achievementManager.notifyBossDefeated();
+    achievementManager.dispatch(AchievementEvent.bossDefeated());
 
     return adjustLevel();
   }
@@ -78,7 +79,7 @@ public class CollisionHandler {
 
     // Notify achievements about coin collection
     int totalCoins = collectedCoinsComponent.getCoin();
-    achievementManager.notifyCoinCollected(totalCoins);
+    achievementManager.dispatch(AchievementEvent.coinCollected(totalCoins));
   }
 
   public void onPlayerGetHeart(LifeComponent lifeComponent) {

@@ -5,7 +5,7 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
-enum AchievementEventType {
+public enum AchievementEventType {
   DINOSAUR_KILLED,
   SCORE_CHANGED,
   COIN_COLLECTED,

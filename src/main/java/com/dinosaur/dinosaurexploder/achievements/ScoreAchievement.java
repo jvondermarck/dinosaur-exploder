@@ -8,6 +8,8 @@ package com.dinosaur.dinosaurexploder.achievements;
 import com.almasb.fxgl.dsl.FXGL;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
+@RegisterAchievement(target = 5000, reward = 75)
+@RegisterAchievement(target = 10000, reward = 150)
 public class ScoreAchievement extends Achievement {
 
   private final int targetScore;

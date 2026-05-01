@@ -9,6 +9,8 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
 /** Achievement for collecting a specific number of coins. */
+@RegisterAchievement(target = 100, reward = 50)
+@RegisterAchievement(target = 500, reward = 200)
 public class CoinCollectionAchievement extends Achievement {
 
   private final int targetCoins;

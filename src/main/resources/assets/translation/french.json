@@ -69,5 +69,16 @@
     "ach_survive_1min": "Survivez pendant 1 minute",
     "ach_survive_mins": "Survivez pendant ## minutes",
     "ach_kill_dinos": "Tuez ## dinosaures",
-    "ach_reach_score": "Atteignez ## points"
+    "ach_reach_score": "Atteignez ## points",
+    "debug_menu_title": "Menu de débogage (réservé aux développeurs)",
+    "debug_menu_button": "Menu de débogage",
+    "debug_set_coins": "Définir les pièces",
+    "debug_set_high_score": "Définir le meilleur score",
+    "number_error": "INVALIDE — ENTREZ UN NOMBRE",
+    "debug_set_score": "Définir le score",
+    "debug_coins_prompt": "Entrez le nombre de pièces",
+    "debug_high_score_prompt": "Entrez le meilleur score",
+    "debug_saved":"MODIFICATION RÉUSSIE",
+    "debug_score_prompt": "Entrez le score",
+    "debug_back": "Retour"
 }

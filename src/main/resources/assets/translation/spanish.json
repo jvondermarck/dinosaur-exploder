@@ -69,5 +69,16 @@
   "ach_survive_1min": "Sobrevive durante 1 minuto",
   "ach_survive_mins": "Sobrevive durante ## minutos",
   "ach_kill_dinos": "Elimina ## dinosaurios",
-  "ach_reach_score": "Alcanza ## puntos"
+  "ach_reach_score": "Alcanza ## puntos",
+  "debug_menu_title": "Menú de depuración (solo para desarrolladores)",
+  "debug_menu_button": "Menú de depuración",
+  "debug_set_coins": "Establecer monedas",
+  "debug_set_high_score": "Establecer puntuación máxima",
+  "number_error": "INVÁLIDO — INGRESE UN NÚMERO",
+  "debug_set_score": "Establecer puntaje",
+  "debug_coins_prompt": "Ingrese la cantidad de monedas",
+  "debug_high_score_prompt": "Ingrese la puntuación máxima",
+  "debug_score_prompt": "Ingrese el puntaje",
+  "debug_saved":"CAMBIO EXITOSO",
+  "debug_back": "Atrás"
 }

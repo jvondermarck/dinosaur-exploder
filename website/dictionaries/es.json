@@ -22,6 +22,7 @@
     "howGameWorks": "Como funciona el juego",
     "credits": "Creditos",
     "contact": "Contacto",
+    "reviews": "Reseñas",
     "star": "Star",
     "sponsor": "Patrocinar"
   },
@@ -112,5 +113,10 @@
       "title": "Contribuir",
       "description": "Quieres ayudar? Elige un issue en GitHub o contribuye al sitio web en la carpeta /website."
     }
+  },
+
+  "reviews": {
+    "title": "Reseñas",
+    "description": "Dejar una reseña sobre el juego o el sitio web"
   }
 }

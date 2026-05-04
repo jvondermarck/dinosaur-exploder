@@ -21,6 +21,7 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
     { href: "/credits", label: dict.NavBar.credits },
     { href: "/changelog", label: "Changelog" },
     { href: "/contact", label: dict.NavBar.contact },
+    { href: "/reviews", label: dict.NavBar.reviews },
   ];
   const buttonStyle = "px-4 py-2 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex items-center gap-2 text-sm";
 

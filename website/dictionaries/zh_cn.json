@@ -22,6 +22,7 @@
         "howGameWorks": "游戏机制",
         "credits": "特别鸣谢",
         "contact": "联系我们",
+        "reviews": "评论",
         "star": "Star",
         "sponsor": "赞助我们" 
     },
@@ -112,5 +113,10 @@
             "title": "加入我们",
             "description": "想要支持这个项目吗？在GitHub上选择一个Issue，修改/website文件夹中的内容。"
         }
+    },
+
+    "reviews": {
+        "title": "评论",
+        "description": "请对游戏或网站留下评论"
     }
 }

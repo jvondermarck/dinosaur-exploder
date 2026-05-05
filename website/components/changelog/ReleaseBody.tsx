@@ -23,9 +23,44 @@ const FALLBACK_STYLE = { bg: "bg-neutral-200 dark:bg-neutral-700/60", text: "tex
 
 const COMMIT_TYPE_RE    = /^(feat|fix|chore|docs|style|refactor|test|ci|perf|build|revert)(!?)(\([^)]*\))?\s*:/i;
 const FULL_CHANGELOG_RE = /^\*{0,2}Full Changelog\*{0,2}:\s*(https:\/\/github\.com\/\S+)/i;
+const GITHUB_ASSET_RE   = /^https:\/\/github\.com\/user-attachments\/assets\/[a-zA-Z0-9-]+$/;
+const IMAGE_EXT_RE      = /\.(png|jpe?g|gif|webp|svg|bmp|ico)(\?.*)?$/i;
 
 const isSafeGitHubUrl = (url: string): boolean =>
   /^https:\/\/github\.com\//.test(url);
+
+const isImageUrl = (url: string): boolean => IMAGE_EXT_RE.test(url);
+
+// Renders a GitHub user-attachment asset as a <video> or <img> depending on the URL
+function MediaEmbed({ url }: { url: string }) {
+  if (isImageUrl(url)) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={url}
+        alt="Release media"
+        className="rounded-lg max-w-full my-3 border border-green-200 dark:border-green-700/50 shadow-sm"
+      />
+    );
+  }
+  // GitHub user-attachments without extension are video/mp4
+  return (
+    <video
+      controls
+      className="rounded-lg max-w-full my-3 border border-green-200 dark:border-green-700/50 shadow-sm"
+    >
+      <source src={url} type="video/mp4" />
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-green-700 dark:text-green-400 hover:underline"
+      >
+        View video
+      </a>
+    </video>
+  );
+}
 
 // Splits a text fragment into plain strings and React nodes (PR links, @mentions)
 function parseInline(text: string, prefix: string): ReactNode[] {
@@ -179,6 +214,13 @@ export default function ReleaseBody({ body }: { body: string }) {
           </span>
         </li>
       );
+      return;
+    }
+
+    // GitHub user-attachment asset URL → embedded media (video or image)
+    if (GITHUB_ASSET_RE.test(line)) {
+      flushBullets(`pre-media-${i}`);
+      blocks.push(<MediaEmbed key={`media-${i}`} url={line} />);
       return;
     }
 

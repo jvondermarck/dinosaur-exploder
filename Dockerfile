@@ -26,16 +26,19 @@ FROM eclipse-temurin:24-jre
 
 WORKDIR /app
 
-# Copiamos el ZIP generado por JPro desde la etapa de build
-COPY --from=build /app/target/dinosaur-exploder-jpro.zip app.zip
+# Instalamos las dependencias nativas que necesita JavaFX en Linux
+RUN apt-get update && apt-get install -y \
+    unzip \
+    libpango-1.0-0 \
+    libpangoft2-1.0-0 \
+    libfreetype6 \
+    libfontconfig1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Descomprimimos el ZIP
-RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
+COPY --from=build /app/target/dinosaur-exploder-jpro.zip app.zip
 RUN unzip app.zip -d jpro-server && rm app.zip
 
-# JPro corre en el puerto 8080 por defecto
 EXPOSE 8080
 
-# El script de arranque que genera JPro
-# Buscamos el start.sh dentro del directorio descomprimido
 CMD ["bash", "-c", "find /app/jpro-server -name 'start.sh' | head -1 | xargs bash"]

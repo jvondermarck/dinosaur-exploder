@@ -30,6 +30,29 @@ import javafx.util.Duration;
 public class MenuHelper {
   private MenuHelper() {}
 
+  // Cache background image to avoid reloading it on every menu (prevents OutOfMemoryError)
+  private static Image cachedBackgroundImage = null;
+  private static Image cachedLockImage = null;
+
+  private static Image getBackgroundImage() {
+    if (cachedBackgroundImage == null) {
+      InputStream stream =
+          MenuHelper.class.getClassLoader().getResourceAsStream(GameConstants.BACKGROUND_IMAGE_PATH);
+      cachedBackgroundImage = new Image(stream);
+    }
+    return cachedBackgroundImage;
+  }
+
+  private static Image getLockImage() {
+    if (cachedLockImage == null) {
+      cachedLockImage =
+          new Image(
+              Objects.requireNonNull(
+                  MenuHelper.class.getResourceAsStream("/assets/textures/lock.png")));
+    }
+    return cachedLockImage;
+  }
+
   public static void showDialog(String title, String message) {
     LanguageManager lm = LanguageManager.getInstance();
     Button okButton = getUIFactoryService().newButton(lm.getTranslation("ok"));
@@ -81,12 +104,7 @@ public class MenuHelper {
   }
 
   public static ImageView createLockIcon(boolean isLocked) {
-    Image lockImage =
-        new Image(
-            Objects.requireNonNull(
-                MenuHelper.class.getResourceAsStream("/assets/textures/lock.png")));
-
-    ImageView lockIcon = new ImageView(lockImage);
+    ImageView lockIcon = new ImageView(getLockImage());
     lockIcon.setFitWidth(30);
     lockIcon.setFitHeight(30);
     lockIcon.setMouseTransparent(true);
@@ -107,9 +125,7 @@ public class MenuHelper {
   }
 
   public static ImageView createAnimatedBackground(double appWidth, double appHeight) {
-    InputStream stream =
-        MenuHelper.class.getClassLoader().getResourceAsStream(GameConstants.BACKGROUND_IMAGE_PATH);
-    Image image = new Image(stream);
+    Image image = getBackgroundImage();
     ImageView view = new ImageView(image);
     view.setFitHeight(appHeight);
     view.setPreserveRatio(true);

@@ -27,7 +27,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copiamos el ZIP generado por JPro desde la etapa de build
-COPY --from=build /app/target/jpro/*.zip app.zip
+COPY --from=build /app/target/dinosaur-exploder-jpro.zip app.zip
 
 # Descomprimimos el ZIP
 RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*

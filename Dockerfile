@@ -39,4 +39,4 @@ RUN unzip app.zip -d jpro-server && rm app.zip
 
 EXPOSE 8080
 
-CMD ["bash", "-c", "find /app/jpro-server -name 'start.sh' | head -1 | xargs bash"]
+CMD ["bash", "-c", "find /app/jpro-server -name 'start.sh' | head -1 | xargs bash -c 'JAVA_OPTS=\"-Xmx400m -Xms128m\" bash \"$0\"'"]

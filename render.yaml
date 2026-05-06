@@ -2,13 +2,9 @@ services:
   - type: web
     name: dinosaur-exploder
     runtime: docker
-    # Render va a buscar el Dockerfile en la raíz del repo
     dockerfilePath: ./Dockerfile
-    # Puerto donde corre JPro
     port: 8080
-    # Plan gratuito de Render
     plan: free
-    # Variables de entorno necesarias para JPro en Linux sin pantalla
     envVars:
       - key: JAVA_TOOL_OPTIONS
-        value: "-Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Dprism.verbose=true"
+        value: "-Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Xmx400m -Xms128m"

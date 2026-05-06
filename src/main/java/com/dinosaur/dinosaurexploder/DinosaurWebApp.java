@@ -16,6 +16,7 @@ public class DinosaurWebApp extends JProApplication {
   @Override
   public void start(Stage stage) {
     System.setProperty("fxgl.isBrowser", "true");
+    System.setProperty("javafx.media.disable", "true"); // deshabilita media en web
 
     GameApplication app = new DinosaurApp();
     var fxglRoot = GameApplication.embeddedLaunch(app);

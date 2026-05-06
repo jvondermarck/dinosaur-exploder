@@ -41,8 +41,8 @@ public class LifeComponent extends Component implements Life {
 
   @Override
   public void onAdded() {
-    heart = new Image(GameConstants.HEART_IMAGE_PATH);
-    heartLost = new Image(GameConstants.HEART_LOST_IMAGE_PATH);
+    heart = ImageCache.get(GameConstants.HEART_IMAGE_PATH);
+    heartLost = ImageCache.get(GameConstants.HEART_LOST_IMAGE_PATH);
 
     lifeText =
         getUIFactoryService()

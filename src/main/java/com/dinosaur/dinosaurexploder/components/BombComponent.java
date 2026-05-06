@@ -15,6 +15,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Bomb;
 import com.dinosaur.dinosaurexploder.model.GameData;
+import com.dinosaur.dinosaurexploder.utils.ImageCache;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class BombComponent extends Component implements Bomb {
   @Override
   public void onAdded() {
     bombImages = new ArrayList<>();
-    bombImage = new Image(GameConstants.BOMB_IMAGE_PATH);
+    bombImage = ImageCache.get(GameConstants.BOMB_IMAGE_PATH);
     bombText = getUIFactoryService().newText("", Color.ORANGE, GameConstants.TEXT_SIZE_GAME_INFO);
 
     // Listen for language changes
@@ -165,12 +166,12 @@ public class BombComponent extends Component implements Bomb {
    */
   protected void spawnBombBullets(Entity player) {
     Point2D center = player.getCenter();
-    Image projImg = new Image(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
+    Image projImg = ImageCache.get(GameConstants.BASE_PROJECTILE_IMAGE_PATH);
 
     if (selectedShip != 0) {
-      String shipImagePath = "/assets/textures/spaceship" + selectedShip + ".png";
+      String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
       logger.log(Level.INFO, "Selected spaceship: {0}", selectedShip);
-      this.spaceshipImage = new Image(shipImagePath);
+      this.spaceshipImage = ImageCache.get(shipImagePath);
     }
 
     for (int i = -5; i <= 5; i++) {

@@ -58,7 +58,7 @@ public class ScoreComponent extends Component implements Score {
         FXGL.getUIFactoryService().newText("", Color.YELLOW, GameConstants.TEXT_SIZE_GAME_INFO);
 
     ImageView dinoIcon =
-        new ImageView(new Image(GameConstants.GREEN_DINO_IMAGE_PATH, 25, 20, false, false));
+        new ImageView(ImageCache.get(GameConstants.GREEN_DINO_IMAGE_PATH, 25, 20));
 
     HBox scoreBox = new HBox(5, scoreText, dinoIcon);
     scoreBox.setAlignment(Pos.CENTER_LEFT);

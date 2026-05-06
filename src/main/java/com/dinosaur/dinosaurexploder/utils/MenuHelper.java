@@ -10,7 +10,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
-import java.io.InputStream;
 import java.util.Objects;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -31,26 +30,12 @@ public class MenuHelper {
   private MenuHelper() {}
 
   // Cache background image to avoid reloading it on every menu (prevents OutOfMemoryError)
-  private static Image cachedBackgroundImage = null;
-  private static Image cachedLockImage = null;
-
   private static Image getBackgroundImage() {
-    if (cachedBackgroundImage == null) {
-      InputStream stream =
-          MenuHelper.class.getClassLoader().getResourceAsStream(GameConstants.BACKGROUND_IMAGE_PATH);
-      cachedBackgroundImage = new Image(stream);
-    }
-    return cachedBackgroundImage;
+    return ImageCache.get(GameConstants.BACKGROUND_IMAGE_PATH);
   }
 
   private static Image getLockImage() {
-    if (cachedLockImage == null) {
-      cachedLockImage =
-          new Image(
-              Objects.requireNonNull(
-                  MenuHelper.class.getResourceAsStream("/assets/textures/lock.png")));
-    }
-    return cachedLockImage;
+    return ImageCache.get("assets/textures/lock.png");
   }
 
   public static void showDialog(String title, String message) {

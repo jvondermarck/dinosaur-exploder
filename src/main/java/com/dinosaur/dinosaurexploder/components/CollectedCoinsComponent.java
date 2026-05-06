@@ -33,18 +33,27 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
 
   private Text coinText;
   private Node coinUI;
-  private Image coinImage;
+
+  // Cached statically so the image is loaded only once across all coin instances
+  private static Image coinImage = null;
+
+  private static Image getCoinImage() {
+    if (coinImage == null) {
+      InputStream stream =
+          CollectedCoinsComponent.class
+              .getClassLoader()
+              .getResourceAsStream(GameConstants.COIN_IMAGE_PATH);
+      coinImage = new Image(stream, 25, 20, false, false);
+    }
+    return coinImage;
+  }
 
   private Logger logger = Logger.getLogger(getClass().getName());
 
   @Override
   public void onAdded() {
-    loadTotalCoins(); // Deserialize once when the component is added
+    loadTotalCoins();
 
-    // load coin Image once
-    coinImage = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
-
-    // Create UI elements
     coinText =
         getUIFactoryService()
             .newText(
@@ -65,8 +74,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   private Node createCoinUI() {
-
-    ImageView imageView = new ImageView(coinImage);
+    ImageView imageView = new ImageView(getCoinImage());
 
     HBox container = new HBox(5, coinText, imageView);
     container.setAlignment(Pos.CENTER_LEFT);

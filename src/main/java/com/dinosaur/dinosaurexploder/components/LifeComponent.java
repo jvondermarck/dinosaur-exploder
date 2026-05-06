@@ -10,6 +10,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.Life;
+import com.dinosaur.dinosaurexploder.utils.ImageCache;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.util.ArrayList;
 import java.util.List;

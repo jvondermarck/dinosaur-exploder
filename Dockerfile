@@ -22,7 +22,7 @@ RUN mvn jpro:release -DskipTests -q
 # Etapa 2: RUNTIME
 # Imagen más liviana, solo necesita Java para correr
 # ─────────────────────────────────────────────
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:24-jre
 
 WORKDIR /app
 

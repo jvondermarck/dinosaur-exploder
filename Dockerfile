@@ -38,4 +38,4 @@ EXPOSE 8080
 
 # El script de arranque que genera JPro
 # Buscamos el start.sh dentro del directorio descomprimido
-CMD ["sh", "-c", "find /app/jpro-server -name 'start.sh' | head -1 | xargs sh"]
+CMD ["bash", "-c", "find /app/jpro-server -name 'start.sh' | head -1 | xargs bash"]

@@ -39,5 +39,14 @@ RUN unzip app.zip -d jpro-server && rm app.zip
 
 EXPOSE 8080
 
-# Find and run the JPro start.sh, binding to 0.0.0.0 so Render can detect the port
-CMD ["bash", "-c", "START=$(find /app/jpro-server -name 'start.sh' | head -1) && chmod +x \"$START\" && JAVA_OPTS='-Xmx300m -Xms64m -XX:+UseSerialGC -XX:MaxHeapFreeRatio=20 -XX:MinHeapFreeRatio=10 -Dhttp.host=0.0.0.0 -Dhttp.port=8080' bash \"$START\""]
+# Fix vmoptions: add host binding and memory limits, then start
+CMD ["bash", "-c", "\
+  START=$(find /app/jpro-server -name 'start.sh' | head -1) && \
+  VMOPTS=$(find /app/jpro-server -name 'vmoptions' | head -1) && \
+  echo '-Dhttp.host=0.0.0.0' >> \"$VMOPTS\" && \
+  echo '-Xmx300m' >> \"$VMOPTS\" && \
+  echo '-Xms64m' >> \"$VMOPTS\" && \
+  echo '-XX:+UseSerialGC' >> \"$VMOPTS\" && \
+  chmod +x \"$START\" && \
+  bash \"$START\" \
+"]

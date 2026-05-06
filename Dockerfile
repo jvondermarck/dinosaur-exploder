@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6 \
     libfontconfig1 \
     libglib2.0-0 \
-    libasound2 \
+    libasound2t64 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiamos el ZIP generado en la etapa de build

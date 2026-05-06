@@ -396,7 +396,9 @@ public class DinosaurMenu extends FXGLMenu {
   private void toggleMute(ImageView muteIcon, Image muteImg, Image audioOnImg) {
     boolean newMutedState = !AudioManager.getInstance().isMuted();
     AudioManager.getInstance().setMuted(newMutedState);
-    mainMenuSound.setMute(newMutedState);
+    if (mainMenuSound != null) {
+      mainMenuSound.setMute(newMutedState);
+    }
     settings.setMuted(newMutedState);
     muteIcon.setImage(newMutedState ? muteImg : audioOnImg);
     SettingsProvider.saveSettings(settings);
@@ -413,8 +415,10 @@ public class DinosaurMenu extends FXGLMenu {
   @Override
   public void onEnteredFrom(@NotNull Scene prevState) {
     super.onEnteredFrom(prevState);
-    mainMenuSound.setMute(AudioManager.getInstance().isMuted());
-    mainMenuSound.setVolume(AudioManager.getInstance().getVolume());
+    if (mainMenuSound != null) {
+      mainMenuSound.setMute(AudioManager.getInstance().isMuted());
+      mainMenuSound.setVolume(AudioManager.getInstance().getVolume());
+    }
   }
 
   public void exit() {

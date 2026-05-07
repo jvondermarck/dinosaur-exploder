@@ -11,8 +11,8 @@ import java.util.Map;
 import javafx.scene.image.Image;
 
 /**
- * Central image cache to avoid reloading the same images multiple times.
- * Prevents OutOfMemoryError in web (JPro) deployments where images are large PNG files.
+ * Central image cache to avoid reloading the same images multiple times. Prevents OutOfMemoryError
+ * in web (JPro) deployments where images are large PNG files.
  */
 public class ImageCache {
   private ImageCache() {}
@@ -30,8 +30,8 @@ public class ImageCache {
   }
 
   /**
-   * Returns a cached Image with specific dimensions. The key includes dimensions to allow
-   * different sizes of the same image.
+   * Returns a cached Image with specific dimensions. The key includes dimensions to allow different
+   * sizes of the same image.
    */
   public static Image get(String resourcePath, double width, double height) {
     String key = resourcePath + "@" + (int) width + "x" + (int) height;
@@ -66,4 +66,3 @@ public class ImageCache {
     return new Image(stream, width, height, false, false);
   }
 }
-

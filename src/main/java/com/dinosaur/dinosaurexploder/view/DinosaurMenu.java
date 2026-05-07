@@ -88,9 +88,9 @@ public class DinosaurMenu extends FXGLMenu {
   private MediaPlayer createMainMenuSound() {
     try {
       return new MediaPlayer(
-              new Media(
-                      Objects.requireNonNull(getClass().getResource(GameConstants.MAIN_MENU_SOUND))
-                              .toExternalForm()));
+          new Media(
+              Objects.requireNonNull(getClass().getResource(GameConstants.MAIN_MENU_SOUND))
+                  .toExternalForm()));
     } catch (Exception e) {
       System.out.println("[Web] Audio not available in this environment, skipping music.");
       return null;

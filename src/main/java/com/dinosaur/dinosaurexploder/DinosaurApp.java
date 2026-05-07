@@ -29,7 +29,6 @@ public class DinosaurApp extends GameApplication {
     gui.initSettings(settings);
     settings.setAppIcon(GameConstants.GAME_ICON_DINOSAUR);
     settings.setTitle(GameConstants.GAME_NAME);
-
   }
 
   /**

@@ -1,3 +1,11 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.jdt.ls.java.home": "C:\\Users\\Silvia\\.jdks\\openjdk-25.0.1",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-25",
+            "path": "C:\\Users\\Silvia\\.jdks\\openjdk-25.0.1",
+            "default": true
+        }
+    ]
 }

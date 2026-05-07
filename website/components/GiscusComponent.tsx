@@ -4,7 +4,6 @@ import Giscus from "@giscus/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-// Map app language codes to Giscus supported languages
 const languageMap: Record<string, string> = {
   en: "en",
   fr: "fr",
@@ -33,9 +32,9 @@ export default function GiscusComponent({ lang }: { lang: string }) {
     <Giscus
       id="comments"
       repo="jvondermarck/dinosaur-exploder"
-      repoId="462881434"
+      repoId="R_kgDOG5cCmg"
       category="Reviews"
-      categoryId="DIC_kwDOG0hP4s4CfBQO"
+      categoryId="DIC_kwDOG5cCms4C1MYy"
       mapping="pathname"
       reactionsEnabled="1"
       emitMetadata="0"

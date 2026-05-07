@@ -13,7 +13,6 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.controller.DinosaurController;
 import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
-import javafx.application.Platform;
 
 /**
  * Summary : The Factory handles the DinosaurApp,Physics,Settings and Input of all entities in the
@@ -47,19 +46,11 @@ public class DinosaurApp extends GameApplication {
   /** Summary : This method is overriding the superclass method to initialize the game */
   @Override
   protected void initGame() {
-    Runnable init = () -> {
-      FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
-      achievementManager = new AchievementManager();
-      achievementManager.init();
-      FXGL.getWorldProperties().setValue("achievementManager", achievementManager);
-      controller.initGame(achievementManager);
-    };
-
-    if (Platform.isFxApplicationThread()) {
-      init.run();
-    } else {
-      Platform.runLater(init);
-    }
+    FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
+    achievementManager = new AchievementManager();
+    achievementManager.init();
+    FXGL.getWorldProperties().setValue("achievementManager", achievementManager);
+    controller.initGame(achievementManager);
   }
 
   /**

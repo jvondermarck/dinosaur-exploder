@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "DinosaurApp",
+            "request": "launch",
+            "mainClass": "com.dinosaur.dinosaurexploder.DinosaurApp",
+            "projectName": "dinosaur-exploder"
+        },
+        {
+            "type": "java",
+            "name": "DinosaurApp (Maven)",
+            "request": "launch",
+            "mainClass": "com.dinosaur.dinosaurexploder.DinosaurApp",
+            "projectName": "dinosaur-exploder",
+            "preLaunchTask": "maven-compile"
+        }
+    ]
+}

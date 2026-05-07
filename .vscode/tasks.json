@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "maven-compile",
+            "type": "shell",
+            "command": "mvn compile -q",
+            "group": "build",
+            "problemMatcher": "$javac"
+        },
+        {
+            "label": "maven-run",
+            "type": "shell",
+            "command": "mvn javafx:run",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}

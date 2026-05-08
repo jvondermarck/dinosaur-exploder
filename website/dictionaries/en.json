@@ -113,10 +113,5 @@
             "title": "Contribute",
             "description": "Want to help? Pick an issue on GitHub, or contribute to the website in the /website folder."
         }
-    },
-
-    "reviews": {
-        "title": "Reviews",
-        "description": "Leave a review about the game or website"
     }
 }

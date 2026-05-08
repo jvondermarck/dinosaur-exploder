@@ -112,9 +112,6 @@
         "contribute": {
             "title": "Contribuer",
             "description": "Vous voulez aider ? Choisissez un problème sur GitHub ou contribuez au site Web dans le dossier /website."
-        }    },
-
-    "reviews": {
-        "title": "Avis",
-        "description": "Laissez un avis sur le jeu ou le site Web"    }
+        }
+    }
 }

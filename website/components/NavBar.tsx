@@ -43,13 +43,13 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
           {/* Internal links */}
           <div className={`hidden lg:flex  xs:flex-row gap-2 justify-center`}>
             {navItems.map((item) => {
-              const localisedHref = `/${lang}${item.href}`;
-              const isActive = pathname === localisedHref;
+              const href = `/${lang}${item.href}`;
+              const isActive = pathname === href;
 
               return (
                 <Link
                   key={item.href}
-                  href={localisedHref}
+                  href={href}
                   className={
                     "px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex transform " +
                     (isActive

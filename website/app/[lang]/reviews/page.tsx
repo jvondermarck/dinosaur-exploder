@@ -5,7 +5,6 @@
 
 import type { Metadata } from "next";
 import { getDictionary } from "@/getDictionary";
-import { Locale } from "../../../i18n-config";
 import GiscusComponent from "@/components/GiscusComponent";
 import ReviewsStarRating from "@/components/ReviewsStarRating";
 
@@ -14,13 +13,8 @@ export const metadata: Metadata = {
   description: "Community reviews and player feedback for Dinosaur Exploder.",
 };
 
-export default async function ReviewsPage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  const dict = await getDictionary(lang as Locale);
+export default async function ReviewsPage() {
+  const dict = await getDictionary("en");
 
   return (
     <div className="max-w-4xl mx-auto w-full px-4 md:px-8 py-10">
@@ -36,8 +30,7 @@ export default async function ReviewsPage({
         {dict.reviews.description}
       </p>
 
-      <GiscusComponent lang={lang} />
+      <GiscusComponent />
     </div>
   );
 }
-

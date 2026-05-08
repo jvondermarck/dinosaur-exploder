@@ -71,7 +71,7 @@ export default function ReviewsStarRating() {
       title={hasClicked ? "You already voted!" : "Click to rate!"}
     >
       <span className="text-2xl" role="img" aria-label="star">
-        ⭐
+        ❤️
       </span>
       <span className="text-green-800 dark:text-green-200 font-mono font-bold">
         {count}

@@ -4,15 +4,7 @@ import Giscus from "@giscus/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-const languageMap: Record<string, string> = {
-  en: "en",
-  fr: "fr",
-  es: "es",
-  el: "en", // Greek not supported, fallback to English
-  zh_cn: "zh-CN",
-};
-
-export default function GiscusComponent({ lang }: { lang: string }) {
+export default function GiscusComponent() {
   const { theme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -22,7 +14,6 @@ export default function GiscusComponent({ lang }: { lang: string }) {
 
   const currentTheme = theme === "system" ? systemTheme : theme;
   const giscusTheme = currentTheme === "dark" ? "dark" : "light";
-  const giscusLang = languageMap[lang] || "en";
 
   if (!mounted) {
     return <div className="animate-pulse h-96 bg-gray-200 dark:bg-gray-700 rounded"></div>;
@@ -35,12 +26,13 @@ export default function GiscusComponent({ lang }: { lang: string }) {
       repoId="R_kgDOG5cCmg"
       category="Reviews"
       categoryId="DIC_kwDOG5cCms4C1MYy"
-      mapping="pathname"
+      mapping="specific"
+      term="/reviews"
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="top"
       theme={giscusTheme}
-      lang={giscusLang}
+      lang="en"
       loading="lazy"
     />
   );

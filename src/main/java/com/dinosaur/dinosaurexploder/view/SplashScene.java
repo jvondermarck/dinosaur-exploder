@@ -23,61 +23,58 @@ import javafx.util.Duration;
 
 public class SplashScene extends StartupScene {
 
-    public SplashScene(int width, int height) {
-        super(width, height);
+  public SplashScene(int width, int height) {
+    super(width, height);
 
-        Image bgImage = new Image(
-                getClass().getResourceAsStream("/assets/textures/background.png")
-        );
-        ImageView bgView = new ImageView(bgImage);
+    Image bgImage = new Image(getClass().getResourceAsStream("/assets/textures/background.png"));
+    ImageView bgView = new ImageView(bgImage);
 
-        bgView.setViewport(new javafx.geometry.Rectangle2D(200, 0, width, height));
+    bgView.setViewport(new javafx.geometry.Rectangle2D(200, 0, width, height));
 
-        bgView.setFitWidth(width);
-        bgView.setFitHeight(height);
-        bgView.setPreserveRatio(false);
+    bgView.setFitWidth(width);
+    bgView.setFitHeight(height);
+    bgView.setPreserveRatio(false);
 
-        Pane bgPane = new Pane(bgView);
-        bgPane.setPrefSize(width, height);
-        bgPane.setClip(new Rectangle(width, height));
+    Pane bgPane = new Pane(bgView);
+    bgPane.setPrefSize(width, height);
+    bgPane.setClip(new Rectangle(width, height));
 
-        Image dinoImage = new Image(
-                getClass().getResourceAsStream("/assets/textures/dinomenu.png")
-        );
-        ImageView dinoView = new ImageView(dinoImage);
-        dinoView.setFitWidth(width * 0.65);
-        dinoView.setPreserveRatio(true);
-        Font customFont60 = Font.loadFont(
-                getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME),
-                60
-        );
-        Text dinosaurText = new Text("DINOSAUR");
-        dinosaurText.setFont(customFont60 != null ? customFont60 : Font.font("Arial", FontWeight.BOLD, 60));
-        dinosaurText.setFill(Color.LIMEGREEN);
+    Image dinoImage = new Image(getClass().getResourceAsStream("/assets/textures/dinomenu.png"));
+    ImageView dinoView = new ImageView(dinoImage);
+    dinoView.setFitWidth(width * 0.65);
+    dinoView.setPreserveRatio(true);
+    Font customFont60 =
+        Font.loadFont(
+            getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 60);
+    Text dinosaurText = new Text("DINOSAUR");
+    dinosaurText.setFont(
+        customFont60 != null ? customFont60 : Font.font("Arial", FontWeight.BOLD, 60));
+    dinosaurText.setFill(Color.LIMEGREEN);
 
-        Text exploderText = new Text("EXPLODER");
-        exploderText.setFont(customFont60 != null ? customFont60 : Font.font("Arial", FontWeight.BOLD, 60));
-        exploderText.setFill(Color.LIMEGREEN);
+    Text exploderText = new Text("EXPLODER");
+    exploderText.setFont(
+        customFont60 != null ? customFont60 : Font.font("Arial", FontWeight.BOLD, 60));
+    exploderText.setFill(Color.LIMEGREEN);
 
-        VBox textBox = new VBox(4, dinosaurText, exploderText);
-        textBox.setAlignment(Pos.CENTER);
+    VBox textBox = new VBox(4, dinosaurText, exploderText);
+    textBox.setAlignment(Pos.CENTER);
 
-        StackPane root = new StackPane();
-        root.setPrefSize(width, height);
-        root.getChildren().addAll(bgPane, dinoView, textBox);
+    StackPane root = new StackPane();
+    root.setPrefSize(width, height);
+    root.getChildren().addAll(bgPane, dinoView, textBox);
 
-        StackPane.setAlignment(dinoView, Pos.BOTTOM_CENTER);
-        dinoView.setTranslateY(-120);
+    StackPane.setAlignment(dinoView, Pos.BOTTOM_CENTER);
+    dinoView.setTranslateY(-120);
 
-        StackPane.setAlignment(textBox, Pos.TOP_CENTER);
-        textBox.setTranslateY(-240);
+    StackPane.setAlignment(textBox, Pos.TOP_CENTER);
+    textBox.setTranslateY(-240);
 
-        root.setOpacity(0);
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(1.2), root);
-        fadeIn.setFromValue(0);
-        fadeIn.setToValue(1);
-        fadeIn.play();
+    root.setOpacity(0);
+    FadeTransition fadeIn = new FadeTransition(Duration.seconds(1.2), root);
+    fadeIn.setFromValue(0);
+    fadeIn.setToValue(1);
+    fadeIn.play();
 
-        getContentRoot().getChildren().add(root);
-    }
+    getContentRoot().getChildren().add(root);
+  }
 }

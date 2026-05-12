@@ -10,6 +10,8 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import org.jetbrains.annotations.NotNull;
+import com.almasb.fxgl.app.scene.StartupScene;
+import com.almasb.fxgl.app.scene.IntroScene;
 
 public class DinosaurGUI {
   public static final int WIDTH = 550;
@@ -19,10 +21,17 @@ public class DinosaurGUI {
     settings.setWidth(WIDTH);
     settings.setHeight(HEIGHT);
     settings.setMainMenuEnabled(true);
-
-    // Custom main menu
+    settings.setIntroEnabled(true);
+      // Custom main menu
     settings.setSceneFactory(
         new SceneFactory() {
+          public StartupScene newStartup(int width, int height) {
+              return new SplashScene(width, height);
+          }
+
+          public IntroScene newIntro() {
+              return new SplashIntroScene();
+          }
           @NotNull
           @Override
           public FXGLMenu newMainMenu() {
@@ -34,6 +43,8 @@ public class DinosaurGUI {
           public FXGLMenu newGameMenu() {
             return new PauseMenu();
           }
+
+
         });
 
     settings.setVersion(GameConstants.VERSION);

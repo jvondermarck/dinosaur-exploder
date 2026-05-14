@@ -54,7 +54,7 @@ public class PlayerComponent extends Component implements Player {
   private final int selectedWeapon = GameData.getSelectedWeapon();
   String shipImagePath = "assets/textures/spaceship" + selectedShip + ".png";
   String weaponImagePath =
-          "/assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
+      "/assets/textures/projectiles/projectile" + selectedShip + "_" + selectedWeapon + ".png";
   int movementSpeed = 8;
   private boolean isInvincible = false;
   private double weaponHeat = 0.0;
@@ -72,6 +72,7 @@ public class PlayerComponent extends Component implements Player {
   private long blinkStartTime;
   private static final double BLINK_INTERVAL_MS = 100; // Blink every 0.1 seconds
   private static final double TOTAL_BLINK_DURATION_MS = 1500; // Total blink duration 1.5 seconds
+
   // ========== END ADDED ==========
 
   // Default constructor used by the game (will create an FXGL-backed timer)
@@ -96,6 +97,7 @@ public class PlayerComponent extends Component implements Player {
       entity.getViewComponent().setOpacity(1.0);
     }
   }
+
   // ========== END MODIFIED ==========
 
   public boolean isInvincible() {
@@ -104,8 +106,8 @@ public class PlayerComponent extends Component implements Player {
 
   // ========== ADDED: Start blinking animation for invincibility feedback ==========
   /**
-   * Start blinking animation for invincibility visual feedback.
-   * The player ship will flash between transparent and opaque.
+   * Start blinking animation for invincibility visual feedback. The player ship will flash between
+   * transparent and opaque.
    */
   public void startBlinking() {
     // Stop any existing blinking animation
@@ -114,33 +116,33 @@ public class PlayerComponent extends Component implements Player {
     }
 
     blinkStartTime = System.nanoTime();
-    blinkTimer = new AnimationTimer() {
-      @Override
-      public void handle(long now) {
-        long elapsedMs = (now - blinkStartTime) / 1_000_000;
+    blinkTimer =
+        new AnimationTimer() {
+          @Override
+          public void handle(long now) {
+            long elapsedMs = (now - blinkStartTime) / 1_000_000;
 
-        if (elapsedMs >= TOTAL_BLINK_DURATION_MS) {
-          // Blinking finished - note: invincibility may still be active,
-          // but blinking stops after 1.5s to avoid infinite flashing
-          stopBlinking();
-          // Don't reset opacity here - let setInvincible(false) handle it
-          return;
-        }
+            if (elapsedMs >= TOTAL_BLINK_DURATION_MS) {
+              // Blinking finished - note: invincibility may still be active,
+              // but blinking stops after 1.5s to avoid infinite flashing
+              stopBlinking();
+              // Don't reset opacity here - let setInvincible(false) handle it
+              return;
+            }
 
-        // Calculate opacity: blink every BLINK_INTERVAL_MS
-        long cycle = elapsedMs / (long)BLINK_INTERVAL_MS;
-        double opacity = (cycle % 2 == 0) ? 0.4 : 1.0;
-        entity.getViewComponent().setOpacity(opacity);
-      }
-    };
+            // Calculate opacity: blink every BLINK_INTERVAL_MS
+            long cycle = elapsedMs / (long) BLINK_INTERVAL_MS;
+            double opacity = (cycle % 2 == 0) ? 0.4 : 1.0;
+            entity.getViewComponent().setOpacity(opacity);
+          }
+        };
     blinkTimer.start();
   }
+
   // ========== END ADDED ==========
 
   // ========== ADDED: Stop blinking animation ==========
-  /**
-   * Stop the blinking animation and restore full opacity.
-   */
+  /** Stop the blinking animation and restore full opacity. */
   public void stopBlinking() {
     if (blinkTimer != null) {
       blinkTimer.stop();
@@ -148,15 +150,16 @@ public class PlayerComponent extends Component implements Player {
     }
     entity.getViewComponent().setOpacity(1.0);
   }
+
   // ========== END ADDED ==========
 
   @Override
   public void onAdded() {
     shootTimer.capture();
     shipImage =
-            new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + shipImagePath)));
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + shipImagePath)));
     projectileImage =
-            new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
   }
 
   @Override
@@ -199,33 +202,33 @@ public class PlayerComponent extends Component implements Player {
     getEntity().getViewComponent().addChild(shieldVisual);
 
     shieldTimerAction =
-            getGameTimer()
-                    .runAtInterval(
-                            () -> {
-                              shieldTimeLeft -= 0.1;
-                              if (shieldTimeLeft <= 0) {
-                                shieldTimerAction.expire();
-                                shieldActive = false;
-                                setInvincible(false);
-                                if (shieldVisual != null) {
-                                  getEntity().getViewComponent().removeChild(shieldVisual);
-                                  shieldVisual = null;
-                                }
-                                shieldCooldownLeft = shieldCooldown;
-                                shieldCooldownAction =
-                                        getGameTimer()
-                                                .runAtInterval(
-                                                        () -> {
-                                                          shieldCooldownLeft -= 0.1;
-                                                          if (shieldCooldownLeft <= 0) {
-                                                            shieldCooldownAction.expire();
-                                                            shieldCooldownLeft = 0;
-                                                          }
-                                                        },
-                                                        Duration.seconds(0.1));
-                              }
-                            },
-                            Duration.seconds(0.1));
+        getGameTimer()
+            .runAtInterval(
+                () -> {
+                  shieldTimeLeft -= 0.1;
+                  if (shieldTimeLeft <= 0) {
+                    shieldTimerAction.expire();
+                    shieldActive = false;
+                    setInvincible(false);
+                    if (shieldVisual != null) {
+                      getEntity().getViewComponent().removeChild(shieldVisual);
+                      shieldVisual = null;
+                    }
+                    shieldCooldownLeft = shieldCooldown;
+                    shieldCooldownAction =
+                        getGameTimer()
+                            .runAtInterval(
+                                () -> {
+                                  shieldCooldownLeft -= 0.1;
+                                  if (shieldCooldownLeft <= 0) {
+                                    shieldCooldownAction.expire();
+                                    shieldCooldownLeft = 0;
+                                  }
+                                },
+                                Duration.seconds(0.1));
+                  }
+                },
+                Duration.seconds(0.1));
   }
 
   public void moveUp() {
@@ -287,11 +290,9 @@ public class PlayerComponent extends Component implements Player {
     logger.info(() -> String.format("Shoot with selected weapon: %s", selectedWeapon));
 
     spawn(
-            "basicProjectile",
-            new SpawnData(
-                    center.getX() - (projectileImage.getWidth() / 2) + 3,
-                    center.getY() - 25)
-                    .put("direction", direction.toPoint2D()));
+        "basicProjectile",
+        new SpawnData(center.getX() - (projectileImage.getWidth() / 2) + 3, center.getY() - 25)
+            .put("direction", direction.toPoint2D()));
     if (ally != null) {
       ally.shoot();
     }
@@ -309,13 +310,13 @@ public class PlayerComponent extends Component implements Player {
     texture.setRotate(entity.getRotation());
 
     FXGL.entityBuilder()
-            .at(
-                    entity
-                            .getCenter()
-                            .subtract(shipImage.getWidth() * scaleX / 2, shipImage.getHeight() * scaleY / 2))
-            .view(texture)
-            .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
-            .buildAndAttach();
+        .at(
+            entity
+                .getCenter()
+                .subtract(shipImage.getWidth() * scaleX / 2, shipImage.getHeight() * scaleY / 2))
+        .view(texture)
+        .with(new ExpireCleanComponent(Duration.seconds(0.15)).animateOpacity())
+        .buildAndAttach();
   }
 
   private boolean canShoot() {

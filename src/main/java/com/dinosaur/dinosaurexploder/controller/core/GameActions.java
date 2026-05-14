@@ -80,20 +80,21 @@ public class GameActions {
   public void updateLevelDisplay() {
     Text levelText = (Text) levelDisplay.getViewComponent().getChildren().get(0);
     levelText.setText(
-            languageManager.getTranslation("level").toUpperCase()
-                    + ": "
-                    + levelManager.getCurrentLevel());
+        languageManager.getTranslation("level").toUpperCase()
+            + ": "
+            + levelManager.getCurrentLevel());
 
     if (bomb.hasComponent(BombComponent.class)) {
       bomb.getComponent(BombComponent.class)
-              .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+          .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
     }
   }
 
   /**
    * Summary : Detecting the player damage to decrease the lives and checking if the game is over
    *
-   * ========== MODIFIED: Added invincibility frames with difficulty scaling and visual feedback ==========
+   * <p>========== MODIFIED: Added invincibility frames with difficulty scaling and visual feedback
+   * ==========
    */
   public void damagePlayer() {
     if (player == null || life == null) {
@@ -117,24 +118,24 @@ public class GameActions {
     GameMode currentDifficulty = GameData.getSelectedDifficulty();
     switch (currentDifficulty) {
       case EXPERT:
-        invincibleSeconds = 1.0;  // Expert mode: 1 second invincibility
+        invincibleSeconds = 1.0; // Expert mode: 1 second invincibility
         break;
       default: // NORMAL
-        invincibleSeconds = 1.5;  // Normal mode: 1.5 seconds invincibility
+        invincibleSeconds = 1.5; // Normal mode: 1.5 seconds invincibility
         break;
     }
     // ========== END ADDED ==========
 
     // ========== ADDED: Activate invincibility frames with visual feedback ==========
     PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
-    playerComp.setInvincible(true);  // This will start the blinking animation
+    playerComp.setInvincible(true); // This will start the blinking animation
     runOnce(
-            () -> {
-              if (player.isActive()) {
-                playerComp.setInvincible(false);  // Disable invincibility after duration
-              }
-            },
-            seconds(invincibleSeconds));
+        () -> {
+          if (player.isActive()) {
+            playerComp.setInvincible(false); // Disable invincibility after duration
+          }
+        },
+        seconds(invincibleSeconds));
     // ========== END ADDED ==========
 
     // Visual flash effect (red screen flash)
@@ -154,6 +155,7 @@ public class GameActions {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
     }
   }
+
   // ========== END MODIFIED ==========
 
   public void damageAlly() {
@@ -183,13 +185,13 @@ public class GameActions {
     pauseElement();
 
     Text levelText =
-            getUIFactoryService()
-                    .newText(
-                            languageManager.getTranslation("level").toUpperCase()
-                                    + " "
-                                    + levelManager.getCurrentLevel(),
-                            Color.WHITE,
-                            24);
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("level").toUpperCase()
+                    + " "
+                    + levelManager.getCurrentLevel(),
+                Color.WHITE,
+                24);
     levelText.setStroke(Color.BLACK);
     levelText.setStrokeWidth(1.5);
     TextUtils.centerText(levelText);
@@ -198,55 +200,55 @@ public class GameActions {
     regenerateBombe();
 
     runOnce(
-            () -> {
-              if (!singleBoss()) {
-                levelProgressBar.setVisible(true);
-              }
+        () -> {
+          if (!singleBoss()) {
+            levelProgressBar.setVisible(true);
+          }
 
-              getGameScene().removeUINode(levelText);
-              updateLevelDisplay();
+          getGameScene().removeUINode(levelText);
+          updateLevelDisplay();
 
-              if (levelProgressBar.hasComponent(LevelProgressBarComponent.class)) {
-                levelProgressBar.getComponent(LevelProgressBarComponent.class).resetProgress();
-              }
+          if (levelProgressBar.hasComponent(LevelProgressBarComponent.class)) {
+            levelProgressBar.getComponent(LevelProgressBarComponent.class).resetProgress();
+          }
 
-              FXGL.getGameWorld()
-                      .getEntitiesByType(EntityType.GREEN_DINO)
-                      .forEach(
-                              e -> {
-                                if (e.hasComponent(GreenDinoComponent.class)) {
-                                  e.getComponent(GreenDinoComponent.class).setPaused(false);
-                                } else if (e.hasComponent(AsteroidsComponent.class)) {
-                                  e.getComponent(AsteroidsComponent.class).setPaused(false);
-                                }
-                              });
+          FXGL.getGameWorld()
+              .getEntitiesByType(EntityType.GREEN_DINO)
+              .forEach(
+                  e -> {
+                    if (e.hasComponent(GreenDinoComponent.class)) {
+                      e.getComponent(GreenDinoComponent.class).setPaused(false);
+                    } else if (e.hasComponent(AsteroidsComponent.class)) {
+                      e.getComponent(AsteroidsComponent.class).setPaused(false);
+                    }
+                  });
 
-              enemySpawner.resumeEnemySpawning();
-              asteroidsSpawner.resumeAsteroidsSpawning();
+          enemySpawner.resumeEnemySpawning();
+          asteroidsSpawner.resumeAsteroidsSpawning();
 
-              player.getComponent(PlayerComponent.class).setInvincible(true);
-              runOnce(
-                      () -> {
-                        if (player.isActive()) {
-                          player.getComponent(PlayerComponent.class).setInvincible(false);
-                        }
-                      },
-                      seconds(3));
-            },
-            seconds(2));
+          player.getComponent(PlayerComponent.class).setInvincible(true);
+          runOnce(
+              () -> {
+                if (player.isActive()) {
+                  player.getComponent(PlayerComponent.class).setInvincible(false);
+                }
+              },
+              seconds(3));
+        },
+        seconds(2));
   }
 
   public void pauseElement() {
     FXGL.getGameWorld()
-            .getEntitiesByType(EntityType.GREEN_DINO)
-            .forEach(
-                    e -> {
-                      if (e.hasComponent(GreenDinoComponent.class)) {
-                        e.getComponent(GreenDinoComponent.class).setPaused(true);
-                      } else if (e.hasComponent(AsteroidsComponent.class)) {
-                        e.getComponent(AsteroidsComponent.class).setPaused(true);
-                      }
-                    });
+        .getEntitiesByType(EntityType.GREEN_DINO)
+        .forEach(
+            e -> {
+              if (e.hasComponent(GreenDinoComponent.class)) {
+                e.getComponent(GreenDinoComponent.class).setPaused(true);
+              } else if (e.hasComponent(AsteroidsComponent.class)) {
+                e.getComponent(AsteroidsComponent.class).setPaused(true);
+              }
+            });
     enemySpawner.pauseEnemySpawning();
     asteroidsSpawner.pauseAsteroidsSpawning();
   }
@@ -254,7 +256,7 @@ public class GameActions {
   public void regenerateBombe() {
     if (bomb.hasComponent(BombComponent.class)) {
       bomb.getComponent(BombComponent.class)
-              .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
+          .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
     }
   }
 
@@ -269,20 +271,20 @@ public class GameActions {
     FXGL.spawn("explosion", player.getCenter());
 
     Text gameOverText =
-            getUIFactoryService()
-                    .newText(
-                            languageManager.getTranslation("game_over").toUpperCase(), Color.ORANGERED, 30);
+        getUIFactoryService()
+            .newText(
+                languageManager.getTranslation("game_over").toUpperCase(), Color.ORANGERED, 30);
     gameOverText.setStroke(Color.BLACK);
     gameOverText.setStrokeWidth(1.5);
     TextUtils.centerText(gameOverText);
     getGameScene().addUINode(gameOverText);
 
     runOnce(
-            () -> {
-              getGameScene().removeUINode(gameOverText);
-              gameOver();
-            },
-            Duration.seconds(1.5));
+        () -> {
+          getGameScene().removeUINode(gameOverText);
+          gameOver();
+        },
+        Duration.seconds(1.5));
   }
 
   public void gameOver() {
@@ -318,9 +320,9 @@ public class GameActions {
     emitter.setStartColor(Color.color(1.0, 0.5, 0.0, 1.0));
     emitter.setEndColor(Color.color(0.8, 0.1, 0.0, 0.0));
     emitter.setScaleFunction(
-            i -> new Point2D(random(minScale, maxScale), random(minScale, maxScale)));
+        i -> new Point2D(random(minScale, maxScale), random(minScale, maxScale)));
     emitter.setSpawnPointFunction(
-            i -> new Point2D(random(0, player.getWidth()), random(0, player.getHeight())));
+        i -> new Point2D(random(0, player.getWidth()), random(0, player.getHeight())));
     emitter.setExpireFunction(i -> Duration.seconds(random(minDuration, maxDuration)));
 
     player.removeComponent(ParticleComponent.class);

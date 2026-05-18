@@ -114,8 +114,7 @@ public class AudioManager {
       backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
       backgroundPlayer.play();
     } catch (Exception e) {
-      logger.log(Level.INFO, "Could not play music: {0}", soundFile);
-      e.printStackTrace();
+      logger.log(Level.INFO, "[Web] Audio not available, skipping music: {0}", soundFile);
     }
   }
 

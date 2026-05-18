@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dinosaur-exploder
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    port: 8080
+    plan: free
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Xmx400m -Xms128m"

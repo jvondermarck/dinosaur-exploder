@@ -55,28 +55,24 @@ public class GameInitializer {
 
   /** Summary : To move the space shuttle in forward , backward , right , left directions */
   public void initInput() {
-
-    onKey(KeyCode.UP, () -> player.getComponent(PlayerComponent.class).moveUp());
-    onKey(KeyCode.DOWN, () -> player.getComponent(PlayerComponent.class).moveDown());
-    onKey(KeyCode.LEFT, () -> player.getComponent(PlayerComponent.class).moveLeft());
-    onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
-
-    onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
-
-    // Shield activation (your feature)
-    onKeyDown(KeyCode.E, () -> player.getComponent(PlayerComponent.class).activateShield());
-
-    onKey(KeyCode.W, () -> player.getComponent(PlayerComponent.class).moveUp());
-    onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
-    onKey(KeyCode.A, () -> player.getComponent(PlayerComponent.class).moveLeft());
-    onKey(KeyCode.D, () -> player.getComponent(PlayerComponent.class).moveRight());
-
-    if (GameData.getSelectedDifficulty() == GameMode.EXPERT) {
-      // Expert mode already aims with the mouse, so let players hold left click to keep firing.
-      onBtn(MouseButton.PRIMARY, () -> player.getComponent(PlayerComponent.class).shoot());
+    try {
+      onKey(KeyCode.UP, () -> player.getComponent(PlayerComponent.class).moveUp());
+      onKey(KeyCode.DOWN, () -> player.getComponent(PlayerComponent.class).moveDown());
+      onKey(KeyCode.LEFT, () -> player.getComponent(PlayerComponent.class).moveLeft());
+      onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
+      onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
+      onKeyDown(KeyCode.E, () -> player.getComponent(PlayerComponent.class).activateShield());
+      onKey(KeyCode.W, () -> player.getComponent(PlayerComponent.class).moveUp());
+      onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
+      onKey(KeyCode.A, () -> player.getComponent(PlayerComponent.class).moveLeft());
+      onKey(KeyCode.D, () -> player.getComponent(PlayerComponent.class).moveRight());
+      if (GameData.getSelectedDifficulty() == GameMode.EXPERT) {
+        onBtn(MouseButton.PRIMARY, () -> player.getComponent(PlayerComponent.class).shoot());
+      }
+      onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
+    } catch (IllegalArgumentException e) {
+      System.out.println("[Web] Input already registered, skipping: " + e.getMessage());
     }
-
-    onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
   }
 
   public void initGame() {

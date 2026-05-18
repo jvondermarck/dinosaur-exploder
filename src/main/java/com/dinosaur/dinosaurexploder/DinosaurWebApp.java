@@ -13,12 +13,19 @@ import javafx.stage.Stage;
 
 public class DinosaurWebApp extends JProApplication {
 
+  private static javafx.scene.Parent fxglRoot = null;
+
   @Override
   public void start(Stage stage) {
     System.setProperty("fxgl.isBrowser", "true");
+    System.setProperty("javafx.media.disable", "true");
+    System.setProperty("fxgl.dev.screenshot", "false");
+    System.setProperty("fxgl.dev.profiler", "false");
 
-    GameApplication app = new DinosaurApp();
-    var fxglRoot = GameApplication.embeddedLaunch(app);
+    if (fxglRoot == null) {
+      GameApplication app = new DinosaurApp();
+      fxglRoot = GameApplication.embeddedLaunch(app);
+    }
 
     stage.setScene(new Scene(new StackPane(fxglRoot)));
   }

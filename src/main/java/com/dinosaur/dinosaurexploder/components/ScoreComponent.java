@@ -14,11 +14,11 @@ import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.HighScore;
+import com.dinosaur.dinosaurexploder.utils.ImageCache;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -57,8 +57,7 @@ public class ScoreComponent extends Component implements Score {
     highScoreText =
         FXGL.getUIFactoryService().newText("", Color.YELLOW, GameConstants.TEXT_SIZE_GAME_INFO);
 
-    ImageView dinoIcon =
-        new ImageView(new Image(GameConstants.GREEN_DINO_IMAGE_PATH, 25, 20, false, false));
+    ImageView dinoIcon = new ImageView(ImageCache.get(GameConstants.GREEN_DINO_IMAGE_PATH, 25, 20));
 
     HBox scoreBox = new HBox(5, scoreText, dinoIcon);
     scoreBox.setAlignment(Pos.CENTER_LEFT);

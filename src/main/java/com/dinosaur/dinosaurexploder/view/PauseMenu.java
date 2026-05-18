@@ -82,16 +82,24 @@ public class PauseMenu extends FXGLMenu {
   public PauseMenu() {
     super(MenuType.GAME_MENU);
 
-    mainMenuSound =
-        new MediaPlayer(
-            new Media(
-                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav"))
-                    .toExternalForm()));
+    MediaPlayer tempSound = null;
+    try {
+      tempSound =
+          new MediaPlayer(
+              new Media(
+                  Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav"))
+                      .toExternalForm()));
+    } catch (Exception e) {
+      System.out.println("[Web] Audio not available in this environment, skipping music.");
+    }
+    mainMenuSound = tempSound;
 
     // Read the last saved settings and load the main menu sound
     boolean muteState = settings.isMuted();
     AudioManager.getInstance().setMuted(muteState);
-    mainMenuSound.setMute(muteState);
+    if (mainMenuSound != null) {
+      mainMenuSound.setMute(muteState);
+    }
     AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
 
     VBox musicVolumeControl =
@@ -108,7 +116,9 @@ public class PauseMenu extends FXGLMenu {
         .valueProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
-              mainMenuSound.setVolume(newValue.doubleValue());
+              if (mainMenuSound != null) {
+                mainMenuSound.setVolume(newValue.doubleValue());
+              }
             });
 
     try {
@@ -137,7 +147,9 @@ public class PauseMenu extends FXGLMenu {
           mouseEvent -> {
             boolean newMutedState = !AudioManager.getInstance().isMuted();
             AudioManager.getInstance().setMuted(newMutedState);
-            mainMenuSound.setMute(newMutedState);
+            if (mainMenuSound != null) {
+              mainMenuSound.setMute(newMutedState);
+            }
             settings.setMuted(newMutedState);
             imageViewPlayingMenuSound.setImage(newMutedState ? mute : audioOn);
             SettingsProvider.saveSettings(settings);

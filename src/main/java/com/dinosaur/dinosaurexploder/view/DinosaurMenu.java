@@ -67,7 +67,9 @@ public class DinosaurMenu extends FXGLMenu {
     super(MenuType.MAIN_MENU);
 
     mainMenuSound = createMainMenuSound();
-    initializeAudioSettings();
+    if (mainMenuSound != null) {
+      initializeAudioSettings();
+    }
     assert settings != null;
     String language = settings.getLanguage();
     languageManager.setSelectedLanguage(language);
@@ -84,16 +86,23 @@ public class DinosaurMenu extends FXGLMenu {
   // ============ INITIALIZATION METHODS ============
 
   private MediaPlayer createMainMenuSound() {
-    return new MediaPlayer(
-        new Media(
-            Objects.requireNonNull(getClass().getResource(GameConstants.MAIN_MENU_SOUND))
-                .toExternalForm()));
+    try {
+      return new MediaPlayer(
+          new Media(
+              Objects.requireNonNull(getClass().getResource(GameConstants.MAIN_MENU_SOUND))
+                  .toExternalForm()));
+    } catch (Exception e) {
+      System.out.println("[Web] Audio not available in this environment, skipping music.");
+      return null;
+    }
   }
 
   private void initializeAudioSettings() {
     boolean muteState = settings.isMuted();
     AudioManager.getInstance().setMuted(muteState);
-    mainMenuSound.setMute(muteState);
+    if (mainMenuSound != null) {
+      mainMenuSound.setMute(muteState);
+    }
     AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
   }
 
@@ -387,7 +396,9 @@ public class DinosaurMenu extends FXGLMenu {
   private void toggleMute(ImageView muteIcon, Image muteImg, Image audioOnImg) {
     boolean newMutedState = !AudioManager.getInstance().isMuted();
     AudioManager.getInstance().setMuted(newMutedState);
-    mainMenuSound.setMute(newMutedState);
+    if (mainMenuSound != null) {
+      mainMenuSound.setMute(newMutedState);
+    }
     settings.setMuted(newMutedState);
     muteIcon.setImage(newMutedState ? muteImg : audioOnImg);
     SettingsProvider.saveSettings(settings);
@@ -404,8 +415,10 @@ public class DinosaurMenu extends FXGLMenu {
   @Override
   public void onEnteredFrom(@NotNull Scene prevState) {
     super.onEnteredFrom(prevState);
-    mainMenuSound.setMute(AudioManager.getInstance().isMuted());
-    mainMenuSound.setVolume(AudioManager.getInstance().getVolume());
+    if (mainMenuSound != null) {
+      mainMenuSound.setMute(AudioManager.getInstance().isMuted());
+      mainMenuSound.setVolume(AudioManager.getInstance().getVolume());
+    }
   }
 
   public void exit() {

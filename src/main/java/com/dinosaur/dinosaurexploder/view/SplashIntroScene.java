@@ -66,5 +66,8 @@ public class SplashIntroScene extends IntroScene {
   }
 
   @Override
-  public void startIntro() {}
+  public void startIntro() {
+    // No action needed: UI and animations are initialized in the constructor.
+    // The intro waits for a mouse click, which is handled via setOnMouseClicked.
+  }
 }

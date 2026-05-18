@@ -6,30 +6,29 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
-/** Achievement for killing a specific number of dinosaurs. */
-@RegisterAchievement(target = 10, reward = 50)
-@RegisterAchievement(target = 20, reward = 100)
-@RegisterAchievement(target = 50, reward = 250)
 public class KillCountAchievement extends Achievement {
 
   private final int targetKills;
+  private final int rewardCoins;
+
   private int currentKills = 0;
 
   public KillCountAchievement(int targetKills, int rewardCoins) {
-    super(rewardCoins);
     this.targetKills = targetKills;
+    this.rewardCoins = rewardCoins;
+  }
+
+  @Override
+  public String getId() {
+    return "kill_count_" + targetKills;
   }
 
   @Override
   public String getDescription() {
-    return LanguageManager.getInstance()
-        .getTranslation("ach_kill_dinos")
-        .replace("##", String.valueOf(this.targetKills));
+    return "Kill " + targetKills + " dinosaurs";
   }
 
-  @Override
   public void onDinosaurKilled() {
     if (completed) return;
 
@@ -46,12 +45,11 @@ public class KillCountAchievement extends Achievement {
     // Not needed for count-based achievement
   }
 
-  @Override
-  protected void onComplete() {
-    try {
-      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
-    } catch (Exception e) {
-      // FXGL not initialized (e.g., in tests) - skip notification
-    }
+  public void onComplete() {
+    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+  }
+
+  public int getRewardCoins() {
+    return rewardCoins;
   }
 }

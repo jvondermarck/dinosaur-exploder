@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "maven-compile",
+            "type": "shell",
+            "command": "C:\\Users\\Silvia\\.maven\\maven-3.9.15\\apache-maven-3.9.15\\bin\\mvn.cmd",
+            "args": ["compile", "-q"],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\Silvia\\.jdks\\openjdk-25.0.1"
+                }
+            },
+            "group": "build",
+            "problemMatcher": "$javac"
+        },
+        {
+            "label": "maven-run",
+            "type": "shell",
+            "command": "C:\\Users\\Silvia\\.maven\\maven-3.9.15\\apache-maven-3.9.15\\bin\\mvn.cmd",
+            "args": ["javafx:run"],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\Silvia\\.jdks\\openjdk-25.0.1"
+                }
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "maven-test",
+            "type": "shell",
+            "command": "C:\\Users\\Silvia\\.maven\\maven-3.9.15\\apache-maven-3.9.15\\bin\\mvn.cmd",
+            "args": ["test"],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\Silvia\\.jdks\\openjdk-25.0.1"
+                }
+            },
+            "group": "test",
+            "problemMatcher": "$javac"
+        }
+    ]
+}

@@ -116,13 +116,10 @@ public class GameActions {
     // ========== ADDED: Scale invincibility duration based on difficulty ==========
     double invincibleSeconds;
     GameMode currentDifficulty = GameData.getSelectedDifficulty();
-    switch (currentDifficulty) {
-      case EXPERT:
-        invincibleSeconds = 1.0; // Expert mode: 1 second invincibility
-        break;
-      default: // NORMAL
-        invincibleSeconds = 1.5; // Normal mode: 1.5 seconds invincibility
-        break;
+    if (currentDifficulty == GameMode.EXPERT) {
+      invincibleSeconds = 1.0; // Expert mode: 1 second
+    } else { // NORMAL
+      invincibleSeconds = 1.5; // Normal mode: 1.5 seconds
     }
     // ========== END ADDED ==========
 

@@ -4,25 +4,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { kv } from "@vercel/kv";
 
-const DATA_FILE = path.join(process.cwd(), ".data", "reviews-stars.json");
-
-interface ReviewsData {
-  count: number;
-  voters: string[];
-}
-
-async function ensureDataFile() {
-  try {
-    await fs.access(DATA_FILE);
-  } catch {
-    const dir = path.dirname(DATA_FILE);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(DATA_FILE, JSON.stringify({ count: 0, voters: [] }));
-  }
-}
+const REVIEWS_COUNT_KEY = "reviews-stars-count";
+const REVIEWS_VOTERS_KEY = "reviews-stars-voters";
 
 function getVoterIP(request: NextRequest): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -32,14 +17,13 @@ function getVoterIP(request: NextRequest): string {
 
 export async function GET(request: NextRequest) {
   try {
-    await ensureDataFile();
-    const data = await fs.readFile(DATA_FILE, "utf-8");
-    const reviews: ReviewsData = JSON.parse(data);
+    const count = (await kv.get<number>(REVIEWS_COUNT_KEY)) || 0;
     const voterIP = getVoterIP(request);
-    const userVoted = reviews.voters.includes(voterIP);
+    const voters = (await kv.get<string[]>(REVIEWS_VOTERS_KEY)) || [];
+    const userVoted = voters.includes(voterIP);
 
     return NextResponse.json({
-      count: reviews.count,
+      count: count,
       userVoted: userVoted,
     });
   } catch (error) {
@@ -50,25 +34,25 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await ensureDataFile();
-    const data = await fs.readFile(DATA_FILE, "utf-8");
-    const reviews: ReviewsData = JSON.parse(data);
     const voterIP = getVoterIP(request);
+    const voters = (await kv.get<string[]>(REVIEWS_VOTERS_KEY)) || [];
 
-    if (reviews.voters.includes(voterIP)) {
+    if (voters.includes(voterIP)) {
       return NextResponse.json(
         { error: "You already voted" },
         { status: 400 }
       );
     }
 
-    reviews.count += 1;
-    reviews.voters.push(voterIP);
+    const currentCount = (await kv.get<number>(REVIEWS_COUNT_KEY)) || 0;
+    const newCount = currentCount + 1;
+    voters.push(voterIP);
 
-    await fs.writeFile(DATA_FILE, JSON.stringify(reviews, null, 2));
+    await kv.set(REVIEWS_COUNT_KEY, newCount);
+    await kv.set(REVIEWS_VOTERS_KEY, voters);
 
     return NextResponse.json({
-      count: reviews.count,
+      count: newCount,
       success: true,
     });
   } catch (error) {

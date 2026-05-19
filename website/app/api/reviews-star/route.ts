@@ -11,54 +11,70 @@ const REVIEWS_VOTERS_KEY = "reviews-stars-voters";
 
 function getVoterIP(request: NextRequest): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
-  const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : "unknown";
-  return ip;
+
+  if (!forwardedFor) {
+    return "anonymous";
+  }
+
+  return forwardedFor.split(",")[0].trim();
 }
 
 export async function GET(request: NextRequest) {
   try {
-    const count = (await kv.get<number>(REVIEWS_COUNT_KEY)) || 0;
     const voterIP = getVoterIP(request);
-    const voters = (await kv.get<string[]>(REVIEWS_VOTERS_KEY)) || [];
-    const userVoted = voters.includes(voterIP);
+
+    const [count, userVoted] = await Promise.all([
+      kv.get<number>(REVIEWS_COUNT_KEY),
+      kv.sismember(REVIEWS_VOTERS_KEY, voterIP),
+    ]);
 
     return NextResponse.json({
-      count: count,
-      userVoted: userVoted,
+      count: count || 0,
+      userVoted: Boolean(userVoted),
     });
   } catch (error) {
-    console.error("Failed to read reviews data:", error);
-    return NextResponse.json({ count: 0, userVoted: false });
+    console.error("Failed to fetch reviews data:", error);
+
+    return NextResponse.json(
+      {
+        error: "Failed to fetch reviews data",
+        count: 0,
+        userVoted: false,
+      },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const voterIP = getVoterIP(request);
-    const voters = (await kv.get<string[]>(REVIEWS_VOTERS_KEY)) || [];
 
-    if (voters.includes(voterIP)) {
+    const alreadyVoted = await kv.sismember(
+      REVIEWS_VOTERS_KEY,
+      voterIP
+    );
+
+    if (alreadyVoted) {
       return NextResponse.json(
         { error: "You already voted" },
         { status: 400 }
       );
     }
 
-    const currentCount = (await kv.get<number>(REVIEWS_COUNT_KEY)) || 0;
-    const newCount = currentCount + 1;
-    voters.push(voterIP);
+    await kv.sadd(REVIEWS_VOTERS_KEY, voterIP);
 
-    await kv.set(REVIEWS_COUNT_KEY, newCount);
-    await kv.set(REVIEWS_VOTERS_KEY, voters);
+    const newCount = await kv.incr(REVIEWS_COUNT_KEY);
 
     return NextResponse.json({
-      count: newCount,
       success: true,
+      count: newCount,
     });
   } catch (error) {
     console.error("Failed to update reviews data:", error);
+
     return NextResponse.json(
-      { error: "Failed to update count" },
+      { error: "Failed to update reviews count" },
       { status: 500 }
     );
   }

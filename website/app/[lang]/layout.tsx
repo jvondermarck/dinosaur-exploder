@@ -17,6 +17,12 @@ import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../i18n-config";
 import localFont from "next/font/local";
 
+const ubuntuSansMono = localFont({
+  src: "../fonts/UbuntuSansMono-VariableFont_wght.ttf",
+  variable: "--font-ubuntu-sans-mono",
+  display: "swap",
+});
+
 const fushion_12 = localFont({
   src: "../fonts/zh_hans-12px.ttf.woff2",
   variable: "--font-fushion-12",
@@ -24,13 +30,13 @@ const fushion_12 = localFont({
 });
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: "--cyrilic-font",
+  subsets: ["latin", "cyrillic"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
 const pressStart2P = Press_Start_2P({
@@ -59,7 +65,7 @@ export default async function RootLayout({
     const dict = await getDictionary(lang as Locale);
 
     return (
-        <html lang={lang} suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable}`}>
+        <html lang={lang} suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${fushion_12.variable} ${ubuntuSansMono.variable}`}>
             <body className="antialiased">
                 <ThemeProvider>
                     <div className="min-h-screen flex flex-col page-gradient">

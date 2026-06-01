@@ -14,6 +14,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
@@ -105,6 +106,18 @@ public class GameActions {
       startGameOverSequence();
     } else {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
+      // In EASY mode, grant a ~2-second grace period (invincibility) after taking damage
+      if (levelManager.getGameMode() == GameMode.EASY) {
+        PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
+        playerComp.setInvincible(true);
+        runOnce(
+            () -> {
+              if (player.isActive()) {
+                playerComp.setInvincible(false);
+              }
+            },
+            seconds(2));
+      }
     }
   }
 

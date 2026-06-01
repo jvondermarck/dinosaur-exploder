@@ -67,8 +67,7 @@ public class DifficultySelectionMenu extends FXGLMenu {
     options.setAlignment(Pos.CENTER);
 
     Button easyButton =
-        getUIFactoryService()
-            .newButton(languageManager.getTranslation("easy_mode").toUpperCase());
+        getUIFactoryService().newButton(languageManager.getTranslation("easy_mode").toUpperCase());
     easyButton.setMinSize(getAppWidth() * 0.8, 60);
     easyButton.setWrapText(true);
     easyButton.setOnAction(e -> selectDifficulty(GameMode.EASY));

@@ -207,16 +207,20 @@ public class SplashContent {
     bounce.play();
 
     // Color cycling on the title text
-    Timeline colorCycle = new Timeline(
-        new KeyFrame(Duration.ZERO,
-            new KeyValue(dinosaurText.fillProperty(), Color.LIMEGREEN),
-            new KeyValue(exploderText.fillProperty(), Color.LIMEGREEN)),
-        new KeyFrame(Duration.seconds(2.0),
-            new KeyValue(dinosaurText.fillProperty(), Color.CYAN),
-            new KeyValue(exploderText.fillProperty(), Color.CYAN)),
-        new KeyFrame(Duration.seconds(4.0),
-            new KeyValue(dinosaurText.fillProperty(), Color.LIMEGREEN),
-            new KeyValue(exploderText.fillProperty(), Color.LIMEGREEN)));
+    Timeline colorCycle =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                new KeyValue(dinosaurText.fillProperty(), Color.LIMEGREEN),
+                new KeyValue(exploderText.fillProperty(), Color.LIMEGREEN)),
+            new KeyFrame(
+                Duration.seconds(2.0),
+                new KeyValue(dinosaurText.fillProperty(), Color.CYAN),
+                new KeyValue(exploderText.fillProperty(), Color.CYAN)),
+            new KeyFrame(
+                Duration.seconds(4.0),
+                new KeyValue(dinosaurText.fillProperty(), Color.LIMEGREEN),
+                new KeyValue(exploderText.fillProperty(), Color.LIMEGREEN)));
     colorCycle.setCycleCount(Timeline.INDEFINITE);
     colorCycle.play();
   }

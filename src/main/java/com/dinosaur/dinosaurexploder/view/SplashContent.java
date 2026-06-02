@@ -196,13 +196,17 @@ public class SplashContent {
     textBox.setTranslateY(-240);
 
     // Bounce animation on the dinosaur
-    Timeline bounce = new Timeline(
-        new KeyFrame(Duration.ZERO,
-            new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)),
-        new KeyFrame(Duration.seconds(1.0),
-            new KeyValue(dinoView.translateYProperty(), -145, Interpolator.EASE_BOTH)),
-        new KeyFrame(Duration.seconds(2.0),
-            new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)));
+    Timeline bounce =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)),
+            new KeyFrame(
+                Duration.seconds(1.0),
+                new KeyValue(dinoView.translateYProperty(), -145, Interpolator.EASE_BOTH)),
+            new KeyFrame(
+                Duration.seconds(2.0),
+                new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)));
     bounce.setCycleCount(Timeline.INDEFINITE);
     bounce.play();
 

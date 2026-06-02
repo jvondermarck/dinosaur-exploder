@@ -121,8 +121,8 @@ public class SplashContent {
     };
     Image[] shipImgs = new Image[shipFiles.length];
     for (int i = 0; i < shipFiles.length; i++) {
-      shipImgs[i] = new Image(
-          SplashContent.class.getResourceAsStream("/assets/textures/" + shipFiles[i]));
+      shipImgs[i] =
+          new Image(SplashContent.class.getResourceAsStream("/assets/textures/" + shipFiles[i]));
     }
     Image projImg = new Image(
         SplashContent.class.getResourceAsStream("/assets/textures/basicProjectile.png"));

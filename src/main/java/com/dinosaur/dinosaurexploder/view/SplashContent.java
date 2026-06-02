@@ -140,11 +140,14 @@ public class SplashContent {
       decPane.getChildren().add(sv);
 
       final double dur = 5.0 + rng.nextDouble() * 5.0;
-      Timeline shipAnim = new Timeline(
-          new KeyFrame(Duration.ZERO,
-              new KeyValue(sv.layoutYProperty(), height + 70, Interpolator.LINEAR)),
-          new KeyFrame(Duration.seconds(dur),
-              new KeyValue(sv.layoutYProperty(), -70, Interpolator.LINEAR)));
+      Timeline shipAnim =
+          new Timeline(
+              new KeyFrame(
+                  Duration.ZERO,
+                  new KeyValue(sv.layoutYProperty(), height + 70, Interpolator.LINEAR)),
+              new KeyFrame(
+                  Duration.seconds(dur),
+                  new KeyValue(sv.layoutYProperty(), -70, Interpolator.LINEAR)));
       shipAnim.setCycleCount(Timeline.INDEFINITE);
       shipAnim.play();
       // Spread ships along their cycle so they're distributed from the first frame

@@ -53,14 +53,20 @@ public class SplashContent {
 
     // Difuminar la unión entre las franjas
     int fadeH = height / 5;
-    for (int seam : new int[]{height, height * 2}) {
-      gc.setFill(new LinearGradient(
-          0, seam - fadeH, 0, seam + fadeH, false, CycleMethod.NO_CYCLE,
-          new Stop(0.0, Color.TRANSPARENT),
-          new Stop(0.4, Color.color(0, 0, 0, 0.65)),
-          new Stop(0.5, Color.color(0, 0, 0, 0.80)),
-          new Stop(0.6, Color.color(0, 0, 0, 0.65)),
-          new Stop(1.0, Color.TRANSPARENT)));
+    for (int seam : new int[] {height, height * 2}) {
+      gc.setFill(
+          new LinearGradient(
+              0,
+              seam - fadeH,
+              0,
+              seam + fadeH,
+              false,
+              CycleMethod.NO_CYCLE,
+              new Stop(0.0, Color.TRANSPARENT),
+              new Stop(0.4, Color.color(0, 0, 0, 0.65)),
+              new Stop(0.5, Color.color(0, 0, 0, 0.80)),
+              new Stop(0.6, Color.color(0, 0, 0, 0.65)),
+              new Stop(1.0, Color.TRANSPARENT)));
       gc.fillRect(0, seam - fadeH, width, fadeH * 2);
     }
 

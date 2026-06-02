@@ -120,7 +120,6 @@ public class SplashContent {
     decPane.setPrefSize(width, height);
     decPane.setMouseTransparent(true);
 
-    var rng = ThreadLocalRandom.current();
     String[] shipFiles = {
       "spaceship1.png", "spaceship2.png", "spaceship3.png",
       "spaceship4.png", "spaceship5.png", "spaceship6.png",
@@ -134,17 +133,17 @@ public class SplashContent {
 
     // 6 small ships scrolling upward; each fires projectiles periodically from its position
     for (int i = 0; i < 6; i++) {
-      final ImageView sv = new ImageView(shipImgs[rng.nextInt(shipImgs.length)]);
-      final double shipW = 28.0 + rng.nextInt(24);
+      final ImageView sv = new ImageView(shipImgs[ThreadLocalRandom.current().nextInt(shipImgs.length)]);
+      final double shipW = 28.0 + ThreadLocalRandom.current().nextInt(24);
       sv.setFitWidth(shipW);
       sv.setPreserveRatio(true);
-      sv.setOpacity(0.45 + rng.nextDouble() * 0.40);
-      final double sx = rng.nextDouble() * (width - 60);
+      sv.setOpacity(0.45 + ThreadLocalRandom.current().nextDouble() * 0.40);
+      final double sx = ThreadLocalRandom.current().nextDouble() * (width - 60);
       sv.setLayoutX(sx);
       sv.setLayoutY(height + 70);
       decPane.getChildren().add(sv);
 
-      final double dur = 5.0 + rng.nextDouble() * 5.0;
+      final double dur = 5.0 + ThreadLocalRandom.current().nextDouble() * 5.0;
       Timeline shipAnim =
           new Timeline(
               new KeyFrame(
@@ -156,10 +155,10 @@ public class SplashContent {
       shipAnim.setCycleCount(Timeline.INDEFINITE);
       shipAnim.play();
       // Spread ships along their cycle so they're distributed from the first frame
-      shipAnim.jumpTo(Duration.seconds(rng.nextDouble() * dur));
+      shipAnim.jumpTo(Duration.seconds(ThreadLocalRandom.current().nextDouble() * dur));
 
       // Fire a projectile upward from the ship's nose every fireRate seconds
-      final double fireRate = 1.5 + rng.nextDouble() * 1.5;
+      final double fireRate = 1.5 + ThreadLocalRandom.current().nextDouble() * 1.5;
       Timeline fireTimer =
           new Timeline(
               new KeyFrame(

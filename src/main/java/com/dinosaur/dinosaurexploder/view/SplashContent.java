@@ -35,7 +35,9 @@ public class SplashContent {
   public SplashContent(int width, int height) {
     Image bgImage =
         new Image(SplashContent.class.getResourceAsStream("/assets/textures/background.png"));
-    double srcX = 200, srcW = width, srcH = height;
+    double srcX = 200;
+    double srcW = width;
+    double srcH = height;
 
     // Canvas TRIPLE: normal (0..h) → espejo (h..2h) → normal (2h..3h)
     // Al animar 0→-height*2 el loop es perfecto: la 3ª franja = la 1ª
@@ -134,7 +136,7 @@ public class SplashContent {
       sv.setFitWidth(shipW);
       sv.setPreserveRatio(true);
       sv.setOpacity(0.45 + rng.nextDouble() * 0.40);
-      final double sx = rng.nextDouble() * (width - 60);
+      final double sx = rng.nextDouble() * ((double) width - 60);
       sv.setLayoutX(sx);
       sv.setLayoutY(height + 70);
       decPane.getChildren().add(sv);

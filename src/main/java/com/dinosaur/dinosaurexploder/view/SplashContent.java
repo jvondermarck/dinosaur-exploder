@@ -155,25 +155,32 @@ public class SplashContent {
 
       // Fire a projectile upward from the ship's nose every fireRate seconds
       final double fireRate = 1.5 + rng.nextDouble() * 1.5;
-      Timeline fireTimer = new Timeline(new KeyFrame(Duration.seconds(fireRate), e -> {
-        double py = sv.getLayoutY() - 10;
-        if (py < -20 || py > height + 20) return; // ship is off-screen, skip shot
-        ImageView pv = new ImageView(projImg);
-        pv.setFitWidth(7);
-        pv.setFitHeight(18);
-        pv.setOpacity(0.85);
-        pv.setLayoutX(sx + shipW / 2.0 - 3.5);
-        pv.setLayoutY(py);
-        decPane.getChildren().add(pv);
-        Timeline shotAnim = new Timeline(
-            new KeyFrame(Duration.ZERO,
-                new KeyValue(pv.layoutYProperty(), py, Interpolator.LINEAR)),
-            new KeyFrame(Duration.seconds(0.9),
-                new KeyValue(pv.layoutYProperty(), py - 200, Interpolator.LINEAR)));
-        shotAnim.setCycleCount(1);
-        shotAnim.setOnFinished(ev -> decPane.getChildren().remove(pv));
-        shotAnim.play();
-      }));
+      Timeline fireTimer =
+          new Timeline(
+              new KeyFrame(
+                  Duration.seconds(fireRate),
+                  e -> {
+                    double py = sv.getLayoutY() - 10;
+                    if (py < -20 || py > height + 20) return; // ship is off-screen, skip shot
+                    ImageView pv = new ImageView(projImg);
+                    pv.setFitWidth(7);
+                    pv.setFitHeight(18);
+                    pv.setOpacity(0.85);
+                    pv.setLayoutX(sx + shipW / 2.0 - 3.5);
+                    pv.setLayoutY(py);
+                    decPane.getChildren().add(pv);
+                    Timeline shotAnim =
+                        new Timeline(
+                            new KeyFrame(
+                                Duration.ZERO,
+                                new KeyValue(pv.layoutYProperty(), py, Interpolator.LINEAR)),
+                            new KeyFrame(
+                                Duration.seconds(0.9),
+                                new KeyValue(pv.layoutYProperty(), py - 200, Interpolator.LINEAR)));
+                    shotAnim.setCycleCount(1);
+                    shotAnim.setOnFinished(ev -> decPane.getChildren().remove(pv));
+                    shotAnim.play();
+                  }));
       fireTimer.setCycleCount(Timeline.INDEFINITE);
       fireTimer.play();
     }

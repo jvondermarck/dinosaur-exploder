@@ -6,6 +6,8 @@
 package com.dinosaur.dinosaurexploder.view;
 
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.Random;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -32,12 +34,15 @@ public class SplashContent {
 
   private final StackPane root;
 
+  private static Image loadImage(String path) {
+    InputStream is = SplashContent.class.getResourceAsStream(path);
+    Objects.requireNonNull(is, "Resource not found: " + path);
+    return new Image(is);
+  }
+
   public SplashContent(int width, int height) {
-    Image bgImage =
-        new Image(SplashContent.class.getResourceAsStream("/assets/textures/background.png"));
-    double srcX = 200;
-    double srcW = width;
-    double srcH = height;
+    Image bgImage = loadImage("/assets/textures/background.png");
+    double srcX = 200, srcW = width, srcH = height;
 
     // Canvas TRIPLE: normal (0..h) → espejo (h..2h) → normal (2h..3h)
     // Al animar 0→-height*2 el loop es perfecto: la 3ª franja = la 1ª
@@ -86,8 +91,7 @@ public class SplashContent {
                 new KeyValue(bgCanvas.translateYProperty(), -height * 2, Interpolator.LINEAR)));
     bgScroll.setCycleCount(Timeline.INDEFINITE);
     bgScroll.play();
-    Image dinoImage =
-        new Image(SplashContent.class.getResourceAsStream("/assets/textures/dinomenu.png"));
+    Image dinoImage = loadImage("/assets/textures/dinomenu.png");
     ImageView dinoView = new ImageView(dinoImage);
     dinoView.setFitWidth(width * 0.65);
     dinoView.setPreserveRatio(true);
@@ -115,7 +119,7 @@ public class SplashContent {
     decPane.setPrefSize(width, height);
     decPane.setMouseTransparent(true);
 
-    Random rng = new Random(7);
+    Random rng = new Random();
     String[] shipFiles = {
       "spaceship1.png", "spaceship2.png", "spaceship3.png",
       "spaceship4.png", "spaceship5.png", "spaceship6.png",
@@ -123,11 +127,9 @@ public class SplashContent {
     };
     Image[] shipImgs = new Image[shipFiles.length];
     for (int i = 0; i < shipFiles.length; i++) {
-      shipImgs[i] =
-          new Image(SplashContent.class.getResourceAsStream("/assets/textures/" + shipFiles[i]));
+      shipImgs[i] = loadImage("/assets/textures/" + shipFiles[i]);
     }
-    Image projImg =
-        new Image(SplashContent.class.getResourceAsStream("/assets/textures/basicProjectile.png"));
+    Image projImg = loadImage("/assets/textures/basicProjectile.png");
 
     // 6 small ships scrolling upward; each fires projectiles periodically from its position
     for (int i = 0; i < 6; i++) {
@@ -136,7 +138,7 @@ public class SplashContent {
       sv.setFitWidth(shipW);
       sv.setPreserveRatio(true);
       sv.setOpacity(0.45 + rng.nextDouble() * 0.40);
-      final double sx = rng.nextDouble() * ((double) width - 60);
+      final double sx = rng.nextDouble() * (width - 60);
       sv.setLayoutX(sx);
       sv.setLayoutY(height + 70);
       decPane.getChildren().add(sv);

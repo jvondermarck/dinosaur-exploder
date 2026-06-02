@@ -9,9 +9,6 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Random;
-
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
-
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

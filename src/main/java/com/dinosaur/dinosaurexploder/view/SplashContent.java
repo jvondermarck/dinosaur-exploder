@@ -124,8 +124,8 @@ public class SplashContent {
       shipImgs[i] =
           new Image(SplashContent.class.getResourceAsStream("/assets/textures/" + shipFiles[i]));
     }
-    Image projImg = new Image(
-        SplashContent.class.getResourceAsStream("/assets/textures/basicProjectile.png"));
+    Image projImg =
+        new Image(SplashContent.class.getResourceAsStream("/assets/textures/basicProjectile.png"));
 
     // 6 small ships scrolling upward; each fires projectiles periodically from its position
     for (int i = 0; i < 6; i++) {

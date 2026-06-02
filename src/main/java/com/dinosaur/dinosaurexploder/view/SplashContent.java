@@ -5,10 +5,12 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Random;
+
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -36,8 +38,7 @@ public class SplashContent {
 
   private static Image loadImage(String path) {
     InputStream is = SplashContent.class.getResourceAsStream(path);
-    Objects.requireNonNull(is, "Resource not found: " + path);
-    return new Image(is);
+    return new Image(Objects.requireNonNull(is, "Resource not found: " + path));
   }
 
   public SplashContent(int width, int height) {

@@ -115,9 +115,9 @@ public class SplashContent {
 
     Random rng = new Random(7);
     String[] shipFiles = {
-        "spaceship1.png", "spaceship2.png", "spaceship3.png",
-        "spaceship4.png", "spaceship5.png", "spaceship6.png",
-        "spaceship7.png", "spaceship8.png"
+      "spaceship1.png", "spaceship2.png", "spaceship3.png",
+      "spaceship4.png", "spaceship5.png", "spaceship6.png",
+      "spaceship7.png", "spaceship8.png"
     };
     Image[] shipImgs = new Image[shipFiles.length];
     for (int i = 0; i < shipFiles.length; i++) {

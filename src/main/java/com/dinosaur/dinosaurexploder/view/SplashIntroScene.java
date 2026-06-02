@@ -55,15 +55,18 @@ public class SplashIntroScene extends IntroScene {
     root.setOpacity(0);
     root.setScaleX(0.95);
     root.setScaleY(0.95);
-    Timeline entrance = new Timeline(
-        new KeyFrame(Duration.ZERO,
-            new KeyValue(root.opacityProperty(), 0),
-            new KeyValue(root.scaleXProperty(), 0.95),
-            new KeyValue(root.scaleYProperty(), 0.95)),
-        new KeyFrame(Duration.seconds(0.6),
-            new KeyValue(root.opacityProperty(), 1, Interpolator.EASE_OUT),
-            new KeyValue(root.scaleXProperty(), 1, Interpolator.EASE_OUT),
-            new KeyValue(root.scaleYProperty(), 1, Interpolator.EASE_OUT)));
+    Timeline entrance =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                new KeyValue(root.opacityProperty(), 0),
+                new KeyValue(root.scaleXProperty(), 0.95),
+                new KeyValue(root.scaleYProperty(), 0.95)),
+            new KeyFrame(
+                Duration.seconds(0.6),
+                new KeyValue(root.opacityProperty(), 1, Interpolator.EASE_OUT),
+                new KeyValue(root.scaleXProperty(), 1, Interpolator.EASE_OUT),
+                new KeyValue(root.scaleYProperty(), 1, Interpolator.EASE_OUT)));
     entrance.play();
     getContentRoot().getChildren().add(root);
 

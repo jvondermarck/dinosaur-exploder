@@ -5,10 +5,12 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -118,7 +120,7 @@ public class SplashContent {
     decPane.setPrefSize(width, height);
     decPane.setMouseTransparent(true);
 
-    Random rng = new Random();
+    var rng = ThreadLocalRandom.current();
     String[] shipFiles = {
       "spaceship1.png", "spaceship2.png", "spaceship3.png",
       "spaceship4.png", "spaceship5.png", "spaceship6.png",
@@ -133,7 +135,7 @@ public class SplashContent {
     // 6 small ships scrolling upward; each fires projectiles periodically from its position
     for (int i = 0; i < 6; i++) {
       final ImageView sv = new ImageView(shipImgs[rng.nextInt(shipImgs.length)]);
-      final double shipW = 28 + rng.nextInt(24);
+      final double shipW = 28.0 + rng.nextInt(24);
       sv.setFitWidth(shipW);
       sv.setPreserveRatio(true);
       sv.setOpacity(0.45 + rng.nextDouble() * 0.40);

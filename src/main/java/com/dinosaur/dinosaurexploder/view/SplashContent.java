@@ -5,6 +5,7 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Random;

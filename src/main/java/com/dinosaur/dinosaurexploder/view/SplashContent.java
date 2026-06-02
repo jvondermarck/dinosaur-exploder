@@ -75,11 +75,13 @@ public class SplashContent {
     bgPane.setClip(new Rectangle(width, height));
 
     // Animar 0 → -height*2 (pasa por las 3 franjas), loop perfecto
-    Timeline bgScroll = new Timeline(
-        new KeyFrame(Duration.ZERO,
-            new KeyValue(bgCanvas.translateYProperty(), 0, Interpolator.LINEAR)),
-        new KeyFrame(Duration.seconds(16.0),
-            new KeyValue(bgCanvas.translateYProperty(), -height * 2, Interpolator.LINEAR)));
+    Timeline bgScroll =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO, new KeyValue(bgCanvas.translateYProperty(), 0, Interpolator.LINEAR)),
+            new KeyFrame(
+                Duration.seconds(16.0),
+                new KeyValue(bgCanvas.translateYProperty(), -height * 2, Interpolator.LINEAR)));
     bgScroll.setCycleCount(Timeline.INDEFINITE);
     bgScroll.play();
     Image dinoImage =

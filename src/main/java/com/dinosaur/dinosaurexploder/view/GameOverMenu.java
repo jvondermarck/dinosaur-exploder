@@ -40,7 +40,7 @@ public class GameOverMenu extends FXGLMenu {
     ImageView background = MenuHelper.createAnimatedBackground(getAppWidth(), getAppHeight());
     Rectangle overlay = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.82));
 
-    String gameOverRaw = languageManager.getTranslation("game_over").replaceAll("[.!?\\s]+$", "");
+    String gameOverRaw = stripTrailingPunctuation(languageManager.getTranslation("game_over"));
     Text gameOverText =
         com.almasb
             .fxgl
@@ -181,5 +181,13 @@ public class GameOverMenu extends FXGLMenu {
                     + "-fx-padding: 5 15 5 15;"));
     quitButton.setOnAction(event -> getGameController().gotoMainMenu());
     return quitButton;
+  }
+
+  private String stripTrailingPunctuation(String text) {
+    int end = text.length();
+    while (end > 0 && "!?. \t\n\r".indexOf(text.charAt(end - 1)) >= 0) {
+      end--;
+    }
+    return text.substring(0, end);
   }
 }

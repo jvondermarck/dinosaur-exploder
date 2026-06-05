@@ -40,10 +40,13 @@ public class GameOverMenu extends FXGLMenu {
     ImageView background = MenuHelper.createAnimatedBackground(getAppWidth(), getAppHeight());
     Rectangle overlay = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.82));
 
-    String gameOverRaw = languageManager.getTranslation("game_over")
-        .replaceAll("[.!?\\s]+$", "");
+    String gameOverRaw = languageManager.getTranslation("game_over").replaceAll("[.!?\\s]+$", "");
     Text gameOverText =
-        com.almasb.fxgl.dsl.FXGL.getUIFactoryService()
+        com.almasb
+            .fxgl
+            .dsl
+            .FXGL
+            .getUIFactoryService()
             .newText(gameOverRaw.toUpperCase(), Color.RED, 50);
 
     HBox titleRow = new HBox(gameOverText);
@@ -51,9 +54,15 @@ public class GameOverMenu extends FXGLMenu {
     titleRow.setPrefWidth(getAppWidth());
 
     Text subtitle =
-        com.almasb.fxgl.dsl.FXGL.getUIFactoryService()
+        com.almasb
+            .fxgl
+            .dsl
+            .FXGL
+            .getUIFactoryService()
             .newText(
-                languageManager.getTranslation("new_game"), Color.WHITE, GameConstants.TEXT_SUB_DETAILS);
+                languageManager.getTranslation("new_game"),
+                Color.WHITE,
+                GameConstants.TEXT_SUB_DETAILS);
     subtitle.setWrappingWidth(getAppWidth() * 0.75);
     subtitle.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 

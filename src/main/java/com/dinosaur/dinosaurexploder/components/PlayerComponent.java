@@ -23,6 +23,7 @@ import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 import java.util.Objects;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -34,11 +35,11 @@ public class PlayerComponent extends Component implements Player {
 
   private static final double MAX_WEAPON_HEAT = 100.0;
   private static final double HEAT_PER_SHOT = 12.0;
-  private static final double COOLING_RATE_PER_SECOND =
-      30.0; // these variables can be adjusted as needed
+  private static final double COOLING_RATE_PER_SECOND = 30.0;
   private static final double SLOWDOWN_THRESHOLD = 90.0;
   private static final double SLOWED_SHOT_COOLDOWN_SECONDS = 0.28;
   private static final String OUT_OF_BOUNDS = "Out of bounds";
+
   // Shield fields
   private boolean shieldActive = false;
   private double shieldTimeLeft = 0;
@@ -66,6 +67,14 @@ public class PlayerComponent extends Component implements Player {
 
   private Logger logger = Logger.getLogger(getClass().getName());
 
+  // ========== ADDED: Blinking animation for invincibility visual feedback ==========
+  private AnimationTimer blinkTimer;
+  private long blinkStartTime;
+  private static final double BLINK_INTERVAL_MS = 100; // Blink every 0.1 seconds
+  private static final double TOTAL_BLINK_DURATION_MS = 1500; // Total blink duration 1.5 seconds
+
+  // ========== END ADDED ==========
+
   // Default constructor used by the game (will create an FXGL-backed timer)
   public PlayerComponent() {
     this.shootTimer = new FXGLGameTimer();
@@ -76,27 +85,79 @@ public class PlayerComponent extends Component implements Player {
     this.shootTimer = shootTimer;
   }
 
+  // ========== MODIFIED: Enhanced setInvincible with blinking visual feedback ==========
   public void setInvincible(boolean invincible) {
     this.isInvincible = invincible;
     if (invincible) {
-      entity.getViewComponent().setOpacity(0.5);
+      // Start blinking effect when invincible
+      startBlinking();
     } else {
+      // Stop blinking and restore full opacity
+      stopBlinking();
       entity.getViewComponent().setOpacity(1.0);
     }
   }
+
+  // ========== END MODIFIED ==========
 
   public boolean isInvincible() {
     return isInvincible;
   }
 
+  // ========== ADDED: Start blinking animation for invincibility feedback ==========
+  /**
+   * Start blinking animation for invincibility visual feedback. The player ship will flash between
+   * transparent and opaque.
+   */
+  public void startBlinking() {
+    // Stop any existing blinking animation
+    if (blinkTimer != null) {
+      blinkTimer.stop();
+    }
+
+    blinkStartTime = System.nanoTime();
+    blinkTimer =
+        new AnimationTimer() {
+          @Override
+          public void handle(long now) {
+            long elapsedMs = (now - blinkStartTime) / 1_000_000;
+
+            if (elapsedMs >= TOTAL_BLINK_DURATION_MS) {
+              // Blinking finished - note: invincibility may still be active,
+              // but blinking stops after 1.5s to avoid infinite flashing
+              stopBlinking();
+              // Don't reset opacity here - let setInvincible(false) handle it
+              return;
+            }
+
+            // Calculate opacity: blink every BLINK_INTERVAL_MS
+            long cycle = elapsedMs / (long) BLINK_INTERVAL_MS;
+            double opacity = (cycle % 2 == 0) ? 0.4 : 1.0;
+            entity.getViewComponent().setOpacity(opacity);
+          }
+        };
+    blinkTimer.start();
+  }
+
+  // ========== END ADDED ==========
+
+  // ========== ADDED: Stop blinking animation ==========
+  /** Stop the blinking animation and restore full opacity. */
+  public void stopBlinking() {
+    if (blinkTimer != null) {
+      blinkTimer.stop();
+      blinkTimer = null;
+    }
+    entity.getViewComponent().setOpacity(1.0);
+  }
+
+  // ========== END ADDED ==========
+
   @Override
   public void onAdded() {
     shootTimer.capture();
-    // Load images once when component is added
-    // Use resource stream for both images to ensure consistency
     shipImage =
         new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + shipImagePath)));
-
     projectileImage =
         new Image(Objects.requireNonNull(getClass().getResourceAsStream(weaponImagePath)));
   }
@@ -125,41 +186,34 @@ public class PlayerComponent extends Component implements Player {
   /** Activate shield ability if ready */
   public void activateShield() {
     if (shieldActive || shieldCooldownLeft > 0) {
-      return; // not ready
+      return;
     }
-    // activate
     shieldActive = true;
     shieldTimeLeft = shieldDuration;
     setInvincible(true);
 
-    // create visual - add to entity view so it follows the player
     shieldVisual = new Circle(getEntity().getWidth() / 2 + 10);
     shieldVisual.setFill(Color.color(0.2, 0.6, 1.0, 0.15));
     shieldVisual.setStroke(Color.color(0.2, 0.8, 1.0, 0.9));
     shieldVisual.setStrokeWidth(4);
     shieldVisual.setEffect(new DropShadow(20, Color.CYAN));
-    // position relative to entity center
     shieldVisual.setTranslateX(getEntity().getWidth() / 2);
     shieldVisual.setTranslateY(getEntity().getHeight() / 2);
     getEntity().getViewComponent().addChild(shieldVisual);
 
-    // start shield timer: update every 0.1s
     shieldTimerAction =
         getGameTimer()
             .runAtInterval(
                 () -> {
                   shieldTimeLeft -= 0.1;
                   if (shieldTimeLeft <= 0) {
-                    // expire shield
                     shieldTimerAction.expire();
                     shieldActive = false;
                     setInvincible(false);
-                    // remove visual
                     if (shieldVisual != null) {
                       getEntity().getViewComponent().removeChild(shieldVisual);
                       shieldVisual = null;
                     }
-                    // start cooldown
                     shieldCooldownLeft = shieldCooldown;
                     shieldCooldownAction =
                         getGameTimer()
@@ -189,7 +243,6 @@ public class PlayerComponent extends Component implements Player {
     spawnMovementAnimation();
   }
 
-  /** Summary : This method is overriding the superclass method to limit the downSide movement. */
   public void moveDown() {
     if (entity.getY() >= DinosaurGUI.HEIGHT - entity.getHeight()) {
       logger.info(OUT_OF_BOUNDS);
@@ -202,7 +255,6 @@ public class PlayerComponent extends Component implements Player {
     spawnMovementAnimation();
   }
 
-  /** Summary : This method is overriding the superclass method to limit the rightSide movement. */
   public void moveRight() {
     if (entity.getX() >= DinosaurGUI.WIDTH - entity.getWidth()) {
       logger.info(OUT_OF_BOUNDS);
@@ -215,7 +267,6 @@ public class PlayerComponent extends Component implements Player {
     spawnMovementAnimation();
   }
 
-  /** Summary : This method is overriding the superclass method to limit the leftSide movement. */
   public void moveLeft() {
     if (entity.getX() < 0) {
       logger.info(OUT_OF_BOUNDS);
@@ -228,12 +279,8 @@ public class PlayerComponent extends Component implements Player {
     spawnMovementAnimation();
   }
 
-  /**
-   * Summary : This method is overriding the superclass method to the shooting from the player and
-   * spawning of the new bullet
-   */
   public void shoot() {
-    if (!canShoot()) { // Implemented cooldown based on weapon heat
+    if (!canShoot()) {
       return;
     }
 
@@ -244,10 +291,7 @@ public class PlayerComponent extends Component implements Player {
 
     spawn(
         "basicProjectile",
-        new SpawnData(
-                center.getX() - (projectileImage.getWidth() / 2) + 3,
-                center.getY() - 25) // adjust Accordingly
-            // tamaño de la nave
+        new SpawnData(center.getX() - (projectileImage.getWidth() / 2) + 3, center.getY() - 25)
             .put("direction", direction.toPoint2D()));
     if (ally != null) {
       ally.shoot();
@@ -275,8 +319,6 @@ public class PlayerComponent extends Component implements Player {
         .buildAndAttach();
   }
 
-  // Check if the player can shoot based on weapon heat and cooldown
-
   private boolean canShoot() {
     if (weaponHeat >= SLOWDOWN_THRESHOLD) {
       return shootTimer.isElapsed(Duration.seconds(SLOWED_SHOT_COOLDOWN_SECONDS));
@@ -298,16 +340,19 @@ public class PlayerComponent extends Component implements Player {
 
   @Override
   public void onRemoved() {
-    // clean up timer actions to prevent memory leaks
     if (shieldTimerAction != null && !shieldTimerAction.isExpired()) {
       shieldTimerAction.expire();
     }
     if (shieldCooldownAction != null && !shieldCooldownAction.isExpired()) {
       shieldCooldownAction.expire();
     }
+    // ========== ADDED: Clean up blink timer to prevent memory leaks ==========
+    if (blinkTimer != null) {
+      blinkTimer.stop();
+    }
+    // ========== END ADDED ==========
   }
 
-  // Getter for weapon heat for fron end feature
   public double getWeaponHeat() {
     return weaponHeat;
   }

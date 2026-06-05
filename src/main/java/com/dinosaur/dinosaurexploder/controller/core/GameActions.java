@@ -16,7 +16,9 @@ import com.almasb.fxgl.particle.ParticleEmitter;
 import com.almasb.fxgl.particle.ParticleEmitters;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
+import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.TextUtils;
@@ -47,13 +49,9 @@ public class GameActions {
   private final long sessionStartNanos;
   private boolean gameOverTriggered = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
-  private double emissionRate; // emissionRate is how often the particle of fire will spawn.
-  // If emissionRate = 1, it means particles will spawn every frame, 0,5 every two frame, ect.
-  private final int numParticles; // numParticles is the number of particle that will spawn when
-  // they spawn.
-  private final double emissionRateAugmentation; // How much the emissionRate will increase each
-
-  // time the player lose a life
+  private double emissionRate;
+  private final int numParticles;
+  private final double emissionRateAugmentation;
 
   public GameActions(GameInitializer gameInitializer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
@@ -86,7 +84,6 @@ public class GameActions {
             + ": "
             + levelManager.getCurrentLevel());
 
-    // Regenerate bombs when level changes
     if (bomb.hasComponent(BombComponent.class)) {
       bomb.getComponent(BombComponent.class)
           .checkLevelForBombRegeneration(levelManager.getCurrentLevel());
@@ -95,22 +92,50 @@ public class GameActions {
 
   /**
    * Summary : Detecting the player damage to decrease the lives and checking if the game is over
+   *
+   * <p>========== MODIFIED: Added invincibility frames with difficulty scaling and visual feedback
+   * ==========
    */
   public void damagePlayer() {
     if (player == null || life == null) {
-
       LOGGER.log(Level.WARNING, "damagePlayer() called but player or life entity is null.");
-
       return;
     }
 
+    // Check if player is already invincible
     if (player.getComponent(PlayerComponent.class).isInvincible()) {
       return;
     }
     if (gameOverTriggered) {
       return;
     }
+
+    // Apply damage
     int lives = collisionHandler.getDamagedPlayerLife(life.getComponent(LifeComponent.class));
+
+    // ========== ADDED: Scale invincibility duration based on difficulty ==========
+    double invincibleSeconds;
+    GameMode currentDifficulty = GameData.getSelectedDifficulty();
+    if (currentDifficulty == GameMode.EXPERT) {
+      invincibleSeconds = 1.0; // Expert mode: 1 second
+    } else { // NORMAL
+      invincibleSeconds = 1.5; // Normal mode: 1.5 seconds
+    }
+    // ========== END ADDED ==========
+
+    // ========== ADDED: Activate invincibility frames with visual feedback ==========
+    PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
+    playerComp.setInvincible(true); // This will start the blinking animation
+    runOnce(
+        () -> {
+          if (player.isActive()) {
+            playerComp.setInvincible(false); // Disable invincibility after duration
+          }
+        },
+        seconds(invincibleSeconds));
+    // ========== END ADDED ==========
+
+    // Visual flash effect (red screen flash)
     var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));
     getGameScene().addUINode(flash);
     runOnce(() -> getGameScene().removeUINode(flash), seconds(0.5));
@@ -120,16 +145,15 @@ public class GameActions {
 
     if (lives <= 0) {
       gameOverTriggered = true;
-      // Added extra line of code to sync the lives counter after death
-      // All hearts disappear after death
       life.getComponent(LifeComponent.class).onUpdate(lives);
-
       LOGGER.log(Level.INFO, "Game Over!");
       startGameOverSequence();
     } else {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
     }
   }
+
+  // ========== END MODIFIED ==========
 
   public void damageAlly() {
     ally = collisionHandler.onAllyHit(ally);
@@ -150,20 +174,13 @@ public class GameActions {
     }
   }
 
-  /**
-   * Summary : Handles level progression when enemies are defeated and shows a message when the
-   * level is changed
-   */
   public void showLevelMessage() {
-    // Hide the progress bar for boss levels if there are less than 2 bosses to defeat
     if (singleBoss()) {
       levelProgressBar.setVisible(false);
     }
 
-    // Pause game elements during level transition
     pauseElement();
 
-    // Display centered level notification
     Text levelText =
         getUIFactoryService()
             .newText(
@@ -177,10 +194,8 @@ public class GameActions {
     TextUtils.centerText(levelText);
     getGameScene().addUINode(levelText);
 
-    // Trigger bomb regeneration for level advancement
     regenerateBombe();
 
-    // Resume gameplay after a delay
     runOnce(
         () -> {
           if (!singleBoss()) {
@@ -254,7 +269,6 @@ public class GameActions {
     runOnce(() -> gameOver(), Duration.seconds(0.8));
   }
 
-  /** Summary : To detect whether the player lives are empty or not */
   public void gameOver() {
     new GameOverDialog(languageManager, levelManager, sessionStartNanos).createDialog();
   }

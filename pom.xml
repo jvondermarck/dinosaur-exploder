@@ -16,7 +16,7 @@
         <jfx.maven.plugin.version>0.0.8</jfx.maven.plugin.version>
         <jpro.version>2025.3.3</jpro.version>
         <fxgl.version>21.1</fxgl.version>
-        <junit.version>6.0.3</junit.version>
+        <junit.version>6.1.0</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
         <debugMenu>false</debugMenu>
@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <java>
                         <!-- Explicit, but optional: defaults already hit these dirs -->

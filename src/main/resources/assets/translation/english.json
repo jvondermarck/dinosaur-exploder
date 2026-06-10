@@ -31,7 +31,7 @@
     "move_right": "Move spaceship right",
     "move_left": "Move spaceship left",
     "pause_game": "ECS: Pause the game",
-    "new_game": "Game Over. Do you want to play again?",
+    "new_game": "Do you want to play again?",
     "shoot": "SPACE: Shoot",
     "bomb": "Bomb",
     "bombs_left": "Bombs Left",

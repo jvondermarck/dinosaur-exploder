@@ -1,0 +1,9 @@
+# Ignoramos archivos que no son necesarios para compilar el juego
+target/
+website/
+.git/
+.github/
+.idea/
+*.md
+hooks/
+scripts/

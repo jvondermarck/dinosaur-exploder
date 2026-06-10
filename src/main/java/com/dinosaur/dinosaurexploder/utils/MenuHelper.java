@@ -10,7 +10,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
-import java.io.InputStream;
 import java.util.Objects;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -29,6 +28,15 @@ import javafx.util.Duration;
 
 public class MenuHelper {
   private MenuHelper() {}
+
+  // Cache background image to avoid reloading it on every menu (prevents OutOfMemoryError)
+  private static Image getBackgroundImage() {
+    return ImageCache.get(GameConstants.BACKGROUND_IMAGE_PATH);
+  }
+
+  private static Image getLockImage() {
+    return ImageCache.get("assets/textures/lock.png");
+  }
 
   public static void showDialog(String title, String message) {
     LanguageManager lm = LanguageManager.getInstance();
@@ -81,12 +89,7 @@ public class MenuHelper {
   }
 
   public static ImageView createLockIcon(boolean isLocked) {
-    Image lockImage =
-        new Image(
-            Objects.requireNonNull(
-                MenuHelper.class.getResourceAsStream("/assets/textures/lock.png")));
-
-    ImageView lockIcon = new ImageView(lockImage);
+    ImageView lockIcon = new ImageView(getLockImage());
     lockIcon.setFitWidth(30);
     lockIcon.setFitHeight(30);
     lockIcon.setMouseTransparent(true);
@@ -107,9 +110,7 @@ public class MenuHelper {
   }
 
   public static ImageView createAnimatedBackground(double appWidth, double appHeight) {
-    InputStream stream =
-        MenuHelper.class.getClassLoader().getResourceAsStream(GameConstants.BACKGROUND_IMAGE_PATH);
-    Image image = new Image(stream);
+    Image image = getBackgroundImage();
     ImageView view = new ImageView(image);
     view.setFitHeight(appHeight);
     view.setPreserveRatio(true);

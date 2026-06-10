@@ -11,6 +11,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
+import com.dinosaur.dinosaurexploder.utils.ImageCache;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import java.io.*;
 import java.util.logging.Level;
@@ -33,18 +34,18 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
 
   private Text coinText;
   private Node coinUI;
-  private Image coinImage;
+
+  // Cached statically so the image is loaded only once across all coin instances
+  private static Image getCoinImage() {
+    return ImageCache.get(GameConstants.COIN_IMAGE_PATH, 25, 20);
+  }
 
   private Logger logger = Logger.getLogger(getClass().getName());
 
   @Override
   public void onAdded() {
-    loadTotalCoins(); // Deserialize once when the component is added
+    loadTotalCoins();
 
-    // load coin Image once
-    coinImage = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
-
-    // Create UI elements
     coinText =
         getUIFactoryService()
             .newText(
@@ -65,8 +66,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   private Node createCoinUI() {
-
-    ImageView imageView = new ImageView(coinImage);
+    ImageView imageView = new ImageView(getCoinImage());
 
     HBox container = new HBox(5, coinText, imageView);
     container.setAlignment(Pos.CENTER_LEFT);

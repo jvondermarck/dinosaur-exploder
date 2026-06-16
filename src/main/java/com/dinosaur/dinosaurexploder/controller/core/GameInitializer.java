@@ -92,7 +92,9 @@ public class GameInitializer {
 
     // In EASY mode, grant the player 5 lives instead of the default 3
     if (GameData.getSelectedDifficulty() == GameMode.EASY) {
-      life.getComponent(LifeComponent.class).setMaxLives(5);
+      LifeComponent lifeComponent = life.getComponent(LifeComponent.class);
+      lifeComponent.setMaxLives(5);
+      lifeComponent.setCurrentLives(5);
     }
 
     collisionHandler = new CollisionHandler(levelManager, achievementManager);

@@ -6,8 +6,11 @@
 package com.dinosaur.dinosaurexploder.achievements;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 
 /** Achievement for surviving a specific amount of time. */
+@RegisterAchievement(target = 1, reward = 50)
+@RegisterAchievement(target = 3, reward = 150)
 public class SurvivalTimeAchievement extends Achievement {
 
   private final double targetSeconds;
@@ -21,10 +24,11 @@ public class SurvivalTimeAchievement extends Achievement {
   @Override
   public String getDescription() {
     int minutes = (int) (targetSeconds / 60);
+    LanguageManager lm = LanguageManager.getInstance();
     if (minutes == 1) {
-      return "Survive for 1 minute";
+      return lm.getTranslation("ach_survive_1min");
     }
-    return "Survive for " + minutes + " minutes";
+    return lm.getTranslation("ach_survive_mins").replace("##", String.valueOf(minutes));
   }
 
   @Override
@@ -41,6 +45,10 @@ public class SurvivalTimeAchievement extends Achievement {
 
   @Override
   protected void onComplete() {
-    FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    try {
+      FXGL.getNotificationService().pushNotification("Achievement unlocked: " + getDescription());
+    } catch (Exception e) {
+      // FXGL not initialized (e.g., in tests) - skip notification
+    }
   }
 }

@@ -19,7 +19,9 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
   const navItems = [
     { href: "/how-game-works", label: dict.NavBar.howGameWorks },
     { href: "/credits", label: dict.NavBar.credits },
+    { href: "/changelog", label: "Changelog" },
     { href: "/contact", label: dict.NavBar.contact },
+    { href: "/reviews", label: dict.NavBar.reviews },
   ];
   const buttonStyle = "px-4 py-2 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex items-center gap-2 text-sm";
 
@@ -41,13 +43,13 @@ export default function NavBar({ lang, dict }: { lang: string; dict: any }) {
           {/* Internal links */}
           <div className={`hidden lg:flex  xs:flex-row gap-2 justify-center`}>
             {navItems.map((item) => {
-              const localisedHref = `/${lang}${item.href}`;
-              const isActive = pathname === localisedHref;
+              const href = `/${lang}${item.href}`;
+              const isActive = pathname === href;
 
               return (
                 <Link
                   key={item.href}
-                  href={localisedHref}
+                  href={href}
                   className={
                     "px-4 py-2.25 whitespace-nowrap rounded border font-semibold font-mono transition-all duration-150 text-center flex transform " +
                     (isActive

@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.components;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -56,5 +57,25 @@ class GameControlsComponentTest {
     assertEquals("Pause the game", GameControlsComponent.formatActionLabel("ESC: Pause the game"));
     assertEquals("Shoot", GameControlsComponent.formatActionLabel("SPACE: Shoot"));
     assertEquals("Move spaceship up", GameControlsComponent.formatActionLabel("Move spaceship up"));
+  }
+
+  @Test
+  void shouldGenerateControlsDialogTextWithoutTrailingNewline() {
+    String controlsText = GameControlsComponent.generateControlsDialogText();
+
+    assertFalse(controlsText.endsWith("\n"));
+  }
+
+  @Test
+  void shouldReturnAllControlTextsInDisplayOrder() {
+    String[] controlTexts = GameControlsComponent.getAllControlTexts();
+
+    assertEquals(GameControlsComponent.ControlType.values().length, controlTexts.length);
+    assertEquals(
+        GameControlsComponent.getControlText(GameControlsComponent.ControlType.MOVE_UP),
+        controlTexts[0]);
+    assertEquals(
+        GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHIELD),
+        controlTexts[controlTexts.length - 1]);
   }
 }

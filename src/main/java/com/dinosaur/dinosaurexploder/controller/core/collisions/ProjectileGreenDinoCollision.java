@@ -49,7 +49,7 @@ public class ProjectileGreenDinoCollision implements CollisionHandlerInterface {
                 .getComponent(Heart.class)
                 .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());
           }
-          if (random(0, 100) < 100 && !gameActions.isAllyUse()) {
+          if (random(0, 100) < 1 && !gameActions.isAllyUse()) {
             Entity ally = spawn("allyDrop", greenDino.getX(), greenDino.getY());
             ally.getComponent(AllyDropComponent.class)
                 .updateDirection(greenDino.getComponent(GreenDinoComponent.class).getDirection());

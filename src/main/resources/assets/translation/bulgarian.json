@@ -64,5 +64,22 @@
   "specialty_more_bombs_description": "Увеличава максималния брой носени бомби.",
   "specialty_smaller_hitbox": "Миниатюра",
   "specialty_smaller_hitbox_description": "Намалява размера на вашето поле за попадение (hitbox).",
-  "specialty_locked": "Специализацията е заключена."
+  "specialty_locked": "Специализацията е заключена.",
+  "ach_collect_coins": "Съберете ## монети",
+  "ach_defeat_boss": "Победете първия си бос",
+  "ach_survive_1min": "Оцелейте за 1 минута",
+  "ach_survive_mins": "Оцелейте за ## минути",
+  "ach_kill_dinos": "Убийте ## динозавъра",
+  "ach_reach_score": "Достигнете ## точки",
+  "debug_menu": "Меню за разработчици",
+  "debug_menu_title": "МЕНЮ ЗА РАЗРАБОТЧИЦИ [САМО ЗА РАЗРАБОТЧИЦИ]",
+  "debug_set_score": "ЗАДАЙ ТОЧКИ",
+  "debug_set_high_score": "ЗАДАЙ МАКСИМАЛЕН РЕЗУЛТАТ",
+  "number_error": "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО",
+  "debug_set_coins": "ЗАДАЙ МОНЕТИ",
+  "debug_score_prompt": "ВЪВЕДЕТЕ СТОЙНОСТ ЗА ТОЧКИ",
+  "debug_high_score_prompt": "ВЪВЕДЕТЕ НАЙ-ВИСОК РЕЗУЛТАТ",
+  "debug_saved" : "промяната е успешна",
+  "debug_coins_prompt" : "ВЪВЕДЕТЕ БРОЙ МОНЕТИ",
+  "debug_invalid_number" : "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО"
 }

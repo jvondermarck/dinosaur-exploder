@@ -5,25 +5,25 @@
 
 package com.dinosaur.dinosaurexploder.achievements;
 
-record AchievementEvent(AchievementEventType type, int intValue, double doubleValue) {
+public record AchievementEvent(AchievementEventType type, int intValue, double doubleValue) {
 
-  static AchievementEvent dinosaurKilled() {
+  public static AchievementEvent dinosaurKilled() {
     return new AchievementEvent(AchievementEventType.DINOSAUR_KILLED, 0, 0);
   }
 
-  static AchievementEvent scoreChanged(int newScore) {
+  public static AchievementEvent scoreChanged(int newScore) {
     return new AchievementEvent(AchievementEventType.SCORE_CHANGED, newScore, 0);
   }
 
-  static AchievementEvent coinCollected(int totalCoins) {
+  public static AchievementEvent coinCollected(int totalCoins) {
     return new AchievementEvent(AchievementEventType.COIN_COLLECTED, totalCoins, 0);
   }
 
-  static AchievementEvent bossDefeated() {
+  public static AchievementEvent bossDefeated() {
     return new AchievementEvent(AchievementEventType.BOSS_DEFEATED, 0, 0);
   }
 
-  static AchievementEvent timeElapsed(double tpf) {
+  public static AchievementEvent timeElapsed(double tpf) {
     return new AchievementEvent(AchievementEventType.TIME_ELAPSED, 0, tpf);
   }
 }

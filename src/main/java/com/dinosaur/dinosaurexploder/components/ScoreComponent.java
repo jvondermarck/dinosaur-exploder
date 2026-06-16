@@ -7,6 +7,7 @@ package com.dinosaur.dinosaurexploder.components;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.dinosaur.dinosaurexploder.achievements.AchievementEvent;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.constants.GameMode;
@@ -106,6 +107,18 @@ public class ScoreComponent extends Component implements Score {
     this.score = score;
   }
 
+  /**
+   * Overrides the saved high score for the current difficulty mode. Persists the new value to disk
+   * immediately.
+   *
+   * @param value the new high score to set
+   */
+  public void setHighScore(int value) {
+    GameMode currentMode = GameData.getSelectedDifficulty();
+    highScore.setHigh(currentMode.name(), value);
+    saveHighScore();
+  }
+
   @Override
   public void incrementScore(int increment) {
     score += increment;
@@ -122,7 +135,7 @@ public class ScoreComponent extends Component implements Score {
       AchievementManager achievementManager =
           FXGL.getWorldProperties().getValue("achievementManager");
       if (achievementManager != null) {
-        achievementManager.notifyScoreChanged(score);
+        achievementManager.dispatch(AchievementEvent.scoreChanged(score));
       }
     } catch (Exception e) {
       // FXGL not initialized (e.g., in tests) - skip achievement notification

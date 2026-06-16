@@ -143,6 +143,22 @@ mvn jpro:run
 # Open http://localhost:8080
 ```
 
+#### Debug Menu (Developers Only)
+The debug menu is hidden by default. To enable it, pass `-DdebugMenu=true` when running:
+```bash
+mvn javafx:run -DdebugMenu=true
+
+# Or with the browser version:
+mvn jpro:run -DdebugMenu=true
+```
+```markdown
+Once the debug menu is open, you can:
+- **SET HIGH SCORE** – overrides the saved high score for the current difficulty mode, useful for testing score-based unlocks and achievements
+- **SET COINS** – overrides the total coins saved across all sessions, useful for testing coin-based unlocks
+
+Both changes persist to disk immediately and take effect on the next game session.
+```
+
 📖 **More details:** [Java Setup Guide](https://github.com/jvondermarck/dinosaur-exploder/wiki/Java-Installation-Guide)
 
 </details>

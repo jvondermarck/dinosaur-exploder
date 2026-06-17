@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function HowGameWorksPage({params,}: {params: Promise<{lang: string}>;}) {
   const {lang} = await params;
   const dict = await getDictionary(lang as Locale);
-  const { title, goal, gameplay, controls, demo, help } = dict.howGameWorks;
+  const { title, goal, gameplay, controls, demo, tips, help } = dict.howGameWorks;
   
   return (
     <div className="max-w-4xl mx-auto w-full px-4 md:px-8 py-10">
@@ -88,6 +88,17 @@ export default async function HowGameWorksPage({params,}: {params: Promise<{lang
             {demo.description}
           </p>
         </section>
+        <section className="bg-white/80 dark:bg-neutral-800/80 rounded-xl border border-green-200 dark:border-green-500/40 p-5 shadow-sm">
+  <h2 className="font-retro text-xl text-green-800 dark:text-green-200 mb-3">
+    {tips.title}
+  </h2>
+
+  <ul className="list-disc pl-5 font-mono text-green-950 dark:text-green-100 space-y-2">
+    {tips.list.map((tip: string, index: number) => (
+      <li key={index}>{tip}</li>
+    ))}
+  </ul>
+</section>
 
         <section className="bg-black/80 dark:bg-neutral-800/90 rounded-xl border-2 border-green-700 dark:border-green-500 p-5 shadow-sm">
           <h2 className="font-retro text-xl text-green-300 dark:text-green-400 mb-3"> {help.title} </h2>

@@ -70,10 +70,21 @@
             "error": "Your browser does not support the video tag.",
             "description": "Short gameplay demo showing movement, shooting, and enemy waves."
         },
-        "help":{
-            "title": "Want to help?",
-            "description": "You can contribute to the game (Java/FXGL) or the website (Next.js). Check the GitHub issues and pick something small to start."
-        }
+       "tips": {
+    "title": "Beginner Tips",
+    "list": [
+        "Keep moving to avoid enemy collisions.",
+        "Use your shield when surrounded by dinosaurs.",
+        "Save bombs for crowded situations.",
+        "Collect coins whenever possible.",
+        "Watch enemy movement patterns before attacking."
+    ]
+},
+
+"help":{
+    "title": "Want to help?",
+    "description": "You can contribute to the game (Java/FXGL) or the website (Next.js). Check the GitHub issues and pick something small to start."
+}
     },
 
     "credits": {

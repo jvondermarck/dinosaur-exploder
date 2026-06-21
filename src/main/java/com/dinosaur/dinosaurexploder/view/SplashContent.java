@@ -102,7 +102,6 @@ public class SplashContent {
     if (promptFont == null) {
       promptFont = Font.font("Arial", FontWeight.BOLD, 24);
     }
-    
     Text startPrompt = new Text("PRESS SPACE TO START");
     startPrompt.setFont(promptFont);
     startPrompt.setFill(Color.GOLD);

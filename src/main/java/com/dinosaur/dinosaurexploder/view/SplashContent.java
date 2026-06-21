@@ -94,10 +94,11 @@ public class SplashContent {
     textBox.setAlignment(Pos.CENTER);
 
     // 3. Add a flashing "PRESS SPACE TO START" prompt
-    Font promptFont = Font.loadFont(
-        SplashContent.class.getResourceAsStream(
-            "/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME),
-        24);
+    Font promptFont =
+        Font.loadFont(
+            SplashContent.class.getResourceAsStream(
+                "/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME),
+            24);
     if (promptFont == null) {
       promptFont = Font.font("Arial", FontWeight.BOLD, 24);
     }

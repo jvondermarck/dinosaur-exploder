@@ -125,7 +125,6 @@ public class SplashContent {
 
     StackPane.setAlignment(textBox, Pos.TOP_CENTER);
     textBox.setTranslateY(-240);
-    
     // Position the blinking text neatly in the empty lower middle section
     StackPane.setAlignment(startPrompt, Pos.BOTTOM_CENTER);
     startPrompt.setTranslateY(-40);

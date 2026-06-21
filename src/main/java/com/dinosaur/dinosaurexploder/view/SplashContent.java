@@ -57,11 +57,16 @@ public class SplashContent {
     Font titleFont = customFont != null ? customFont : Font.font("Arial", FontWeight.BOLD, 60);
 
     // 1. Create a retro arcade gradient (Orange fading to Red vertically)
-    LinearGradient arcadeGradient = new LinearGradient(
-        0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
-        new Stop(0, Color.ORANGE),
-        new Stop(1, Color.CRIMSON)
-    );
+    LinearGradient arcadeGradient =
+        new LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, Color.ORANGE),
+            new Stop(1, Color.CRIMSON));
 
     // 2. Create a high-contrast dark drop shadow effect
     DropShadow textShadow = new DropShadow();

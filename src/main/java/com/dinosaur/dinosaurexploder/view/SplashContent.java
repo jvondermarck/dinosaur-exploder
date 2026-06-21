@@ -90,7 +90,7 @@ public class SplashContent {
     exploderText.setCache(true);
     exploderText.setCacheHint(javafx.scene.CacheHint.SPEED);
 
-    VBox textBox = new VBox(12, dinosaurText, exploderText); 
+    VBox textBox = new VBox(12, dinosaurText, exploderText);
     textBox.setAlignment(Pos.CENTER);
 
     // 3. Add a flashing "PRESS SPACE TO START" prompt

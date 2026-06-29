@@ -133,7 +133,8 @@ public class SplashContent {
 
     // 6 small ships scrolling upward; each fires projectiles periodically from its position
     for (int i = 0; i < 6; i++) {
-      final ImageView sv = new ImageView(shipImgs[ThreadLocalRandom.current().nextInt(shipImgs.length)]);
+      final ImageView sv =
+          new ImageView(shipImgs[ThreadLocalRandom.current().nextInt(shipImgs.length)]);
       final double shipW = 28.0 + ThreadLocalRandom.current().nextInt(24);
       sv.setFitWidth(shipW);
       sv.setPreserveRatio(true);

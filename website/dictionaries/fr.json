@@ -24,7 +24,8 @@
         "contact": "Contact",
         "reviews": "Avis",
         "star": "Star",
-        "sponsor": "Soutenir" 
+        "sponsor": "Soutenir",
+        "news": "Actualités"
     },
 
     "features": [
@@ -113,5 +114,15 @@
             "title": "Contribuer",
             "description": "Vous voulez aider ? Choisissez un problème sur GitHub ou contribuez au site Web dans le dossier /website."
         }
+    },
+
+    "news": {
+        "title": "Actualités",
+        "description": "Dernières mises à jour, sorties et annonces du projet.",
+        "postedBy": "Publié par",
+        "on": "le",
+        "backToNews": "Voir toutes les actualités",
+        "readMore": "Lire →",
+        "comments": "Commentaires"
     }
 }

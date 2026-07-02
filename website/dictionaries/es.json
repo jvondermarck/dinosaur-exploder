@@ -24,7 +24,8 @@
     "contact": "Contacto",
     "reviews": "Reseñas",
     "star": "Star",
-    "sponsor": "Patrocinar"
+    "sponsor": "Patrocinar",
+    "news": "Noticias"
   },
 
   "features": [
@@ -113,5 +114,15 @@
       "title": "Contribuir",
       "description": "Quieres ayudar? Elige un issue en GitHub o contribuye al sitio web en la carpeta /website."
     }
-}
+},
+
+  "news": {
+    "title": "Noticias",
+    "description": "Últimas actualizaciones, versiones y anuncios del proyecto.",
+    "postedBy": "Publicado por",
+    "on": "el",
+    "backToNews": "Ver todas las noticias",
+    "readMore": "Leer →",
+    "comments": "Comentarios"
+  }
 }

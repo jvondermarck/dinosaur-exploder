@@ -24,7 +24,8 @@
         "contact": "联系我们",
         "reviews": "评论",
         "star": "Star",
-        "sponsor": "赞助我们" 
+        "sponsor": "赞助我们",
+        "news": "新闻"
     },
 
     "features": [
@@ -113,5 +114,15 @@
             "title": "加入我们",
             "description": "想要支持这个项目吗？在GitHub上选择一个Issue，修改/website文件夹中的内容。"
         }
+    },
+
+    "news": {
+        "title": "新闻",
+        "description": "项目的最新更新、发布和公告。",
+        "postedBy": "发布者",
+        "on": "于",
+        "backToNews": "查看所有新闻",
+        "readMore": "阅读 →",
+        "comments": "评论"
     }
 }

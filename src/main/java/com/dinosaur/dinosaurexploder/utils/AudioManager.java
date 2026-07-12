@@ -74,9 +74,16 @@ public class AudioManager {
     return volume;
   }
 
+  private String toMp3File(String soundFile) {
+    return soundFile.endsWith(".wav")
+        ? soundFile.substring(0, soundFile.length() - 4) + ".mp3"
+        : soundFile;
+  }
+
   public void playSound(String soundFile) {
     if (isSfxMuted) return;
     try {
+      soundFile = toMp3File(soundFile);
       String resourcePath = "/assets/sounds/" + soundFile;
       var url = getClass().getResource(resourcePath);
       if (url == null) {
@@ -102,6 +109,7 @@ public class AudioManager {
   public void playMusic(String soundFile) {
     stopMusic();
     try {
+      soundFile = toMp3File(soundFile);
       String resourcePath = "/assets/sounds/" + soundFile;
       var url = getClass().getResource(resourcePath);
       if (url == null) {

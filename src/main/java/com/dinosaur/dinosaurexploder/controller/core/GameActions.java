@@ -266,22 +266,7 @@ public class GameActions {
     player.getComponent(PlayerComponent.class).setInvincible(true);
     player.getViewComponent().setOpacity(0);
     FXGL.spawn("explosion", player.getCenter());
-
-    Text gameOverText =
-        getUIFactoryService()
-            .newText(
-                languageManager.getTranslation("game_over").toUpperCase(), Color.ORANGERED, 30);
-    gameOverText.setStroke(Color.BLACK);
-    gameOverText.setStrokeWidth(1.5);
-    TextUtils.centerText(gameOverText);
-    getGameScene().addUINode(gameOverText);
-
-    runOnce(
-        () -> {
-          getGameScene().removeUINode(gameOverText);
-          gameOver();
-        },
-        Duration.seconds(1.5));
+    runOnce(() -> gameOver(), Duration.seconds(0.8));
   }
 
   public void gameOver() {

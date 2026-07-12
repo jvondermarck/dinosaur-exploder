@@ -92,7 +92,7 @@ public class SplashContent {
     bgScroll.play();
     Image dinoImage = loadImage("/assets/textures/dinomenu.png");
     ImageView dinoView = new ImageView(dinoImage);
-    dinoView.setFitWidth(width * 0.65);
+    dinoView.setFitWidth(width * 0.38);
     dinoView.setPreserveRatio(true);
 
     Font customFont =
@@ -113,79 +113,35 @@ public class SplashContent {
     VBox textBox = new VBox(4, dinosaurText, exploderText);
     textBox.setAlignment(Pos.CENTER);
 
-    // --- Decorative background spaceships and projectiles ---
+    // --- Decorative background green dinosaurs ---
     Pane decPane = new Pane();
     decPane.setPrefSize(width, height);
     decPane.setMouseTransparent(true);
 
-    String[] shipFiles = {
-      "spaceship1.png", "spaceship2.png", "spaceship3.png",
-      "spaceship4.png", "spaceship5.png", "spaceship6.png",
-      "spaceship7.png", "spaceship8.png"
-    };
-    Image[] shipImgs = new Image[shipFiles.length];
-    for (int i = 0; i < shipFiles.length; i++) {
-      shipImgs[i] = loadImage("/assets/textures/" + shipFiles[i]);
-    }
-    Image projImg = loadImage("/assets/textures/basicProjectile.png");
+    Image greenDinoImage = loadImage("/assets/textures/greenDino.png");
+    for (int i = 0; i < 5; i++) {
+      final ImageView gv = new ImageView(greenDinoImage);
+      final double dinoW = 36.0 + ThreadLocalRandom.current().nextInt(30);
+      gv.setFitWidth(dinoW);
+      gv.setPreserveRatio(true);
+      gv.setOpacity(0.30 + ThreadLocalRandom.current().nextDouble() * 0.30);
+      final double gx = ThreadLocalRandom.current().nextDouble() * (width - 60);
+      gv.setLayoutX(gx);
+      gv.setLayoutY(height + 60);
+      decPane.getChildren().add(gv);
 
-    // 6 small ships scrolling upward; each fires projectiles periodically from its position
-    for (int i = 0; i < 6; i++) {
-      final ImageView sv =
-          new ImageView(shipImgs[ThreadLocalRandom.current().nextInt(shipImgs.length)]);
-      final double shipW = 28.0 + ThreadLocalRandom.current().nextInt(24);
-      sv.setFitWidth(shipW);
-      sv.setPreserveRatio(true);
-      sv.setOpacity(0.45 + ThreadLocalRandom.current().nextDouble() * 0.40);
-      final double sx = ThreadLocalRandom.current().nextDouble() * (width - 60);
-      sv.setLayoutX(sx);
-      sv.setLayoutY(height + 70);
-      decPane.getChildren().add(sv);
-
-      final double dur = 5.0 + ThreadLocalRandom.current().nextDouble() * 5.0;
-      Timeline shipAnim =
+      final double dur = 6.0 + ThreadLocalRandom.current().nextDouble() * 6.0;
+      Timeline dinoAnim =
           new Timeline(
               new KeyFrame(
                   Duration.ZERO,
-                  new KeyValue(sv.layoutYProperty(), height + 70, Interpolator.LINEAR)),
+                  new KeyValue(gv.layoutYProperty(), height + 60, Interpolator.LINEAR)),
               new KeyFrame(
                   Duration.seconds(dur),
-                  new KeyValue(sv.layoutYProperty(), -70, Interpolator.LINEAR)));
-      shipAnim.setCycleCount(Timeline.INDEFINITE);
-      shipAnim.play();
-      // Spread ships along their cycle so they're distributed from the first frame
-      shipAnim.jumpTo(Duration.seconds(ThreadLocalRandom.current().nextDouble() * dur));
-
-      // Fire a projectile upward from the ship's nose every fireRate seconds
-      final double fireRate = 1.5 + ThreadLocalRandom.current().nextDouble() * 1.5;
-      Timeline fireTimer =
-          new Timeline(
-              new KeyFrame(
-                  Duration.seconds(fireRate),
-                  e -> {
-                    double py = sv.getLayoutY() - 10;
-                    if (py < -20 || py > height + 20) return; // ship is off-screen, skip shot
-                    ImageView pv = new ImageView(projImg);
-                    pv.setFitWidth(7);
-                    pv.setFitHeight(18);
-                    pv.setOpacity(0.85);
-                    pv.setLayoutX(sx + shipW / 2.0 - 3.5);
-                    pv.setLayoutY(py);
-                    decPane.getChildren().add(pv);
-                    Timeline shotAnim =
-                        new Timeline(
-                            new KeyFrame(
-                                Duration.ZERO,
-                                new KeyValue(pv.layoutYProperty(), py, Interpolator.LINEAR)),
-                            new KeyFrame(
-                                Duration.seconds(0.9),
-                                new KeyValue(pv.layoutYProperty(), py - 200, Interpolator.LINEAR)));
-                    shotAnim.setCycleCount(1);
-                    shotAnim.setOnFinished(ev -> decPane.getChildren().remove(pv));
-                    shotAnim.play();
-                  }));
-      fireTimer.setCycleCount(Timeline.INDEFINITE);
-      fireTimer.play();
+                  new KeyValue(gv.layoutYProperty(), -80, Interpolator.LINEAR)));
+      dinoAnim.setCycleCount(Timeline.INDEFINITE);
+      dinoAnim.play();
+      dinoAnim.jumpTo(Duration.seconds(ThreadLocalRandom.current().nextDouble() * dur));
     }
 
     root = new StackPane();
@@ -212,24 +168,6 @@ public class SplashContent {
                 new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)));
     bounce.setCycleCount(Timeline.INDEFINITE);
     bounce.play();
-
-    // Color cycling on the title text
-    Timeline colorCycle =
-        new Timeline(
-            new KeyFrame(
-                Duration.ZERO,
-                new KeyValue(dinosaurText.fillProperty(), Color.LIMEGREEN),
-                new KeyValue(exploderText.fillProperty(), Color.LIMEGREEN)),
-            new KeyFrame(
-                Duration.seconds(2.0),
-                new KeyValue(dinosaurText.fillProperty(), Color.CYAN),
-                new KeyValue(exploderText.fillProperty(), Color.CYAN)),
-            new KeyFrame(
-                Duration.seconds(4.0),
-                new KeyValue(dinosaurText.fillProperty(), Color.LIMEGREEN),
-                new KeyValue(exploderText.fillProperty(), Color.LIMEGREEN)));
-    colorCycle.setCycleCount(Timeline.INDEFINITE);
-    colorCycle.play();
   }
 
   public StackPane getRoot() {

@@ -85,7 +85,7 @@ public class PauseMenu extends FXGLMenu {
     mainMenuSound =
         new MediaPlayer(
             new Media(
-                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav"))
+                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.mp3"))
                     .toExternalForm()));
 
     // Read the last saved settings and load the main menu sound

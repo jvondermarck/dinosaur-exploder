@@ -28,6 +28,8 @@ public class SplashIntroScene extends IntroScene {
     int width = getAppWidth();
     int height = getAppHeight();
 
+    getContentRoot().setStyle("-fx-background-color: black;");
+
     root = new SplashContent(width, height).getRoot();
 
     Font hintFont =

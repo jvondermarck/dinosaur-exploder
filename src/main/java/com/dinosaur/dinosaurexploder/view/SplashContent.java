@@ -5,12 +5,10 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
-
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
-
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

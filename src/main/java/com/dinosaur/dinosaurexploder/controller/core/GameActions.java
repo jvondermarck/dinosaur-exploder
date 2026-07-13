@@ -150,6 +150,18 @@ public class GameActions {
       startGameOverSequence();
     } else {
       LOGGER.log(Level.INFO, "{0} lives remaining !", lives);
+      // In EASY mode, grant a ~2-second grace period (invincibility) after taking damage
+      if (levelManager.getGameMode() == GameMode.EASY) {
+        PlayerComponent easyPlayerComp = player.getComponent(PlayerComponent.class);
+        easyPlayerComp.setInvincible(true);
+        runOnce(
+            () -> {
+              if (player.isActive()) {
+                easyPlayerComp.setInvincible(false);
+              }
+            },
+            seconds(2));
+      }
     }
   }
 

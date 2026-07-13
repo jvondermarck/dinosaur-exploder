@@ -14,6 +14,7 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
+import com.dinosaur.dinosaurexploder.components.LifeComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
@@ -88,6 +89,13 @@ public class GameInitializer {
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();
+
+    // In EASY mode, grant the player 5 lives instead of the default 3
+    if (GameData.getSelectedDifficulty() == GameMode.EASY) {
+      LifeComponent lifeComponent = life.getComponent(LifeComponent.class);
+      lifeComponent.setMaxLives(5);
+      lifeComponent.setCurrentLives(5);
+    }
 
     collisionHandler = new CollisionHandler(levelManager, achievementManager);
 

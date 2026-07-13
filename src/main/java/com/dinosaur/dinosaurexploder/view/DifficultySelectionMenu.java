@@ -66,6 +66,11 @@ public class DifficultySelectionMenu extends FXGLMenu {
     VBox options = new VBox(20);
     options.setAlignment(Pos.CENTER);
 
+    Button easyButton =
+        getUIFactoryService().newButton(languageManager.getTranslation("easy_mode").toUpperCase());
+    easyButton.setMinSize(getAppWidth() * 0.8, 60);
+    easyButton.setWrapText(true);
+    easyButton.setOnAction(e -> selectDifficulty(GameMode.EASY));
     Button normalButton =
         getUIFactoryService()
             .newButton(languageManager.getTranslation("normal_mode").toUpperCase());
@@ -78,7 +83,7 @@ public class DifficultySelectionMenu extends FXGLMenu {
     expertButton.setMinSize(getAppWidth() * 0.8, 60);
     expertButton.setWrapText(true);
     expertButton.setOnAction(e -> selectDifficulty(GameMode.EXPERT));
-    options.getChildren().addAll(normalButton, expertButton);
+    options.getChildren().addAll(easyButton, normalButton, expertButton);
 
     return options;
   }

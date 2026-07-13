@@ -69,12 +69,18 @@ public class LevelManager {
   public void nextLevel() {
     currentLevel++;
     defeatedEnemies = 0;
-    enemiesToDefeat += 5;
+    enemiesToDefeat += (gameMode == GameMode.EASY) ? 2 : 5;
     defeatedBosses = 0;
 
-    enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
-    enemySpeed += 0.2;
-    asteroidsSpawnRate += 0.1;
+    if (gameMode == GameMode.EASY) {
+      enemySpawnRate = Math.max(0.8, enemySpawnRate * 0.95);
+      enemySpeed += 0.1;
+      asteroidsSpawnRate += 0.05;
+    } else {
+      enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
+      enemySpeed += 0.2;
+      asteroidsSpawnRate += 0.1;
+    }
   }
 
   public int getEnemiesToDefeat() {
@@ -91,6 +97,12 @@ public class LevelManager {
 
   public void setGameMode(GameMode mode) {
     gameMode = mode;
+    if (mode == GameMode.EASY) {
+      enemySpawnRate = 1.5;
+      enemySpeed = 0.8;
+      asteroidsSpawnRate = 2.5;
+      enemiesToDefeat = 3;
+    }
   }
 
   public GameMode getGameMode() {

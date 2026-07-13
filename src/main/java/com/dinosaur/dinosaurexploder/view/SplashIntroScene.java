@@ -8,6 +8,7 @@ package com.dinosaur.dinosaurexploder.view;
 import com.almasb.fxgl.app.scene.IntroScene;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -26,6 +27,8 @@ public class SplashIntroScene extends IntroScene {
   public SplashIntroScene() {
     int width = getAppWidth();
     int height = getAppHeight();
+
+    getContentRoot().setStyle("-fx-background-color: black;");
 
     root = new SplashContent(width, height).getRoot();
 
@@ -50,7 +53,23 @@ public class SplashIntroScene extends IntroScene {
     blink.setCycleCount(Timeline.INDEFINITE);
     blink.play();
 
-    root.setOpacity(1);
+    // Entrance animation: fade + slight scale up
+    root.setOpacity(0);
+    root.setScaleX(0.95);
+    root.setScaleY(0.95);
+    Timeline entrance =
+        new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                new KeyValue(root.opacityProperty(), 0),
+                new KeyValue(root.scaleXProperty(), 0.95),
+                new KeyValue(root.scaleYProperty(), 0.95)),
+            new KeyFrame(
+                Duration.seconds(0.6),
+                new KeyValue(root.opacityProperty(), 1, Interpolator.EASE_OUT),
+                new KeyValue(root.scaleXProperty(), 1, Interpolator.EASE_OUT),
+                new KeyValue(root.scaleYProperty(), 1, Interpolator.EASE_OUT)));
+    entrance.play();
     getContentRoot().getChildren().add(root);
 
     getContentRoot()

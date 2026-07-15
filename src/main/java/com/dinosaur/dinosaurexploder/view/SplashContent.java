@@ -56,7 +56,6 @@ public class SplashContent {
             60);
     Font titleFont = customFont != null ? customFont : Font.font("Arial", FontWeight.BOLD, 60);
 
-    
     LinearGradient arcadeGradient =
         new LinearGradient(
             0,
@@ -68,7 +67,6 @@ public class SplashContent {
             new Stop(0, Color.LAWNGREEN),
             new Stop(1, Color.FORESTGREEN));
 
-    
     DropShadow textShadow = new DropShadow();
     textShadow.setRadius(6.0);
     textShadow.setOffsetX(4.0);
@@ -93,7 +91,6 @@ public class SplashContent {
     VBox textBox = new VBox(12, dinosaurText, exploderText);
     textBox.setAlignment(Pos.CENTER);
 
- 
     Font promptFont =
         Font.loadFont(
             SplashContent.class.getResourceAsStream(
@@ -107,7 +104,6 @@ public class SplashContent {
     startPrompt.setFill(Color.GOLD);
     startPrompt.setEffect(textShadow);
 
- 
     FadeTransition fade = new FadeTransition(Duration.seconds(0.6), startPrompt);
     fade.setFromValue(1.0);
     fade.setToValue(0.1);
@@ -119,16 +115,15 @@ public class SplashContent {
     root.setPrefSize(width, height);
     root.getChildren().addAll(bgPane, dinoView, textBox, startPrompt);
 
-  
     StackPane.setAlignment(dinoView, Pos.BOTTOM_CENTER);
     dinoView.setTranslateY(-120);
 
     StackPane.setAlignment(textBox, Pos.TOP_CENTER);
     textBox.setTranslateY(-240);
-    
+
     StackPane.setAlignment(startPrompt, Pos.BOTTOM_CENTER);
     startPrompt.setTranslateY(-70);
-  } 
+  }
 
   public StackPane getRoot() {
     return root;

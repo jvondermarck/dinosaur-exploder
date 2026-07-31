@@ -119,7 +119,7 @@ public class GameInitializer {
     try {
       latch.await();
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      Thread.currentThread().interrupt();
     }
   }
 

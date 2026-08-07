@@ -14,11 +14,11 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
       {/* Hero */}
       <section className="flex flex-col md:flex-row md:items-stretch gap-0 flex-1 max-w-6xl mx-auto w-full px-4 md:px-12 py-10 md:py-16">
 
-        {/* Left — Gameplay video 9:16, height matches text column on desktop */}
+        {/* Left — Gameplay video, 3:4 aspect ratio */}
         <div className="flex-1 flex justify-center items-center order-last md:order-first md:pr-6">
           <div
-            className="w-[240px] md:w-auto md:h-full"
-            style={{ aspectRatio: "9/16", maxHeight: "520px" }}
+            className="w-[280px] md:w-[360px] lg:w-[400px]"
+            style={{ aspectRatio: "3/4" }}
           >
             <video
               className="w-full h-full object-cover rounded-2xl border-2 border-green-700 dark:border-green-500 shadow-[4px_4px_0px_0px_theme(colors.green.700)] dark:shadow-[4px_4px_0px_0px_theme(colors.green.500)]"

@@ -11,7 +11,9 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,26 +29,26 @@ public class SplashIntroScene extends IntroScene {
     int width = getAppWidth();
     int height = getAppHeight();
 
-    root = new SplashContent(width, height).getRoot();
+    SplashContent splashContent = new SplashContent(width, height);
+    root = splashContent.getRoot();
+    BorderPane overlay = splashContent.getOverlay();
 
-    Font hintFont =
-        Font.loadFont(
-            getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 16);
+    Font hintFont = Font.loadFont(
+        getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 16);
     Font resolvedHintFont = hintFont != null ? hintFont : Font.font("Arial", FontWeight.NORMAL, 16);
 
     Text clickHint = new Text("CLICK ANYWHERE TO START");
     clickHint.setFont(resolvedHintFont);
     clickHint.setFill(Color.WHITE);
 
-    root.getChildren().add(clickHint);
-    StackPane.setAlignment(clickHint, Pos.BOTTOM_CENTER);
-    clickHint.setTranslateY(-25);
+    BorderPane.setAlignment(clickHint, Pos.CENTER);
+    BorderPane.setMargin(clickHint, new Insets(0, 0, height * 0.05, 0));
+    overlay.setBottom(clickHint);
 
-    Timeline blink =
-        new Timeline(
-            new KeyFrame(Duration.ZERO, new KeyValue(clickHint.opacityProperty(), 1.0)),
-            new KeyFrame(Duration.seconds(0.8), new KeyValue(clickHint.opacityProperty(), 0.1)),
-            new KeyFrame(Duration.seconds(1.6), new KeyValue(clickHint.opacityProperty(), 1.0)));
+    Timeline blink = new Timeline(
+        new KeyFrame(Duration.ZERO, new KeyValue(clickHint.opacityProperty(), 1.0)),
+        new KeyFrame(Duration.seconds(0.8), new KeyValue(clickHint.opacityProperty(), 0.1)),
+        new KeyFrame(Duration.seconds(1.6), new KeyValue(clickHint.opacityProperty(), 1.0)));
     blink.setCycleCount(Timeline.INDEFINITE);
     blink.play();
 

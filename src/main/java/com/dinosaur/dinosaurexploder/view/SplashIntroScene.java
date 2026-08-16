@@ -33,8 +33,9 @@ public class SplashIntroScene extends IntroScene {
     root = splashContent.getRoot();
     BorderPane overlay = splashContent.getOverlay();
 
-    Font hintFont = Font.loadFont(
-        getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 16);
+    Font hintFont =
+        Font.loadFont(
+            getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 16);
     Font resolvedHintFont = hintFont != null ? hintFont : Font.font("Arial", FontWeight.NORMAL, 16);
 
     Text clickHint = new Text("CLICK ANYWHERE TO START");
@@ -45,10 +46,11 @@ public class SplashIntroScene extends IntroScene {
     BorderPane.setMargin(clickHint, new Insets(0, 0, height * 0.05, 0));
     overlay.setBottom(clickHint);
 
-    Timeline blink = new Timeline(
-        new KeyFrame(Duration.ZERO, new KeyValue(clickHint.opacityProperty(), 1.0)),
-        new KeyFrame(Duration.seconds(0.8), new KeyValue(clickHint.opacityProperty(), 0.1)),
-        new KeyFrame(Duration.seconds(1.6), new KeyValue(clickHint.opacityProperty(), 1.0)));
+    Timeline blink =
+        new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(clickHint.opacityProperty(), 1.0)),
+            new KeyFrame(Duration.seconds(0.8), new KeyValue(clickHint.opacityProperty(), 0.1)),
+            new KeyFrame(Duration.seconds(1.6), new KeyValue(clickHint.opacityProperty(), 1.0)));
     blink.setCycleCount(Timeline.INDEFINITE);
     blink.play();
 

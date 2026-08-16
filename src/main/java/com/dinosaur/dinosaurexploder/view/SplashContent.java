@@ -27,7 +27,8 @@ public class SplashContent {
   private final BorderPane overlay;
 
   public SplashContent(int width, int height) {
-    Image bgImage = new Image(SplashContent.class.getResourceAsStream("/assets/textures/background.png"));
+    Image bgImage =
+        new Image(SplashContent.class.getResourceAsStream("/assets/textures/background.png"));
     ImageView bgView = new ImageView(bgImage);
     bgView.setViewport(new Rectangle2D(200, 0, width, height));
     bgView.setFitWidth(width);
@@ -38,13 +39,17 @@ public class SplashContent {
     bgPane.setPrefSize(width, height);
     bgPane.setClip(new Rectangle(width, height));
 
-    Image dinoImage = new Image(SplashContent.class.getResourceAsStream("/assets/textures/dinomenu.png"));
+    Image dinoImage =
+        new Image(SplashContent.class.getResourceAsStream("/assets/textures/dinomenu.png"));
     ImageView dinoView = new ImageView(dinoImage);
     dinoView.setFitWidth(width * 0.65);
     dinoView.setPreserveRatio(true);
 
-    Font customFont = Font.loadFont(
-        SplashContent.class.getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 60);
+    Font customFont =
+        Font.loadFont(
+            SplashContent.class.getResourceAsStream(
+                "/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME),
+            60);
     Font titleFont = customFont != null ? customFont : Font.font("Arial", FontWeight.BOLD, 60);
 
     Text dinosaurText = new Text("DINOSAUR");

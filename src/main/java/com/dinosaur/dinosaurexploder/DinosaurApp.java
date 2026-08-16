@@ -15,8 +15,7 @@ import com.dinosaur.dinosaurexploder.model.GameEntityFactory;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 
 /**
- * Summary : The Factory handles the DinosaurApp,Physics,Settings and Input of
- * all entities in the
+ * Summary : The Factory handles the DinosaurApp,Physics,Settings and Input of all entities in the
  * game
  */
 public class DinosaurApp extends GameApplication {
@@ -24,9 +23,7 @@ public class DinosaurApp extends GameApplication {
   DinosaurController controller = new DinosaurController();
   private AchievementManager achievementManager;
 
-  /**
-   * Summary : This method for the setting the Game GUI Parameters : GameSettings
-   */
+  /** Summary : This method for the setting the Game GUI Parameters : GameSettings */
   @Override
   protected void initSettings(GameSettings settings) {
     gui.initSettings(settings);
@@ -35,8 +32,7 @@ public class DinosaurApp extends GameApplication {
   }
 
   /**
-   * Summary : This method is overriding the superclass method to EventHandling
-   * for the keyboard
+   * Summary : This method is overriding the superclass method to EventHandling for the keyboard
    * events
    */
   @Override
@@ -46,10 +42,7 @@ public class DinosaurApp extends GameApplication {
     controller.initInput();
   }
 
-  /**
-   * Summary : This method is overriding the superclass method to initialize the
-   * game
-   */
+  /** Summary : This method is overriding the superclass method to initialize the game */
   @Override
   protected void initGame() {
     FXGL.getGameWorld().addEntityFactory(new GameEntityFactory());
@@ -60,8 +53,7 @@ public class DinosaurApp extends GameApplication {
   }
 
   /**
-   * Summary : This method is overriding the superclass method to initialize the
-   * physics to the game
+   * Summary : This method is overriding the superclass method to initialize the physics to the game
    */
   @Override
   protected void initPhysics() {
@@ -76,8 +68,7 @@ public class DinosaurApp extends GameApplication {
   }
 
   /**
-   * Summary : This method launches the game as it is the main method of the class
-   * Parameters :
+   * Summary : This method launches the game as it is the main method of the class Parameters :
    * Strings[]
    */
   public static void main(String[] args) {

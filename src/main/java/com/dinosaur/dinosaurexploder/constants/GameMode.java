@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.constants;
 
 public enum GameMode {
+  EASY,
   NORMAL,
   EXPERT,
 }

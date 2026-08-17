@@ -87,28 +87,41 @@ public class GameInitializer {
 
     FXGL.set("levelManager", levelManager);
 
-    initGameEntities();
+    java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+    javafx.application.Platform.runLater(
+        () -> {
+          try {
+            initGameEntities();
 
-    collisionHandler = new CollisionHandler(levelManager, achievementManager);
+            collisionHandler = new CollisionHandler(levelManager, achievementManager);
 
-    bossSpawner = new BossSpawner(settings, levelManager);
+            bossSpawner = new BossSpawner(settings, levelManager);
 
-    CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
+            CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
-    applySpecialty();
+            applySpecialty();
 
-    new CountdownAnimation(3)
-        .startCountdown(
-            () -> {
-              enemySpawner.resumeEnemySpawning();
-              enemySpawner.spawnEnemies();
-              coinSpawner.startSpawning();
-              asteroidsSpawner.resumeAsteroidsSpawning();
-              asteroidsSpawner.spawnAsteroids();
-            });
+            new CountdownAnimation(3)
+                .startCountdown(
+                    () -> {
+                      enemySpawner.resumeEnemySpawning();
+                      enemySpawner.spawnEnemies();
+                      coinSpawner.startSpawning();
+                      asteroidsSpawner.resumeAsteroidsSpawning();
+                      asteroidsSpawner.spawnAsteroids();
+                    });
 
-    enemySpawner = new EnemySpawner(this);
-    asteroidsSpawner = new AsteroidsSpawner(this);
+            enemySpawner = new EnemySpawner(this);
+            asteroidsSpawner = new AsteroidsSpawner(this);
+          } finally {
+            latch.countDown();
+          }
+        });
+    try {
+      latch.await();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
   private void initGameEntities() {

@@ -16,7 +16,7 @@
         <jfx.maven.plugin.version>0.0.8</jfx.maven.plugin.version>
         <jpro.version>2025.3.3</jpro.version>
         <fxgl.version>21.1</fxgl.version>
-        <junit.version>6.1.1</junit.version>
+        <junit.version>6.1.3</junit.version>
         <mainClassName>com.dinosaur.dinosaurexploder.DinosaurApp</mainClassName>
         <mainClassJProName>com.dinosaur.dinosaurexploder.DinosaurWebApp</mainClassJProName>
         <debugMenu>false</debugMenu>
@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.9.0</version>
                 <configuration>
                     <java>
                         <!-- Explicit, but optional: defaults already hit these dirs -->
@@ -174,6 +174,8 @@
                 <version>${jpro.version}</version>
                 <configuration>
                     <mainClassName>${mainClassJProName}</mainClassName>
+                    <!-- Force JPro to use JavaFX 21 instead of the latest -->
+                    <javafxVersion>${source.version}</javafxVersion>
                     <JVMArgs>
                         <JVMArg>-DdebugMenu=${debugMenu}</JVMArg>
                     </JVMArgs>

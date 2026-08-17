@@ -1,0 +1,101 @@
+name: Post Formatting Comment
+
+on:
+  workflow_run:
+    workflows: ["Code Formatting Check"]
+    types:
+      - completed
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    # Only run if it was triggered by a Pull Request
+    if: ${{ github.event.workflow_run.event == 'pull_request' }}
+    steps:
+      # 🤖 1. Securely generate the token using your secrets
+      - name: Generate Bot Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      # 📦 2. Download the results from the first workflow
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: spotless-results
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ steps.generate-token.outputs.token }}
+
+      - name: Parse Results
+        id: parse
+        run: |
+          echo "PR_NUMBER=$(cat pr-number.txt)" >> $GITHUB_ENV
+          source results.env
+          echo "FILES_COUNT=$FILES_COUNT" >> $GITHUB_ENV
+
+      # 💬 3. Find and update the PR comment
+      - name: Find previous bot comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ env.PR_NUMBER }}
+          body-includes: '<!-- spotless-check-comment -->'
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - name: Post success comment
+        if: env.FILES_COUNT == '0'
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          issue-number: ${{ env.PR_NUMBER }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |-
+            <!-- spotless-check-comment -->
+            
+            ## ✅ Code Formatting Check Passed!
+            
+            ![badge](https://img.shields.io/badge/Spotless-Passed-success?logo=checkmarx&style=for-the-badge)
+            
+            **Great job!** 🎉 Your code follows the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+            
+            ---
+            🤖 _The DinoBot Team_ 🦖
+
+      - name: Post failure comment
+        if: env.FILES_COUNT != '0'
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          issue-number: ${{ env.PR_NUMBER }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |-
+            <!-- spotless-check-comment -->
+            
+            ## 🎨 Code Formatting Issues
+            
+            ![badge](https://img.shields.io/badge/Spotless-Failed-critical?logo=checkmarx&style=for-the-badge)
+            
+            **${{ env.FILES_COUNT }}** Java file(s) need formatting.
+            
+            ### 💡 Quick fix
+            **Run locally:**
+            ```bash
+            mvn spotless:apply
+            git add -A && git commit -m "style: apply Spotless" && git push
+            ```
+            
+            <details>
+            <summary>📚 More options</summary>
+            
+            **Auto-format in your IDE:**
+            - **IntelliJ**:  Install [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
+            - **VS Code**: [Java formatting settings](https://code.visualstudio.com/docs/java/java-linting)
+            
+            </details>
+            
+            ---
+            🤖 _The DinoBot Team_ 🦖

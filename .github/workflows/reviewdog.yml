@@ -91,7 +91,7 @@ jobs:
       - name: Post success comment
         if: steps.spotless.outputs.FILES_COUNT == '0'
         continue-on-error: true
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@v5
         with:
           issue-number:  ${{ github.event.pull_request.number }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
@@ -111,7 +111,7 @@ jobs:
       - name:  Post failure comment
         if: steps.spotless.outputs.FILES_COUNT != '0'
         continue-on-error: true
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@v5
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}

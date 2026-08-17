@@ -15,6 +15,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -41,38 +42,39 @@ public class SplashContent {
 
   public SplashContent(int width, int height) {
     Image bgImage = loadImage("/assets/textures/background.png");
-    double srcX = 200, srcW = width, srcH = height;
 
-    // Canvas TRIPLE: normal (0..h) → espejo (h..2h) → normal (2h..3h)
-    // Al animar 0→-height*2 el loop es perfecto: la 3ª franja = la 1ª
+    double srcX = 200;
+
+      // TRIPLE Canvas: normal (0..h) -> mirrored (h..2h) -> normal (2h..3h)
+    // Animating from 0 to -height*2 creates a perfect loop: the 3rd strip equals the 1st
     Canvas bgCanvas = new Canvas(width, height * 3);
-    var gc = bgCanvas.getGraphicsContext2D();
+    GraphicsContext gc = bgCanvas.getGraphicsContext2D();
 
-    // Franja 0..height → imagen normal
-    gc.drawImage(bgImage, srcX, 0, srcW, srcH, 0, 0, width, height);
+    // Strip 0..height -> normal image
+    gc.drawImage(bgImage, srcX, 0, width, height, 0, 0, width, height);
 
-    // Franja height..height*2 → imagen espejada horizon lastalmente
-    gc.drawImage(bgImage, srcX, 0, srcW, srcH, width, height, -width, height);
+    // Strip height..height*2 -> horizontally mirrored image
+    gc.drawImage(bgImage, srcX, 0, width, height, width, height, -width, height);
 
-    // Franja height*2..height*3 → imagen normal (igual que la 1ª, cierra el bucle)
-    gc.drawImage(bgImage, srcX, 0, srcW, srcH, 0, height * 2, width, height);
+    // Strip height*2..height*3 -> normal image (same as the 1st, closes the loop)
+    gc.drawImage(bgImage, srcX, 0, width, height, 0, height * 2, width, height);
 
-    // Difuminar la unión entre las franjas
+    // Blur the seam between the strips
     int fadeH = height / 5;
     for (int seam : new int[] {height, height * 2}) {
       gc.setFill(
-          new LinearGradient(
-              0,
-              seam - fadeH,
-              0,
-              seam + fadeH,
-              false,
-              CycleMethod.NO_CYCLE,
-              new Stop(0.0, Color.TRANSPARENT),
-              new Stop(0.4, Color.color(0, 0, 0, 0.65)),
-              new Stop(0.5, Color.color(0, 0, 0, 0.80)),
-              new Stop(0.6, Color.color(0, 0, 0, 0.65)),
-              new Stop(1.0, Color.TRANSPARENT)));
+              new LinearGradient(
+                      0,
+                      seam - fadeH,
+                      0,
+                      seam + fadeH,
+                      false,
+                      CycleMethod.NO_CYCLE,
+                      new Stop(0.0, Color.TRANSPARENT),
+                      new Stop(0.4, Color.color(0, 0, 0, 0.65)),
+                      new Stop(0.5, Color.color(0, 0, 0, 0.80)),
+                      new Stop(0.6, Color.color(0, 0, 0, 0.65)),
+                      new Stop(1.0, Color.TRANSPARENT)));
       gc.fillRect(0, seam - fadeH, width, fadeH * 2);
     }
 
@@ -80,26 +82,27 @@ public class SplashContent {
     bgPane.setPrefSize(width, height);
     bgPane.setClip(new Rectangle(width, height));
 
-    // Animar 0 → -height*2 (pasa por las 3 franjas), loop perfecto
+    // Animate 0 -> -height*2 (passes through all 3 strips), perfect loop
     Timeline bgScroll =
-        new Timeline(
-            new KeyFrame(
-                Duration.ZERO, new KeyValue(bgCanvas.translateYProperty(), 0, Interpolator.LINEAR)),
-            new KeyFrame(
-                Duration.seconds(16.0),
-                new KeyValue(bgCanvas.translateYProperty(), -height * 2, Interpolator.LINEAR)));
+            new Timeline(
+                    new KeyFrame(
+                            Duration.ZERO, new KeyValue(bgCanvas.translateYProperty(), 0.0, Interpolator.LINEAR)),
+                    new KeyFrame(
+                            Duration.seconds(16.0),
+                            new KeyValue(bgCanvas.translateYProperty(), -height * 2.0, Interpolator.LINEAR)));
     bgScroll.setCycleCount(Timeline.INDEFINITE);
     bgScroll.play();
+
     Image dinoImage = loadImage("/assets/textures/dinomenu.png");
     ImageView dinoView = new ImageView(dinoImage);
     dinoView.setFitWidth(width * 0.38);
     dinoView.setPreserveRatio(true);
 
-    Font customFont =
-        Font.loadFont(
-            SplashContent.class.getResourceAsStream(
-                "/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME),
-            60);
+    InputStream fontStream = SplashContent.class.getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME);
+    Font customFont = null;
+    if (fontStream != null) {
+      customFont = Font.loadFont(fontStream, 60);
+    }
     Font titleFont = customFont != null ? customFont : Font.font("Arial", FontWeight.BOLD, 60);
 
     Text dinosaurText = new Text("DINOSAUR");
@@ -127,18 +130,18 @@ public class SplashContent {
       gv.setOpacity(0.30 + ThreadLocalRandom.current().nextDouble() * 0.30);
       final double gx = ThreadLocalRandom.current().nextDouble() * (width - 60);
       gv.setLayoutX(gx);
-      gv.setLayoutY(height + 60);
+      gv.setLayoutY(height + 60.0);
       decPane.getChildren().add(gv);
 
       final double dur = 6.0 + ThreadLocalRandom.current().nextDouble() * 6.0;
       Timeline dinoAnim =
-          new Timeline(
-              new KeyFrame(
-                  Duration.ZERO,
-                  new KeyValue(gv.layoutYProperty(), height + 60, Interpolator.LINEAR)),
-              new KeyFrame(
-                  Duration.seconds(dur),
-                  new KeyValue(gv.layoutYProperty(), -80, Interpolator.LINEAR)));
+              new Timeline(
+                      new KeyFrame(
+                              Duration.ZERO,
+                              new KeyValue(gv.layoutYProperty(), height + 60.0, Interpolator.LINEAR)),
+                      new KeyFrame(
+                              Duration.seconds(dur),
+                              new KeyValue(gv.layoutYProperty(), -80.0, Interpolator.LINEAR)));
       dinoAnim.setCycleCount(Timeline.INDEFINITE);
       dinoAnim.play();
       dinoAnim.jumpTo(Duration.seconds(ThreadLocalRandom.current().nextDouble() * dur));
@@ -156,16 +159,16 @@ public class SplashContent {
 
     // Bounce animation on the dinosaur
     Timeline bounce =
-        new Timeline(
-            new KeyFrame(
-                Duration.ZERO,
-                new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)),
-            new KeyFrame(
-                Duration.seconds(1.0),
-                new KeyValue(dinoView.translateYProperty(), -145, Interpolator.EASE_BOTH)),
-            new KeyFrame(
-                Duration.seconds(2.0),
-                new KeyValue(dinoView.translateYProperty(), -120, Interpolator.EASE_BOTH)));
+            new Timeline(
+                    new KeyFrame(
+                            Duration.ZERO,
+                            new KeyValue(dinoView.translateYProperty(), -120.0, Interpolator.EASE_BOTH)),
+                    new KeyFrame(
+                            Duration.seconds(1.0),
+                            new KeyValue(dinoView.translateYProperty(), -145.0, Interpolator.EASE_BOTH)),
+                    new KeyFrame(
+                            Duration.seconds(2.0),
+                            new KeyValue(dinoView.translateYProperty(), -120.0, Interpolator.EASE_BOTH)));
     bounce.setCycleCount(Timeline.INDEFINITE);
     bounce.play();
   }

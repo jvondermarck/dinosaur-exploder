@@ -1,7 +1,7 @@
 name: Code Formatting Check
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [main]
     types:  [opened, synchronize, reopened]
     paths-ignore:
@@ -79,7 +79,7 @@ jobs:
             -level=error
 
       - name: Find previous bot comment
-        if: always()
+        if: always() && github.event.pull_request.head.repo.full_name == github.repository
         id: find-comment
         uses:  peter-evans/find-comment@v3
         with:
@@ -88,7 +88,7 @@ jobs:
           body-includes: '<!-- spotless-check-comment -->'
 
       - name: Post success comment
-        if: steps.spotless.outputs.FILES_COUNT == '0'
+        if: steps.spotless.outputs.FILES_COUNT == '0' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number:  ${{ github.event.pull_request.number }}
@@ -107,7 +107,7 @@ jobs:
             🤖 _The DinoBot Team_ 🦖
 
       - name:  Post failure comment
-        if: steps.spotless.outputs.FILES_COUNT != '0'
+        if: steps.spotless.outputs.FILES_COUNT != '0' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}

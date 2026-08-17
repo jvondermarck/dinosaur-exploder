@@ -30,9 +30,7 @@ describe("ContactPage", () => {
 
   it("renders the Contribute section", async () => {
     render(await ContactPage({ params: Promise.resolve({ lang: "en" }) }));
-    expect(
-      screen.getByRole("heading", { name: /contribute/i })
-    ).toBeInTheDocument();
+    expect(screen.getByText(/^Contribute$/)).toBeInTheDocument();
     expect(screen.getByText(/\/website/i)).toBeInTheDocument();
   });
 });

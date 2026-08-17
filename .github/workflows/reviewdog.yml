@@ -79,7 +79,8 @@ jobs:
             -level=error
 
       - name: Find previous bot comment
-        if: always() && github.event.pull_request.head.repo.full_name == github.repository
+        if: always()
+        continue-on-error: true
         id: find-comment
         uses:  peter-evans/find-comment@v3
         with:
@@ -88,7 +89,8 @@ jobs:
           body-includes: '<!-- spotless-check-comment -->'
 
       - name: Post success comment
-        if: steps.spotless.outputs.FILES_COUNT == '0' && github.event.pull_request.head.repo.full_name == github.repository
+        if: steps.spotless.outputs.FILES_COUNT == '0'
+        continue-on-error: true
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number:  ${{ github.event.pull_request.number }}
@@ -107,7 +109,8 @@ jobs:
             🤖 _The DinoBot Team_ 🦖
 
       - name:  Post failure comment
-        if: steps.spotless.outputs.FILES_COUNT != '0' && github.event.pull_request.head.repo.full_name == github.repository
+        if: steps.spotless.outputs.FILES_COUNT != '0'
+        continue-on-error: true
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}

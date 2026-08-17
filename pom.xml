@@ -174,6 +174,8 @@
                 <version>${jpro.version}</version>
                 <configuration>
                     <mainClassName>${mainClassJProName}</mainClassName>
+                    <!-- Force JPro to use JavaFX 21 instead of the latest -->
+                    <javafxVersion>${source.version}</javafxVersion>
                     <JVMArgs>
                         <JVMArg>-DdebugMenu=${debugMenu}</JVMArg>
                     </JVMArgs>

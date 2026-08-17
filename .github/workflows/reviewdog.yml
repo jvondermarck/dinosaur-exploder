@@ -38,7 +38,15 @@ jobs:
 
       - uses: reviewdog/action-setup@v1
 
-      # 🎯 Compare only changes from the PR
+      # 🤖 1. Generate the token from your GitHub App
+      - name: Generate Bot Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      # 🎯 2. Compare only changes from the PR
       - name: Generate formatting diff
         id: spotless
         run: |
@@ -68,7 +76,8 @@ jobs:
         if: hashFiles('spotless.diff') != ''
         continue-on-error: true
         env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          # Use the generated App token
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           cat spotless.diff | reviewdog \
             -f=diff \
@@ -85,14 +94,17 @@ jobs:
         uses:  peter-evans/find-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
           body-includes: '<!-- spotless-check-comment -->'
+          # Use the generated App token
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Post success comment
         if: steps.spotless.outputs.FILES_COUNT == '0'
         continue-on-error: true
         uses: peter-evans/create-or-update-comment@v5
         with:
+          # Use the generated App token
+          token: ${{ steps.generate-token.outputs.token }}
           issue-number:  ${{ github.event.pull_request.number }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
@@ -113,6 +125,8 @@ jobs:
         continue-on-error: true
         uses: peter-evans/create-or-update-comment@v5
         with:
+          # Use the generated App token
+          token: ${{ steps.generate-token.outputs.token }}
           issue-number: ${{ github.event.pull_request.number }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace

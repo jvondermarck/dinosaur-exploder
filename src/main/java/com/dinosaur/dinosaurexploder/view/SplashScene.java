@@ -15,6 +15,8 @@ public class SplashScene extends StartupScene {
   public SplashScene(int width, int height) {
     super(width, height);
 
+    getContentRoot().setStyle("-fx-background-color: black;");
+
     StackPane root = new SplashContent(width, height).getRoot();
     root.setOpacity(0);
 

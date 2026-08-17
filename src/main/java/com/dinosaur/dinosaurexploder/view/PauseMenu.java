@@ -485,9 +485,15 @@ public class PauseMenu extends FXGLMenu {
         languageManager.getTranslation("quit_game"),
         false,
         () -> {
-            com.almasb.fxgl.dsl.FXGL.getGameWorld().getEntitiesCopy().forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
-            com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
-            getGameController().gotoMainMenu();
+          com.almasb
+              .fxgl
+              .dsl
+              .FXGL
+              .getGameWorld()
+              .getEntitiesCopy()
+              .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
+          com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
+          getGameController().gotoMainMenu();
         },
         () -> getGameController().resumeEngine());
   }

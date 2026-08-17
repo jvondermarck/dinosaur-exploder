@@ -74,7 +74,7 @@ jobs:
             -f=diff \
             -f.diff.strip=1 \
             -name="💄Spotless - Format" \
-            -reporter=github-pr-review \
+            -reporter=github-pr-check \
             -filter-mode=diff_context \
             -level=error
 
@@ -120,7 +120,7 @@ jobs:
             
             ![badge](https://img.shields.io/badge/Spotless-Failed-critical?logo=checkmarx&style=for-the-badge)
             
-            **${{ steps.spotless.outputs. FILES_COUNT }}** Java file(s) need formatting.
+            **${{ steps.spotless.outputs.FILES_COUNT }}** Java file(s) need formatting.
             
             ### 💡 Quick fix
             

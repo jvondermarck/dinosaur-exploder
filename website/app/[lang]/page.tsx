@@ -4,10 +4,12 @@
  */
 
 import { getDictionary } from "@/getDictionary";
+import SponsorCard from "@/components/SponsorCard";
+import type { Locale } from "@/i18n-config";
 
 export default async function Home({params}: {params: Promise<{lang: string}>}) {
   const {lang} = await params;
-  const dict = await getDictionary(lang as any);
+  const dict = await getDictionary(lang as Locale);
 
   return (
     <div className="flex flex-col">
@@ -79,27 +81,11 @@ export default async function Home({params}: {params: Promise<{lang: string}>}) 
 
       </section>
 
-      {/* Sponsor Section (Card) */}
-      <section className="w-full flex items-center justify-center pb-8">
-        <div className="rounded-xl shadow-lg shadow-black/30 dark:shadow-xl bg-neutral-800/90 dark:bg-white/90 border border-neutral-600 dark:border-green-200/70 p-[5px] max-w-full flex items-center justify-center">
-          <iframe
-            src="https://github.com/sponsors/jvondermarck/card"
-            title="Sponsor jvondermarck"
-            width="600"
-            height="225"
-            style={{
-              minWidth: "280px",
-              border: 0,
-              borderRadius: "0.75rem",
-              background: "transparent",
-              display: "block",
-              verticalAlign: "middle",
-            }}
-            className="max-w-full"
-            allow="payment"
-          />
-        </div>
-      </section>
+      <SponsorCard
+        title={dict.homePage.sponsorDescr.title}
+        description={dict.homePage.sponsorDescr.descr}
+        ctaLabel={dict.homePage.sponsorDescr.heart}
+      />
     </div>
   );
 }

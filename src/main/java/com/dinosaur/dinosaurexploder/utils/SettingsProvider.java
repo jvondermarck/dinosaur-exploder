@@ -42,9 +42,13 @@ public class SettingsProvider {
       return createSettingsFromProperties(properties);
     } catch (Exception e) {
       File file = new File(SETTINGS_FILE);
-      if (file.delete()) loadSettings();
+      if (file.delete()) {
+        return loadSettings();
+      }
+      Settings defaultSettings = generateDefaultSettings();
+      saveSettings(defaultSettings);
+      return defaultSettings;
     }
-    return null;
   }
 
   public static void saveSettings(Settings settings) {

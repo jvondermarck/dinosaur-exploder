@@ -388,9 +388,8 @@ public class DinosaurMenu extends FXGLMenu {
     boolean newMutedState = !AudioManager.getInstance().isMuted();
     AudioManager.getInstance().setMuted(newMutedState);
     mainMenuSound.setMute(newMutedState);
-    settings.setMuted(newMutedState);
     muteIcon.setImage(newMutedState ? muteImg : audioOnImg);
-    SettingsProvider.saveSettings(settings);
+    SettingsProvider.updateMuteState(newMutedState);
   }
 
   private void updateTexts() {

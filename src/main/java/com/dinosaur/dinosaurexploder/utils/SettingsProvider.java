@@ -27,7 +27,7 @@ public class SettingsProvider {
 
   public static Settings loadSettings() {
     Properties properties = readSettingsFile();
-    if (properties != null) {
+    if (!properties.isEmpty()) {
       try {
         return createSettingsFromProperties(properties);
       } catch (Exception e) {
@@ -51,7 +51,7 @@ public class SettingsProvider {
   private static Properties readSettingsFile() {
     File file = new File(SETTINGS_FILE);
     if (!file.isFile()) {
-      return null;
+      return new Properties();
     }
 
     Properties properties = new Properties();
@@ -60,7 +60,7 @@ public class SettingsProvider {
       return properties;
     } catch (Exception ex) {
       logger.log(Level.INFO, "Error reading settings {0}", ex.getMessage());
-      return null;
+      return new Properties();
     }
   }
 

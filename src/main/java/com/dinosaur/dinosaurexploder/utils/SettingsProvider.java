@@ -57,6 +57,12 @@ public class SettingsProvider {
     }
   }
 
+  public static void updateMuteState(boolean muted) {
+    Settings settings = loadSettings();
+    settings.setMuted(muted);
+    saveSettings(settings);
+  }
+
   private static Settings createSettingsFromProperties(Properties props) {
     Settings settings = new Settings();
     settings.setVolume(Double.parseDouble(props.getProperty(SETTING_VOLUME)));

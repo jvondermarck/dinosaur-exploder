@@ -14,8 +14,8 @@ import javafx.util.Duration;
 import org.junit.jupiter.api.Test;
 
 /**
- * Regression tests for issue #488 (active gameplay time): survived-seconds must be computed via
- * the injected GameTimer seam, not a direct wall-clock read, and never depend on real sleeps.
+ * Regression tests for issue #488 (active gameplay time): survived-seconds must be computed via the
+ * injected GameTimer seam, not a direct wall-clock read, and never depend on real sleeps.
  */
 class GameOverDialogTest {
 

@@ -48,6 +48,12 @@ public class SettingsProvider {
     }
   }
 
+  public static void updateMuteState(boolean muted) {
+    Settings settings = loadSettings();
+    settings.setMuted(muted);
+    saveSettings(settings);
+  }
+
   private static Properties readSettingsFile() {
     File file = new File(SETTINGS_FILE);
     if (!file.isFile()) {

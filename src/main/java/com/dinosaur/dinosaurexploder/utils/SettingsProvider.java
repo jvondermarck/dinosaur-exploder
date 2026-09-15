@@ -26,29 +26,20 @@ public class SettingsProvider {
   private SettingsProvider() {}
 
   public static Settings loadSettings() {
-    Properties properties = new Properties();
-
-    try {
-      FileInputStream in = new FileInputStream(SETTINGS_FILE);
-      properties.load(in);
-      in.close();
-    } catch (Exception ex) {
-      Settings defaultSettings = generateDefaultSettings();
-      saveSettings(defaultSettings);
-      return defaultSettings;
+    Properties properties = readSettingsFile();
+    if (!properties.isEmpty()) {
+      try {
+        return createSettingsFromProperties(properties);
+      } catch (Exception e) {
+        logger.log(Level.INFO, "Malformed settings, restoring defaults: {0}", e.getMessage());
+        deleteSettingsFile();
+      }
     }
-
-    try { // handling missing properties from settings.properties file
-      return createSettingsFromProperties(properties);
-    } catch (Exception e) {
-      File file = new File(SETTINGS_FILE);
-      if (file.delete()) loadSettings();
-    }
-    return null;
+    return saveDefaultSettings();
   }
 
   public static void saveSettings(Settings settings) {
-    Properties properties = createPropertiesFormSettings(settings);
+    Properties properties = createPropertiesFromSettings(settings);
 
     try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
       properties.store(writer, "store properties");
@@ -63,6 +54,35 @@ public class SettingsProvider {
     saveSettings(settings);
   }
 
+  private static Properties readSettingsFile() {
+    File file = new File(SETTINGS_FILE);
+    if (!file.isFile()) {
+      return new Properties();
+    }
+
+    Properties properties = new Properties();
+    try (FileInputStream in = new FileInputStream(file)) {
+      properties.load(in);
+      return properties;
+    } catch (Exception ex) {
+      logger.log(Level.INFO, "Error reading settings {0}", ex.getMessage());
+      return new Properties();
+    }
+  }
+
+  private static void deleteSettingsFile() {
+    File file = new File(SETTINGS_FILE);
+    if (file.exists() && !file.delete()) {
+      logger.log(Level.INFO, "Could not delete invalid settings file");
+    }
+  }
+
+  private static Settings saveDefaultSettings() {
+    Settings defaults = generateDefaultSettings();
+    saveSettings(defaults);
+    return defaults;
+  }
+
   private static Settings createSettingsFromProperties(Properties props) {
     Settings settings = new Settings();
     settings.setVolume(Double.parseDouble(props.getProperty(SETTING_VOLUME)));
@@ -74,7 +94,7 @@ public class SettingsProvider {
     return settings;
   }
 
-  private static Properties createPropertiesFormSettings(Settings settings) {
+  private static Properties createPropertiesFromSettings(Settings settings) {
     Properties properties = new Properties();
     properties.put(SETTING_VOLUME, String.valueOf(settings.getVolume()));
     properties.put(SETTINGS_MUTED, String.valueOf(settings.isMuted()));

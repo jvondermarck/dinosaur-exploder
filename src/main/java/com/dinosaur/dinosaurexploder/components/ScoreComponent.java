@@ -14,8 +14,9 @@ import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.interfaces.Score;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.HighScore;
+import com.dinosaur.dinosaurexploder.persistence.FileHighScoreRepository;
+import com.dinosaur.dinosaurexploder.persistence.HighScoreRepository;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-import java.io.*;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -29,15 +30,25 @@ public class ScoreComponent extends Component implements Score {
   private int score = 0;
   private static HighScore highScore = new HighScore();
   private final LanguageManager languageManager = LanguageManager.getInstance();
+  private final HighScoreRepository highScoreRepository;
 
   private Text scoreText;
   private Text highScoreText;
 
   protected Logger logger = Logger.getLogger(getClass().getName());
 
+  public ScoreComponent() {
+    this(new FileHighScoreRepository());
+  }
+
+  // Public: lets tests (in another package) inject a mock instead of touching real files.
+  public ScoreComponent(HighScoreRepository highScoreRepository) {
+    this.highScoreRepository = highScoreRepository;
+  }
+
   @Override
   public void onAdded() {
-    loadHighScore();
+    highScore = highScoreRepository.load();
     createScoreUI();
     updateTexts();
 
@@ -50,7 +61,6 @@ public class ScoreComponent extends Component implements Score {
   }
 
   private void createScoreUI() {
-    // ✅ Utilise FXGL UI Factory pour la police
     scoreText =
         FXGL.getUIFactoryService().newText("", Color.YELLOW, GameConstants.TEXT_SIZE_GAME_INFO);
 
@@ -79,24 +89,6 @@ public class ScoreComponent extends Component implements Score {
             + highScore.getHigh(currentMode.name()));
   }
 
-  private void loadHighScore() {
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream(GameConstants.HIGH_SCORE_FILE))) {
-      highScore = (HighScore) in.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      highScore = new HighScore();
-    }
-  }
-
-  private void saveHighScore() {
-    try (ObjectOutputStream out =
-        new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {
-      out.writeObject(highScore);
-    } catch (IOException e) {
-      logger.info("Error saving high score: " + e.getMessage());
-    }
-  }
-
   @Override
   public int getScore() {
     return score;
@@ -116,7 +108,7 @@ public class ScoreComponent extends Component implements Score {
   public void setHighScore(int value) {
     GameMode currentMode = GameData.getSelectedDifficulty();
     highScore.setHigh(currentMode.name(), value);
-    saveHighScore();
+    highScoreRepository.save(highScore);
   }
 
   @Override
@@ -127,9 +119,8 @@ public class ScoreComponent extends Component implements Score {
 
     if (score > highScore.getHigh(currGameMode.name())) {
       highScore.setHigh(currGameMode.name(), score);
-      saveHighScore();
+      highScoreRepository.save(highScore);
     }
-    // Notify achievements about score change
     // Notify achievements about score change
     try {
       AchievementManager achievementManager =

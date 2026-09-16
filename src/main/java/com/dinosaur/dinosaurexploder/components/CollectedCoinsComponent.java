@@ -11,10 +11,9 @@ import com.almasb.fxgl.entity.component.Component;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.interfaces.CollectedCoins;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
+import com.dinosaur.dinosaurexploder.persistence.FileTotalCoinsRepository;
+import com.dinosaur.dinosaurexploder.persistence.TotalCoinsRepository;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -28,6 +27,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   private static final int COIN_VALUE = 1;
 
   private static TotalCoins totalCoins = new TotalCoins();
+  private final TotalCoinsRepository totalCoinsRepository;
 
   private final LanguageManager languageManager = LanguageManager.getInstance();
 
@@ -35,16 +35,21 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   private Node coinUI;
   private Image coinImage;
 
-  private Logger logger = Logger.getLogger(getClass().getName());
+  public CollectedCoinsComponent() {
+    this(new FileTotalCoinsRepository());
+  }
+
+  // Public: lets tests (in another package) inject a mock instead of touching real files.
+  public CollectedCoinsComponent(TotalCoinsRepository totalCoinsRepository) {
+    this.totalCoinsRepository = totalCoinsRepository;
+  }
 
   @Override
   public void onAdded() {
-    loadTotalCoins(); // Deserialize once when the component is added
+    totalCoins = totalCoinsRepository.load();
 
-    // load coin Image once
     coinImage = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
 
-    // Create UI elements
     coinText =
         getUIFactoryService()
             .newText(
@@ -65,31 +70,12 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   }
 
   private Node createCoinUI() {
-
     ImageView imageView = new ImageView(coinImage);
 
     HBox container = new HBox(5, coinText, imageView);
     container.setAlignment(Pos.CENTER_LEFT);
 
     return container;
-  }
-
-  private void loadTotalCoins() {
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream(GameConstants.TOTAL_COINS_FILE))) {
-      totalCoins = (TotalCoins) in.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      totalCoins = new TotalCoins(); // Defaults to 0 if file is missing or corrupted
-    }
-  }
-
-  private void saveTotalCoins() {
-    try (ObjectOutputStream out =
-        new ObjectOutputStream(new FileOutputStream(GameConstants.TOTAL_COINS_FILE))) {
-      out.writeObject(totalCoins);
-    } catch (IOException e) {
-      logger.log(Level.SEVERE, "Error saving coins: {0}", e.getMessage());
-    }
   }
 
   @Override
@@ -101,7 +87,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
     coin += COIN_VALUE;
     totalCoins.setTotal(totalCoins.getTotal() + COIN_VALUE);
     updateText();
-    saveTotalCoins();
+    totalCoinsRepository.save(totalCoins);
   }
 
   public int getCoin() {
@@ -118,6 +104,6 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
     coin = amount;
     totalCoins.setTotal(amount);
     updateText();
-    saveTotalCoins();
+    totalCoinsRepository.save(totalCoins);
   }
 }

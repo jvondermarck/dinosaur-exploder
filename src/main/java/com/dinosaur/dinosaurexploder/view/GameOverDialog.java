@@ -11,21 +11,22 @@ import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 import com.dinosaur.dinosaurexploder.components.ScoreComponent;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.GameOverStats;
+import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
-import java.time.Duration;
+import javafx.util.Duration;
 
 public class GameOverDialog {
 
   private final LanguageManager languageManager;
   private final LevelManager levelManager;
-  private final long sessionStartNanos;
+  private final GameTimer sessionTimer;
 
   public GameOverDialog(
-      LanguageManager languageManager, LevelManager levelManager, long sessionStartNanos) {
+      LanguageManager languageManager, LevelManager levelManager, GameTimer sessionTimer) {
     this.languageManager = languageManager;
     this.levelManager = levelManager;
-    this.sessionStartNanos = sessionStartNanos;
+    this.sessionTimer = sessionTimer;
   }
 
   public void createDialog() {
@@ -39,11 +40,21 @@ public class GameOverDialog {
     } catch (Exception ignored) {
     }
 
-    long survivedSeconds = Duration.ofNanos(System.nanoTime() - sessionStartNanos).toSeconds();
+    long survivedSeconds = calculateSurvivedSeconds();
     GameOverStats stats =
         new GameOverStats(
             finalScore, GameData.getHighScore(), levelManager.getCurrentLevel(), survivedSeconds);
 
     getSceneService().pushSubScene(new GameOverMenu(languageManager, stats));
+  }
+
+  // Package-private so regression tests can pin this down against an injected GameTimer
+  // without needing a running FXGL engine.
+  long calculateSurvivedSeconds() {
+    long survivedSeconds = 0;
+    while (sessionTimer.isElapsed(Duration.seconds(survivedSeconds + 1))) {
+      survivedSeconds++;
+    }
+    return survivedSeconds;
   }
 }

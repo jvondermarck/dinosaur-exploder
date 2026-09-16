@@ -28,10 +28,10 @@ export function useImageLoader() {
     };
 
     Promise.all([
-      loadImage('/spaceship1.png'),
-      loadImage('/greenDino.png'),
-      loadImage('/basicProjectile.png'),
-      loadImage('/explosion.png'),
+      loadImage('/game/spaceship1.png'),
+      loadImage('/game/greenDino.png'),
+      loadImage('/game/basicProjectile.png'),
+      loadImage('/game/explosion.png'),
     ])
       .then(([ship, dino, bullet, explosion]) => {
         setImages({

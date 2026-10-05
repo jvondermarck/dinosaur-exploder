@@ -28,7 +28,7 @@ import javafx.scene.text.Text;
 
 public class ScoreComponent extends Component implements Score {
   private int score = 0;
-  private static HighScore highScore = new HighScore();
+  private HighScore highScore = new HighScore();
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final HighScoreRepository highScoreRepository;
 

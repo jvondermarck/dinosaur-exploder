@@ -26,7 +26,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   private int coin = 0;
   private static final int COIN_VALUE = 1;
 
-  private static TotalCoins totalCoins = new TotalCoins();
+  private TotalCoins totalCoins = new TotalCoins();
   private final TotalCoinsRepository totalCoinsRepository;
 
   private final LanguageManager languageManager = LanguageManager.getInstance();

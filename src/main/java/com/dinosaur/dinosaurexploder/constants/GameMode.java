@@ -13,8 +13,8 @@ public enum GameMode {
   // lives, graceSec, bosses, enemies, enemiesInc, spawnRate, minSpawn, spawnDecay, speed,
   // speedInc, asteroidsRate, asteroidsRateInc
   EASY(5, 2.0, 1, 3, 2, 1.5, 0.8, 0.95, 0.8, 0.1, 2.5, 0.05),
-  NORMAL(3, 0.0, 1, 5, 5, 0.75, 0.3, 0.9, 1.5, 0.2, 1.5, 0.1),
-  EXPERT(3, 0.0, 2, 5, 5, 0.75, 0.3, 0.9, 1.5, 0.2, 1.5, 0.1);
+  NORMAL(3, 1.5, 1, 5, 5, 0.75, 0.3, 0.9, 1.5, 0.2, 1.5, 0.1),
+  EXPERT(3, 1.0, 2, 5, 5, 0.75, 0.3, 0.9, 1.5, 0.2, 1.5, 0.1);
 
   private final int startingLives;
   private final double damageGracePeriodSeconds;
@@ -60,7 +60,7 @@ public enum GameMode {
     return startingLives;
   }
 
-  /** Seconds of invincibility after the player is hit (0 = none). */
+  /** Seconds of invincibility after the player is hit. */
   public double getDamageGracePeriodSeconds() {
     return damageGracePeriodSeconds;
   }

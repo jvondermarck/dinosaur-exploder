@@ -84,18 +84,16 @@ public class GameInitializer {
 
     levelManager = new LevelManager();
     levelManager.setGameMode(GameData.getSelectedDifficulty()); // Set the difficulty from GameData
-    levelManager.setBossesToDefeat(GameData.getSelectedDifficulty() == GameMode.EXPERT ? 2 : 1);
 
     FXGL.set("levelManager", levelManager);
 
     initGameEntities();
 
-    // In EASY mode, grant the player 5 lives instead of the default 3
-    if (GameData.getSelectedDifficulty() == GameMode.EASY) {
-      LifeComponent lifeComponent = life.getComponent(LifeComponent.class);
-      lifeComponent.setMaxLives(5);
-      lifeComponent.setCurrentLives(5);
-    }
+    // Starting lives come from the selected game mode
+    LifeComponent lifeComponent = life.getComponent(LifeComponent.class);
+    int startingLives = GameData.getSelectedDifficulty().getStartingLives();
+    lifeComponent.setMaxLives(startingLives);
+    lifeComponent.setCurrentLives(startingLives);
 
     collisionHandler = new CollisionHandler(levelManager, achievementManager);
 

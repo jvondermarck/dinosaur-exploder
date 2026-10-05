@@ -14,7 +14,7 @@
     "sponsorDescr": {
       "title": "Patrocina a Julien Von Der Marck en GitHub Sponsors",
       "heart": "Patrocinar",
-      "descr": "Desarrollador apasionado de codigo abierto. Mantengo Dinosaur Exploder, un shoot 'em up gratuito de Java/FXGL. Doy la bienvenida y guio a nuevos contribuidores cada dia! 🦖✨"
+      "descr": "Desarrollador apasionado del código abierto. Mantengo Dinosaur Exploder, un shoot ’em up gratuito desarrollado con Java/FXGL. ¡Doy la bienvenida y oriento a nuevos colaboradores todos los días! 🦖✨"
     }
   },
 
@@ -24,7 +24,8 @@
     "contact": "Contacto",
     "reviews": "Reseñas",
     "star": "Star",
-    "sponsor": "Patrocinar"
+    "sponsor": "Patrocinar",
+    "news": "Noticias"
   },
 
   "features": [
@@ -113,5 +114,15 @@
       "title": "Contribuir",
       "description": "Quieres ayudar? Elige un issue en GitHub o contribuye al sitio web en la carpeta /website."
     }
-}
+},
+
+  "news": {
+    "title": "Noticias",
+    "description": "Últimas actualizaciones, versiones y anuncios del proyecto.",
+    "postedBy": "Publicado por",
+    "on": "el",
+    "backToNews": "Ver todas las noticias",
+    "readMore": "Leer →",
+    "comments": "Comentarios"
+  }
 }

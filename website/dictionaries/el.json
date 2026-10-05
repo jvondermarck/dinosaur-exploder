@@ -13,9 +13,9 @@
         
         "button": "Δείτε το στο Github",
         "sponsorDescr": {
-            "title": "Sponsor Julien Von Der Marck on GitHub Sponsors",
-            "heart": "Sponsor",
-            "descr": "Passionate open-source dev. I maintain Dinosaur Exploder, a free Java/FXGL shoot ’em up. Welcoming & guiding new contributors every day! 🦖✨"
+            "title": "Υποστηρίξτε τον Julien Von Der Marck στο GitHub Sponsors",
+            "heart": "Υποστήριξη",
+            "descr": "Παθιασμένος προγραμματιστής ανοιχτού κώδικα. Συντηρώ το Dinosaur Exploder, ένα δωρεάν shoot ’em up σε Java/FXGL. Καλωσορίζω και καθοδηγώ καθημερινά νέους συνεισφέροντες! 🦖✨"
         }
     },
 
@@ -25,7 +25,8 @@
         "contact": "Επικοινωνία",
         "reviews": "Κριτικές",
         "star": "Star",
-        "sponsor": "Γίνετε χορηγός" 
+        "sponsor": "Γίνετε χορηγός",
+        "news": "Νέα"
     },
 
     "features": [
@@ -114,5 +115,15 @@
             "title": "Θέλεις να βοηθήσεις;",
             "description": "Διάλεξε ένα issue στο GitHub, ή βοήθησε με την ιστοσελίδα μέσω του φακέλου /website."
         }
+    },
+
+    "news": {
+        "title": "Νέα",
+        "description": "Τελευταίες ενημερώσεις, εκδόσεις και ανακοινώσεις του project.",
+        "postedBy": "Δημοσιεύτηκε από",
+        "on": "στις",
+        "backToNews": "Όλα τα νέα",
+        "readMore": "Διάβασε →",
+        "comments": "Σχόλια"
     }
 }

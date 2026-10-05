@@ -54,7 +54,7 @@ describe("CreditsPage (server component)", () => {
     // Assign mock to global.fetch safely
     global.fetch = mockFetch as unknown as typeof fetch;
 
-    const ui = await CreditsPage();
+    const ui = await CreditsPage({ params: Promise.resolve({ lang: "en" }) });
     render(ui);
 
     expect(screen.getByRole("heading", { name: /credits/i })).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe("CreditsPage (server component)", () => {
 
     global.fetch = mockFetch as unknown as typeof fetch;
 
-    const ui = await CreditsPage();
+    const ui = await CreditsPage({ params: Promise.resolve({ lang: "en" }) });
     render(ui);
 
     expect(

@@ -133,7 +133,18 @@ public class GameOverMenu extends FXGLMenu {
 
   private Button createRestartButton() {
     Button restartButton = MenuHelper.createStyledButton(languageManager.getTranslation("start"));
-    restartButton.setOnAction(event -> getGameController().startNewGame());
+    restartButton.setOnAction(
+        event -> {
+          com.almasb
+              .fxgl
+              .dsl
+              .FXGL
+              .getGameWorld()
+              .getEntitiesCopy()
+              .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
+          com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
+          getGameController().startNewGame();
+        });
     return restartButton;
   }
 
@@ -179,7 +190,18 @@ public class GameOverMenu extends FXGLMenu {
                     + "-fx-text-fill: white;"
                     + "-fx-effect: dropshadow(gaussian, rgba(220, 0, 0, 0.7), 10, 0.5, 0, 0);"
                     + "-fx-padding: 5 15 5 15;"));
-    quitButton.setOnAction(event -> getGameController().gotoMainMenu());
+    quitButton.setOnAction(
+        event -> {
+          com.almasb
+              .fxgl
+              .dsl
+              .FXGL
+              .getGameWorld()
+              .getEntitiesCopy()
+              .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
+          com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
+          getGameController().gotoMainMenu();
+        });
     return quitButton;
   }
 

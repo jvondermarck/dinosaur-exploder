@@ -1,0 +1,62 @@
+name: Code Formatting Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - 'website/**'
+
+jobs:
+  spotless:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
+
+      - name: Generate formatting diff
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          CHANGED_JAVA_FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.event.pull_request.base.ref }}...HEAD | grep '\.java$' || true)
+          
+          if [ -z "$CHANGED_JAVA_FILES" ]; then
+            echo "FILES_COUNT=0" > results.env
+            exit 0
+          fi
+          
+          mvn spotless:apply || true
+          git diff -- $CHANGED_JAVA_FILES > spotless.diff
+          echo "FILES_COUNT=$(git diff --name-only -- $CHANGED_JAVA_FILES | wc -l)" > results.env
+
+      - name: Save PR Number
+        run: echo "${{ github.event.pull_request.number }}" > pr-number.txt
+
+      - name: Upload Results Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotless-results
+          path: |
+            spotless.diff
+            results.env
+            pr-number.txt
+          retention-days: 1
+
+      - name: Fail build if formatting is required
+        run: |
+          source results.env
+          if [ "$FILES_COUNT" != "0" ]; then
+            echo "::error::Code formatting issues detected. Please fix them before merging."
+            exit 1
+          fi

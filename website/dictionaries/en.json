@@ -19,6 +19,7 @@
     },
 
     "NavBar": {
+        "news": "News",
         "howGameWorks": "How game works",
         "credits": "Credits",
         "contact": "Contact",
@@ -113,5 +114,15 @@
             "title": "Contribute",
             "description": "Want to help? Pick an issue on GitHub, or contribute to the website in the /website folder."
         }
+    },
+
+    "news": {
+        "title": "News",
+        "description": "Latest updates, releases and announcements from the project.",
+        "postedBy": "Posted by",
+        "on": "on",
+        "backToNews": "View All News",
+        "readMore": "Read →",
+        "comments": "Comments"
     }
 }

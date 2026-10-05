@@ -85,7 +85,7 @@ public class PauseMenu extends FXGLMenu {
     mainMenuSound =
         new MediaPlayer(
             new Media(
-                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.wav"))
+                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.mp3"))
                     .toExternalForm()));
 
     // Read the last saved settings and load the main menu sound
@@ -484,7 +484,17 @@ public class PauseMenu extends FXGLMenu {
     MenuHelper.showConfirmationDialog(
         languageManager.getTranslation("quit_game"),
         false,
-        () -> getGameController().gotoMainMenu(),
+        () -> {
+          com.almasb
+              .fxgl
+              .dsl
+              .FXGL
+              .getGameWorld()
+              .getEntitiesCopy()
+              .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
+          com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
+          getGameController().gotoMainMenu();
+        },
         () -> getGameController().resumeEngine());
   }
 }

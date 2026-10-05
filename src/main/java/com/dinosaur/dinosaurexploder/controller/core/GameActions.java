@@ -18,6 +18,8 @@ import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.model.GameData;
+import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
+import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.TextUtils;
@@ -45,7 +47,7 @@ public class GameActions {
   private final Entity bomb;
   private AllyComponent ally;
   private boolean isAllyUse = false;
-  private final long sessionStartNanos;
+  private final GameTimer sessionTimer;
   private boolean gameOverTriggered = false;
   private static final Logger LOGGER = Logger.getLogger(GameActions.class.getName());
   private double emissionRate;
@@ -73,7 +75,8 @@ public class GameActions {
       this.emissionRate = 0;
     }
 
-    this.sessionStartNanos = System.nanoTime();
+    this.sessionTimer = new FXGLGameTimer();
+    this.sessionTimer.capture();
   }
 
   public void updateLevelDisplay() {
@@ -282,7 +285,7 @@ public class GameActions {
   }
 
   public void gameOver() {
-    new GameOverDialog(languageManager, levelManager, sessionStartNanos).createDialog();
+    new GameOverDialog(languageManager, levelManager, sessionTimer).createDialog();
   }
 
   public AllyComponent getAlly() {

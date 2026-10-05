@@ -225,6 +225,7 @@ public class GameActions {
 
           enemySpawner.resumeEnemySpawning();
           asteroidsSpawner.resumeAsteroidsSpawning();
+          sessionTimer.resume();
 
           player.getComponent(PlayerComponent.class).setInvincible(true);
           runOnce(
@@ -251,6 +252,9 @@ public class GameActions {
             });
     enemySpawner.pauseEnemySpawning();
     asteroidsSpawner.pauseAsteroidsSpawning();
+    // Gameplay is frozen, so the session timer must stop too - otherwise level-up transitions
+    // and the game-over sequence would be counted as survived time.
+    sessionTimer.pause();
   }
 
   public void regenerateBombe() {

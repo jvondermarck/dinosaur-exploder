@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.23.0</version>
+            <version>5.24.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.23.0</version>
+            <version>5.24.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -101,7 +101,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>3.10.2</version>
+                <version>3.10.3</version>
                 <configuration>
                     <java>
                         <!-- Explicit, but optional: defaults already hit these dirs -->

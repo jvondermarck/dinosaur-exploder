@@ -6,11 +6,14 @@
 package com.dinosaur.dinosaurexploder.model;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import com.almasb.fxgl.entity.Entity;
 import com.dinosaur.dinosaurexploder.achievements.Achievement;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.*;
+import com.dinosaur.dinosaurexploder.persistence.HighScoreRepository;
+import com.dinosaur.dinosaurexploder.persistence.TotalCoinsRepository;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.MockGameTimer;
 import java.util.ArrayList;
@@ -28,10 +31,15 @@ class CollisionHandlerTest {
   public static final int RED_DINO_LIVES = 10;
   public static final int PLAYER_MAX_LIVES = 3;
   public static final int MAX_BOMB_COUNT = 3;
+
   private List<Achievement> currentAchievement = new ArrayList<>();
   AchievementManager achievementManager = new AchievementManager();
   CollisionHandler collisionHandler;
   LevelManager levelManager;
+
+  // Mocked repositories: no test in this class ever touches a real .ser save file anymore.
+  private HighScoreRepository highScoreRepository;
+  private TotalCoinsRepository totalCoinsRepository;
 
   @BeforeEach
   void setUp() {
@@ -42,11 +50,17 @@ class CollisionHandlerTest {
     achievementManager.init();
 
     collisionHandler = new CollisionHandler(levelManager, achievementManager);
+
+    highScoreRepository = mock(HighScoreRepository.class);
+    when(highScoreRepository.load()).thenReturn(new HighScore());
+
+    totalCoinsRepository = mock(TotalCoinsRepository.class);
+    when(totalCoinsRepository.load()).thenReturn(new TotalCoins());
   }
 
   @Test
   void projectileHitDino_thenLevelUp() {
-    ScoreComponent scoreComponent = new ScoreComponent();
+    ScoreComponent scoreComponent = new ScoreComponent(highScoreRepository);
     Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);
     LevelProgressBarComponent levelProgressBarComponent =
         new LevelProgressBarComponent(rect, levelManager) {
@@ -62,7 +76,7 @@ class CollisionHandlerTest {
 
   @Test
   void projectileHitDino_thenScoreIncrease() {
-    ScoreComponent scoreComponent = new ScoreComponent();
+    ScoreComponent scoreComponent = new ScoreComponent(highScoreRepository);
     Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);
     LevelProgressBarComponent levelProgressBarComponent =
         new LevelProgressBarComponent(rect, levelManager) {
@@ -86,7 +100,7 @@ class CollisionHandlerTest {
 
   @Test
   void projectileKillBoss_thenGetScoreAndLevel() {
-    ScoreComponent scoreComponent = new ScoreComponent();
+    ScoreComponent scoreComponent = new ScoreComponent(highScoreRepository);
     Rectangle rect = new Rectangle(0, 8, Color.LIMEGREEN);
     LevelProgressBarComponent levelProgressBarComponent =
         new LevelProgressBarComponent(rect, levelManager) {
@@ -122,7 +136,7 @@ class CollisionHandlerTest {
   void playerGetCoin_thenFillBomb() {
     // given
     CollectedCoinsComponent collectedCoinsComponent =
-        new CollectedCoinsComponent() {
+        new CollectedCoinsComponent(totalCoinsRepository) {
           @Override
           protected void updateText() {
             // do nothing
@@ -149,7 +163,7 @@ class CollisionHandlerTest {
 
     for (int i = 0; i < 15; i++) {
       collisionHandler.onPlayerGetCoin(
-          collectedCoinsComponent, new ScoreComponent(), bombComponent);
+          collectedCoinsComponent, new ScoreComponent(highScoreRepository), bombComponent);
     }
 
     // then
@@ -164,6 +178,27 @@ class CollisionHandlerTest {
     collisionHandler.onPlayerGetHeart(lifeComponent);
 
     assertEquals(PLAYER_MAX_LIVES, lifeComponent.getLife());
+  }
+
+  @Test
+  void savingHighScoreAndCoins_doesNotTouchRealSaveFiles() {
+    // given
+    ScoreComponent scoreComponent = new ScoreComponent(highScoreRepository);
+    CollectedCoinsComponent collectedCoinsComponent =
+        new CollectedCoinsComponent(totalCoinsRepository) {
+          @Override
+          protected void updateText() {
+            // do nothing
+          }
+        };
+
+    // when
+    scoreComponent.setHighScore(Integer.MAX_VALUE);
+    collectedCoinsComponent.setCoin(Integer.MAX_VALUE);
+
+    // then: persistence was delegated to the (mocked) repository, never to a real file
+    verify(highScoreRepository).save(any(HighScore.class));
+    verify(totalCoinsRepository).save(any(TotalCoins.class));
   }
 
   @AfterEach

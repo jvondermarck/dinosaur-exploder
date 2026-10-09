@@ -15,14 +15,16 @@ public class HighScore implements Serializable {
 
   public HighScore() {
     this.highScores = new HashMap<>();
-    this.highScores.put(GameMode.NORMAL.name(), 0);
-    this.highScores.put(GameMode.EXPERT.name(), 0);
+    for (GameMode mode : GameMode.values()) {
+      this.highScores.put(mode.name(), 0);
+    }
   }
 
   public HighScore(Map<String, Integer> scores) {
     this.highScores = new HashMap<>(scores);
-    this.highScores.putIfAbsent(GameMode.NORMAL.name(), 0);
-    this.highScores.putIfAbsent(GameMode.EXPERT.name(), 0);
+    for (GameMode mode : GameMode.values()) {
+      this.highScores.putIfAbsent(mode.name(), 0);
+    }
   }
 
   public Integer getHigh(String mode) {

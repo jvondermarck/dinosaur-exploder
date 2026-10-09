@@ -16,7 +16,6 @@ import com.almasb.fxgl.particle.ParticleEmitter;
 import com.almasb.fxgl.particle.ParticleEmitters;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.constants.EntityType;
-import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
@@ -116,17 +115,10 @@ public class GameActions {
     // Apply damage
     int lives = collisionHandler.getDamagedPlayerLife(life.getComponent(LifeComponent.class));
 
-    // ========== ADDED: Scale invincibility duration based on difficulty ==========
-    double invincibleSeconds;
-    GameMode currentDifficulty = GameData.getSelectedDifficulty();
-    if (currentDifficulty == GameMode.EXPERT) {
-      invincibleSeconds = 1.0; // Expert mode: 1 second
-    } else { // NORMAL
-      invincibleSeconds = 1.5; // Normal mode: 1.5 seconds
-    }
-    // ========== END ADDED ==========
+    // Invincibility duration after a hit, defined by the selected game mode
+    double invincibleSeconds = GameData.getSelectedDifficulty().getDamageGracePeriodSeconds();
 
-    // ========== ADDED: Activate invincibility frames with visual feedback ==========
+    // Activate invincibility frames with visual feedback
     PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
     playerComp.setInvincible(true); // This will start the blinking animation
     runOnce(
@@ -136,7 +128,6 @@ public class GameActions {
           }
         },
         seconds(invincibleSeconds));
-    // ========== END ADDED ==========
 
     // Visual flash effect (red screen flash)
     var flash = new Rectangle(DinosaurGUI.WIDTH, DinosaurGUI.HEIGHT, Color.rgb(190, 10, 15, 0.5));

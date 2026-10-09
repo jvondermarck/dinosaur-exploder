@@ -39,7 +39,7 @@ describe("HowGameWorksPage", () => {
     expect(source).toBeInTheDocument();
     expect(source).toHaveAttribute(
       "src",
-      "https://github.com/user-attachments/assets/4b5a6ed4-2e68-4e12-a9c8-8a6c33178c5e"
+      "https://github.com/user-attachments/assets/b7514911-b907-402b-b5c2-770df8731008"
     );
   });
 

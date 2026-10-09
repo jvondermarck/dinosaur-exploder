@@ -6,6 +6,7 @@
     "select_ship": "选择你的飞船",
     "select_weapon": "选择你的武器",
     "select_difficulty": "选择难度",
+    "easy_mode": "简单模式",
     "normal_mode": "普通模式",
     "expert_mode": "专家模式",
     "select_specialty": "选择特长",

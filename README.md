@@ -48,7 +48,7 @@ This isn't just a game—it's a **real-world project designed for learning and c
 
 ## 🎥 What We're Building
 
-https://github.com/user-attachments/assets/b7514911-b907-402b-b5c2-770df8731008
+https://github.com/user-attachments/assets/45bd373b-a215-44a5-b6f4-f4de94ffc873
 
 A classic arcade shooter with:
 - 🎮 **Java game engine** (JavaFX + FXGL)

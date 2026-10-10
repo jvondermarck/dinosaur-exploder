@@ -15,7 +15,7 @@ public enum GameMode {
       2.0,
       new LevelGoals(1, 3, 2),
       new EnemyTuning(1.5, 0.8, 0.95, 0.8, 0.1),
-      new AsteroidTuning(2.5, 0.05)),
+      new AsteroidTuning(2.5, 0.05, 0.4, 0.1))
   NORMAL(
       3,
       1.5,
@@ -40,8 +40,12 @@ public enum GameMode {
       double initialSpeed,
       double speedIncrement) {}
 
-  /** Asteroid spawn rate and its per-level increment. */
-  private record AsteroidTuning(double initialSpawnRate, double spawnRateIncrement) {}
+  /** Asteroid spawn rate, its per-level increment, and speeds. */
+  private record AsteroidTuning(
+      double initialSpawnRate,
+      double spawnRateIncrement,
+      double verticalSpeed,
+      double horizontalSpeed) {}
 
   private final int startingLives;
   private final double damageGracePeriodSeconds;
@@ -109,5 +113,13 @@ public enum GameMode {
 
   public double getAsteroidsSpawnRateIncrement() {
     return asteroidTuning.spawnRateIncrement();
+  }
+
+  public double getAsteroidsVerticalSpeed() {
+    return asteroidTuning.verticalSpeed();
+  }
+
+  public double getAsteroidsHorizontalSpeed() {
+    return asteroidTuning.horizontalSpeed();
   }
 }

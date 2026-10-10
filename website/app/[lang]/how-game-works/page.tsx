@@ -78,7 +78,7 @@ export default async function HowGameWorksPage({params,}: {params: Promise<{lang
             preload="metadata"
           >
             <source
-              src="https://github.com/user-attachments/assets/b7514911-b907-402b-b5c2-770df8731008"
+              src="https://github.com/user-attachments/assets/45bd373b-a215-44a5-b6f4-f4de94ffc873"
               type="video/mp4"
             />
             {demo.error}

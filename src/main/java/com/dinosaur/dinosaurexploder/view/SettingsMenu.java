@@ -13,6 +13,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
@@ -119,15 +120,23 @@ public class SettingsMenu extends FXGLMenu {
 
   // Dialog for the player's score values
   private void createScoreDialog() {
-    String highScore =
-        (languageManager.getTranslation("high_score") + ": " + GameData.getHighScore())
-                .toUpperCase()
-            + "\n";
+    StringBuilder scores = new StringBuilder();
+    for (GameMode mode : GameMode.values()) {
+      scores
+          .append(
+              (languageManager.getTranslation("high_score")
+                      + " ( "
+                      + mode.name()
+                      + " ): "
+                      + GameData.getHighScore(mode))
+                  .toUpperCase())
+          .append("\n");
+    }
     String totalCoins =
         (languageManager.getTranslation("total_coins") + ": " + GameData.getTotalCoins())
             .toUpperCase();
     MenuHelper.showDialog(
-        languageManager.getTranslation(SCORE_LABEL).toUpperCase(), highScore + totalCoins);
+        languageManager.getTranslation(SCORE_LABEL).toUpperCase(), scores + totalCoins);
   }
 
   // dialog for the controls

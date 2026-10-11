@@ -69,12 +69,14 @@ public class LevelManager {
   public void nextLevel() {
     currentLevel++;
     defeatedEnemies = 0;
-    enemiesToDefeat += 5;
+    enemiesToDefeat += gameMode.getEnemiesToDefeatIncrement();
     defeatedBosses = 0;
 
-    enemySpawnRate = Math.max(0.3, enemySpawnRate * 0.9);
-    enemySpeed += 0.2;
-    asteroidsSpawnRate += 0.1;
+    enemySpawnRate =
+        Math.max(
+            gameMode.getMinEnemySpawnRate(), enemySpawnRate * gameMode.getEnemySpawnRateDecay());
+    enemySpeed += gameMode.getEnemySpeedIncrement();
+    asteroidsSpawnRate += gameMode.getAsteroidsSpawnRateIncrement();
   }
 
   public int getEnemiesToDefeat() {
@@ -91,6 +93,11 @@ public class LevelManager {
 
   public void setGameMode(GameMode mode) {
     gameMode = mode;
+    enemySpawnRate = mode.getInitialEnemySpawnRate();
+    enemySpeed = mode.getInitialEnemySpeed();
+    asteroidsSpawnRate = mode.getInitialAsteroidsSpawnRate();
+    enemiesToDefeat = mode.getInitialEnemiesToDefeat();
+    bossesToDefeat = mode.getBossesToDefeat();
   }
 
   public GameMode getGameMode() {

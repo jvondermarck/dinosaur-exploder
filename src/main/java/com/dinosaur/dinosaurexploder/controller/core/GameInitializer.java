@@ -14,6 +14,7 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.BombComponent;
 import com.dinosaur.dinosaurexploder.components.CollectedCoinsComponent;
+import com.dinosaur.dinosaurexploder.components.LifeComponent;
 import com.dinosaur.dinosaurexploder.components.PlayerComponent;
 import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.controller.BossSpawner;
@@ -83,45 +84,37 @@ public class GameInitializer {
 
     levelManager = new LevelManager();
     levelManager.setGameMode(GameData.getSelectedDifficulty()); // Set the difficulty from GameData
-    levelManager.setBossesToDefeat(GameData.getSelectedDifficulty() == GameMode.EXPERT ? 2 : 1);
 
     FXGL.set("levelManager", levelManager);
 
-    java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
-    javafx.application.Platform.runLater(
-        () -> {
-          try {
-            initGameEntities();
+    initGameEntities();
 
-            collisionHandler = new CollisionHandler(levelManager, achievementManager);
+    // Starting lives come from the selected game mode
+    LifeComponent lifeComponent = life.getComponent(LifeComponent.class);
+    int startingLives = GameData.getSelectedDifficulty().getStartingLives();
+    lifeComponent.setMaxLives(startingLives);
+    lifeComponent.setCurrentLives(startingLives);
 
-            bossSpawner = new BossSpawner(settings, levelManager);
+    collisionHandler = new CollisionHandler(levelManager, achievementManager);
 
-            CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
+    bossSpawner = new BossSpawner(settings, levelManager);
 
-            applySpecialty();
+    CoinSpawner coinSpawner = new CoinSpawner(10, 1.0);
 
-            new CountdownAnimation(3)
-                .startCountdown(
-                    () -> {
-                      enemySpawner.resumeEnemySpawning();
-                      enemySpawner.spawnEnemies();
-                      coinSpawner.startSpawning();
-                      asteroidsSpawner.resumeAsteroidsSpawning();
-                      asteroidsSpawner.spawnAsteroids();
-                    });
+    applySpecialty();
 
-            enemySpawner = new EnemySpawner(this);
-            asteroidsSpawner = new AsteroidsSpawner(this);
-          } finally {
-            latch.countDown();
-          }
-        });
-    try {
-      latch.await();
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
+    new CountdownAnimation(3)
+        .startCountdown(
+            () -> {
+              enemySpawner.resumeEnemySpawning();
+              enemySpawner.spawnEnemies();
+              coinSpawner.startSpawning();
+              asteroidsSpawner.resumeAsteroidsSpawning();
+              asteroidsSpawner.spawnAsteroids();
+            });
+
+    enemySpawner = new EnemySpawner(this);
+    asteroidsSpawner = new AsteroidsSpawner(this);
   }
 
   private void initGameEntities() {

@@ -40,14 +40,21 @@ public class GameOverDialog {
     } catch (Exception ignored) {
     }
 
-    long survivedSeconds = 0;
-    while (sessionTimer.isElapsed(Duration.seconds(survivedSeconds + 1))) {
-      survivedSeconds++;
-    }
+    long survivedSeconds = calculateSurvivedSeconds();
     GameOverStats stats =
         new GameOverStats(
             finalScore, GameData.getHighScore(), levelManager.getCurrentLevel(), survivedSeconds);
 
     getSceneService().pushSubScene(new GameOverMenu(languageManager, stats));
+  }
+
+  // Package-private so regression tests can pin this down against an injected GameTimer
+  // without needing a running FXGL engine.
+  long calculateSurvivedSeconds() {
+    long survivedSeconds = 0;
+    while (sessionTimer.isElapsed(Duration.seconds(survivedSeconds + 1))) {
+      survivedSeconds++;
+    }
+    return survivedSeconds;
   }
 }

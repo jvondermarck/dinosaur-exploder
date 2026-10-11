@@ -29,6 +29,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class ShipSelectionMenu extends FXGLMenu {
@@ -39,6 +40,7 @@ public class ShipSelectionMenu extends FXGLMenu {
   private static final double SHIP_SIZE_RATIO = 0.15;
   private static final int GRID_GAP = 20;
   private static final int ZONE_SPACING = 50;
+  private static final int HEADER_SPACING = 15;
   private static final String STYLESHEET_PATH = "/styles/styles.css";
 
   // ============ FIELDS ============
@@ -72,34 +74,9 @@ public class ShipSelectionMenu extends FXGLMenu {
         MenuHelper.createTitleFlow(
             languageManager.getTranslation("select_ship"), getAppWidth() * 0.8);
 
-    int normalModeScore = GameData.getHighScore(GameMode.NORMAL);
-    int expertModeScore = GameData.getHighScore(GameMode.EXPERT);
-
-    var normalHighScore =
-        getUIFactoryService()
-            .newText(
-                (languageManager.getTranslation("high_score")
-                        + " ( "
-                        + GameMode.NORMAL.name()
-                        + " ): "
-                        + normalModeScore)
-                    .toUpperCase(),
-                Color.LIME,
-                FontType.MONO,
-                GameConstants.TEXT_SUB_DETAILS);
-
-    var expertHighScore =
-        getUIFactoryService()
-            .newText(
-                (languageManager.getTranslation("high_score")
-                        + " ( "
-                        + GameMode.EXPERT.name()
-                        + " ): "
-                        + expertModeScore)
-                    .toUpperCase(),
-                Color.CYAN,
-                FontType.MONO,
-                GameConstants.TEXT_SUB_DETAILS);
+    var easyHighScore = createHighScoreText(GameMode.EASY, Color.YELLOW);
+    var normalHighScore = createHighScoreText(GameMode.NORMAL, Color.LIME);
+    var expertHighScore = createHighScoreText(GameMode.EXPERT, Color.CYAN);
 
     var totalCoins =
         getUIFactoryService()
@@ -110,9 +87,25 @@ public class ShipSelectionMenu extends FXGLMenu {
                 FontType.MONO,
                 GameConstants.TEXT_SUB_DETAILS);
 
-    VBox headerZone = new VBox(25, titleFlow, normalHighScore, expertHighScore, totalCoins);
+    VBox headerZone =
+        new VBox(
+            HEADER_SPACING, titleFlow, easyHighScore, normalHighScore, expertHighScore, totalCoins);
     headerZone.setAlignment(Pos.CENTER);
     return headerZone;
+  }
+
+  private Text createHighScoreText(GameMode mode, Color color) {
+    return getUIFactoryService()
+        .newText(
+            (languageManager.getTranslation("high_score")
+                    + " ( "
+                    + mode.name()
+                    + " ): "
+                    + GameData.getHighScore(mode))
+                .toUpperCase(),
+            color,
+            FontType.MONO,
+            GameConstants.TEXT_SUB_DETAILS);
   }
 
   // ============ ZONE 2: SHIP GRID ============

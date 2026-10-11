@@ -89,12 +89,7 @@ public class ShipSelectionMenu extends FXGLMenu {
 
     VBox headerZone =
         new VBox(
-            HEADER_SPACING,
-            titleFlow,
-            easyHighScore,
-            normalHighScore,
-            expertHighScore,
-            totalCoins);
+            HEADER_SPACING, titleFlow, easyHighScore, normalHighScore, expertHighScore, totalCoins);
     headerZone.setAlignment(Pos.CENTER);
     return headerZone;
   }

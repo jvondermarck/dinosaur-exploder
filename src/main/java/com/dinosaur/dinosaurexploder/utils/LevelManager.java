@@ -96,6 +96,8 @@ public class LevelManager {
     enemySpawnRate = mode.getInitialEnemySpawnRate();
     enemySpeed = mode.getInitialEnemySpeed();
     asteroidsSpawnRate = mode.getInitialAsteroidsSpawnRate();
+    asteroidsVerticalSpeed = mode.getAsteroidsVerticalSpeed();
+    asteroidsHorizontalSpeed = mode.getAsteroidsHorizontalSpeed();
     enemiesToDefeat = mode.getInitialEnemiesToDefeat();
     bossesToDefeat = mode.getBossesToDefeat();
   }

@@ -12,7 +12,7 @@ enum class Direction {
     companion object {
         @JvmStatic
         fun modeDirection(mode: GameMode): Direction {
-            return if (mode == GameMode.EXPERT) randomDirection() else UP
+            return if (mode == GameMode.valueOf("EXPERT")) randomDirection() else UP
         }
 
         @JvmStatic

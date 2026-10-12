@@ -21,13 +21,13 @@ public enum GameMode {
       1.5,
       new LevelGoals(1, 5, 5),
       new EnemyTuning(0.75, 0.3, 0.9, 1.5, 0.2),
-      new AsteroidTuning(1.5, 0.1)),
+      new AsteroidTuning(1.5, 0.1, 0.8, 0.2)),
   EXPERT(
       3,
       1.0,
       new LevelGoals(2, 5, 5),
       new EnemyTuning(0.75, 0.3, 0.9, 1.5, 0.2),
-      new AsteroidTuning(1.5, 0.1));
+      new AsteroidTuning(1.5, 0.1, 0.8, 0.2));
 
   /** Level progression goals: bosses to defeat and enemies required per level. */
   private record LevelGoals(int bossesToDefeat, int initialEnemiesToDefeat, int enemiesIncrement) {}

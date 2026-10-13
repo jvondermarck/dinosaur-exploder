@@ -121,7 +121,6 @@ public class LanguageSelectionMenu extends FXGLMenu {
 
   private void changeLanguage(String selectedLanguage) {
     languageManager.setSelectedLanguage(selectedLanguage);
-    languageManager.loadTranslations(selectedLanguage);
     settings.setLanguage(selectedLanguage);
     SettingsProvider.saveSettings(settings);
   }

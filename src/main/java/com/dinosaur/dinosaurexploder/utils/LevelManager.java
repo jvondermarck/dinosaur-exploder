@@ -13,6 +13,9 @@ import com.dinosaur.dinosaurexploder.constants.GameMode;
  * check if the player can advance to the next level.
  */
 public class LevelManager {
+  private static final double BASE_ASTEROIDS_VERTICAL_SPEED = 0.8;
+  private static final double BASE_ASTEROIDS_HORIZONTAL_SPEED = 0.2;
+
   private int currentLevel = 1;
   private int enemiesToDefeat = 5;
   private int defeatedEnemies = 0;
@@ -21,8 +24,8 @@ public class LevelManager {
   private double enemySpawnRate = 0.75;
   private double enemySpeed = 1.5;
   private double asteroidsSpawnRate = 1.5;
-  private double asteroidsVerticalSpeed = 0.8;
-  private double asteroidsHorizontalSpeed = 0.2;
+  private double asteroidsVerticalSpeed = BASE_ASTEROIDS_VERTICAL_SPEED;
+  private double asteroidsHorizontalSpeed = BASE_ASTEROIDS_HORIZONTAL_SPEED;
   private GameMode gameMode = GameMode.NORMAL;
 
   public int getCurrentLevel() {
@@ -96,6 +99,8 @@ public class LevelManager {
     enemySpawnRate = mode.getInitialEnemySpawnRate();
     enemySpeed = mode.getInitialEnemySpeed();
     asteroidsSpawnRate = mode.getInitialAsteroidsSpawnRate();
+    asteroidsVerticalSpeed = BASE_ASTEROIDS_VERTICAL_SPEED * mode.getAsteroidsSpeedMultiplier();
+    asteroidsHorizontalSpeed = BASE_ASTEROIDS_HORIZONTAL_SPEED * mode.getAsteroidsSpeedMultiplier();
     enemiesToDefeat = mode.getInitialEnemiesToDefeat();
     bossesToDefeat = mode.getBossesToDefeat();
   }

@@ -43,4 +43,18 @@ class LevelManagerTest {
     }
     assertTrue(lm.getEnemySpawnRate() >= 0.3);
   }
+
+  @Test
+  void easyModeHasSlowerAsteroidsThanNormal() {
+    LevelManager lm = new LevelManager();
+
+    lm.setGameMode(GameMode.NORMAL);
+    double normalVertical = lm.getAsteroidsVerticalSpeed();
+    double normalHorizontal = lm.getAsteroidsHorizontalSpeed();
+
+    lm.setGameMode(GameMode.EASY);
+
+    assertTrue(lm.getAsteroidsVerticalSpeed() < normalVertical);
+    assertTrue(lm.getAsteroidsHorizontalSpeed() < normalHorizontal);
+  }
 }

@@ -15,7 +15,7 @@ public enum GameMode {
       2.0,
       new LevelGoals(1, 3, 2),
       new EnemyTuning(1.5, 0.8, 0.95, 0.8, 0.1),
-      new AsteroidTuning(2.5, 0.05, 0.4, 0.1))
+      new AsteroidTuning(2.5, 0.05, 0.4, 0.1)),
   NORMAL(
       3,
       1.5,

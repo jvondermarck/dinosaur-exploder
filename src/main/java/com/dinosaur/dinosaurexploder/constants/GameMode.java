@@ -15,19 +15,19 @@ public enum GameMode {
       2.0,
       new LevelGoals(1, 3, 2),
       new EnemyTuning(1.5, 0.8, 0.95, 0.8, 0.1),
-      new AsteroidTuning(2.5, 0.05)),
+      new AsteroidTuning(2.5, 0.05, 0.7)),
   NORMAL(
       3,
       1.5,
       new LevelGoals(1, 5, 5),
       new EnemyTuning(0.75, 0.3, 0.9, 1.5, 0.2),
-      new AsteroidTuning(1.5, 0.1)),
+      new AsteroidTuning(1.5, 0.1, 1.0)),
   EXPERT(
       3,
       1.0,
       new LevelGoals(2, 5, 5),
       new EnemyTuning(0.75, 0.3, 0.9, 1.5, 0.2),
-      new AsteroidTuning(1.5, 0.1));
+      new AsteroidTuning(1.5, 0.1, 1.0));
 
   /** Level progression goals: bosses to defeat and enemies required per level. */
   private record LevelGoals(int bossesToDefeat, int initialEnemiesToDefeat, int enemiesIncrement) {}
@@ -40,8 +40,9 @@ public enum GameMode {
       double initialSpeed,
       double speedIncrement) {}
 
-  /** Asteroid spawn rate and its per-level increment. */
-  private record AsteroidTuning(double initialSpawnRate, double spawnRateIncrement) {}
+  /** Asteroid spawn rate and speed multiplier tuning. */
+  private record AsteroidTuning(
+      double initialSpawnRate, double spawnRateIncrement, double speedMultiplier) {}
 
   private final int startingLives;
   private final double damageGracePeriodSeconds;
@@ -109,5 +110,9 @@ public enum GameMode {
 
   public double getAsteroidsSpawnRateIncrement() {
     return asteroidTuning.spawnRateIncrement();
+  }
+
+  public double getAsteroidsSpeedMultiplier() {
+    return asteroidTuning.speedMultiplier();
   }
 }

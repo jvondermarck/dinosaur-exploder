@@ -107,11 +107,11 @@ public class SettingsMenu extends FXGLMenu {
         e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
     displayButton = getUIFactoryService().newButton("DISPLAY");
     displayButton.setMinSize(getAppWidth() * 0.8, 60);
-    displayButton.setOnAction(
-            e -> FXGL.getSceneService().pushSubScene(new DisplayMenu()));
+    displayButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new DisplayMenu()));
     options
         .getChildren()
-        .addAll(statsButton, achievementsButton, keyButton, soundButton, languageButton, displayButton);
+        .addAll(
+            statsButton, achievementsButton, keyButton, soundButton, languageButton, displayButton);
 
     return options;
   }

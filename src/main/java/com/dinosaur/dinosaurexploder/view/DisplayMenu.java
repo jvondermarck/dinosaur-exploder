@@ -66,16 +66,9 @@ public class DisplayMenu extends FXGLMenu {
       container.setAlignment(Pos.CENTER);
 
       getContentRoot().getChildren().addAll(background, container);
-    }
-    else {
-        MenuHelper.setupSelectionMenu(
-            this,
-            headerZone,
-            optionsZone,
-            backButton,
-            50,
-            getAppWidth(),
-            getAppHeight());
+    } else {
+      MenuHelper.setupSelectionMenu(
+          this, headerZone, optionsZone, backButton, 50, getAppWidth(), getAppHeight());
     }
   }
 
@@ -147,7 +140,7 @@ public class DisplayMenu extends FXGLMenu {
     Label label = createSettingLabel("RESOLUTION:");
     ComboBox<Double> resolutionComboBox = new ComboBox<>();
     for (double scale : SCALES) {
-        resolutionComboBox.getItems().add(scale);
+      resolutionComboBox.getItems().add(scale);
     }
     resolutionComboBox.setPrefWidth(getAppWidth() * 0.68);
     resolutionComboBox.setMaxWidth(Double.MAX_VALUE);
@@ -155,50 +148,50 @@ public class DisplayMenu extends FXGLMenu {
     resolutionComboBox.setCellFactory(
         combo ->
             new ListCell<>() {
-                @Override
-                protected void updateItem(Double scale, boolean empty) {
-                    super.updateItem(scale, empty);
-                    if (empty || scale == null) {
-                        setText(null);
-                        setDisable(false);
-                        setStyle("");
-                        return;
-                    }
-
-                    setText(formatScale(scale));
-                    boolean available = canFit(scale);
-                    setDisable(!available);
-                    setStyle(available ? "" : "-fx-text-fill: #555F57; -fx-opacity: 0.45;");
+              @Override
+              protected void updateItem(Double scale, boolean empty) {
+                super.updateItem(scale, empty);
+                if (empty || scale == null) {
+                  setText(null);
+                  setDisable(false);
+                  setStyle("");
+                  return;
                 }
+
+                setText(formatScale(scale));
+                boolean available = canFit(scale);
+                setDisable(!available);
+                setStyle(available ? "" : "-fx-text-fill: #555F57; -fx-opacity: 0.45;");
+              }
             });
 
     resolutionComboBox.setButtonCell(
         new ListCell<>() {
-            @Override
-            protected void updateItem(Double scale, boolean empty) {
-                super.updateItem(scale, empty);
-                setText(empty || scale == null ? null : formatScale(scale));
-            }
+          @Override
+          protected void updateItem(Double scale, boolean empty) {
+            super.updateItem(scale, empty);
+            setText(empty || scale == null ? null : formatScale(scale));
+          }
         });
     applyStylesheet(resolutionComboBox);
 
     // Match the current window size when opening the menu in windowed mode.
     // Detect the current window scale, including FXGL's automatic downscaling.
     if (!stage.isFullScreen()) {
-        lastWindowedScale = null;
-        double currentScale = stage.getScene().getWidth() / DinosaurGUI.WIDTH;
-        for (double scale : SCALES) {
-            if (Math.abs(currentScale - scale) < 0.02 && canFit(scale)) {
-                lastWindowedScale = scale;
-                break;
-            }
+      lastWindowedScale = null;
+      double currentScale = stage.getScene().getWidth() / DinosaurGUI.WIDTH;
+      for (double scale : SCALES) {
+        if (Math.abs(currentScale - scale) < 0.02 && canFit(scale)) {
+          lastWindowedScale = scale;
+          break;
         }
+      }
     }
 
     if (lastWindowedScale == null) {
-        resolutionComboBox.setPromptText("AUTO (SCREEN FIT)");
+      resolutionComboBox.setPromptText("AUTO (SCREEN FIT)");
     } else {
-        resolutionComboBox.setValue(lastWindowedScale);
+      resolutionComboBox.setValue(lastWindowedScale);
     }
 
     // JavaFX automatically disables this control while fullscreen is active.
@@ -207,12 +200,12 @@ public class DisplayMenu extends FXGLMenu {
         e -> {
           Double scale = resolutionComboBox.getValue();
           if (scale == null) {
-              return;
+            return;
           }
 
           if (!canFit(scale)) {
-              resolutionComboBox.setValue(lastWindowedScale);
-              return;
+            resolutionComboBox.setValue(lastWindowedScale);
+            return;
           }
 
           changeWindowSize(scale);
@@ -245,8 +238,7 @@ public class DisplayMenu extends FXGLMenu {
   }
 
   private String formatScale(double scale) {
-    String factor =
-        scale == Math.rint(scale) ? String.valueOf((int) scale) : String.valueOf(scale);
+    String factor = scale == Math.rint(scale) ? String.valueOf((int) scale) : String.valueOf(scale);
     long width = Math.round(DinosaurGUI.WIDTH * scale);
     long height = Math.round(DinosaurGUI.HEIGHT * scale);
     return "x" + factor + " (" + width + " x " + height + ")";
@@ -271,7 +263,7 @@ public class DisplayMenu extends FXGLMenu {
   // Include window decorations when checking against the usable screen area.
   private boolean canFit(double scale) {
     if (stage.isFullScreen()) {
-        return false;
+      return false;
     }
 
     Rectangle2D bounds = currentScreen().getVisualBounds();
@@ -283,7 +275,7 @@ public class DisplayMenu extends FXGLMenu {
 
   private void changeWindowSize(double scale) {
     if (!canFit(scale)) {
-        return;
+      return;
     }
 
     double width = Math.round(DinosaurGUI.WIDTH * scale);
@@ -300,7 +292,6 @@ public class DisplayMenu extends FXGLMenu {
   }
 
   private void refreshControls() {
-    fullscreenGroup.selectToggle(
-        fullscreenGroup.getToggles().get(stage.isFullScreen() ? 1 : 0));
+    fullscreenGroup.selectToggle(fullscreenGroup.getToggles().get(stage.isFullScreen() ? 1 : 0));
   }
 }

@@ -171,8 +171,7 @@ public class PauseMenu extends FXGLMenu {
         .addListener((obs, oldValue, newValue) -> updateTexts());
 
     // Open the shared display settings menu.
-    btnDisplay.setControlAction(
-        () -> FXGL.getSceneService().pushSubScene(new DisplayMenu(true)));
+    btnDisplay.setControlAction(() -> FXGL.getSceneService().pushSubScene(new DisplayMenu(true)));
 
     // Controls button action → Opens controls overlay
     btnControls.setControlAction(
@@ -355,7 +354,8 @@ public class PauseMenu extends FXGLMenu {
     titleContainer.setTranslateY(100);
 
     // Menu principal
-    var box = new VBox(15, btnBack, btnDisplay, btnSound, btnControls, btnAchievements, btnQuitGame);
+    var box =
+        new VBox(15, btnBack, btnDisplay, btnSound, btnControls, btnAchievements, btnQuitGame);
     box.setAlignment(Pos.CENTER);
 
     StackPane buttonContainer = new StackPane(box);

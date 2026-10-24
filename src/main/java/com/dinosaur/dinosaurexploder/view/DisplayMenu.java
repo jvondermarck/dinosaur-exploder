@@ -145,44 +145,57 @@ public class DisplayMenu extends FXGLMenu {
     resolutionComboBox.setPrefWidth(getAppWidth() * 0.68);
     resolutionComboBox.setMaxWidth(Double.MAX_VALUE);
 
-    resolutionComboBox.setCellFactory(
-        combo ->
-            new ListCell<>() {
-              @Override
-              protected void updateItem(Double scale, boolean empty) {
-                super.updateItem(scale, empty);
-                if (empty || scale == null) {
-                  setText(null);
-                  setDisable(false);
-                  setStyle("");
-                  return;
-                }
-
-                setText(formatScale(scale));
-                boolean available = canFit(scale);
-                setDisable(!available);
-                setStyle(available ? "" : "-fx-text-fill: #555F57; -fx-opacity: 0.45;");
-              }
-            });
-
-    resolutionComboBox.setButtonCell(
-        new ListCell<>() {
-          @Override
-          protected void updateItem(Double scale, boolean empty) {
-            super.updateItem(scale, empty);
-            setText(empty || scale == null ? null : formatScale(scale));
-          }
-        });
+    resolutionComboBox.setCellFactory(combo -> createResolutionOptionCell());
+    resolutionComboBox.setButtonCell(createSelectedResolutionCell());
     applyStylesheet(resolutionComboBox);
 
-    // Match the current window size when opening the menu in windowed mode.
-    // Detect the current window scale, including FXGL's automatic downscaling.
+    loadCurrentScale(resolutionComboBox);
+
+    // JavaFX automatically disables this control while fullscreen is active.
+    resolutionComboBox.disableProperty().bind(stage.fullScreenProperty());
+    resolutionComboBox.setOnAction(e -> selectResolution(resolutionComboBox));
+
+    return new VBox(12, label, resolutionComboBox);
+  }
+
+  private ListCell<Double> createResolutionOptionCell() {
+    return new ListCell<>() {
+      @Override
+      protected void updateItem(Double scale, boolean empty) {
+        super.updateItem(scale, empty);
+        if (empty || scale == null) {
+          setText(null);
+          setDisable(false);
+          setStyle("");
+          return;
+        }
+
+        setText(formatScale(scale));
+        boolean available = canFit(scale);
+        setDisable(!available);
+        setStyle(available ? "" : "-fx-text-fill: #555F57; -fx-opacity: 0.45;");
+      }
+    };
+  }
+
+  private ListCell<Double> createSelectedResolutionCell() {
+    return new ListCell<>() {
+      @Override
+      protected void updateItem(Double scale, boolean empty) {
+        super.updateItem(scale, empty);
+        setText(empty || scale == null ? null : formatScale(scale));
+      }
+    };
+  }
+
+  private void loadCurrentScale(ComboBox<Double> resolutionComboBox) {
+    // Match the current window size, including FXGL's automatic downscaling.
     if (!stage.isFullScreen()) {
-      lastWindowedScale = null;
+      rememberWindowedScale(null);
       double currentScale = stage.getScene().getWidth() / DinosaurGUI.WIDTH;
       for (double scale : SCALES) {
         if (Math.abs(currentScale - scale) < 0.02 && canFit(scale)) {
-          lastWindowedScale = scale;
+          rememberWindowedScale(scale);
           break;
         }
       }
@@ -193,26 +206,25 @@ public class DisplayMenu extends FXGLMenu {
     } else {
       resolutionComboBox.setValue(lastWindowedScale);
     }
+  }
 
-    // JavaFX automatically disables this control while fullscreen is active.
-    resolutionComboBox.disableProperty().bind(stage.fullScreenProperty());
-    resolutionComboBox.setOnAction(
-        e -> {
-          Double scale = resolutionComboBox.getValue();
-          if (scale == null) {
-            return;
-          }
+  private void selectResolution(ComboBox<Double> resolutionComboBox) {
+    Double scale = resolutionComboBox.getValue();
+    if (scale == null) {
+      return;
+    }
 
-          if (!canFit(scale)) {
-            resolutionComboBox.setValue(lastWindowedScale);
-            return;
-          }
+    if (!canFit(scale)) {
+      resolutionComboBox.setValue(lastWindowedScale);
+      return;
+    }
 
-          changeWindowSize(scale);
-          lastWindowedScale = scale;
-        });
+    changeWindowSize(scale);
+    rememberWindowedScale(scale);
+  }
 
-    return new VBox(12, label, resolutionComboBox);
+  private static void rememberWindowedScale(Double scale) {
+    lastWindowedScale = scale;
   }
 
   private Label createSettingLabel(String text) {

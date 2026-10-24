@@ -81,5 +81,9 @@
   "debug_high_score_prompt": "ВЪВЕДЕТЕ НАЙ-ВИСОК РЕЗУЛТАТ",
   "debug_saved" : "промяната е успешна",
   "debug_coins_prompt" : "ВЪВЕДЕТЕ БРОЙ МОНЕТИ",
-  "debug_invalid_number" : "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО"
+  "debug_invalid_number" : "НЕВАЛИДНО — ВЪВЕДЕТЕ ЧИСЛО",
+  "display": "Дисплей",
+  "fullscreen": "Цял екран",
+  "resolution": "Резолюция",
+  "auto_screen_fit": "Автоматично"
 }

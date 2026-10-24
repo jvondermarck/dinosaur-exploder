@@ -20,6 +20,9 @@ public class DinosaurGUI {
   public void initSettings(GameSettings settings) {
     settings.setWidth(WIDTH);
     settings.setHeight(HEIGHT);
+    settings.setFullScreenAllowed(true);
+    settings.setFullScreenFromStart(false);
+    settings.setPreserveResizeRatio(true);
     settings.setMainMenuEnabled(true);
     settings.setIntroEnabled(true);
     // Custom main menu

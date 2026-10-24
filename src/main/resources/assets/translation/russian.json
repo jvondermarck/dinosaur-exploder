@@ -81,5 +81,9 @@
   "debug_high_score_prompt": "Введите максимальный счёт",
   "debug_saved":"ИЗМЕНЕНИЕ УСПЕШНО",
   "debug_score_prompt": "Введите счёт",
-  "debug_back": "Назад"
+  "debug_back": "Назад",
+  "display": "Экран",
+  "fullscreen": "Полный экран",
+  "resolution": "Разрешение",
+  "auto_screen_fit": "Авто"
 }

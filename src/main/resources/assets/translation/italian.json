@@ -74,5 +74,9 @@
   "debug_high_score_prompt": "Inserisci il record",
   "debug_saved":"MODIFICA RIUSCITA",
   "debug_score_prompt": "Inserisci il punteggio",
-  "debug_back": "Indietro"
+  "debug_back": "Indietro",
+  "display": "Schermo",
+  "fullscreen": "Schermo intero",
+  "resolution": "Risoluzione",
+  "auto_screen_fit": "Automatico"
 }

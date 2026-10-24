@@ -24,7 +24,8 @@ public class SettingsProvider {
   public static final String SETTINGS_LANGUAGE = "selectedLanguage";
   private static final Logger logger = Logger.getLogger(SettingsProvider.class.getName());
 
-  private static final SettingsProvider DEFAULT = new SettingsProvider(new FileSettingsFileProvider(Path.of(SETTINGS_FILE)));
+  private static final SettingsProvider DEFAULT =
+      new SettingsProvider(new FileSettingsFileProvider(Path.of(SETTINGS_FILE)));
 
   private final SettingsFileProvider fileProvider;
 

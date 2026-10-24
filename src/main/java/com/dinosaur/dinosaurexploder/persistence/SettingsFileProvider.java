@@ -10,9 +10,9 @@ import java.util.Properties;
 /** Abstracts file operations for game settings. */
 public interface SettingsFileProvider {
 
-    Properties load();
+  Properties load();
 
-    void save(Properties properties);
+  void save(Properties properties);
 
-    void delete();
+  void delete();
 }

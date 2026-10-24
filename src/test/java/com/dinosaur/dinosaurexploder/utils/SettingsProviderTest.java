@@ -12,20 +12,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class SettingsProviderTest {
 
-  @TempDir
-  Path tempDir;
+  @TempDir Path tempDir;
 
   @Test
-  void testLoadSettings() {
+  void loadSettings_createsDefaultsWhenFileDoesNotExist() {
     Path settingsFile = tempDir.resolve("settings.properties");
 
-    SettingsProvider provider =
-            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+    SettingsProvider provider = new SettingsProvider(new FileSettingsFileProvider(settingsFile));
 
     Settings settings = provider.load();
 
@@ -39,15 +37,14 @@ public class SettingsProviderTest {
     Path settingsFile = tempDir.resolve("settings.properties");
 
     Files.writeString(
-            settingsFile,
-            "soundVolume=not-a-number\n"
-                    + "soundMuted=false\n"
-                    + "soundVolumeSfx=1.0\n"
-                    + "soundMutedSfx=false\n"
-                    + "selectedLanguage=English\n");
+        settingsFile,
+        "soundVolume=not-a-number\n"
+            + "soundMuted=false\n"
+            + "soundVolumeSfx=1.0\n"
+            + "soundMutedSfx=false\n"
+            + "selectedLanguage=English\n");
 
-    SettingsProvider provider =
-            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+    SettingsProvider provider = new SettingsProvider(new FileSettingsFileProvider(settingsFile));
 
     Settings settings = provider.load();
 
@@ -65,19 +62,17 @@ public class SettingsProviderTest {
       properties.load(in);
     }
 
-    Assertions.assertEquals(
-            "1.0", properties.getProperty(SettingsProvider.SETTING_VOLUME));
+    Assertions.assertEquals("1.0", properties.getProperty(SettingsProvider.SETTING_VOLUME));
   }
 
   @Test
-  void loadSettings_returnsDefaultsWhenUnicodeEscapeIsMalformed()
-          throws Exception {
+  void loadSettings_returnsDefaultsWhenUnicodeEscapeIsMalformed() throws Exception {
     Path settingsFile = tempDir.resolve("settings.properties");
 
-    Files.writeString(settingsFile, "selectedLanguage=\\uDINO\n"); // Invalid Unicode escape: DINO contains non-hexadecimal characters.
+    // Invalid Unicode escape: DINO contains non-hexadecimal characters.
+    Files.writeString(settingsFile, "selectedLanguage=\\uDINO\n");
 
-    SettingsProvider provider =
-            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+    SettingsProvider provider = new SettingsProvider(new FileSettingsFileProvider(settingsFile));
 
     Settings settings = provider.load();
 
@@ -89,16 +84,14 @@ public class SettingsProviderTest {
     }
 
     Assertions.assertEquals(
-            "English",
-            savedProperties.getProperty(SettingsProvider.SETTINGS_LANGUAGE));
+        "English", savedProperties.getProperty(SettingsProvider.SETTINGS_LANGUAGE));
   }
 
   @Test
   void updateMuteStatePreservesLatestLanguage() {
     Path settingsFile = tempDir.resolve("settings.properties");
 
-    SettingsProvider provider =
-            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+    SettingsProvider provider = new SettingsProvider(new FileSettingsFileProvider(settingsFile));
 
     Settings initialSettings = new Settings();
     initialSettings.setVolume(1.0);

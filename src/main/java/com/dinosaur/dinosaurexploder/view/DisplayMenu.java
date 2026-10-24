@@ -158,9 +158,6 @@ public class DisplayMenu extends FXGLMenu {
     applyStylesheet(resolutionComboBox);
 
     loadCurrentScale(resolutionComboBox);
-    resolutionComboBox.setPromptText(
-        languageManager.getTranslation("auto_screen_fit").toUpperCase());
-    resolutionComboBox.setValue(null);
 
     // JavaFX automatically disables this control while fullscreen is active.
     resolutionComboBox.disableProperty().bind(stage.fullScreenProperty());

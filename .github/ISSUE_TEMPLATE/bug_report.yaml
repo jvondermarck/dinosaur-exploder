@@ -40,7 +40,7 @@ body:
     description: |
       Examples: |
         - **OS**: Ubuntu 20.04 / Windows 11 / macOS 15.0
-        - **JDK Java**: 21
+        - **JDK Java**: 25
         - **Game Version**: 1.2.0
     value: |
       - OS:

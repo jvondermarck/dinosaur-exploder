@@ -6,9 +6,10 @@
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.model.Settings;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import com.dinosaur.dinosaurexploder.persistence.FileSettingsFileProvider;
+import com.dinosaur.dinosaurexploder.persistence.SettingsFileProvider;
+import java.nio.file.Path;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,63 +24,55 @@ public class SettingsProvider {
   public static final String SETTINGS_LANGUAGE = "selectedLanguage";
   private static final Logger logger = Logger.getLogger(SettingsProvider.class.getName());
 
-  private SettingsProvider() {}
+  private static final SettingsProvider DEFAULT =
+      new SettingsProvider(new FileSettingsFileProvider(Path.of(SETTINGS_FILE)));
+
+  private final SettingsFileProvider fileProvider;
+
+  SettingsProvider(SettingsFileProvider fileProvider) {
+    this.fileProvider = Objects.requireNonNull(fileProvider);
+  }
 
   public static Settings loadSettings() {
-    Properties properties = readSettingsFile();
+    return DEFAULT.load();
+  }
+
+  Settings load() {
+    Properties properties = fileProvider.load();
+
     if (!properties.isEmpty()) {
       try {
         return createSettingsFromProperties(properties);
       } catch (Exception e) {
         logger.log(Level.INFO, "Malformed settings, restoring defaults: {0}", e.getMessage());
-        deleteSettingsFile();
+        fileProvider.delete();
       }
     }
+
     return saveDefaultSettings();
   }
 
   public static void saveSettings(Settings settings) {
-    Properties properties = createPropertiesFromSettings(settings);
+    DEFAULT.save(settings);
+  }
 
-    try (FileWriter writer = new FileWriter(SETTINGS_FILE)) {
-      properties.store(writer, "store properties");
-    } catch (Exception ex) {
-      logger.log(Level.INFO, "Error saving settings {0}", ex.getMessage());
-    }
+  void save(Settings settings) {
+    fileProvider.save(createPropertiesFromSettings(settings));
+  }
+
+  void updateMute(boolean muted) {
+    Settings settings = load();
+    settings.setMuted(muted);
+    save(settings);
   }
 
   public static void updateMuteState(boolean muted) {
-    Settings settings = loadSettings();
-    settings.setMuted(muted);
-    saveSettings(settings);
+    DEFAULT.updateMute(muted);
   }
 
-  private static Properties readSettingsFile() {
-    File file = new File(SETTINGS_FILE);
-    if (!file.isFile()) {
-      return new Properties();
-    }
-
-    Properties properties = new Properties();
-    try (FileInputStream in = new FileInputStream(file)) {
-      properties.load(in);
-      return properties;
-    } catch (Exception ex) {
-      logger.log(Level.INFO, "Error reading settings {0}", ex.getMessage());
-      return new Properties();
-    }
-  }
-
-  private static void deleteSettingsFile() {
-    File file = new File(SETTINGS_FILE);
-    if (file.exists() && !file.delete()) {
-      logger.log(Level.INFO, "Could not delete invalid settings file");
-    }
-  }
-
-  private static Settings saveDefaultSettings() {
+  private Settings saveDefaultSettings() {
     Settings defaults = generateDefaultSettings();
-    saveSettings(defaults);
+    save(defaults);
     return defaults;
   }
 

@@ -6,60 +6,50 @@
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.model.Settings;
-import java.io.File;
+import com.dinosaur.dinosaurexploder.persistence.FileSettingsFileProvider;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Properties;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.Test;
 
 public class SettingsProviderTest {
 
-  private Path settingsBackup;
+  @TempDir
+  Path tempDir;
 
-  @BeforeEach
-  void backupSettingsFile() throws Exception {
-    Path settingsFile = Path.of(SettingsProvider.SETTINGS_FILE);
-    if (Files.exists(settingsFile)) {
-      settingsBackup = Files.createTempFile("settings", ".properties");
-      Files.copy(settingsFile, settingsBackup, StandardCopyOption.REPLACE_EXISTING);
-    }
-  }
+  @Test
+  void testLoadSettings() {
+    Path settingsFile = tempDir.resolve("settings.properties");
 
-  @AfterEach
-  void restoreSettingsFile() throws Exception {
-    Path settingsFile = Path.of(SettingsProvider.SETTINGS_FILE);
-    if (settingsBackup != null) {
-      Files.copy(settingsBackup, settingsFile, StandardCopyOption.REPLACE_EXISTING);
-      Files.deleteIfExists(settingsBackup);
-    } else {
-      Files.deleteIfExists(settingsFile);
-    }
+    SettingsProvider provider =
+            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+
+    Settings settings = provider.load();
+
+    Assertions.assertNotNull(settings);
+    Assertions.assertEquals("English", settings.getLanguage());
+    Assertions.assertTrue(Files.exists(settingsFile));
   }
 
   @Test
-  public void testLoadSettings() {
-    Settings settings = SettingsProvider.loadSettings();
-    Assertions.assertNotNull(
-        settings, "Settings should always be available. At least the default settings");
-  }
+  void loadSettings_returnsDefaultsWhenVolumeIsMalformed() throws Exception {
+    Path settingsFile = tempDir.resolve("settings.properties");
 
-  @Test
-  public void loadSettings_returnsDefaultsWhenVolumeIsMalformed() throws Exception {
-    try (FileWriter writer = new FileWriter(SettingsProvider.SETTINGS_FILE)) {
-      writer.write("soundVolume=not-a-number\n");
-      writer.write("soundMuted=false\n");
-      writer.write("soundVolumeSfx=1.0\n");
-      writer.write("soundMutedSfx=false\n");
-      writer.write("selectedLanguage=English\n");
-    }
+    Files.writeString(
+            settingsFile,
+            "soundVolume=not-a-number\n"
+                    + "soundMuted=false\n"
+                    + "soundVolumeSfx=1.0\n"
+                    + "soundMutedSfx=false\n"
+                    + "selectedLanguage=English\n");
 
-    Settings settings = SettingsProvider.loadSettings();
+    SettingsProvider provider =
+            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+
+    Settings settings = provider.load();
 
     Assertions.assertNotNull(settings);
     Assertions.assertEquals(1.0, settings.getVolume());
@@ -68,34 +58,41 @@ public class SettingsProviderTest {
     Assertions.assertFalse(settings.isSfxMuted());
     Assertions.assertEquals("English", settings.getLanguage());
 
-    File regenerated = new File(SettingsProvider.SETTINGS_FILE);
-    Assertions.assertTrue(regenerated.exists());
+    Assertions.assertTrue(Files.exists(settingsFile));
+
     Properties properties = new Properties();
-    try (FileInputStream in = new FileInputStream(regenerated)) {
+    try (FileInputStream in = new FileInputStream(settingsFile.toFile())) {
       properties.load(in);
     }
-    Assertions.assertEquals("1.0", properties.getProperty(SettingsProvider.SETTING_VOLUME));
+
+    Assertions.assertEquals(
+            "1.0", properties.getProperty(SettingsProvider.SETTING_VOLUME));
   }
 
   @Test
   void updateMuteStatePreservesLatestLanguage() {
+    Path settingsFile = tempDir.resolve("settings.properties");
+
+    SettingsProvider provider =
+            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+
     Settings initialSettings = new Settings();
     initialSettings.setVolume(1.0);
     initialSettings.setMuted(false);
     initialSettings.setSfxVolume(1.0);
     initialSettings.setSfxMuted(false);
     initialSettings.setLanguage("Japanese");
-    SettingsProvider.saveSettings(initialSettings);
+    provider.save(initialSettings);
 
-    Settings olderSettings = SettingsProvider.loadSettings();
+    Settings olderSettings = provider.load();
 
-    Settings latestSettings = SettingsProvider.loadSettings();
+    Settings latestSettings = provider.load();
     latestSettings.setLanguage("English");
-    SettingsProvider.saveSettings(latestSettings);
+    provider.save(latestSettings);
 
-    SettingsProvider.updateMuteState(true);
+    provider.updateMute(true);
 
-    Settings savedSettings = SettingsProvider.loadSettings();
+    Settings savedSettings = provider.load();
     Assertions.assertEquals("English", savedSettings.getLanguage());
     Assertions.assertTrue(savedSettings.isMuted());
     Assertions.assertEquals(1.0, savedSettings.getVolume());

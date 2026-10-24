@@ -59,6 +59,8 @@ public class PauseMenu extends FXGLMenu {
   ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
   ControlButton btnSound = new ControlButton(languageManager.getTranslation("sound"));
   ControlButton btnAchievements = new ControlButton(languageManager.getTranslation("achievements"));
+  ControlButton btnDisplay =
+      new ControlButton(languageManager.getTranslation("display").toUpperCase());
   OptionsButton btnSoundMain = new OptionsButton(languageManager.getTranslation("sound_main"));
   OptionsButton btnSoundSfx = new OptionsButton(languageManager.getTranslation("sound_sfx"));
 
@@ -169,6 +171,9 @@ public class PauseMenu extends FXGLMenu {
         .selectedLanguageProperty()
         .addListener((obs, oldValue, newValue) -> updateTexts());
 
+    // Open the shared display settings menu.
+    btnDisplay.setControlAction(() -> FXGL.getSceneService().pushSubScene(new DisplayMenu(true)));
+
     // Controls button action → Opens controls overlay
     btnControls.setControlAction(
         () -> {
@@ -199,6 +204,7 @@ public class PauseMenu extends FXGLMenu {
                     btnControls.enable();
                     btnSound.enable();
                     btnAchievements.enable();
+                    btnDisplay.enable();
                   });
 
           VBox.setMargin(btnBackFromControls, new Insets(0, 0, 40, 0));
@@ -223,6 +229,7 @@ public class PauseMenu extends FXGLMenu {
           btnControls.disable();
           btnSound.disable();
           btnAchievements.disable();
+          btnDisplay.disable();
 
           // ✅ Ajout à l'affichage (le container est par-dessus le reste)
           getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
@@ -255,6 +262,7 @@ public class PauseMenu extends FXGLMenu {
                     btnQuitGame.enable();
                     btnControls.enable();
                     btnAchievements.enable();
+                    btnDisplay.enable();
                   });
 
           VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
@@ -277,6 +285,7 @@ public class PauseMenu extends FXGLMenu {
           btnQuitGame.disable();
           btnControls.disable();
           btnAchievements.disable();
+          btnDisplay.disable();
 
           getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
         });
@@ -305,6 +314,7 @@ public class PauseMenu extends FXGLMenu {
                     btnControls.enable();
                     btnSound.enable();
                     btnAchievements.enable();
+                    btnDisplay.enable();
                   });
 
           VBox.setMargin(btnBackFromAchievements, new Insets(0, 0, 20, 0));
@@ -320,6 +330,7 @@ public class PauseMenu extends FXGLMenu {
           btnControls.disable();
           btnSound.disable();
           btnAchievements.disable();
+          btnDisplay.disable();
 
           getContentRoot().getChildren().addAll(achievementsBg, achievementsContainer);
         });
@@ -343,8 +354,9 @@ public class PauseMenu extends FXGLMenu {
     titleContainer.setPrefWidth(getAppWidth());
     titleContainer.setTranslateY(100);
 
-    // Menu principal (les 3 boutons)
-    var box = new VBox(15, btnBack, btnSound, btnControls, btnAchievements, btnQuitGame);
+    // Menu principal
+    var box =
+        new VBox(15, btnBack, btnDisplay, btnSound, btnControls, btnAchievements, btnQuitGame);
     box.setAlignment(Pos.CENTER);
 
     StackPane buttonContainer = new StackPane(box);
@@ -466,6 +478,7 @@ public class PauseMenu extends FXGLMenu {
     btnQuitGame.setText(languageManager.getTranslation("quit").toUpperCase());
     btnControls.setText(languageManager.getTranslation("controls").toUpperCase());
     btnAchievements.setText(languageManager.getTranslation("achievements").toUpperCase());
+    btnDisplay.setText(languageManager.getTranslation("display").toUpperCase());
 
     // Update control buttons using GameControlsComponent
     btnMoveUp.setText(GameControlsComponent.getControlText(ControlType.MOVE_UP));

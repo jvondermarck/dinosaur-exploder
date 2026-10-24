@@ -37,7 +37,7 @@ public class SettingsMenu extends FXGLMenu {
   private Button keyButton;
   private Button languageButton;
   private Button backButton;
-  private Button fullScreenButton;
+  private Button displayButton;
 
   public SettingsMenu() {
     super(MenuType.MAIN_MENU);
@@ -105,16 +105,13 @@ public class SettingsMenu extends FXGLMenu {
     languageButton.setAlignment(Pos.CENTER);
     languageButton.setOnAction(
         e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
-    fullScreenButton = getUIFactoryService().newButton("FULLSCREEN");
-    fullScreenButton.setMinSize(getAppWidth() * 0.8, 60);
-
-    fullScreenButton.setOnAction(e -> {
-      var stage = FXGL.getPrimaryStage();
-      stage.setFullScreen(!stage.isFullScreen());
-    });
+    displayButton = getUIFactoryService().newButton("DISPLAY");
+    displayButton.setMinSize(getAppWidth() * 0.8, 60);
+    displayButton.setOnAction(
+            e -> FXGL.getSceneService().pushSubScene(new DisplayMenu()));
     options
         .getChildren()
-        .addAll(statsButton, achievementsButton, keyButton, soundButton, languageButton, fullScreenButton);
+        .addAll(statsButton, achievementsButton, keyButton, soundButton, languageButton, displayButton);
 
     return options;
   }

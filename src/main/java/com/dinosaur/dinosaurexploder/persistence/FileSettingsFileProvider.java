@@ -38,7 +38,7 @@ public class FileSettingsFileProvider implements SettingsFileProvider {
         try (InputStream in = Files.newInputStream(settingsPath)) {
             properties.load(in);
             return properties;
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             LOGGER.log(Level.INFO, "Error reading settings: {0}", e.getMessage());
             return new Properties();
         }

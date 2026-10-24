@@ -70,6 +70,30 @@ public class SettingsProviderTest {
   }
 
   @Test
+  void loadSettings_returnsDefaultsWhenUnicodeEscapeIsMalformed()
+          throws Exception {
+    Path settingsFile = tempDir.resolve("settings.properties");
+
+    Files.writeString(settingsFile, "selectedLanguage=\\uDINO\n"); // Invalid Unicode escape: DINO contains non-hexadecimal characters.
+
+    SettingsProvider provider =
+            new SettingsProvider(new FileSettingsFileProvider(settingsFile));
+
+    Settings settings = provider.load();
+
+    Assertions.assertEquals("English", settings.getLanguage());
+
+    Properties savedProperties = new Properties();
+    try (FileInputStream in = new FileInputStream(settingsFile.toFile())) {
+      savedProperties.load(in);
+    }
+
+    Assertions.assertEquals(
+            "English",
+            savedProperties.getProperty(SettingsProvider.SETTINGS_LANGUAGE));
+  }
+
+  @Test
   void updateMuteStatePreservesLatestLanguage() {
     Path settingsFile = tempDir.resolve("settings.properties");
 

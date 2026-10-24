@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 jvondermarck
+ * SPDX-License-Identifier: MIT
+ */
+
 package com.dinosaur.dinosaurexploder.view;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
@@ -22,8 +27,10 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -37,15 +44,39 @@ public class DisplayMenu extends FXGLMenu {
   private ToggleGroup fullscreenGroup;
 
   public DisplayMenu() {
+    this(false);
+  }
+
+  public DisplayMenu(boolean fromPauseMenu) {
     super(MenuType.MAIN_MENU);
-    MenuHelper.setupSelectionMenu(
-        this,
-        createHeaderZone(),
-        createOptionsZone(),
-        createBackButton(),
-        50,
-        getAppWidth(),
-        getAppHeight());
+
+    VBox headerZone = createHeaderZone();
+    VBox optionsZone = createOptionsZone();
+    Button backButton = createBackButton();
+
+    if (fromPauseMenu) {
+      Rectangle background =
+          new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
+
+      VBox layout = new VBox(50, headerZone, optionsZone, backButton);
+      layout.setAlignment(Pos.CENTER);
+
+      StackPane container = new StackPane(layout);
+      container.setPrefSize(getAppWidth(), getAppHeight());
+      container.setAlignment(Pos.CENTER);
+
+      getContentRoot().getChildren().addAll(background, container);
+    }
+    else {
+        MenuHelper.setupSelectionMenu(
+            this,
+            headerZone,
+            optionsZone,
+            backButton,
+            50,
+            getAppWidth(),
+            getAppHeight());
+    }
   }
 
   private VBox createHeaderZone() {
@@ -152,6 +183,7 @@ public class DisplayMenu extends FXGLMenu {
     applyStylesheet(resolutionComboBox);
 
     // Match the current window size when opening the menu in windowed mode.
+    // Detect the current window scale, including FXGL's automatic downscaling.
     if (!stage.isFullScreen()) {
         lastWindowedScale = null;
         double currentScale = stage.getScene().getWidth() / DinosaurGUI.WIDTH;
@@ -232,7 +264,6 @@ public class DisplayMenu extends FXGLMenu {
     return Math.max(0, stage.getWidth() - stage.getScene().getWidth());
   }
 
-  // Prevent negative values if Stage and Scene sizes are temporarily out of sync.
   private double frameHeight() {
     return Math.max(0, stage.getHeight() - stage.getScene().getHeight());
   }
@@ -257,6 +288,7 @@ public class DisplayMenu extends FXGLMenu {
 
     double width = Math.round(DinosaurGUI.WIDTH * scale);
     double height = Math.round(DinosaurGUI.HEIGHT * scale);
+    // Convert the requested game display size to the outer window size.
     double outerWidth = width + frameWidth();
     double outerHeight = height + frameHeight();
     Rectangle2D bounds = currentScreen().getVisualBounds();

@@ -82,5 +82,9 @@
     "debug_high_score_prompt": "输入最高分数",
     "debug_saved": "更改成功",
     "debug_score_prompt": "输入分数",
-    "debug_back": "返回"
+    "debug_back": "返回",
+    "display": "显示",
+    "fullscreen": "全屏",
+    "resolution": "分辨率",
+    "auto_screen_fit": "自动（适应屏幕）"
 }

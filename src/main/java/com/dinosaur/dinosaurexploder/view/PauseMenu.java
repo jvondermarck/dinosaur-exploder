@@ -59,7 +59,8 @@ public class PauseMenu extends FXGLMenu {
   ControlButton btnControls = new ControlButton(languageManager.getTranslation("controls"));
   ControlButton btnSound = new ControlButton(languageManager.getTranslation("sound"));
   ControlButton btnAchievements = new ControlButton(languageManager.getTranslation("achievements"));
-  ControlButton btnDisplay = new ControlButton("DISPLAY");
+  ControlButton btnDisplay =
+      new ControlButton(languageManager.getTranslation("display").toUpperCase());
   OptionsButton btnSoundMain = new OptionsButton(languageManager.getTranslation("sound_main"));
   OptionsButton btnSoundSfx = new OptionsButton(languageManager.getTranslation("sound_sfx"));
 
@@ -477,6 +478,7 @@ public class PauseMenu extends FXGLMenu {
     btnQuitGame.setText(languageManager.getTranslation("quit").toUpperCase());
     btnControls.setText(languageManager.getTranslation("controls").toUpperCase());
     btnAchievements.setText(languageManager.getTranslation("achievements").toUpperCase());
+    btnDisplay.setText(languageManager.getTranslation("display").toUpperCase());
 
     // Update control buttons using GameControlsComponent
     btnMoveUp.setText(GameControlsComponent.getControlText(ControlType.MOVE_UP));

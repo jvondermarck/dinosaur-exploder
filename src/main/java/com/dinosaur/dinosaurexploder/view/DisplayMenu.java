@@ -12,6 +12,7 @@ import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +41,7 @@ public class DisplayMenu extends FXGLMenu {
   // Keep the selected windowed scale while the game is running.
   // Null means FXGL chose a size smaller than our presets.
   private static Double lastWindowedScale = null;
+  private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Stage stage = FXGL.getPrimaryStage();
   private ToggleGroup fullscreenGroup;
 
@@ -75,7 +77,11 @@ public class DisplayMenu extends FXGLMenu {
   private VBox createHeaderZone() {
     var title =
         getUIFactoryService()
-            .newText("DISPLAY", Color.LIME, FontType.MONO, GameConstants.MAIN_TITLES);
+            .newText(
+                languageManager.getTranslation("display").toUpperCase(),
+                Color.LIME,
+                FontType.MONO,
+                GameConstants.MAIN_TITLES);
 
     VBox headerZone = new VBox(25, title);
     headerZone.setAlignment(Pos.CENTER);
@@ -107,10 +113,11 @@ public class DisplayMenu extends FXGLMenu {
   }
 
   private VBox createFullscreenSection() {
-    Label label = createSettingLabel("FULLSCREEN:");
+    Label label =
+        createSettingLabel(languageManager.getTranslation("fullscreen").toUpperCase() + ":");
 
-    RadioButton noRadio = new RadioButton("NO");
-    RadioButton yesRadio = new RadioButton("YES");
+    RadioButton noRadio = new RadioButton(languageManager.getTranslation("no").toUpperCase());
+    RadioButton yesRadio = new RadioButton(languageManager.getTranslation("yes").toUpperCase());
     fullscreenGroup = new ToggleGroup();
     noRadio.setToggleGroup(fullscreenGroup);
     yesRadio.setToggleGroup(fullscreenGroup);
@@ -137,7 +144,8 @@ public class DisplayMenu extends FXGLMenu {
   }
 
   private VBox createResolutionSection() {
-    Label label = createSettingLabel("RESOLUTION:");
+    Label label =
+        createSettingLabel(languageManager.getTranslation("resolution").toUpperCase() + ":");
     ComboBox<Double> resolutionComboBox = new ComboBox<>();
     for (double scale : SCALES) {
       resolutionComboBox.getItems().add(scale);
@@ -150,6 +158,9 @@ public class DisplayMenu extends FXGLMenu {
     applyStylesheet(resolutionComboBox);
 
     loadCurrentScale(resolutionComboBox);
+    resolutionComboBox.setPromptText(
+        languageManager.getTranslation("auto_screen_fit").toUpperCase());
+    resolutionComboBox.setValue(null);
 
     // JavaFX automatically disables this control while fullscreen is active.
     resolutionComboBox.disableProperty().bind(stage.fullScreenProperty());
@@ -202,7 +213,8 @@ public class DisplayMenu extends FXGLMenu {
     }
 
     if (lastWindowedScale == null) {
-      resolutionComboBox.setPromptText("AUTO (SCREEN FIT)");
+      resolutionComboBox.setPromptText(
+          languageManager.getTranslation("auto_screen_fit").toUpperCase());
     } else {
       resolutionComboBox.setValue(lastWindowedScale);
     }
@@ -244,7 +256,8 @@ public class DisplayMenu extends FXGLMenu {
   }
 
   private Button createBackButton() {
-    Button backButton = MenuHelper.createStyledButton("BACK");
+    Button backButton =
+        MenuHelper.createStyledButton(languageManager.getTranslation("back").toUpperCase());
     backButton.setOnAction(e -> fireResume());
     return backButton;
   }

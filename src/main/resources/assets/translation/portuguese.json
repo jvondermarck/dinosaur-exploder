@@ -81,5 +81,9 @@
   "debug_high_score_prompt": "Digite o recorde",
   "debug_saved":"ALTERAÇÃO BEM-SUCEDIDA",
   "debug_score_prompt": "Digite a pontuação",
-  "debug_back": "Voltar"
+  "debug_back": "Voltar",
+  "display": "Exibição",
+  "fullscreen": "Tela cheia",
+  "resolution": "Resolução",
+  "auto_screen_fit": "Auto (tela)"
 }

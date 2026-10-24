@@ -82,5 +82,9 @@
   "debug_high_score_prompt": "Höchstpunktzahl eingeben",
   "debug_saved":"ÄNDERUNG ERFOLGREICH",
   "debug_score_prompt": "Punktzahl eingeben",
-  "debug_back": "Zurück"
+  "debug_back": "Zurück",
+  "display": "Anzeige",
+  "fullscreen": "Vollbild",
+  "resolution": "Auflösung",
+  "auto_screen_fit": "Automatisch"
 }

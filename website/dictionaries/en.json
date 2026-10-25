@@ -60,9 +60,9 @@
             },
             "list": [
                 {"key": "↑ ↓ ← →", "action": "Move the spaceship"},
-                {"key": "Space", "action": "Shoot"},
-                {"key": "E", "action": "Activate shield (short duration)"},
-                {"key": "B", "action": "Bomb (eliminates all dinosaurs on screen)"},
+                {"key": "Z", "action": "Shoot"},
+                {"key": "C", "action": "Activate shield (short duration)"},
+                {"key": "X", "action": "Bomb (eliminates all dinosaurs on screen)"},
                 {"key": "Esc", "action": "Pause"}
             ]
         },

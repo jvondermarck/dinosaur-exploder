@@ -60,9 +60,9 @@
             },
             "list": [
                 {"key": "↑ ↓ ← →", "action": "Déplacer le vaisseau spatial"},
-                {"key": "Space", "action": "Tirer"},
-                {"key": "E", "action": "Activer le bouclier (courte durée)"},
-                {"key": "B", "action": "Bombe (élimine tous les dinosaures à l'écran)"},
+                {"key": "Z", "action": "Tirer"},
+                {"key": "C", "action": "Activer le bouclier (courte durée)"},
+                {"key": "X", "action": "Bombe (élimine tous les dinosaures à l'écran)"},
                 {"key": "Esc", "action": "Pause"}
             ]
         },

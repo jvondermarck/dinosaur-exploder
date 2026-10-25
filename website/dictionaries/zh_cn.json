@@ -60,9 +60,9 @@
             },
             "list": [
                 {"key": "↑ ↓ ← →", "action": "移动飞船"},
-                {"key": "Space", "action": "开火"},
-                {"key": "E", "action": "激活护盾（短时间）"},
-                {"key": "B", "action": "炸弹（清除屏幕上的所有恐龙）"},
+                {"key": "Z", "action": "开火"},
+                {"key": "C", "action": "激活护盾（短时间）"},
+                {"key": "X", "action": "炸弹（清除屏幕上的所有恐龙）"},
                 {"key": "Esc", "action": "暂停"}
             ]
         },

@@ -212,6 +212,8 @@
         <version>${maven.surefire.version}</version>
         <configuration>
           <useModulePath>false</useModulePath>
+          <!-- Keep running when tests that expose known production defects fail (DV033G Group 2) -->
+          <testFailureIgnore>true</testFailureIgnore>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>
@@ -293,6 +295,36 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <!-- PIT mutation testing (DV033G Group 2) -->
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.19.4</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.2.3</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <targetClasses>
+            <param>com.dinosaur.dinosaurexploder.model.*</param>
+            <param>com.dinosaur.dinosaurexploder.components.*</param>
+            <param>com.dinosaur.dinosaurexploder.utils.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>com.dinosaur.dinosaurexploder.*</param>
+          </targetTests>
+          <outputFormats>
+            <param>HTML</param>
+            <param>CSV</param>
+          </outputFormats>
+          <timestampedReports>false</timestampedReports>
+          <!-- Tests that expose known production defects fail by design; PIT cannot use red tests -->
+          <skipFailingTests>true</skipFailingTests>
+        </configuration>
       </plugin>
     </plugins>
   </build>

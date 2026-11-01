@@ -55,6 +55,11 @@ public class GameActions {
   private final double emissionRateAugmentation;
 
   public GameActions(GameInitializer gameInitializer) {
+    this(gameInitializer, new FXGLGameTimer());
+  }
+
+  // Package-private so tests can pass in a fake session timer instead of FXGL's game clock.
+  GameActions(GameInitializer gameInitializer, GameTimer sessionTimer) {
     this.enemySpawner = gameInitializer.getEnemySpawner();
     this.asteroidsSpawner = gameInitializer.getAsteroidsSpawner();
     this.collisionHandler = gameInitializer.getCollisionHandler();
@@ -75,7 +80,7 @@ public class GameActions {
       this.emissionRate = 0;
     }
 
-    this.sessionTimer = new FXGLGameTimer();
+    this.sessionTimer = sessionTimer;
     this.sessionTimer.capture();
   }
 

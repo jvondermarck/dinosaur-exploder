@@ -7,6 +7,7 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ public class AchievementManager {
 
   private final List<Achievement> allAchievements;
   private final List<Achievement> activeAchievements = new ArrayList<>();
+  private final Path saveFile;
   private static final Logger LOGGER = Logger.getLogger(AchievementManager.class.getName());
 
   /**
@@ -34,11 +36,20 @@ public class AchievementManager {
    * {@link RegisterAchievement} annotation and registers one instance per annotation entry.
    */
   public AchievementManager() {
-    this(buildCatalogFromAnnotations());
+    this(Path.of(GameConstants.ACHIEVEMENTS_FILE));
   }
 
-  AchievementManager(AchievementCatalog catalog) {
+  /**
+   * Same as {@link #AchievementManager()}, but loads and saves progress in the given file. Lets
+   * tests keep achievements in a temporary folder instead of the working directory.
+   */
+  public AchievementManager(Path saveFile) {
+    this(buildCatalogFromAnnotations(), saveFile);
+  }
+
+  AchievementManager(AchievementCatalog catalog, Path saveFile) {
     this.allAchievements = new ArrayList<>(catalog.createAchievements());
+    this.saveFile = saveFile;
   }
 
   /** Called once when the game starts. Loads achievements from file or creates new ones. */
@@ -143,11 +154,10 @@ public class AchievementManager {
     return activeAchievements.getFirst();
   }
 
-  /** Get the list of achievements saved in the achievement.ser file */
+  /** Get the list of achievements saved in the save file */
   public List<Achievement> loadAchievement() {
     List<Achievement> achievementFromFile = new ArrayList<>();
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream(GameConstants.ACHIEVEMENTS_FILE))) {
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(saveFile.toFile()))) {
       achievementFromFile = (List<Achievement>) in.readObject();
     } catch (IOException | ClassNotFoundException e) {
       LOGGER.log(Level.INFO, "Failed to load achievements from file");
@@ -155,10 +165,9 @@ public class AchievementManager {
     return achievementFromFile;
   }
 
-  /** Save activeAchievement in the achievement.ser file */
+  /** Save activeAchievement in the save file */
   public void saveAchievement(List<Achievement> listToSave) {
-    try (ObjectOutputStream out =
-        new ObjectOutputStream(new FileOutputStream(GameConstants.ACHIEVEMENTS_FILE))) {
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(saveFile.toFile()))) {
       out.writeObject(listToSave);
     } catch (IOException e) {
       LOGGER.log(Level.WARNING, "Error saving achievement : {0}", e.getMessage());

@@ -28,7 +28,7 @@ import javafx.scene.text.Text;
 
 public class ScoreComponent extends Component implements Score {
   private int score = 0;
-  private HighScore highScore = new HighScore();
+  private HighScore highScore;
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final HighScoreRepository highScoreRepository;
 
@@ -44,11 +44,12 @@ public class ScoreComponent extends Component implements Score {
   // Public: lets tests (in another package) inject a mock instead of touching real files.
   public ScoreComponent(HighScoreRepository highScoreRepository) {
     this.highScoreRepository = highScoreRepository;
+    // Loaded here rather than in onAdded() so the high-score rules work without building the HUD.
+    this.highScore = highScoreRepository.load();
   }
 
   @Override
   public void onAdded() {
-    highScore = highScoreRepository.load();
     createScoreUI();
     updateTexts();
 

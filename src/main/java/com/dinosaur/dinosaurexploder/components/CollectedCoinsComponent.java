@@ -26,7 +26,7 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   private int coin = 0;
   private static final int COIN_VALUE = 1;
 
-  private TotalCoins totalCoins = new TotalCoins();
+  private TotalCoins totalCoins;
   private final TotalCoinsRepository totalCoinsRepository;
 
   private final LanguageManager languageManager = LanguageManager.getInstance();
@@ -42,12 +42,12 @@ public class CollectedCoinsComponent extends Component implements CollectedCoins
   // Public: lets tests (in another package) inject a mock instead of touching real files.
   public CollectedCoinsComponent(TotalCoinsRepository totalCoinsRepository) {
     this.totalCoinsRepository = totalCoinsRepository;
+    // Loaded here rather than in onAdded() so the coin rules work without building the HUD.
+    this.totalCoins = totalCoinsRepository.load();
   }
 
   @Override
   public void onAdded() {
-    totalCoins = totalCoinsRepository.load();
-
     coinImage = new Image(GameConstants.COIN_IMAGE_PATH, 25, 20, false, false);
 
     coinText =

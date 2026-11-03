@@ -25,7 +25,6 @@ import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -38,15 +37,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class PauseMenu extends FXGLMenu {
-  private final MediaPlayer mainMenuSound;
   private final Settings settings = SettingsProvider.loadSettings();
   private ImageView imageViewPlayingMenuSound;
   private ImageView imageViewPlayingSfxSounds;
@@ -82,16 +78,9 @@ public class PauseMenu extends FXGLMenu {
   public PauseMenu() {
     super(MenuType.GAME_MENU);
 
-    mainMenuSound =
-        new MediaPlayer(
-            new Media(
-                Objects.requireNonNull(getClass().getResource("/assets/sounds/mainMenu.mp3"))
-                    .toExternalForm()));
-
     // Read the last saved settings and load the main menu sound
     boolean muteState = settings.isMuted();
     AudioManager.getInstance().setMuted(muteState);
-    mainMenuSound.setMute(muteState);
     AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
 
     VBox musicVolumeControl =
@@ -103,13 +92,6 @@ public class PauseMenu extends FXGLMenu {
 
     Label sfxVolumeLabel = (Label) sfxVolumeControl.getChildren().get(0);
     Slider sfxVolumeSlider = (Slider) sfxVolumeControl.getChildren().get(1);
-
-    volumeSlider
-        .valueProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              mainMenuSound.setVolume(newValue.doubleValue());
-            });
 
     try {
       InputStream muteButton =
@@ -137,7 +119,6 @@ public class PauseMenu extends FXGLMenu {
           mouseEvent -> {
             boolean newMutedState = !AudioManager.getInstance().isMuted();
             AudioManager.getInstance().setMuted(newMutedState);
-            mainMenuSound.setMute(newMutedState);
             settings.setMuted(newMutedState);
             imageViewPlayingMenuSound.setImage(newMutedState ? mute : audioOn);
             SettingsProvider.saveSettings(settings);

@@ -1,0 +1,37 @@
+services:
+  pool:
+    extends:
+      file: compose.services.yaml
+      service: pool
+    restart: unless-stopped
+    labels:
+      traefik.enable: "false"
+    networks:
+      - backend
+  ingress:
+    extends:
+      file: compose.services.yaml
+      service: ingress
+    restart: unless-stopped
+    networks:
+      - backend
+      - dokploy-network
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - --fail
+        - --silent
+        - --show-error
+        - --max-time
+        - "3"
+        - http://127.0.0.1:8080/_pool/availability
+      interval: 30s
+      timeout: 5s
+      start_period: 90s
+      retries: 3
+
+networks:
+  backend:
+  dokploy-network:
+    external: true

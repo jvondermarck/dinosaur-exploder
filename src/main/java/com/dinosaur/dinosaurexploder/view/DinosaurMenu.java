@@ -11,7 +11,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.scene.Scene;
 import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
@@ -36,14 +35,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import org.jetbrains.annotations.NotNull;
 
 public class DinosaurMenu extends FXGLMenu {
   private static final boolean DEBUG_MENU_ENABLED =
@@ -51,7 +47,6 @@ public class DinosaurMenu extends FXGLMenu {
 
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
-  private final MediaPlayer mainMenuSound;
   private Logger logger = Logger.getLogger(DinosaurMenu.class.getName());
 
   // UI Components
@@ -66,7 +61,6 @@ public class DinosaurMenu extends FXGLMenu {
   public DinosaurMenu() {
     super(MenuType.MAIN_MENU);
 
-    mainMenuSound = createMainMenuSound();
     initializeAudioSettings();
     assert settings != null;
     String language = settings.getLanguage();
@@ -83,17 +77,9 @@ public class DinosaurMenu extends FXGLMenu {
 
   // ============ INITIALIZATION METHODS ============
 
-  private MediaPlayer createMainMenuSound() {
-    return new MediaPlayer(
-        new Media(
-            Objects.requireNonNull(getClass().getResource(GameConstants.MAIN_MENU_SOUND))
-                .toExternalForm()));
-  }
-
   private void initializeAudioSettings() {
     boolean muteState = settings.isMuted();
     AudioManager.getInstance().setMuted(muteState);
-    mainMenuSound.setMute(muteState);
     AudioManager.getInstance().playMusic(GameConstants.BACKGROUND_SOUND);
   }
 
@@ -387,7 +373,6 @@ public class DinosaurMenu extends FXGLMenu {
   private void toggleMute(ImageView muteIcon, Image muteImg, Image audioOnImg) {
     boolean newMutedState = !AudioManager.getInstance().isMuted();
     AudioManager.getInstance().setMuted(newMutedState);
-    mainMenuSound.setMute(newMutedState);
     muteIcon.setImage(newMutedState ? muteImg : audioOnImg);
     SettingsProvider.updateMuteState(newMutedState);
   }
@@ -398,13 +383,6 @@ public class DinosaurMenu extends FXGLMenu {
     settingsButton.setText(languageManager.getTranslation("options").toUpperCase());
     languageLabel.setText(languageManager.getTranslation("language_label").toUpperCase());
     debugButton.setText(languageManager.getTranslation("debug_menu_button").toUpperCase());
-  }
-
-  @Override
-  public void onEnteredFrom(@NotNull Scene prevState) {
-    super.onEnteredFrom(prevState);
-    mainMenuSound.setMute(AudioManager.getInstance().isMuted());
-    mainMenuSound.setVolume(AudioManager.getInstance().getVolume());
   }
 
   public void exit() {

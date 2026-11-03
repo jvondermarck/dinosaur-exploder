@@ -1,0 +1,11 @@
+**
+!pom.xml
+!src/
+!src/**
+!deploy/
+!deploy/jpro/
+!deploy/jpro/**
+!deploy/ingress/
+!deploy/ingress/**
+!Dockerfile
+!.dockerignore

@@ -1,0 +1,11 @@
+services:
+  pool:
+    extends:
+      file: compose.services.yaml
+      service: pool
+  ingress:
+    extends:
+      file: compose.services.yaml
+      service: ingress
+    ports:
+      - "127.0.0.1:8081:8080"

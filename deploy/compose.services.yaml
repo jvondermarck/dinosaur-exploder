@@ -1,0 +1,40 @@
+services:
+  pool:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: pool
+    init: true
+    environment:
+      POOL_ADMIN_KEY: ${POOL_ADMIN_KEY:?Set a non-empty POOL_ADMIN_KEY}
+    command:
+      - --one.jpro.loadbalancer.localServerCount=${POOL_CAPACITY:-2}
+    mem_limit: 4g
+    cpus: 4
+    tmpfs:
+      - /var/lib/dinosaur-exploder:exec,uid=10001,gid=10001,mode=0700
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"
+  ingress:
+    build:
+      context: ..
+      dockerfile: deploy/ingress/Dockerfile
+    depends_on:
+      - pool
+    read_only: true
+    tmpfs:
+      - /tmp:uid=101,gid=101,mode=0700
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    cpus: 1
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"

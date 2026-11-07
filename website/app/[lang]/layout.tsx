@@ -17,6 +17,7 @@ import { FaGithub } from "react-icons/fa";
 import { getDictionary } from "@/getDictionary";
 import {Locale} from "../../i18n-config";
 import localFont from "next/font/local";
+import { getSiteMetadata } from "@/lib/siteMetadata";
 
 const ubuntuSansMono = localFont({
   src: "../fonts/UbuntuSansMono-VariableFont_wght.ttf",
@@ -41,13 +42,7 @@ const pressStart2P = Press_Start_2P({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-    title: "Dinosaur Exploder",
-    description: "Open source retro shoot 'em up game.",
-    verification: {
-      google: 'gdP0ZxOyLsUaoHTFpX-fgS6eCOdbAr1AhMnFgLj330g',
-    },
-};
+export const metadata: Metadata = getSiteMetadata();
 
 export default async function RootLayout({
         children,

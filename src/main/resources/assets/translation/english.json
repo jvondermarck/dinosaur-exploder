@@ -83,6 +83,9 @@
     "debug_high_score_prompt": "Enter high score value",
     "debug_score_prompt": "Enter score value",
     "debug_saved": "Change successful",
-    "debug_back": "Back"
-    
+    "debug_back": "Back",
+    "display": "Display",
+    "fullscreen": "Fullscreen",
+    "resolution": "Resolution",
+    "auto_screen_fit": "Auto (Screen Fit)"
 }

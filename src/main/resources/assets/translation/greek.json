@@ -81,5 +81,9 @@
   "debug_high_score_prompt": "Εισάγετε μέγιστο σκορ",
   "debug_saved":"Η ΑΛΛΑΓΗ ΕΠΙΤΥΧΗΣ",
   "debug_score_prompt": "Εισάγετε σκορ",
-  "debug_back": "Πίσω"
+  "debug_back": "Πίσω",
+  "display": "Οθόνη",
+  "fullscreen": "Πλήρης οθόνη",
+  "resolution": "Ανάλυση",
+  "auto_screen_fit": "Αυτόματο"
 }

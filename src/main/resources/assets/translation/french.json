@@ -81,5 +81,9 @@
     "debug_high_score_prompt": "Entrez le meilleur score",
     "debug_saved":"MODIFICATION RÉUSSIE",
     "debug_score_prompt": "Entrez le score",
-    "debug_back": "Retour"
+    "debug_back": "Retour",
+    "display": "Affichage",
+    "fullscreen": "Plein écran",
+    "resolution": "Résolution",
+    "auto_screen_fit": "Auto"
 }

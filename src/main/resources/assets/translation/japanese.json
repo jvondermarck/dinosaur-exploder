@@ -82,5 +82,9 @@
   "debug_high_score_prompt": "ハイスコアを入力",
   "debug_saved":"変更成功",
   "debug_score_prompt": "スコアを入力",
-  "debug_back": "戻る"
+  "debug_back": "戻る",
+  "display": "画面設定",
+  "fullscreen": "全画面表示",
+  "resolution": "解像度",
+  "auto_screen_fit": "自動（画面に合わせる）"
 }

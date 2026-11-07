@@ -37,6 +37,7 @@ public class SettingsMenu extends FXGLMenu {
   private Button keyButton;
   private Button languageButton;
   private Button backButton;
+  private Button displayButton;
 
   public SettingsMenu() {
     super(MenuType.MAIN_MENU);
@@ -104,9 +105,14 @@ public class SettingsMenu extends FXGLMenu {
     languageButton.setAlignment(Pos.CENTER);
     languageButton.setOnAction(
         e -> FXGL.getSceneService().pushSubScene(new LanguageSelectionMenu()));
+    displayButton =
+        getUIFactoryService().newButton(languageManager.getTranslation("display").toUpperCase());
+    displayButton.setMinSize(getAppWidth() * 0.8, 60);
+    displayButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new DisplayMenu()));
     options
         .getChildren()
-        .addAll(statsButton, achievementsButton, keyButton, soundButton, languageButton);
+        .addAll(
+            statsButton, achievementsButton, keyButton, soundButton, languageButton, displayButton);
 
     return options;
   }
@@ -155,5 +161,6 @@ public class SettingsMenu extends FXGLMenu {
     achievementsButton.setText(languageManager.getTranslation(ACHIEVEMENTS).toUpperCase());
     keyButton.setText(languageManager.getTranslation(CONTROLS).toUpperCase());
     backButton.setText(languageManager.getTranslation("back").toUpperCase());
+    displayButton.setText(languageManager.getTranslation("display").toUpperCase());
   }
 }

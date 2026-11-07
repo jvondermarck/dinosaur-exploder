@@ -25,7 +25,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -104,7 +103,7 @@ public class DebugMenu extends FXGLMenu {
    */
   private Button createSetHighScoreButton() {
     highScoreField = new TextField();
-    highScoreField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
+    highScoreField.setFont(getUIFactoryService().newFont(20));
     highScoreField.setPromptText(t("debug_high_score_prompt").toUpperCase());
     setHighScoreButton = getUIFactoryService().newButton(t("debug_set_high_score").toUpperCase());
     setHighScoreButton.setStyle("-fx-alignment: center; -fx-text-alignment: center;");
@@ -132,7 +131,7 @@ public class DebugMenu extends FXGLMenu {
    */
   private Button createSetCoinsButton() {
     coinsField = new TextField();
-    coinsField.setFont(Font.font(GameConstants.GAME_FONT_NAME, 20));
+    coinsField.setFont(getUIFactoryService().newFont(20));
     coinsField.setPromptText(t("debug_coins_prompt").toUpperCase());
     setCoinsButton = getUIFactoryService().newButton(t("debug_set_coins").toUpperCase());
     setCoinsButton.setStyle("-fx-alignment: center; -fx-text-alignment: center;");

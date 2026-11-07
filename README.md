@@ -255,7 +255,7 @@ Download the latest release:
 java -jar dinosaur-exploder-<platform>-<version>.jar
 ```
 
-**Controls:** Arrow keys (move) • Space (shoot) • E (shield) • B (bomb) • Esc (pause)
+**Controls:**  Arrow keys (move) • Z (shoot) • C (shield) • X (bomb) • Esc (pause)
 
 ---
 

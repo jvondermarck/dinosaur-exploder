@@ -43,9 +43,9 @@ describe("HowGameWorksPage", () => {
     );
   });
 
-  it("shows controls for Space and Esc (exact match)", async () => {
+  it("shows controls for Z and Esc (exact match)", async () => {
     render(await HowGameWorksPage({ params: Promise.resolve({ lang: "en" }) }));
-    expect(screen.getByText(/^Space$/)).toBeInTheDocument();
+    expect(screen.getByText(/^Z$/)).toBeInTheDocument();
     expect(screen.getByText(/^Esc$/)).toBeInTheDocument();
   });
 });

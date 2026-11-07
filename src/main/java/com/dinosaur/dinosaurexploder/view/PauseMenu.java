@@ -51,7 +51,7 @@ public class PauseMenu extends FXGLMenu {
   private ImageView imageViewPlayingMenuSound;
   private ImageView imageViewPlayingSfxSounds;
   private static final String LABEL_FORMAT = "%.0f%%";
-  private Logger logger = Logger.getLogger(getClass().getName());
+  private final Logger logger = Logger.getLogger(getClass().getName());
 
   LanguageManager languageManager = LanguageManager.getInstance();
   PauseButton btnBack = new PauseButton(languageManager.getTranslation("back"), this::fireResume);
@@ -404,7 +404,7 @@ public class PauseMenu extends FXGLMenu {
     private static final Color SELECTED = Color.WHITE;
     private static final Color NOT_SELECTED = Color.GRAY;
 
-    private Runnable action;
+    private final Runnable action;
     private boolean disabled = false;
     private final Text text;
 

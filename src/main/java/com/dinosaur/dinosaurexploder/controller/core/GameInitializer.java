@@ -65,7 +65,7 @@ public class GameInitializer {
     onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
 
     // Shield activation (your feature)
-    onKeyDown(KeyCode.E, () -> player.getComponent(PlayerComponent.class).activateShield());
+    onKeyDown(KeyCode.C, () -> player.getComponent(PlayerComponent.class).activateShield());
 
     onKey(KeyCode.W, () -> player.getComponent(PlayerComponent.class).moveUp());
     onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
@@ -77,7 +77,7 @@ public class GameInitializer {
       onBtn(MouseButton.PRIMARY, () -> player.getComponent(PlayerComponent.class).shoot());
     }
 
-    onKeyDown(KeyCode.B, () -> bomb.getComponent(BombComponent.class).useBomb(player));
+    onKeyDown(KeyCode.X, () -> bomb.getComponent(BombComponent.class).useBomb(player));
   }
 
   public void initGame() {

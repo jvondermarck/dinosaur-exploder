@@ -61,8 +61,8 @@ public class GameControlsComponent {
         case MOVE_RIGHT -> "→ / D";
         case PAUSE_GAME -> "ESC";
         case SHOOT -> isExpertMode() ? "Space / Left Click" : "Space";
-        case BOMB -> "B";
-        case SHIELD -> "E";
+        case BOMB -> "X";
+        case SHIELD -> "C";
       };
     }
 

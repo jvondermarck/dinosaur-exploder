@@ -61,8 +61,8 @@
       "list": [
         { "key": "↑ ↓ ← →", "action": "Mover la nave espacial" },
         { "key": "Space", "action": "Disparar" },
-        { "key": "E", "action": "Activar escudo (duracion corta)" },
-        { "key": "B", "action": "Bomba (elimina todos los dinosaurios en pantalla)" },
+        { "key": "C", "action": "Activar escudo (duracion corta)" },
+        { "key": "X", "action": "Bomba (elimina todos los dinosaurios en pantalla)" },
         { "key": "Esc", "action": "Pausa" }
       ]
     },

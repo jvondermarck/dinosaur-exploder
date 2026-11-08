@@ -39,7 +39,8 @@ class GameControlsComponentTest {
     GameData.setSelectedDifficulty(GameMode.NORMAL);
 
     assertEquals(
-        "Z: Shoot", GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHOOT));
+        "Space: Shoot",
+        GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHOOT));
   }
 
   @Test
@@ -47,7 +48,7 @@ class GameControlsComponentTest {
     GameData.setSelectedDifficulty(GameMode.EXPERT);
 
     assertEquals(
-        "Z / Left Click: Shoot",
+        "Space / Left Click: Shoot",
         GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHOOT));
   }
 

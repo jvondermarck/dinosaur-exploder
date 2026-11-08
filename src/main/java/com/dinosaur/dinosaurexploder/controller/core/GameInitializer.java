@@ -62,7 +62,7 @@ public class GameInitializer {
     onKey(KeyCode.LEFT, () -> player.getComponent(PlayerComponent.class).moveLeft());
     onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
 
-    onKeyDown(KeyCode.Z, () -> player.getComponent(PlayerComponent.class).shoot());
+    onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
 
     // Shield activation (your feature)
     onKeyDown(KeyCode.C, () -> player.getComponent(PlayerComponent.class).activateShield());

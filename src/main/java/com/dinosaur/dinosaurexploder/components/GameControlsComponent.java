@@ -60,7 +60,7 @@ public class GameControlsComponent {
         case MOVE_LEFT -> "← / A";
         case MOVE_RIGHT -> "→ / D";
         case PAUSE_GAME -> "ESC";
-        case SHOOT -> isExpertMode() ? "Z / Left Click" : "Z";
+        case SHOOT -> isExpertMode() ? "Space / Left Click" : "Space";
         case BOMB -> "X";
         case SHIELD -> "C";
       };

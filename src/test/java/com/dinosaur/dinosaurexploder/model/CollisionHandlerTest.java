@@ -9,18 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.almasb.fxgl.entity.Entity;
-import com.dinosaur.dinosaurexploder.achievements.Achievement;
 import com.dinosaur.dinosaurexploder.achievements.AchievementManager;
 import com.dinosaur.dinosaurexploder.components.*;
 import com.dinosaur.dinosaurexploder.persistence.HighScoreRepository;
 import com.dinosaur.dinosaurexploder.persistence.TotalCoinsRepository;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.MockGameTimer;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,8 +28,8 @@ class CollisionHandlerTest {
   public static final int PLAYER_MAX_LIVES = 3;
   public static final int MAX_BOMB_COUNT = 3;
 
-  private List<Achievement> currentAchievement = new ArrayList<>();
-  AchievementManager achievementManager = new AchievementManager();
+  // Mocked: no test here checks achievements, and the real manager writes achievements.ser.
+  AchievementManager achievementManager = mock(AchievementManager.class);
   CollisionHandler collisionHandler;
   LevelManager levelManager;
 
@@ -44,11 +40,6 @@ class CollisionHandlerTest {
   @BeforeEach
   void setUp() {
     levelManager = new LevelManager();
-    List<Achievement> emptyList = new ArrayList<>();
-    currentAchievement = achievementManager.loadAchievement();
-    achievementManager.saveAchievement(emptyList);
-    achievementManager.init();
-
     collisionHandler = new CollisionHandler(levelManager, achievementManager);
 
     highScoreRepository = mock(HighScoreRepository.class);
@@ -199,10 +190,5 @@ class CollisionHandlerTest {
     // then: persistence was delegated to the (mocked) repository, never to a real file
     verify(highScoreRepository).save(any(HighScore.class));
     verify(totalCoinsRepository).save(any(TotalCoins.class));
-  }
-
-  @AfterEach
-  void setAchievementBack() {
-    achievementManager.saveAchievement(currentAchievement);
   }
 }

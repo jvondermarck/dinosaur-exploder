@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    background: #10191d;
+    color: #f5f5f5;
+    font-family: system-ui, sans-serif;
+}
+#pool-message {
+    box-sizing: border-box;
+    max-width: 38rem;
+    margin: 15vh auto;
+    padding: 2rem;
+    text-align: center;
+}
+#pool-retry {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #f5f5f5;
+    color: #10191d;
+    font: inherit;
+    cursor: pointer;
+}
+[hidden] {
+    display: none !important;
+}

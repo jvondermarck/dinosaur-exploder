@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.dinosaur.dinosaurexploder.model.Settings;
+import com.jpro.webapi.WebAPI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +22,7 @@ public class AudioManager {
   private double sfxVolume = 1.0;
   private final List<MediaPlayer> activePlayers = new ArrayList<>();
   private MediaPlayer backgroundPlayer;
+  private BrowserAudio browserAudio;
   private Logger logger = Logger.getLogger(getClass().getName());
 
   private AudioManager() {
@@ -36,8 +38,17 @@ public class AudioManager {
     return instance;
   }
 
+  public void useBrowserAudio(WebAPI webAPI) {
+    stopAllSounds();
+    browserAudio = new BrowserAudio(webAPI);
+  }
+
   public void setMuted(boolean muted) {
     this.isMuted = muted;
+    if (browserAudio != null) {
+      browserAudio.setMuted(true, muted);
+      return;
+    }
     if (backgroundPlayer != null) backgroundPlayer.setMute(muted);
     // Mute/unmute all active sound effects
     for (MediaPlayer player : activePlayers) {
@@ -51,6 +62,7 @@ public class AudioManager {
 
   public void setSfxMuted(boolean muted) {
     isSfxMuted = muted;
+    if (browserAudio != null) browserAudio.setMuted(false, muted);
   }
 
   public boolean isSfxMuted() {
@@ -59,10 +71,15 @@ public class AudioManager {
 
   public void setSfxVolume(double volume) {
     this.sfxVolume = volume;
+    if (browserAudio != null) browserAudio.setVolume(false, volume);
   }
 
   public void setVolume(double volume) {
     this.volume = volume;
+    if (browserAudio != null) {
+      browserAudio.setVolume(true, volume);
+      return;
+    }
     if (backgroundPlayer != null) backgroundPlayer.setVolume(volume);
     // Update volume for all currently playing sound effects
     for (MediaPlayer player : activePlayers) {
@@ -82,6 +99,10 @@ public class AudioManager {
 
   public void playSound(String soundFile) {
     if (isSfxMuted) return;
+    if (browserAudio != null) {
+      browserAudio.play(toMp3File(soundFile), false, sfxVolume, isSfxMuted);
+      return;
+    }
     try {
       soundFile = toMp3File(soundFile);
       String resourcePath = "/assets/sounds/" + soundFile;
@@ -108,6 +129,10 @@ public class AudioManager {
 
   public void playMusic(String soundFile) {
     stopMusic();
+    if (browserAudio != null) {
+      browserAudio.play(toMp3File(soundFile), true, volume, isMuted);
+      return;
+    }
     try {
       soundFile = toMp3File(soundFile);
       String resourcePath = "/assets/sounds/" + soundFile;
@@ -128,6 +153,10 @@ public class AudioManager {
   }
 
   public void stopMusic() {
+    if (browserAudio != null) {
+      browserAudio.stopMusic();
+      return;
+    }
     if (backgroundPlayer != null) {
       backgroundPlayer.stop();
       backgroundPlayer.dispose();
@@ -136,6 +165,10 @@ public class AudioManager {
   }
 
   public void stopAllSounds() {
+    if (browserAudio != null) {
+      browserAudio.stopAll();
+      return;
+    }
     stopMusic();
     for (MediaPlayer player : new ArrayList<>(activePlayers)) {
       player.stop();

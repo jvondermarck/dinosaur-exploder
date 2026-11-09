@@ -57,6 +57,9 @@ A classic arcade shooter with:
 - 🧪 **Unit tests** and best practices
 - 🔓 **Open architecture** for easy contributions
 
+For the experimental Docker/JPro browser-hosting setup, see the
+[browser hosting guide](docs/web-deployment/README.md).
+
 ---
 
 ## 🚀 Quick Start for Contributors

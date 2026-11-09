@@ -97,6 +97,18 @@
         </pluginRepository>
     </pluginRepositories>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/assets/sounds</directory>
+                <targetPath>jpro/html/audio</targetPath>
+                <includes>
+                    <include>*.mp3</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>

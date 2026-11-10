@@ -9,8 +9,8 @@ import javafx.scene.input.KeyCode;
 
 public enum ControlAction {
   SHOOT(KeyCode.SPACE),
-  BOMB(KeyCode.B),
-  SHIELD(KeyCode.E);
+  BOMB(KeyCode.X),
+  SHIELD(KeyCode.C);
 
   private final KeyCode defaultKey;
 

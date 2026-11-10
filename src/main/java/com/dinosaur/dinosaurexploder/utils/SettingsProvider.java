@@ -8,15 +8,13 @@ package com.dinosaur.dinosaurexploder.utils;
 import com.dinosaur.dinosaurexploder.model.ControlAction;
 import com.dinosaur.dinosaurexploder.model.KeyBindings;
 import com.dinosaur.dinosaurexploder.model.Settings;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import com.dinosaur.dinosaurexploder.persistence.FileSettingsFileProvider;
+import com.dinosaur.dinosaurexploder.persistence.SettingsFileProvider;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,34 +30,56 @@ public class SettingsProvider {
   public static final String SETTINGS_LANGUAGE = "selectedLanguage";
   private static final Logger logger = Logger.getLogger(SettingsProvider.class.getName());
 
-  private SettingsProvider() {}
+  private static final SettingsProvider DEFAULT =
+      new SettingsProvider(new FileSettingsFileProvider(Path.of(SETTINGS_FILE)));
+
+  private final SettingsFileProvider fileProvider;
+
+  SettingsProvider(SettingsFileProvider fileProvider) {
+    this.fileProvider = Objects.requireNonNull(fileProvider);
+  }
 
   public static Settings loadSettings() {
-    Properties properties = readSettingsFile();
+    return DEFAULT.load();
+  }
+
+  Settings load() {
+    Properties properties = fileProvider.load();
+
     if (!properties.isEmpty()) {
       try {
         return createSettingsFromProperties(properties);
       } catch (Exception e) {
         logger.log(Level.INFO, "Malformed settings, restoring defaults: {0}", e.getMessage());
-        deleteSettingsFile();
+        fileProvider.delete();
       }
     }
+
     return saveDefaultSettings();
   }
 
   public static void saveSettings(Settings settings) {
-    Properties properties = readSettingsFile();
-    properties.putAll(createPropertiesFromSettings(settings));
+    DEFAULT.save(settings);
+  }
 
+  void save(Settings settings) {
+    Properties properties = fileProvider.load();
+    properties.putAll(createPropertiesFromSettings(settings));
     try {
-      writeSettingsFile(properties);
+      fileProvider.save(properties);
     } catch (IOException ex) {
       logger.log(Level.INFO, "Error saving settings {0}", ex.getMessage());
     }
   }
 
+  void updateMute(boolean muted) {
+    Settings settings = load();
+    settings.setMuted(muted);
+    save(settings);
+  }
+
   public static KeyBindings loadKeyBindings() {
-    Properties properties = readSettingsFile();
+    Properties properties = DEFAULT.fileProvider.load();
     Map<ControlAction, KeyCode> keys = new EnumMap<>(ControlAction.class);
     try {
       for (ControlAction action : ControlAction.values()) {
@@ -76,12 +96,14 @@ public class SettingsProvider {
   }
 
   public static void saveKeyBindings(KeyBindings bindings) throws IOException {
-    Properties properties = createPropertiesFromSettings(generateDefaultSettings());
-    properties.putAll(readSettingsFileStrict());
+    Properties properties = DEFAULT.fileProvider.load();
+    if (properties.isEmpty()) {
+      properties.putAll(createPropertiesFromSettings(generateDefaultSettings()));
+    }
     for (ControlAction action : ControlAction.values()) {
       properties.setProperty(keyProperty(action), bindings.keyFor(action).name());
     }
-    writeSettingsFile(properties);
+    DEFAULT.fileProvider.save(properties);
   }
 
   private static String keyProperty(ControlAction action) {
@@ -89,54 +111,12 @@ public class SettingsProvider {
   }
 
   public static void updateMuteState(boolean muted) {
-    Settings settings = loadSettings();
-    settings.setMuted(muted);
-    saveSettings(settings);
+    DEFAULT.updateMute(muted);
   }
 
-  private static Properties readSettingsFile() {
-    try {
-      return readSettingsFileStrict();
-    } catch (IOException | IllegalArgumentException ex) {
-      logger.log(Level.INFO, "Error reading settings {0}", ex.getMessage());
-      return new Properties();
-    }
-  }
-
-  private static Properties readSettingsFileStrict() throws IOException {
-    Properties properties = new Properties();
-    if (!Files.exists(Path.of(SETTINGS_FILE))) {
-      return properties;
-    }
-    try (FileInputStream in = new FileInputStream(SETTINGS_FILE)) {
-      properties.load(in);
-    }
-    return properties;
-  }
-
-  private static void writeSettingsFile(Properties properties) throws IOException {
-    Path target = Path.of(SETTINGS_FILE).toAbsolutePath();
-    Path temporary = Files.createTempFile(target.getParent(), "settings-", ".tmp");
-    try {
-      try (FileWriter writer = new FileWriter(temporary.toFile())) {
-        properties.store(writer, "store properties");
-      }
-      Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING);
-    } finally {
-      Files.deleteIfExists(temporary);
-    }
-  }
-
-  private static void deleteSettingsFile() {
-    File file = new File(SETTINGS_FILE);
-    if (file.exists() && !file.delete()) {
-      logger.log(Level.INFO, "Could not delete invalid settings file");
-    }
-  }
-
-  private static Settings saveDefaultSettings() {
+  private Settings saveDefaultSettings() {
     Settings defaults = generateDefaultSettings();
-    saveSettings(defaults);
+    save(defaults);
     return defaults;
   }
 

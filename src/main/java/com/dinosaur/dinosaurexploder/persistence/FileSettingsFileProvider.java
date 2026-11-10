@@ -44,11 +44,9 @@ public class FileSettingsFileProvider implements SettingsFileProvider {
   }
 
   @Override
-  public void save(Properties properties) {
+  public void save(Properties properties) throws IOException {
     try (FileWriter writer = new FileWriter(settingsPath.toFile())) {
       properties.store(writer, "store properties");
-    } catch (IOException e) {
-      LOGGER.log(Level.INFO, "Error saving settings: {0}", e.getMessage());
     }
   }
 

@@ -9,20 +9,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.dinosaur.dinosaurexploder.constants.GameMode;
+import com.dinosaur.dinosaurexploder.model.ControlAction;
 import com.dinosaur.dinosaurexploder.model.GameData;
+import com.dinosaur.dinosaurexploder.model.KeyBindings;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
+import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 class GameControlsComponentTest {
 
   private GameMode originalDifficulty;
   private String originalLanguage;
   private final LanguageManager languageManager = LanguageManager.getInstance();
+  private MockedStatic<SettingsProvider> settingsProvider;
 
   @BeforeEach
   void setUp() {
+    settingsProvider = Mockito.mockStatic(SettingsProvider.class);
+    settingsProvider.when(SettingsProvider::loadKeyBindings).thenReturn(KeyBindings.defaults());
     originalDifficulty = GameData.getSelectedDifficulty();
     originalLanguage = languageManager.selectedLanguageProperty().get();
     languageManager.setSelectedLanguage(LanguageManager.DEFAULT_LANGUAGE);
@@ -30,6 +39,7 @@ class GameControlsComponentTest {
 
   @AfterEach
   void tearDown() {
+    settingsProvider.close();
     GameData.setSelectedDifficulty(originalDifficulty);
     languageManager.setSelectedLanguage(originalLanguage);
   }
@@ -39,7 +49,7 @@ class GameControlsComponentTest {
     GameData.setSelectedDifficulty(GameMode.NORMAL);
 
     assertEquals(
-        "Space: Shoot",
+        ControlAction.SHOOT.defaultKey().getName() + ": Shoot",
         GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHOOT));
   }
 
@@ -48,7 +58,7 @@ class GameControlsComponentTest {
     GameData.setSelectedDifficulty(GameMode.EXPERT);
 
     assertEquals(
-        "Space / Left Click: Shoot",
+        ControlAction.SHOOT.defaultKey().getName() + " / Left Click: Shoot",
         GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHOOT));
   }
 
@@ -77,5 +87,16 @@ class GameControlsComponentTest {
     assertEquals(
         GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHIELD),
         controlTexts[controlTexts.length - 1]);
+  }
+
+  @Test
+  void shouldDisplayTheConfiguredKeyAndPreserveExpertMouseHint() {
+    settingsProvider
+        .when(SettingsProvider::loadKeyBindings)
+        .thenReturn(KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
+    GameData.setSelectedDifficulty(GameMode.EXPERT);
+    assertEquals(
+        "J / Left Click: Shoot",
+        GameControlsComponent.getControlText(GameControlsComponent.ControlType.SHOOT));
   }
 }

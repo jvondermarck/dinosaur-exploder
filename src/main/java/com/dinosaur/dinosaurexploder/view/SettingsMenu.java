@@ -11,7 +11,6 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FontType;
-import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.constants.GameMode;
 import com.dinosaur.dinosaurexploder.model.GameData;
@@ -97,7 +96,7 @@ public class SettingsMenu extends FXGLMenu {
         getUIFactoryService().newButton(languageManager.getTranslation(CONTROLS).toUpperCase());
     keyButton.setWrapText(true);
     keyButton.setMinSize(getAppWidth() * 0.8, 60);
-    keyButton.setOnAction(e -> createControlsDialog());
+    keyButton.setOnAction(e -> FXGL.getSceneService().pushSubScene(new ControlsMenu()));
     languageButton =
         getUIFactoryService().newButton(languageManager.getTranslation("language").toUpperCase());
     languageButton.setWrapText(true);
@@ -143,13 +142,6 @@ public class SettingsMenu extends FXGLMenu {
             .toUpperCase();
     MenuHelper.showDialog(
         languageManager.getTranslation(SCORE_LABEL).toUpperCase(), scores + totalCoins);
-  }
-
-  // dialog for the controls
-  private void createControlsDialog() {
-    MenuHelper.showDialog(
-        languageManager.getTranslation(CONTROLS).toUpperCase(),
-        GameControlsComponent.generateControlsDialogText());
   }
 
   // called when language is changed to update the texts

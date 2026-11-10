@@ -6,8 +6,10 @@
 package com.dinosaur.dinosaurexploder.components;
 
 import com.dinosaur.dinosaurexploder.constants.GameMode;
+import com.dinosaur.dinosaurexploder.model.ControlAction;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -60,9 +62,11 @@ public class GameControlsComponent {
         case MOVE_LEFT -> "← / A";
         case MOVE_RIGHT -> "→ / D";
         case PAUSE_GAME -> "ESC";
-        case SHOOT -> isExpertMode() ? "Space / Left Click" : "Space";
-        case BOMB -> "X";
-        case SHIELD -> "C";
+        case SHOOT ->
+            SettingsProvider.loadKeyBindings().keyFor(ControlAction.SHOOT).getName()
+                + (isExpertMode() ? " / Left Click" : "");
+        case BOMB -> SettingsProvider.loadKeyBindings().keyFor(ControlAction.BOMB).getName();
+        case SHIELD -> SettingsProvider.loadKeyBindings().keyFor(ControlAction.SHIELD).getName();
       };
     }
 
@@ -84,6 +88,10 @@ public class GameControlsComponent {
     CONTROLS.put(ControlType.SHOOT, new ControlMapping("shoot"));
     CONTROLS.put(ControlType.BOMB, new ControlMapping("bomb"));
     CONTROLS.put(ControlType.SHIELD, new ControlMapping("shield"));
+  }
+
+  public static String getActionLabel(ControlAction action) {
+    return formatActionLabel(LanguageManager.getInstance().getTranslation(action.translationKey()));
   }
 
   static String formatActionLabel(String translation) {
@@ -137,11 +145,10 @@ public class GameControlsComponent {
   public static String[] getAllControlTexts() {
     LanguageManager languageManager = LanguageManager.getInstance();
     return CONTROLS.entrySet().stream()
-        .map(
-            entry ->
-                entry
-                    .getValue()
-                    .getDisplayText(entry.getKey(), languageManager, DisplayMode.BUTTON_LIST))
+        .map(entry ->
+            entry
+                .getValue()
+                .getDisplayText(entry.getKey(), languageManager, DisplayMode.BUTTON_LIST))
         .toArray(String[]::new);
   }
 }

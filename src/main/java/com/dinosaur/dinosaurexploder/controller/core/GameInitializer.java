@@ -109,14 +109,13 @@ public class GameInitializer {
     applySpecialty();
 
     new CountdownAnimation(3)
-        .startCountdown(
-            () -> {
-              enemySpawner.resumeEnemySpawning();
-              enemySpawner.spawnEnemies();
-              coinSpawner.startSpawning();
-              asteroidsSpawner.resumeAsteroidsSpawning();
-              asteroidsSpawner.spawnAsteroids();
-            });
+        .startCountdown(() -> {
+          enemySpawner.resumeEnemySpawning();
+          enemySpawner.spawnEnemies();
+          coinSpawner.startSpawning();
+          asteroidsSpawner.resumeAsteroidsSpawning();
+          asteroidsSpawner.spawnAsteroids();
+        });
 
     enemySpawner = new EnemySpawner(this);
     asteroidsSpawner = new AsteroidsSpawner(this);

@@ -51,7 +51,8 @@ the main branch and the pull request will be closed.
 ## Custom controls
 
 The controls editor is available from **Settings > Controls** and **Pause > Controls**.
-Click the key for Shoot, Bomb, or Shield, then press a replacement key. Escape cancels
+The defaults are Space to shoot, X for a bomb, and C for the shield. Click the key for
+Shoot, Bomb, or Shield, then press a replacement key. Escape cancels
 key capture. **Apply** saves and activates the changes; **Cancel** discards them.
 **Reset to defaults** changes the draft and must also be confirmed with **Apply**.
 Movement keys, Escape, and Expert mode mouse shooting are unchanged. Duplicate

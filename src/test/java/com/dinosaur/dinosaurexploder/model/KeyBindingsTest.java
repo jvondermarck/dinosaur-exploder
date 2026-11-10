@@ -15,6 +15,9 @@ class KeyBindingsTest {
   @Test
   void defaultsUseTheCentralActionDefaults() {
     KeyBindings bindings = KeyBindings.defaults();
+    assertEquals(KeyCode.SPACE, bindings.keyFor(ControlAction.SHOOT));
+    assertEquals(KeyCode.X, bindings.keyFor(ControlAction.BOMB));
+    assertEquals(KeyCode.C, bindings.keyFor(ControlAction.SHIELD));
     for (ControlAction action : ControlAction.values()) {
       assertEquals(action.defaultKey(), bindings.keyFor(action));
     }

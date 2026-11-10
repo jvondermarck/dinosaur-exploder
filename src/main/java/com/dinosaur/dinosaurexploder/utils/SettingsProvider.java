@@ -79,7 +79,11 @@ public class SettingsProvider {
   }
 
   public static KeyBindings loadKeyBindings() {
-    Properties properties = DEFAULT.fileProvider.load();
+    return DEFAULT.loadBindings();
+  }
+
+  KeyBindings loadBindings() {
+    Properties properties = fileProvider.load();
     Map<ControlAction, KeyCode> keys = new EnumMap<>(ControlAction.class);
     try {
       for (ControlAction action : ControlAction.values()) {
@@ -96,14 +100,18 @@ public class SettingsProvider {
   }
 
   public static void saveKeyBindings(KeyBindings bindings) throws IOException {
-    Properties properties = DEFAULT.fileProvider.load();
+    DEFAULT.saveBindings(bindings);
+  }
+
+  void saveBindings(KeyBindings bindings) throws IOException {
+    Properties properties = fileProvider.load();
     if (properties.isEmpty()) {
       properties.putAll(createPropertiesFromSettings(generateDefaultSettings()));
     }
     for (ControlAction action : ControlAction.values()) {
       properties.setProperty(keyProperty(action), bindings.keyFor(action).name());
     }
-    DEFAULT.fileProvider.save(properties);
+    fileProvider.save(properties);
   }
 
   private static String keyProperty(ControlAction action) {

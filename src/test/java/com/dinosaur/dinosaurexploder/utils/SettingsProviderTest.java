@@ -123,26 +123,26 @@ public class SettingsProviderTest {
 
   @Test
   void customKeysSurviveSavingOlderAudioSettings() throws Exception {
-    Settings olderSettings = SettingsProvider.loadSettings();
-    SettingsProvider.saveKeyBindings(
-        KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
+    SettingsProvider provider = createProvider();
+    Settings olderSettings = provider.load();
+    provider.saveBindings(KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
     olderSettings.setVolume(0.4);
-    SettingsProvider.saveSettings(olderSettings);
+    provider.save(olderSettings);
 
-    Assertions.assertEquals(
-        KeyCode.J, SettingsProvider.loadKeyBindings().keyFor(ControlAction.SHOOT));
-    Assertions.assertEquals(0.4, SettingsProvider.loadSettings().getVolume());
+    Assertions.assertEquals(KeyCode.J, provider.loadBindings().keyFor(ControlAction.SHOOT));
+    Assertions.assertEquals(0.4, provider.load().getVolume());
   }
 
   @Test
   void savingKeysPreservesLatestAudioAndLanguage() throws Exception {
-    Settings settings = SettingsProvider.loadSettings();
+    SettingsProvider provider = createProvider();
+    Settings settings = provider.load();
     settings.setVolume(0.3);
     settings.setSfxVolume(0.6);
     settings.setMuted(true);
     settings.setSfxMuted(true);
     settings.setLanguage("Spanish");
-    SettingsProvider.saveSettings(settings);
+    provider.save(settings);
 
     KeyBindings custom =
         new KeyBindings(
@@ -150,13 +150,12 @@ public class SettingsProviderTest {
                 ControlAction.SHOOT, KeyCode.J,
                 ControlAction.BOMB, KeyCode.K,
                 ControlAction.SHIELD, KeyCode.L));
-    SettingsProvider.saveKeyBindings(custom);
+    provider.saveBindings(custom);
 
     for (ControlAction action : ControlAction.values()) {
-      Assertions.assertEquals(
-          custom.keyFor(action), SettingsProvider.loadKeyBindings().keyFor(action));
+      Assertions.assertEquals(custom.keyFor(action), provider.loadBindings().keyFor(action));
     }
-    Settings saved = SettingsProvider.loadSettings();
+    Settings saved = provider.load();
     Assertions.assertEquals(0.3, saved.getVolume());
     Assertions.assertEquals(0.6, saved.getSfxVolume());
     Assertions.assertTrue(saved.isMuted());
@@ -166,50 +165,83 @@ public class SettingsProviderTest {
 
   @Test
   void legacySettingsWithoutControlsUseDefaults() throws Exception {
+    SettingsProvider provider = createProvider();
     Files.writeString(
-        Path.of(SettingsProvider.SETTINGS_FILE),
+        tempDir.resolve(SettingsProvider.SETTINGS_FILE),
         "soundVolume=0.5\nsoundMuted=false\nsoundVolumeSfx=1.0\n"
             + "soundMutedSfx=false\nselectedLanguage=Spanish\n");
-    assertDefaultKeys();
-    Assertions.assertEquals(0.5, SettingsProvider.loadSettings().getVolume());
-    Assertions.assertEquals("Spanish", SettingsProvider.loadSettings().getLanguage());
+    assertDefaultKeys(provider);
+    Assertions.assertEquals(0.5, provider.load().getVolume());
+    Assertions.assertEquals("Spanish", provider.load().getLanguage());
   }
 
   @Test
   void invalidKeysUseDefaultsWithoutErasingOtherSettings() throws Exception {
-    for (String invalid : new String[] {"NOT_A_KEY", "W", "B"}) {
+    SettingsProvider provider = createProvider();
+    for (String invalid : new String[] {"NOT_A_KEY", "W", "X"}) {
       Files.writeString(
-          Path.of(SettingsProvider.SETTINGS_FILE),
+          tempDir.resolve(SettingsProvider.SETTINGS_FILE),
           "soundVolume=0.5\nsoundMuted=false\nsoundVolumeSfx=1.0\n"
               + "soundMutedSfx=false\nselectedLanguage=Spanish\ncontrols.shoot="
               + invalid
               + "\n");
-      assertDefaultKeys();
-      Assertions.assertEquals("Spanish", SettingsProvider.loadSettings().getLanguage());
-      Assertions.assertEquals(0.5, SettingsProvider.loadSettings().getVolume());
+      assertDefaultKeys(provider);
+      Assertions.assertEquals("Spanish", provider.load().getLanguage());
+      Assertions.assertEquals(0.5, provider.load().getVolume());
     }
   }
 
   @Test
   void resetPersistsDefaultKeys() throws Exception {
-    SettingsProvider.saveKeyBindings(
-        KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
-    SettingsProvider.saveKeyBindings(KeyBindings.defaults());
-    assertDefaultKeys();
+    SettingsProvider provider = createProvider();
+    provider.saveBindings(KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
+    provider.saveBindings(KeyBindings.defaults());
+    assertDefaultKeys(provider);
   }
 
   @Test
   void firstSaveAlsoCreatesValidGeneralSettings() throws Exception {
-    Files.deleteIfExists(Path.of(SettingsProvider.SETTINGS_FILE));
-    SettingsProvider.saveKeyBindings(
-        KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
-    Assertions.assertEquals(1.0, SettingsProvider.loadSettings().getVolume());
-    Assertions.assertEquals(
-        KeyCode.J, SettingsProvider.loadKeyBindings().keyFor(ControlAction.SHOOT));
+    SettingsProvider provider = createProvider();
+    provider.saveBindings(KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
+    Assertions.assertEquals(1.0, provider.load().getVolume());
+    Assertions.assertEquals(KeyCode.J, provider.loadBindings().keyFor(ControlAction.SHOOT));
   }
 
-  private void assertDefaultKeys() {
-    KeyBindings loaded = SettingsProvider.loadKeyBindings();
+  @Test
+  void customKeysArePersistedByTheSettingsFileProvider() throws Exception {
+    SettingsProvider provider = createProvider();
+    provider.saveBindings(
+        new KeyBindings(
+            java.util.Map.of(
+                ControlAction.SHOOT, KeyCode.J,
+                ControlAction.BOMB, KeyCode.K,
+                ControlAction.SHIELD, KeyCode.L)));
+    Properties properties = new Properties();
+    try (FileInputStream in =
+        new FileInputStream(tempDir.resolve(SettingsProvider.SETTINGS_FILE).toFile())) {
+      properties.load(in);
+    }
+    Assertions.assertEquals("J", properties.getProperty("controls.shoot"));
+    Assertions.assertEquals("K", properties.getProperty("controls.bomb"));
+    Assertions.assertEquals("L", properties.getProperty("controls.shield"));
+  }
+
+  @Test
+  void keySaveReportsWriteFailures() throws Exception {
+    SettingsProvider provider =
+        new SettingsProvider(
+            new FileSettingsFileProvider(tempDir.resolve("missing/settings.properties")));
+    Assertions.assertThrows(
+        java.io.IOException.class, () -> provider.saveBindings(KeyBindings.defaults()));
+  }
+
+  private SettingsProvider createProvider() {
+    return new SettingsProvider(
+        new FileSettingsFileProvider(tempDir.resolve(SettingsProvider.SETTINGS_FILE)));
+  }
+
+  private void assertDefaultKeys(SettingsProvider provider) {
+    KeyBindings loaded = provider.loadBindings();
     for (ControlAction action : ControlAction.values()) {
       Assertions.assertEquals(action.defaultKey(), loaded.keyFor(action));
     }

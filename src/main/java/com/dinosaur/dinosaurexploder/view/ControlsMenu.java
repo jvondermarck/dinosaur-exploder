@@ -71,14 +71,13 @@ public class ControlsMenu extends SubScene {
       key.setMinSize(130, 44);
       key.setMaxWidth(width * 0.4);
       key.setWrapText(true);
-      key.setOnAction(
-          event -> {
-            capturing = action;
-            status.setFill(Color.LIME);
-            status.setText(t("controls_press_key"));
-            refreshKeys();
-            getRoot().requestFocus();
-          });
+      key.setOnAction(event -> {
+        capturing = action;
+        status.setFill(Color.LIME);
+        status.setText(t("controls_press_key"));
+        refreshKeys();
+        getRoot().requestFocus();
+      });
       keyButtons.put(action, key);
       HBox row = new HBox(20, label, key);
       row.setAlignment(Pos.CENTER);
@@ -94,13 +93,12 @@ public class ControlsMenu extends SubScene {
     reset.setMinHeight(44);
     reset.setMaxWidth(width * 0.8);
     reset.setWrapText(true);
-    reset.setOnAction(
-        event -> {
-          draft = KeyBindings.defaults();
-          capturing = null;
-          status.setText("");
-          refreshKeys();
-        });
+    reset.setOnAction(event -> {
+      draft = KeyBindings.defaults();
+      capturing = null;
+      status.setText("");
+      refreshKeys();
+    });
     Button apply = MenuHelper.createStyledButton(t("controls_apply"));
     apply.setMinHeight(44);
     apply.setOnAction(event -> apply());
@@ -154,9 +152,8 @@ public class ControlsMenu extends SubScene {
   }
 
   private void refreshKeys() {
-    keyButtons.forEach(
-        (action, button) ->
-            button.setText(action == capturing ? "..." : draft.keyFor(action).getName()));
+    keyButtons.forEach((action, button) ->
+        button.setText(action == capturing ? "..." : draft.keyFor(action).getName()));
   }
 
   private void apply() {

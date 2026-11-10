@@ -71,14 +71,13 @@ public final class ControlBindings {
     }
     input
         .getAllBindings()
-        .forEach(
-            (action, trigger) -> {
-              if (!actions.containsValue(action)
-                  && trigger instanceof KeyTrigger keyTrigger
-                  && needed.contains(keyTrigger.getKey())) {
-                throw new IllegalStateException("Key is already used by " + action.getName());
-              }
-            });
+        .forEach((action, trigger) -> {
+          if (!actions.containsValue(action)
+              && trigger instanceof KeyTrigger keyTrigger
+              && needed.contains(keyTrigger.getKey())) {
+            throw new IllegalStateException("Key is already used by " + action.getName());
+          }
+        });
 
     // Free all three old keys first, so Apply and Reset also support key swaps.
     for (ControlAction action : ControlAction.values()) {

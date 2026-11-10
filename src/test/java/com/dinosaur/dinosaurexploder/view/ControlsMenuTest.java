@@ -48,132 +48,127 @@ class ControlsMenuTest {
 
   @Test
   void captureValidatesKeysAndEscapeCancelsWithoutSaving() throws Exception {
-    onFxThread(
-        () -> {
-          try (Fixture fixture = new Fixture()) {
-            ControlsMenu menu = new ControlsMenu();
-            button(menu, ControlAction.SHOOT.defaultKey().getName()).fire();
-            key(menu, KeyCode.W);
-            assertNotNull(button(menu, "..."));
-            assertTrue(text(menu).contains(fixture.t("controls_reserved_key")));
-            key(menu, ControlAction.BOMB.defaultKey());
-            assertTrue(text(menu).contains(fixture.t("controls_duplicate_key")));
-            key(menu, KeyCode.ESCAPE);
-            assertNotNull(button(menu, ControlAction.SHOOT.defaultKey().getName()));
-            verify(fixture.scenes, never()).popSubScene();
-            key(menu, KeyCode.ESCAPE);
-            verify(fixture.scenes).popSubScene();
-            fixture.settings.verify(
-                () -> SettingsProvider.saveKeyBindings(any(KeyBindings.class)), never());
-          }
-        });
+    onFxThread(() -> {
+      try (Fixture fixture = new Fixture()) {
+        ControlsMenu menu = new ControlsMenu();
+        button(menu, ControlAction.SHOOT.defaultKey().getName()).fire();
+        key(menu, KeyCode.W);
+        assertNotNull(button(menu, "..."));
+        assertTrue(text(menu).contains(fixture.t("controls_reserved_key")));
+        key(menu, ControlAction.BOMB.defaultKey());
+        assertTrue(text(menu).contains(fixture.t("controls_duplicate_key")));
+        key(menu, KeyCode.ESCAPE);
+        assertNotNull(button(menu, ControlAction.SHOOT.defaultKey().getName()));
+        verify(fixture.scenes, never()).popSubScene();
+        key(menu, KeyCode.ESCAPE);
+        verify(fixture.scenes).popSubScene();
+        fixture.settings.verify(
+            () -> SettingsProvider.saveKeyBindings(any(KeyBindings.class)), never());
+      }
+    });
   }
 
   @Test
   void applyPersistsAndReopeningShowsTheSavedKey() throws Exception {
-    onFxThread(
-        () -> {
-          try (Fixture fixture = new Fixture()) {
-            ControlsMenu menu = new ControlsMenu();
-            button(menu, ControlAction.SHOOT.defaultKey().getName()).fire();
-            key(menu, KeyCode.J);
-            button(menu, fixture.t("controls_apply")).fire();
-            assertEquals(KeyCode.J, fixture.saved.get().keyFor(ControlAction.SHOOT));
-            assertEquals("J", fixture.input.getTriggerName(ControlAction.SHOOT.inputActionName()));
-            verify(fixture.scenes).popSubScene();
-            assertNotNull(button(new ControlsMenu(), "J"));
-          }
-        });
+    onFxThread(() -> {
+      try (Fixture fixture = new Fixture()) {
+        ControlsMenu menu = new ControlsMenu();
+        button(menu, ControlAction.SHOOT.defaultKey().getName()).fire();
+        key(menu, KeyCode.J);
+        button(menu, fixture.t("controls_apply")).fire();
+        assertEquals(KeyCode.J, fixture.saved.get().keyFor(ControlAction.SHOOT));
+        assertEquals("J", fixture.input.getTriggerName(ControlAction.SHOOT.inputActionName()));
+        verify(fixture.scenes).popSubScene();
+        assertNotNull(button(new ControlsMenu(), "J"));
+      }
+    });
   }
 
   @Test
   void resetIsOnlySavedAfterApplyAndCancelDiscardsTheDraft() throws Exception {
-    onFxThread(
-        () -> {
-          try (Fixture fixture = new Fixture()) {
-            fixture.saved.set(KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
-            ControlBindings.apply(fixture.input, fixture.saved.get());
-            ControlsMenu menu = new ControlsMenu();
-            button(menu, fixture.t("controls_reset")).fire();
-            assertEquals(KeyCode.J, fixture.saved.get().keyFor(ControlAction.SHOOT));
-            button(menu, fixture.t("controls_cancel")).fire();
-            assertNotNull(button(new ControlsMenu(), "J"));
+    onFxThread(() -> {
+      try (Fixture fixture = new Fixture()) {
+        fixture.saved.set(KeyBindings.defaults().withKey(ControlAction.SHOOT, KeyCode.J));
+        ControlBindings.apply(fixture.input, fixture.saved.get());
+        ControlsMenu menu = new ControlsMenu();
+        button(menu, fixture.t("controls_reset")).fire();
+        assertEquals(KeyCode.J, fixture.saved.get().keyFor(ControlAction.SHOOT));
+        button(menu, fixture.t("controls_cancel")).fire();
+        assertNotNull(button(new ControlsMenu(), "J"));
 
-            ControlsMenu reset = new ControlsMenu();
-            button(reset, fixture.t("controls_reset")).fire();
-            button(reset, fixture.t("controls_apply")).fire();
-            for (ControlAction action : ControlAction.values()) {
-              assertEquals(action.defaultKey(), fixture.saved.get().keyFor(action));
-            }
-          }
-        });
+        ControlsMenu reset = new ControlsMenu();
+        button(reset, fixture.t("controls_reset")).fire();
+        button(reset, fixture.t("controls_apply")).fire();
+        for (ControlAction action : ControlAction.values()) {
+          assertEquals(action.defaultKey(), fixture.saved.get().keyFor(action));
+        }
+      }
+    });
   }
 
   @Test
   void aSaveErrorIsVisibleAndLeavesTheEditorOpenWithOldRuntimeKeys() throws Exception {
-    onFxThread(
-        () -> {
-          try (Fixture fixture = new Fixture()) {
-            fixture
-                .settings
-                .when(() -> SettingsProvider.saveKeyBindings(any(KeyBindings.class)))
-                .thenThrow(new IOException("Cannot write settings"));
-            ControlsMenu menu = new ControlsMenu();
-            button(menu, ControlAction.SHOOT.defaultKey().getName()).fire();
-            key(menu, KeyCode.J);
-            button(menu, fixture.t("controls_apply")).fire();
-            assertTrue(text(menu).contains(fixture.t("controls_save_error")));
-            verify(fixture.scenes, never()).popSubScene();
-            assertEquals(
-                ControlAction.SHOOT.defaultKey().getName(),
-                fixture.input.getTriggerName(ControlAction.SHOOT.inputActionName()));
-          }
-        });
+    onFxThread(() -> {
+      try (Fixture fixture = new Fixture()) {
+        fixture
+            .settings
+            .when(() -> SettingsProvider.saveKeyBindings(any(KeyBindings.class)))
+            .thenThrow(new IOException("Cannot write settings"));
+        ControlsMenu menu = new ControlsMenu();
+        button(menu, ControlAction.SHOOT.defaultKey().getName()).fire();
+        key(menu, KeyCode.J);
+        button(menu, fixture.t("controls_apply")).fire();
+        assertTrue(text(menu).contains(fixture.t("controls_save_error")));
+        verify(fixture.scenes, never()).popSubScene();
+        assertEquals(
+            ControlAction.SHOOT.defaultKey().getName(),
+            fixture.input.getTriggerName(ControlAction.SHOOT.inputActionName()));
+      }
+    });
   }
 
   @Test
   void editorLoadsAllTranslationsWithinTheGameWidth() throws Exception {
-    onFxThread(
-        () -> {
-          try (Fixture fixture = new Fixture()) {
-            for (String language :
-                List.of(
-                    "English",
-                    "Spanish",
-                    "French",
-                    "German",
-                    "Italian",
-                    "Portuguese",
-                    "Russian",
-                    "Greek",
-                    "Bulgarian",
-                    "Japanese",
-                    "Chinese")) {
-              LanguageManager.getInstance().setSelectedLanguage(language);
-              for (String key :
-                  List.of(
-                      "controls_press_key",
-                      "controls_hint",
-                      "controls_reserved_key",
-                      "controls_duplicate_key",
-                      "controls_reset",
-                      "controls_apply",
-                      "controls_cancel",
-                      "controls_save_error")) {
-                assertNotEquals(key, fixture.t(key), language);
-                assertFalse(fixture.t(key).isBlank(), language);
-              }
-              ControlsMenu menu = new ControlsMenu();
-              Scene scene = new Scene(menu.getRoot(), 550, 750);
-              menu.getRoot().applyCss();
-              menu.getRoot().layout();
-              assertNotNull(button(menu, fixture.t("controls_apply")));
-              assertNotNull(button(menu, fixture.t("controls_cancel")));
-              assertTrue(menu.getRoot().getBoundsInLocal().getWidth() <= 550, language);
-              assertEquals(550, scene.getWidth());
-            }
+    onFxThread(() -> {
+      try (Fixture fixture = new Fixture()) {
+        for (String language :
+            List.of(
+                "English",
+                "Spanish",
+                "French",
+                "German",
+                "Italian",
+                "Portuguese",
+                "Russian",
+                "Greek",
+                "Bulgarian",
+                "Japanese",
+                "Chinese")) {
+          LanguageManager.getInstance().setSelectedLanguage(language);
+          for (String key :
+              List.of(
+                  "controls_press_key",
+                  "controls_hint",
+                  "controls_reserved_key",
+                  "controls_duplicate_key",
+                  "controls_reset",
+                  "controls_apply",
+                  "controls_cancel",
+                  "controls_save_error")) {
+            assertNotEquals(key, fixture.t(key), language);
+            assertFalse(fixture.t(key).isBlank(), language);
           }
-        });
+          ControlsMenu menu = new ControlsMenu();
+          Scene scene = new Scene(menu.getRoot(), 550, 750);
+          menu.getRoot().applyCss();
+          menu.getRoot().layout();
+          assertNotNull(button(menu, fixture.t("controls_apply")));
+          assertNotNull(button(menu, fixture.t("controls_cancel")));
+          assertTrue(menu.getRoot().getBoundsInLocal().getWidth() <= 550, language);
+          assertEquals(550, scene.getWidth());
+        }
+      }
+    });
   }
 
   private static void onFxThread(Runnable test) throws Exception {
@@ -239,24 +234,21 @@ class ControlsMenuTest {
           .thenAnswer(invocation -> new TextFlow(new Text(invocation.<String>getArgument(0))));
       helper
           .when(() -> MenuHelper.createStyledButton(anyString()))
-          .thenAnswer(
-              invocation -> {
-                Button button =
-                    new Button(invocation.<String>getArgument(0).toUpperCase(Locale.ROOT));
-                button.setMinSize(140, 60);
-                button
-                    .getStylesheets()
-                    .add(ControlsMenuTest.class.getResource("/styles/styles.css").toExternalForm());
-                return button;
-              });
+          .thenAnswer(invocation -> {
+            Button button = new Button(invocation.<String>getArgument(0).toUpperCase(Locale.ROOT));
+            button.setMinSize(140, 60);
+            button
+                .getStylesheets()
+                .add(ControlsMenuTest.class.getResource("/styles/styles.css").toExternalForm());
+            return button;
+          });
       settings.when(SettingsProvider::loadKeyBindings).thenAnswer(invocation -> saved.get());
       settings
           .when(() -> SettingsProvider.saveKeyBindings(any(KeyBindings.class)))
-          .thenAnswer(
-              invocation -> {
-                saved.set(invocation.getArgument(0));
-                return null;
-              });
+          .thenAnswer(invocation -> {
+            saved.set(invocation.getArgument(0));
+            return null;
+          });
       ControlBindings.register(
           input,
           saved.get(),

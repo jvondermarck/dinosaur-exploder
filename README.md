@@ -68,7 +68,7 @@ A classic arcade shooter with:
 <td width="50%">
 
 ### 🎮 **Java Game Development**
-**Tech:** Java 21, JavaFX, FXGL, Maven
+**Tech:** Java 25, JavaFX, FXGL, Maven
 
 **Great if you want to learn:**
 - Game development fundamentals
@@ -102,9 +102,9 @@ A classic arcade shooter with:
 <summary><b>🎮 Java Setup (Click to expand)</b></summary>
 
 #### Prerequisites
-- **Java >=21** ([Download](https://jdk.java.net/archive/))
-  - You can download the Java [Open JDK 21](https://jdk.java.net/archive/). You can download any JDK you want, it just needs to be version 21 or greater.
-  - Run the command `java --version` to make sure Java >= 21 is installed.
+- **Java >=25** ([Download](https://jdk.java.net/archive/))
+  - You can download the Java [Open JDK 25](https://jdk.java.net/archive/). You can download any JDK you want, it just needs to be version 25 or greater.
+  - Run the command `java --version` to make sure Java >= 25 is installed.
   - The environment variable `JAVA_HOME` must be set (either you're on MacOS, Windows, Linux). You can check with the command `echo $JAVA_HOME`.
 - Git
 - IDE (IntelliJ IDEA recommended)

@@ -237,6 +237,7 @@
                 </configuration>
             </plugin>
 
+
              <!-- PMD linter for static analysis checks -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

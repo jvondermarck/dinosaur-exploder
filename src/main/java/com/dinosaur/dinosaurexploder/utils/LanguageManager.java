@@ -115,10 +115,8 @@ public class LanguageManager {
       try (JarFile jarFile = new JarFile(jarPath)) {
         jarFile.stream()
             .map(JarEntry::getName)
-            .filter(
-                name ->
-                    name.startsWith(TRANSLATION_PATH_NO_SLASH)
-                        && name.endsWith(JSON_FILE_EXTENSION))
+            .filter(name ->
+                name.startsWith(TRANSLATION_PATH_NO_SLASH) && name.endsWith(JSON_FILE_EXTENSION))
             .forEach(name -> languages.add(extractLanguageName(name)));
       }
     } catch (IOException e) {

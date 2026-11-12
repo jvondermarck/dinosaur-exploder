@@ -137,11 +137,10 @@ public class GameControlsComponent {
   public static String[] getAllControlTexts() {
     LanguageManager languageManager = LanguageManager.getInstance();
     return CONTROLS.entrySet().stream()
-        .map(
-            entry ->
-                entry
-                    .getValue()
-                    .getDisplayText(entry.getKey(), languageManager, DisplayMode.BUTTON_LIST))
+        .map(entry ->
+            entry
+                .getValue()
+                .getDisplayText(entry.getKey(), languageManager, DisplayMode.BUTTON_LIST))
         .toArray(String[]::new);
   }
 }

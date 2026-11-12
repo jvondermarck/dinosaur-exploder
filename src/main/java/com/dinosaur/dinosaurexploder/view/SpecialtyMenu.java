@@ -161,38 +161,35 @@ public class SpecialtyMenu extends FXGLMenu {
     specialtyButton.setOnMouseEntered(event -> specialtyButton.setEffect(hoverEffect));
     specialtyButton.setOnMouseExited(event -> specialtyButton.setEffect(null));
 
-    specialtyButton.setOnAction(
-        event -> {
-          if (specialty.isLocked()) {
-            BiFunction<String, Integer, String> createErrorMessage =
-                (unlockKey, cost) -> {
-                  return languageManager
-                      .getTranslation(unlockKey)
-                      .replace("##", String.valueOf(cost));
-                };
-            int highScoreCost = specialty.specialty().costInHighScore();
-            int coinCost = specialty.specialty().costInCoins();
+    specialtyButton.setOnAction(event -> {
+      if (specialty.isLocked()) {
+        BiFunction<String, Integer, String> createErrorMessage =
+            (unlockKey, cost) -> {
+              return languageManager.getTranslation(unlockKey).replace("##", String.valueOf(cost));
+            };
+        int highScoreCost = specialty.specialty().costInHighScore();
+        int coinCost = specialty.specialty().costInCoins();
 
-            // Determine which error messages to show to the user
-            List<String> errorMessages = new ArrayList<>(3);
-            errorMessages.add(languageManager.getTranslation("specialty_locked"));
+        // Determine which error messages to show to the user
+        List<String> errorMessages = new ArrayList<>(3);
+        errorMessages.add(languageManager.getTranslation("specialty_locked"));
 
-            if (GameData.getMaxHighScore() < highScoreCost) {
-              errorMessages.add(createErrorMessage.apply("unlock_highScore", highScoreCost));
-            }
-            if (GameData.getTotalCoins() < coinCost) {
-              errorMessages.add(createErrorMessage.apply("unlock_totalCoins", coinCost));
-            }
+        if (GameData.getMaxHighScore() < highScoreCost) {
+          errorMessages.add(createErrorMessage.apply("unlock_highScore", highScoreCost));
+        }
+        if (GameData.getTotalCoins() < coinCost) {
+          errorMessages.add(createErrorMessage.apply("unlock_totalCoins", coinCost));
+        }
 
-            // Show the specialty locked dialogue
-            MenuHelper.showDialog(
-                languageManager.getTranslation("locked"), String.join("\n", errorMessages));
-            return;
-          }
-          specialtyName.setText(languageManager.getTranslation(specialty.nameKey()));
-          specialtyDescription.setText(languageManager.getTranslation(specialty.descriptionKey()));
-          GameData.setSelectedSpecialty(specialty.specialty());
-        });
+        // Show the specialty locked dialogue
+        MenuHelper.showDialog(
+            languageManager.getTranslation("locked"), String.join("\n", errorMessages));
+        return;
+      }
+      specialtyName.setText(languageManager.getTranslation(specialty.nameKey()));
+      specialtyDescription.setText(languageManager.getTranslation(specialty.descriptionKey()));
+      GameData.setSelectedSpecialty(specialty.specialty());
+    });
 
     // Lock icon
     ImageView lockIcon = MenuHelper.createLockIcon(specialty.isLocked());

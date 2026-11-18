@@ -3,6 +3,7 @@
   "quit": "Покидать",
   "score": "Счет",
   "language_label" : "Выберите язык:",
+  "click_anywhere_to_start": "Нажмите в любом месте, чтобы начать",
   "select_ship": "Выберите свой корабль",
   "select_weapon": "Выбери свое оружие",
   "game_over": "Игра закончена. ",

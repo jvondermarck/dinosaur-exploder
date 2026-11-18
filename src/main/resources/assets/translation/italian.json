@@ -2,6 +2,7 @@
   "start": "Inizia il gioco",
   "quit": "Esci",
   "language_label": "Seleziona la lingua:",
+  "click_anywhere_to_start": "Clicca ovunque per iniziare",
   "select_ship": "Seleziona la tua astronave",
   "select_weapon": "Seleziona la tua arma",
   "score": "Punteggio",

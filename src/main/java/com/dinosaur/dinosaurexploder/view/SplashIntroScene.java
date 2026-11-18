@@ -7,6 +7,8 @@ package com.dinosaur.dinosaurexploder.view;
 
 import com.almasb.fxgl.app.scene.IntroScene;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.utils.LanguageManager;
+import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -23,8 +25,11 @@ import javafx.util.Duration;
 public class SplashIntroScene extends IntroScene {
 
   private StackPane root;
+  private final LanguageManager languageManager = LanguageManager.getInstance();
 
   public SplashIntroScene() {
+    languageManager.setSelectedLanguage(SettingsProvider.loadSettings().getLanguage());
+
     int width = getAppWidth();
     int height = getAppHeight();
 
@@ -37,7 +42,8 @@ public class SplashIntroScene extends IntroScene {
             getClass().getResourceAsStream("/assets/ui/fonts/" + GameConstants.GAME_FONT_NAME), 16);
     Font resolvedHintFont = hintFont != null ? hintFont : Font.font("Arial", FontWeight.NORMAL, 16);
 
-    Text clickHint = new Text("CLICK ANYWHERE TO START");
+    Text clickHint =
+        new Text(languageManager.getTranslation("click_anywhere_to_start").toUpperCase());
     clickHint.setFont(resolvedHintFont);
     clickHint.setFill(Color.WHITE);
 
@@ -73,15 +79,14 @@ public class SplashIntroScene extends IntroScene {
     getContentRoot().getChildren().add(root);
 
     getContentRoot()
-        .setOnMouseClicked(
-            e -> {
-              blink.stop();
-              FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), root);
-              fadeOut.setFromValue(1);
-              fadeOut.setToValue(0);
-              fadeOut.setOnFinished(ev -> finishIntro());
-              fadeOut.play();
-            });
+        .setOnMouseClicked(e -> {
+          blink.stop();
+          FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), root);
+          fadeOut.setFromValue(1);
+          fadeOut.setToValue(0);
+          fadeOut.setOnFinished(ev -> finishIntro());
+          fadeOut.play();
+        });
   }
 
   @Override

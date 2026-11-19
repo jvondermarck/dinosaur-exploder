@@ -133,18 +133,17 @@ public class GameOverMenu extends FXGLMenu {
 
   private Button createRestartButton() {
     Button restartButton = MenuHelper.createStyledButton(languageManager.getTranslation("start"));
-    restartButton.setOnAction(
-        event -> {
-          com.almasb
-              .fxgl
-              .dsl
-              .FXGL
-              .getGameWorld()
-              .getEntitiesCopy()
-              .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
-          com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
-          getGameController().startNewGame();
-        });
+    restartButton.setOnAction(event -> {
+      com.almasb
+          .fxgl
+          .dsl
+          .FXGL
+          .getGameWorld()
+          .getEntitiesCopy()
+          .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
+      com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
+      getGameController().startNewGame();
+    });
     return restartButton;
   }
 
@@ -162,46 +161,43 @@ public class GameOverMenu extends FXGLMenu {
             + "-fx-text-fill: white;"
             + "-fx-effect: dropshadow(gaussian, rgba(220, 0, 0, 0.7), 10, 0.5, 0, 0);"
             + "-fx-padding: 5 15 5 15;");
-    quitButton.setOnMouseEntered(
-        e ->
-            quitButton.setStyle(
-                "-fx-font-family: 'Public Pixel';"
-                    + "-fx-font-size: 15px;"
-                    + "-fx-background-color: linear-gradient(to bottom, #1a0000, #2a0000),"
-                    + "linear-gradient(to bottom, rgba(255, 0, 0, 0.9), rgba(200, 0, 0, 0.7));"
-                    + "-fx-background-radius: 37;"
-                    + "-fx-border-color: rgba(255, 0, 0, 1), rgba(200, 0, 0, 0.8);"
-                    + "-fx-border-width: 2;"
-                    + "-fx-border-radius: 37;"
-                    + "-fx-text-fill: white;"
-                    + "-fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.9), 15, 0.6, 0, 0);"
-                    + "-fx-padding: 5 15 5 15;"));
-    quitButton.setOnMouseExited(
-        e ->
-            quitButton.setStyle(
-                "-fx-font-family: 'Public Pixel';"
-                    + "-fx-font-size: 15px;"
-                    + "-fx-background-color: linear-gradient(to bottom, #2a0000, #1a0000),"
-                    + "linear-gradient(to bottom, rgba(220, 0, 0, 0.9), rgba(160, 0, 0, 0.6));"
-                    + "-fx-background-radius: 37;"
-                    + "-fx-border-color: rgba(220, 0, 0, 1), rgba(180, 0, 0, 0.8);"
-                    + "-fx-border-width: 2;"
-                    + "-fx-border-radius: 37;"
-                    + "-fx-text-fill: white;"
-                    + "-fx-effect: dropshadow(gaussian, rgba(220, 0, 0, 0.7), 10, 0.5, 0, 0);"
-                    + "-fx-padding: 5 15 5 15;"));
-    quitButton.setOnAction(
-        event -> {
-          com.almasb
-              .fxgl
-              .dsl
-              .FXGL
-              .getGameWorld()
-              .getEntitiesCopy()
-              .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
-          com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
-          getGameController().gotoMainMenu();
-        });
+    quitButton.setOnMouseEntered(e ->
+        quitButton.setStyle(
+            "-fx-font-family: 'Public Pixel';"
+                + "-fx-font-size: 15px;"
+                + "-fx-background-color: linear-gradient(to bottom, #1a0000, #2a0000),"
+                + "linear-gradient(to bottom, rgba(255, 0, 0, 0.9), rgba(200, 0, 0, 0.7));"
+                + "-fx-background-radius: 37;"
+                + "-fx-border-color: rgba(255, 0, 0, 1), rgba(200, 0, 0, 0.8);"
+                + "-fx-border-width: 2;"
+                + "-fx-border-radius: 37;"
+                + "-fx-text-fill: white;"
+                + "-fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.9), 15, 0.6, 0, 0);"
+                + "-fx-padding: 5 15 5 15;"));
+    quitButton.setOnMouseExited(e ->
+        quitButton.setStyle(
+            "-fx-font-family: 'Public Pixel';"
+                + "-fx-font-size: 15px;"
+                + "-fx-background-color: linear-gradient(to bottom, #2a0000, #1a0000),"
+                + "linear-gradient(to bottom, rgba(220, 0, 0, 0.9), rgba(160, 0, 0, 0.6));"
+                + "-fx-background-radius: 37;"
+                + "-fx-border-color: rgba(220, 0, 0, 1), rgba(180, 0, 0, 0.8);"
+                + "-fx-border-width: 2;"
+                + "-fx-border-radius: 37;"
+                + "-fx-text-fill: white;"
+                + "-fx-effect: dropshadow(gaussian, rgba(220, 0, 0, 0.7), 10, 0.5, 0, 0);"
+                + "-fx-padding: 5 15 5 15;"));
+    quitButton.setOnAction(event -> {
+      com.almasb
+          .fxgl
+          .dsl
+          .FXGL
+          .getGameWorld()
+          .getEntitiesCopy()
+          .forEach(com.almasb.fxgl.entity.Entity::removeFromWorld);
+      com.almasb.fxgl.dsl.FXGL.getGameScene().clearUINodes();
+      getGameController().gotoMainMenu();
+    });
     return quitButton;
   }
 

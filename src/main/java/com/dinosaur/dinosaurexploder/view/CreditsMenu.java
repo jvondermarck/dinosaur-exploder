@@ -201,22 +201,19 @@ public class CreditsMenu extends FXGLMenu {
   private void loadContributors() {
     CompletableFuture<List<GitHubContributor>> future = gitHubProvider.fetchContributorsAsync();
 
-    future.thenAccept(
-        contributors ->
-            Platform.runLater(
-                () -> {
-                  if (contributors != null && !contributors.isEmpty()) {
-                    displayContributors(contributors);
-                  } else {
-                    showError();
-                  }
-                }));
+    future.thenAccept(contributors ->
+        Platform.runLater(() -> {
+          if (contributors != null && !contributors.isEmpty()) {
+            displayContributors(contributors);
+          } else {
+            showError();
+          }
+        }));
 
-    future.exceptionally(
-        throwable -> {
-          Platform.runLater(this::showError);
-          return null;
-        });
+    future.exceptionally(throwable -> {
+      Platform.runLater(this::showError);
+      return null;
+    });
   }
 
   private void displayContributors(List<GitHubContributor> contributors) {
@@ -333,26 +330,24 @@ public class CreditsMenu extends FXGLMenu {
   }
 
   private void setupHoverEffect(VBox box) {
-    box.setOnMouseEntered(
-        e -> {
-          box.setStyle(
-              "-fx-background-color: rgba(0, 80, 0, 0.98);"
-                  + "-fx-background-radius: 10;"
-                  + "-fx-border-color: rgba(0, 255, 0, 1);"
-                  + "-fx-border-width: 3;"
-                  + "-fx-border-radius: 10;"
-                  + "-fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.9), 15, 0.8, 0, 0);");
-          box.setCursor(javafx.scene.Cursor.HAND);
-        });
+    box.setOnMouseEntered(e -> {
+      box.setStyle(
+          "-fx-background-color: rgba(0, 80, 0, 0.98);"
+              + "-fx-background-radius: 10;"
+              + "-fx-border-color: rgba(0, 255, 0, 1);"
+              + "-fx-border-width: 3;"
+              + "-fx-border-radius: 10;"
+              + "-fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.9), 15, 0.8, 0, 0);");
+      box.setCursor(javafx.scene.Cursor.HAND);
+    });
 
-    box.setOnMouseExited(
-        e ->
-            box.setStyle(
-                "-fx-background-color: rgba(0, 0, 0, 0.8);"
-                    + "-fx-background-radius: 10;"
-                    + "-fx-border-color: rgba(0, 220, 0, 0.5);"
-                    + "-fx-border-width: 1;"
-                    + "-fx-border-radius: 10;"));
+    box.setOnMouseExited(e ->
+        box.setStyle(
+            "-fx-background-color: rgba(0, 0, 0, 0.8);"
+                + "-fx-background-radius: 10;"
+                + "-fx-border-color: rgba(0, 220, 0, 0.5);"
+                + "-fx-border-width: 1;"
+                + "-fx-border-radius: 10;"));
   }
 
   private void loadAvatarAsync(String avatarUrl, ImageView avatarView) {

@@ -6,6 +6,7 @@
 package com.dinosaur.dinosaurexploder;
 
 import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.dsl.FXGL;
 import com.jpro.webapi.JProApplication;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -19,7 +20,6 @@ public class DinosaurWebApp extends JProApplication {
 
     GameApplication app = new DinosaurApp();
     var fxglRoot = GameApplication.embeddedLaunch(app);
-
     stage.setScene(new Scene(new StackPane(fxglRoot)));
   }
 

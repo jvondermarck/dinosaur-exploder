@@ -53,6 +53,7 @@ public class GameConstants {
   public static final String PLAYER_HIT_SOUND = "playerHit.mp3";
   public static final String COIN_GAIN = "coinHit.mp3";
   public static final String HEART_HIT_SOUND = "heartHit.mp3";
+  public static final String ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV = "/assets/sounds/spacecraft-whoosh.wav";
 
   /*
    * CONSTANTS FOR UI

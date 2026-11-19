@@ -268,7 +268,12 @@ public class DinosaurMenu extends FXGLMenu {
 
     startButton.setMinSize(140, 60);
     startButton.setTranslateY(420);
-    startButton.setOnAction(event -> FXGL.getSceneService().pushSubScene(new ShipSelectionMenu()));
+    startButton.setOnAction(event -> {
+      if (System.getProperty("debugMenu", "false").equals("false")) {
+        FXGL.getSceneService().pushSubScene(new ShipSelectionMenu());
+      }
+      fireNewGame();
+    });
 
     settingsButton.setMinSize(140, 60);
     settingsButton.setTranslateY(500);

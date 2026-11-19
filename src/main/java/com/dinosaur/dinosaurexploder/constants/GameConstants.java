@@ -53,6 +53,8 @@ public class GameConstants {
   public static final String PLAYER_HIT_SOUND = "playerHit.mp3";
   public static final String COIN_GAIN = "coinHit.mp3";
   public static final String HEART_HIT_SOUND = "heartHit.mp3";
+  public static final String ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV =
+      "/assets/sounds/spacecraft-whoosh.wav";
 
   /*
    * CONSTANTS FOR UI
@@ -77,4 +79,7 @@ public class GameConstants {
   public static final String LIVES = "lives";
   public static final String OUT_OF_BOUNDS = "Out of bounds";
   public static final String SHIELD = "shield";
+
+  public static final boolean DEBUG_MENU_ENABLED =
+      Boolean.parseBoolean(System.getProperty("debugMenu", "false"));
 }

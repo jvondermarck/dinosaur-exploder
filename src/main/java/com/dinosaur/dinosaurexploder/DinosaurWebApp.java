@@ -19,7 +19,6 @@ public class DinosaurWebApp extends JProApplication {
 
     GameApplication app = new DinosaurApp();
     var fxglRoot = GameApplication.embeddedLaunch(app);
-
     stage.setScene(new Scene(new StackPane(fxglRoot)));
   }
 

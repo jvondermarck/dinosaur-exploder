@@ -101,12 +101,11 @@ public class AchievementsComponent {
     pane.viewportBoundsProperty()
         .addListener((obs, oldBounds, newBounds) -> updateContentWidth(pane, sections, newBounds));
     pane.hvalueProperty()
-        .addListener(
-            (obs, oldValue, newValue) -> {
-              if (Double.compare(newValue.doubleValue(), HORIZONTAL_SCROLL_LOCK) != 0) {
-                pane.setHvalue(HORIZONTAL_SCROLL_LOCK);
-              }
-            });
+        .addListener((obs, oldValue, newValue) -> {
+          if (Double.compare(newValue.doubleValue(), HORIZONTAL_SCROLL_LOCK) != 0) {
+            pane.setHvalue(HORIZONTAL_SCROLL_LOCK);
+          }
+        });
     pane.getStylesheets()
         .add(
             Objects.requireNonNull(AchievementsComponent.class.getResource("/styles/scrollbar.css"))

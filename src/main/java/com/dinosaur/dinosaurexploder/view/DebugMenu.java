@@ -110,20 +110,19 @@ public class DebugMenu extends FXGLMenu {
     setHighScoreButton.setStyle("-fx-alignment: center; -fx-text-alignment: center;");
     setHighScoreButton.setPrefWidth(menuWidth() - 40);
     setHighScoreButton.setWrapText(true);
-    setHighScoreButton.setOnAction(
-        e -> {
-          try {
-            int value = Integer.parseInt(highScoreField.getText().trim());
-            HighScore hs = loadHighScore();
-            hs.setHigh(GameData.getSelectedDifficulty().name(), value);
-            saveHighScore(hs);
-            highScoreField.clear();
-            highScoreField.setPromptText(t("debug_saved").toUpperCase() + ": " + value);
-          } catch (NumberFormatException ex) {
-            highScoreField.clear();
-            highScoreField.setPromptText(t("number_error").toUpperCase());
-          }
-        });
+    setHighScoreButton.setOnAction(e -> {
+      try {
+        int value = Integer.parseInt(highScoreField.getText().trim());
+        HighScore hs = loadHighScore();
+        hs.setHigh(GameData.getSelectedDifficulty().name(), value);
+        saveHighScore(hs);
+        highScoreField.clear();
+        highScoreField.setPromptText(t("debug_saved").toUpperCase() + ": " + value);
+      } catch (NumberFormatException ex) {
+        highScoreField.clear();
+        highScoreField.setPromptText(t("number_error").toUpperCase());
+      }
+    });
     return setHighScoreButton;
   }
 
@@ -138,20 +137,19 @@ public class DebugMenu extends FXGLMenu {
     setCoinsButton.setStyle("-fx-alignment: center; -fx-text-alignment: center;");
     setCoinsButton.setPrefWidth(menuWidth() - 40);
     setCoinsButton.setWrapText(true);
-    setCoinsButton.setOnAction(
-        e -> {
-          try {
-            int value = Integer.parseInt(coinsField.getText().trim());
-            TotalCoins tc = loadTotalCoins();
-            tc.setTotal(value);
-            saveTotalCoins(tc);
-            coinsField.clear();
-            coinsField.setPromptText(t("debug_saved").toUpperCase() + ": " + value);
-          } catch (NumberFormatException ex) {
-            coinsField.clear();
-            coinsField.setPromptText(t("number_error").toUpperCase());
-          }
-        });
+    setCoinsButton.setOnAction(e -> {
+      try {
+        int value = Integer.parseInt(coinsField.getText().trim());
+        TotalCoins tc = loadTotalCoins();
+        tc.setTotal(value);
+        saveTotalCoins(tc);
+        coinsField.clear();
+        coinsField.setPromptText(t("debug_saved").toUpperCase() + ": " + value);
+      } catch (NumberFormatException ex) {
+        coinsField.clear();
+        coinsField.setPromptText(t("number_error").toUpperCase());
+      }
+    });
     return setCoinsButton;
   }
 

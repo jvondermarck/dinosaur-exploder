@@ -73,15 +73,14 @@ public class SplashIntroScene extends IntroScene {
     getContentRoot().getChildren().add(root);
 
     getContentRoot()
-        .setOnMouseClicked(
-            e -> {
-              blink.stop();
-              FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), root);
-              fadeOut.setFromValue(1);
-              fadeOut.setToValue(0);
-              fadeOut.setOnFinished(ev -> finishIntro());
-              fadeOut.play();
-            });
+        .setOnMouseClicked(e -> {
+          blink.stop();
+          FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), root);
+          fadeOut.setFromValue(1);
+          fadeOut.setToValue(0);
+          fadeOut.setOnFinished(ev -> finishIntro());
+          fadeOut.play();
+        });
   }
 
   @Override

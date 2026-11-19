@@ -78,4 +78,10 @@ public class GameConstants {
   public static final String LIVES = "lives";
   public static final String OUT_OF_BOUNDS = "Out of bounds";
   public static final String SHIELD = "shield";
+
+
+  public static final boolean DEBUG_MENU_ENABLED =
+          Boolean.parseBoolean(System.getProperty("debugMenu", "false"));
+
+
 }

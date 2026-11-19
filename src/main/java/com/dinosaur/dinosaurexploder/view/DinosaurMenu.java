@@ -46,9 +46,6 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class DinosaurMenu extends FXGLMenu {
-  private static final boolean DEBUG_MENU_ENABLED =
-      Boolean.parseBoolean(System.getProperty("debugMenu", "false"));
-
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Settings settings = SettingsProvider.loadSettings();
   private final MediaPlayer mainMenuSound;
@@ -269,10 +266,11 @@ public class DinosaurMenu extends FXGLMenu {
     startButton.setMinSize(140, 60);
     startButton.setTranslateY(420);
     startButton.setOnAction(event -> {
-      if (System.getProperty("debugMenu", "false").equals("false")) {
+      if (GameConstants.DEBUG_MENU_ENABLED) {
+        fireNewGame();
+      } else {
         FXGL.getSceneService().pushSubScene(new ShipSelectionMenu());
       }
-      fireNewGame();
     });
 
     settingsButton.setMinSize(140, 60);
@@ -337,7 +335,7 @@ public class DinosaurMenu extends FXGLMenu {
         creditsBadge,
         mute,
         volumeControls);
-    if (DEBUG_MENU_ENABLED) {
+    if (GameConstants.DEBUG_MENU_ENABLED) {
       children.add(debugButton);
     }
   }
@@ -383,7 +381,7 @@ public class DinosaurMenu extends FXGLMenu {
           startButton.requestLayout();
           quitButton.requestLayout();
           settingsButton.requestLayout();
-          if (DEBUG_MENU_ENABLED) {
+          if (GameConstants.DEBUG_MENU_ENABLED) {
             debugButton.requestLayout();
           }
         });

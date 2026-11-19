@@ -60,7 +60,6 @@ public class GameInitializer {
     onKey(KeyCode.UP, () -> player.getComponent(PlayerComponent.class).moveUp());
     onKey(KeyCode.DOWN, () -> player.getComponent(PlayerComponent.class).moveDown());
     onKey(KeyCode.LEFT, () -> player.getComponent(PlayerComponent.class).moveLeft());
-
     onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
 
     onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());

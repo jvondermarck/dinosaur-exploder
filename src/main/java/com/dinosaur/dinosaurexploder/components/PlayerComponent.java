@@ -22,7 +22,6 @@ import com.dinosaur.dinosaurexploder.utils.FXGLGameTimer;
 import com.dinosaur.dinosaurexploder.utils.GameTimer;
 import com.dinosaur.dinosaurexploder.view.DinosaurGUI;
 
-import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;

@@ -47,3 +47,32 @@ on how to submit a pull request.
 
 After submitting a pull request, a community leader will review it promptly and suggest changes if necessary. Your solution will then be merged into
 the main branch and the pull request will be closed.
+
+## Custom controls
+
+The controls editor is available from **Settings > Controls** and **Pause > Controls**.
+The defaults are Space to shoot, X for a bomb, and C for the shield. Click the key for
+Shoot, Bomb, or Shield, then press a replacement key. Escape cancels
+key capture. **Apply** saves and activates the changes; **Cancel** discards them.
+**Reset to defaults** changes the draft and must also be confirmed with **Apply**.
+Movement keys, Escape, and Expert mode mouse shooting are unchanged. Duplicate
+bindings, modifiers, movement keys, and menu/navigation keys cannot be assigned.
+
+For control changes, keep default keys in
+[`ControlAction`](src/main/java/com/dinosaur/dinosaurexploder/model/ControlAction.java).
+Input registration, the editor, control labels, and reset behavior use those defaults.
+Custom bindings are stored in `settings.properties` alongside audio and language
+settings; older settings files do not require migration.
+
+Run the focused regression tests with:
+
+```bash
+mvn -Dtest=KeyBindingsTest,ControlBindingsTest,GameControlsComponentTest,SettingsProviderTest test
+```
+
+On a graphical desktop, also exercise the JavaFX editor interactions and translated
+layouts with:
+
+```bash
+mvn -Dtest=ControlsMenuTest -Dcontrols.ui.tests=true test
+```

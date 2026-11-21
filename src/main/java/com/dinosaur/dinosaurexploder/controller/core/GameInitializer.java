@@ -21,6 +21,7 @@ import com.dinosaur.dinosaurexploder.controller.BossSpawner;
 import com.dinosaur.dinosaurexploder.controller.CoinSpawner;
 import com.dinosaur.dinosaurexploder.controller.CountdownAnimation;
 import com.dinosaur.dinosaurexploder.model.CollisionHandler;
+import com.dinosaur.dinosaurexploder.model.ControlAction;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.specialties.Specialty;
@@ -28,9 +29,11 @@ import com.dinosaur.dinosaurexploder.specialties.effects.SpecialtyEffect;
 import com.dinosaur.dinosaurexploder.specialties.effects.bomb.BombSpecialtyEffect;
 import com.dinosaur.dinosaurexploder.specialties.effects.life.LifeSpecialtyEffect;
 import com.dinosaur.dinosaurexploder.specialties.effects.player.PlayerSpecialtyEffect;
+import com.dinosaur.dinosaurexploder.utils.ControlBindings;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.LevelManager;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
+import java.util.Map;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
@@ -62,10 +65,14 @@ public class GameInitializer {
     onKey(KeyCode.LEFT, () -> player.getComponent(PlayerComponent.class).moveLeft());
     onKey(KeyCode.RIGHT, () -> player.getComponent(PlayerComponent.class).moveRight());
 
-    onKeyDown(KeyCode.SPACE, () -> player.getComponent(PlayerComponent.class).shoot());
-
-    // Shield activation (your feature)
-    onKeyDown(KeyCode.C, () -> player.getComponent(PlayerComponent.class).activateShield());
+    ControlBindings.register(
+        getInput(),
+        SettingsProvider.loadKeyBindings(),
+        Map.of(
+            ControlAction.SHOOT, () -> player.getComponent(PlayerComponent.class).shoot(),
+            ControlAction.BOMB, () -> bomb.getComponent(BombComponent.class).useBomb(player),
+            ControlAction.SHIELD,
+                () -> player.getComponent(PlayerComponent.class).activateShield()));
 
     onKey(KeyCode.W, () -> player.getComponent(PlayerComponent.class).moveUp());
     onKey(KeyCode.S, () -> player.getComponent(PlayerComponent.class).moveDown());
@@ -76,8 +83,6 @@ public class GameInitializer {
       // Expert mode already aims with the mouse, so let players hold left click to keep firing.
       onBtn(MouseButton.PRIMARY, () -> player.getComponent(PlayerComponent.class).shoot());
     }
-
-    onKeyDown(KeyCode.X, () -> bomb.getComponent(BombComponent.class).useBomb(player));
   }
 
   public void initGame() {
@@ -104,14 +109,13 @@ public class GameInitializer {
     applySpecialty();
 
     new CountdownAnimation(3)
-        .startCountdown(
-            () -> {
-              enemySpawner.resumeEnemySpawning();
-              enemySpawner.spawnEnemies();
-              coinSpawner.startSpawning();
-              asteroidsSpawner.resumeAsteroidsSpawning();
-              asteroidsSpawner.spawnAsteroids();
-            });
+        .startCountdown(() -> {
+          enemySpawner.resumeEnemySpawning();
+          enemySpawner.spawnEnemies();
+          coinSpawner.startSpawning();
+          asteroidsSpawner.resumeAsteroidsSpawning();
+          asteroidsSpawner.spawnAsteroids();
+        });
 
     enemySpawner = new EnemySpawner(this);
     asteroidsSpawner = new AsteroidsSpawner(this);

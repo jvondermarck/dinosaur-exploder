@@ -134,10 +134,9 @@ public class DinosaurMenu extends FXGLMenu {
 
     volumeLabel
         .textProperty()
-        .addListener(
-            (obs, oldVal, newVal) -> {
-              volumeText.setText(newVal);
-            });
+        .addListener((obs, oldVal, newVal) -> {
+          volumeText.setText(newVal);
+        });
 
     VBox volumeBox = new VBox(volumeText, volumeSlider);
     volumeBox.setAlignment(Pos.CENTER_LEFT);
@@ -222,24 +221,21 @@ public class DinosaurMenu extends FXGLMenu {
     pulse.play();
 
     // Make it clickable
-    badge.setOnMouseClicked(
-        event -> {
-          FXGL.getSceneService().pushSubScene(new CreditsMenu());
-        });
+    badge.setOnMouseClicked(event -> {
+      FXGL.getSceneService().pushSubScene(new CreditsMenu());
+    });
 
     // Hover effect
-    badge.setOnMouseEntered(
-        event -> {
-          badge.setScaleX(1.2);
-          badge.setScaleY(1.2);
-          badge.setCursor(javafx.scene.Cursor.HAND);
-        });
+    badge.setOnMouseEntered(event -> {
+      badge.setScaleX(1.2);
+      badge.setScaleY(1.2);
+      badge.setCursor(javafx.scene.Cursor.HAND);
+    });
 
-    badge.setOnMouseExited(
-        event -> {
-          badge.setScaleX(1.0);
-          badge.setScaleY(1.0);
-        });
+    badge.setOnMouseExited(event -> {
+      badge.setScaleX(1.0);
+      badge.setScaleY(1.0);
+    });
 
     return badge;
   }
@@ -340,48 +336,43 @@ public class DinosaurMenu extends FXGLMenu {
   private void setupButtonCentering() {
     startButton
         .layoutBoundsProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              if (newBounds.getWidth() > 0) {
-                startButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-              }
-            });
+        .addListener((obs, oldBounds, newBounds) -> {
+          if (newBounds.getWidth() > 0) {
+            startButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+          }
+        });
 
     quitButton
         .layoutBoundsProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              if (newBounds.getWidth() > 0) {
-                quitButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-              }
-            });
+        .addListener((obs, oldBounds, newBounds) -> {
+          if (newBounds.getWidth() > 0) {
+            quitButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+          }
+        });
 
     settingsButton
         .layoutBoundsProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              if (newBounds.getWidth() > 0) {
-                settingsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-              }
-            });
-    debugButton
-        .layoutBoundsProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              if (newBounds.getWidth() > 0) {
-                debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
-              }
-            });
-
-    javafx.application.Platform.runLater(
-        () -> {
-          startButton.requestLayout();
-          quitButton.requestLayout();
-          settingsButton.requestLayout();
-          if (DEBUG_MENU_ENABLED) {
-            debugButton.requestLayout();
+        .addListener((obs, oldBounds, newBounds) -> {
+          if (newBounds.getWidth() > 0) {
+            settingsButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
           }
         });
+    debugButton
+        .layoutBoundsProperty()
+        .addListener((obs, oldBounds, newBounds) -> {
+          if (newBounds.getWidth() > 0) {
+            debugButton.setTranslateX(getAppWidth() / 2.0 - newBounds.getWidth() / 2.0);
+          }
+        });
+
+    javafx.application.Platform.runLater(() -> {
+      startButton.requestLayout();
+      quitButton.requestLayout();
+      settingsButton.requestLayout();
+      if (DEBUG_MENU_ENABLED) {
+        debugButton.requestLayout();
+      }
+    });
   }
 
   private void toggleMute(ImageView muteIcon, Image muteImg, Image audioOnImg) {

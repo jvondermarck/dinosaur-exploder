@@ -7,23 +7,27 @@ package com.dinosaur.dinosaurexploder.achievements;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class AchievementTest {
 
   private final List<Achievement> emptyAchievements = new ArrayList<>();
-  private List<Achievement> currentAchievement = new ArrayList<>();
   private AchievementManager achievementManager;
+
+  // A fresh folder per test, so no test reads or writes the player's real achievements.ser.
+  @TempDir Path tempDir;
+  private Path saveFile;
 
   @BeforeEach
   void setUp() {
-    achievementManager = new AchievementManager();
-    currentAchievement = achievementManager.loadAchievement();
-    achievementManager.saveAchievement(emptyAchievements);
+    saveFile = tempDir.resolve(GameConstants.ACHIEVEMENTS_FILE);
+    achievementManager = new AchievementManager(saveFile);
     achievementManager.init();
   }
 
@@ -62,7 +66,8 @@ public class AchievementTest {
     AchievementManager baseManager =
         new AchievementManager(
             AchievementCatalog.of(
-                () -> new KillCountAchievement(10, 50), () -> new KillCountAchievement(20, 100)));
+                () -> new KillCountAchievement(10, 50), () -> new KillCountAchievement(20, 100)),
+            saveFile);
     baseManager.saveAchievement(emptyAchievements);
     baseManager.init();
     int baseCount = baseManager.loadAchievement().size(); // 2
@@ -73,7 +78,8 @@ public class AchievementTest {
             AchievementCatalog.of(
                 () -> new KillCountAchievement(10, 50),
                 () -> new KillCountAchievement(20, 100),
-                () -> new KillCountAchievement(99, 999)));
+                () -> new KillCountAchievement(99, 999)),
+            saveFile);
     managerWithExtraAchievement.init();
 
     assertEquals(baseCount + 1, managerWithExtraAchievement.loadAchievement().size());
@@ -82,7 +88,8 @@ public class AchievementTest {
   @Test
   void shouldDispatchEventsThroughBus() {
     AchievementManager singleAchievementManager =
-        new AchievementManager(AchievementCatalog.of(() -> new KillCountAchievement(1, 10)));
+        new AchievementManager(
+            AchievementCatalog.of(() -> new KillCountAchievement(1, 10)), saveFile);
     singleAchievementManager.saveAchievement(emptyAchievements);
     singleAchievementManager.init();
 
@@ -96,7 +103,8 @@ public class AchievementTest {
     AchievementManager singleAchievementManager =
         new AchievementManager(
             AchievementCatalog.of(
-                () -> new KillCountAchievement(1, 10), () -> new ScoreAchievement(9999, 10)));
+                () -> new KillCountAchievement(1, 10), () -> new ScoreAchievement(9999, 10)),
+            saveFile);
     singleAchievementManager.saveAchievement(emptyAchievements);
     singleAchievementManager.init();
 
@@ -111,7 +119,8 @@ public class AchievementTest {
   @Test
   void shouldCompleteScoreAchievementOnScoreEvent() {
     AchievementManager mgr =
-        new AchievementManager(AchievementCatalog.of(() -> new ScoreAchievement(100, 10)));
+        new AchievementManager(
+            AchievementCatalog.of(() -> new ScoreAchievement(100, 10)), saveFile);
     mgr.saveAchievement(emptyAchievements);
     mgr.init();
 
@@ -125,7 +134,8 @@ public class AchievementTest {
   @Test
   void shouldCompleteCoinAchievementOnCoinEvent() {
     AchievementManager mgr =
-        new AchievementManager(AchievementCatalog.of(() -> new CoinCollectionAchievement(50, 10)));
+        new AchievementManager(
+            AchievementCatalog.of(() -> new CoinCollectionAchievement(50, 10)), saveFile);
     mgr.saveAchievement(emptyAchievements);
     mgr.init();
 
@@ -139,7 +149,8 @@ public class AchievementTest {
   @Test
   void shouldCompleteBossDefeatAchievementOnBossEvent() {
     AchievementManager mgr =
-        new AchievementManager(AchievementCatalog.of(() -> new BossDefeatAchievement(10)));
+        new AchievementManager(
+            AchievementCatalog.of(() -> new BossDefeatAchievement(10)), saveFile);
     mgr.saveAchievement(emptyAchievements);
     mgr.init();
 
@@ -153,7 +164,8 @@ public class AchievementTest {
   void shouldCompleteSurvivalAchievementViaUpdate() {
     // Target: 1 minute = 60 seconds
     AchievementManager mgr =
-        new AchievementManager(AchievementCatalog.of(() -> new SurvivalTimeAchievement(1, 10)));
+        new AchievementManager(
+            AchievementCatalog.of(() -> new SurvivalTimeAchievement(1, 10)), saveFile);
     mgr.saveAchievement(emptyAchievements);
     mgr.init();
 
@@ -164,18 +176,31 @@ public class AchievementTest {
     assertTrue(mgr.getActiveAchievement().isCompleted());
   }
 
+  /** Progress saved in one session is there again when the game starts the next one. */
+  @Test
+  void init_afterRestart_restoresCompletedAchievement() {
+    AchievementManager firstSession =
+        new AchievementManager(
+            AchievementCatalog.of(() -> new KillCountAchievement(1, 10)), saveFile);
+    firstSession.saveAchievement(emptyAchievements);
+    firstSession.init();
+    firstSession.dispatch(AchievementEvent.dinosaurKilled());
+
+    AchievementManager nextSession =
+        new AchievementManager(
+            AchievementCatalog.of(() -> new KillCountAchievement(1, 10)), saveFile);
+    nextSession.init();
+
+    assertTrue(nextSession.getActiveAchievement().isCompleted());
+  }
+
   @Test
   void shouldReturnNullWhenNoActiveAchievements() {
-    AchievementManager mgr = new AchievementManager(AchievementCatalog.of());
+    AchievementManager mgr = new AchievementManager(AchievementCatalog.of(), saveFile);
     mgr.saveAchievement(emptyAchievements);
     mgr.init();
 
     assertNull(mgr.getActiveAchievement());
     assertTrue(mgr.getActiveAchievements().isEmpty());
-  }
-
-  @AfterEach
-  void setAchievementBack() {
-    achievementManager.saveAchievement(currentAchievement);
   }
 }

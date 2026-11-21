@@ -15,8 +15,6 @@ import com.almasb.fxgl.ui.FontType;
 import com.dinosaur.dinosaurexploder.components.AchievementsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent;
 import com.dinosaur.dinosaurexploder.components.AudioControlsComponent.VolumeType;
-import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
-import com.dinosaur.dinosaurexploder.components.GameControlsComponent.ControlType;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.utils.AudioManager;
@@ -64,23 +62,6 @@ public class PauseMenu extends FXGLMenu {
   OptionsButton btnSoundMain = new OptionsButton(languageManager.getTranslation("sound_main"));
   OptionsButton btnSoundSfx = new OptionsButton(languageManager.getTranslation("sound_sfx"));
 
-  // Control buttons using GameControlsComponent
-  OptionsButton btnMoveUp =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_UP));
-  OptionsButton btnMoveDown =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_DOWN));
-  OptionsButton btnMoveRight =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_RIGHT));
-  OptionsButton btnMoveLeft =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.MOVE_LEFT));
-  OptionsButton btnPauseGame =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.PAUSE_GAME));
-  OptionsButton btnShoot =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.SHOOT));
-  OptionsButton btnBomb = new OptionsButton(GameControlsComponent.getControlText(ControlType.BOMB));
-  OptionsButton btnShield =
-      new OptionsButton(GameControlsComponent.getControlText(ControlType.SHIELD));
-
   public PauseMenu() {
     super(MenuType.GAME_MENU);
 
@@ -108,10 +89,9 @@ public class PauseMenu extends FXGLMenu {
 
     volumeSlider
         .valueProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              mainMenuSound.setVolume(newValue.doubleValue());
-            });
+        .addListener((observable, oldValue, newValue) -> {
+          mainMenuSound.setVolume(newValue.doubleValue());
+        });
 
     try {
       InputStream muteButton =
@@ -135,15 +115,14 @@ public class PauseMenu extends FXGLMenu {
       imageViewPlayingMenuSound.setX(470);
       imageViewPlayingMenuSound.setY(20);
       imageViewPlayingMenuSound.setPreserveRatio(true);
-      imageViewPlayingMenuSound.setOnMouseClicked(
-          mouseEvent -> {
-            boolean newMutedState = !AudioManager.getInstance().isMuted();
-            AudioManager.getInstance().setMuted(newMutedState);
-            mainMenuSound.setMute(newMutedState);
-            settings.setMuted(newMutedState);
-            imageViewPlayingMenuSound.setImage(newMutedState ? mute : audioOn);
-            SettingsProvider.saveSettings(settings);
-          });
+      imageViewPlayingMenuSound.setOnMouseClicked(mouseEvent -> {
+        boolean newMutedState = !AudioManager.getInstance().isMuted();
+        AudioManager.getInstance().setMuted(newMutedState);
+        mainMenuSound.setMute(newMutedState);
+        settings.setMuted(newMutedState);
+        imageViewPlayingMenuSound.setImage(newMutedState ? mute : audioOn);
+        SettingsProvider.saveSettings(settings);
+      });
 
       // Sets Sound effects on/off functionality
       imageViewPlayingSfxSounds = new ImageView(settings.isSfxMuted() ? mute : audioOn);
@@ -152,14 +131,13 @@ public class PauseMenu extends FXGLMenu {
       imageViewPlayingSfxSounds.setX(470);
       imageViewPlayingSfxSounds.setY(20);
       imageViewPlayingSfxSounds.setPreserveRatio(true);
-      imageViewPlayingSfxSounds.setOnMouseClicked(
-          mouseEvent -> {
-            boolean newMutedState = !AudioManager.getInstance().isSfxMuted();
-            AudioManager.getInstance().setSfxMuted(newMutedState);
-            settings.setSfxMuted(newMutedState);
-            imageViewPlayingSfxSounds.setImage(newMutedState ? mute : audioOn);
-            SettingsProvider.saveSettings(settings);
-          });
+      imageViewPlayingSfxSounds.setOnMouseClicked(mouseEvent -> {
+        boolean newMutedState = !AudioManager.getInstance().isSfxMuted();
+        AudioManager.getInstance().setSfxMuted(newMutedState);
+        settings.setSfxMuted(newMutedState);
+        imageViewPlayingSfxSounds.setImage(newMutedState ? mute : audioOn);
+        SettingsProvider.saveSettings(settings);
+      });
     } catch (FileNotFoundException e) {
       logger.log(Level.INFO, "File not found {0}", e.getMessage());
     }
@@ -174,166 +152,104 @@ public class PauseMenu extends FXGLMenu {
     // Open the shared display settings menu.
     btnDisplay.setControlAction(() -> FXGL.getSceneService().pushSubScene(new DisplayMenu(true)));
 
-    // Controls button action → Opens controls overlay
-    btnControls.setControlAction(
-        () -> {
-          // 1. Fond sombre pour le sous-menu
-          var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
-
-          // 2. VBox pour aligner les touches verticalement
-          var controlsBox = new VBox(10);
-          controlsBox.setAlignment(Pos.CENTER);
-          controlsBox.setMaxWidth(getAppWidth() * 0.7);
-
-          // 3. Conteneur global pour centrer la box (C'est lui qu'on affichera/supprimera)
-          StackPane controlsContainer = new StackPane(controlsBox);
-          controlsContainer.setPrefSize(getAppWidth(), getAppHeight());
-          controlsContainer.setAlignment(Pos.CENTER);
-
-          // 4. Bouton de retour spécifique au menu contrôles
-          PauseButton btnBackFromControls =
-              new PauseButton(
-                  languageManager.getTranslation("back"),
-                  () -> {
-                    // ✅ On retire les deux éléments que l'on a ajouté au Root
-                    getContentRoot().getChildren().removeAll(controlsBg, controlsContainer);
-
-                    // Réactive le menu principal
-                    btnBack.enable();
-                    btnQuitGame.enable();
-                    btnControls.enable();
-                    btnSound.enable();
-                    btnAchievements.enable();
-                    btnDisplay.enable();
-                  });
-
-          VBox.setMargin(btnBackFromControls, new Insets(0, 0, 40, 0));
-
-          // 5. Ajout des boutons et textes dans la boîte
-          controlsBox
-              .getChildren()
-              .addAll(
-                  btnBackFromControls,
-                  btnMoveUp,
-                  btnMoveDown,
-                  btnMoveRight,
-                  btnMoveLeft,
-                  btnPauseGame,
-                  btnShoot,
-                  btnBomb,
-                  btnShield);
-
-          // Désactivation temporaire des boutons en arrière-plan
-          btnBack.disable();
-          btnQuitGame.disable();
-          btnControls.disable();
-          btnSound.disable();
-          btnAchievements.disable();
-          btnDisplay.disable();
-
-          // ✅ Ajout à l'affichage (le container est par-dessus le reste)
-          getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
-        });
+    btnControls.setControlAction(() -> FXGL.getSceneService().pushSubScene(new ControlsMenu()));
 
     // Adjust sound menu
-    btnSound.setControlAction(
-        () -> {
-          Settings freshSettings = SettingsProvider.loadSettings();
-          volumeSlider.adjustValue(freshSettings.getVolume());
-          sfxVolumeSlider.adjustValue(freshSettings.getSfxVolume());
+    btnSound.setControlAction(() -> {
+      Settings freshSettings = SettingsProvider.loadSettings();
+      volumeSlider.adjustValue(freshSettings.getVolume());
+      sfxVolumeSlider.adjustValue(freshSettings.getSfxVolume());
 
-          var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
+      var controlsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
 
-          var controlsBox = new VBox(10);
-          controlsBox.setAlignment(Pos.CENTER);
-          controlsBox.setMaxWidth(getAppWidth() * 0.7);
+      var controlsBox = new VBox(10);
+      controlsBox.setAlignment(Pos.CENTER);
+      controlsBox.setMaxWidth(getAppWidth() * 0.7);
 
-          StackPane controlsContainer = new StackPane(controlsBox);
-          controlsContainer.setPrefSize(getAppWidth(), getAppHeight());
-          controlsContainer.setAlignment(Pos.CENTER);
+      StackPane controlsContainer = new StackPane(controlsBox);
+      controlsContainer.setPrefSize(getAppWidth(), getAppHeight());
+      controlsContainer.setAlignment(Pos.CENTER);
 
-          PauseButton btnBackFromSounds =
-              new PauseButton(
-                  languageManager.getTranslation("back"),
-                  () -> {
-                    getContentRoot().getChildren().removeAll(controlsBg, controlsContainer);
-                    btnBack.enable();
-                    btnSound.enable();
-                    btnQuitGame.enable();
-                    btnControls.enable();
-                    btnAchievements.enable();
-                    btnDisplay.enable();
-                  });
+      PauseButton btnBackFromSounds =
+          new PauseButton(
+              languageManager.getTranslation("back"),
+              () -> {
+                getContentRoot().getChildren().removeAll(controlsBg, controlsContainer);
+                btnBack.enable();
+                btnSound.enable();
+                btnQuitGame.enable();
+                btnControls.enable();
+                btnAchievements.enable();
+                btnDisplay.enable();
+              });
 
-          VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
+      VBox.setMargin(btnBackFromSounds, new Insets(0, 0, 40, 0));
 
-          controlsBox
-              .getChildren()
-              .addAll(
-                  btnBackFromSounds,
-                  btnSoundMain,
-                  volumeLabel,
-                  volumeSlider,
-                  imageViewPlayingMenuSound,
-                  btnSoundSfx,
-                  sfxVolumeLabel,
-                  sfxVolumeSlider,
-                  imageViewPlayingSfxSounds);
+      controlsBox
+          .getChildren()
+          .addAll(
+              btnBackFromSounds,
+              btnSoundMain,
+              volumeLabel,
+              volumeSlider,
+              imageViewPlayingMenuSound,
+              btnSoundSfx,
+              sfxVolumeLabel,
+              sfxVolumeSlider,
+              imageViewPlayingSfxSounds);
 
-          btnBack.disable();
-          btnSound.disable();
-          btnQuitGame.disable();
-          btnControls.disable();
-          btnAchievements.disable();
-          btnDisplay.disable();
+      btnBack.disable();
+      btnSound.disable();
+      btnQuitGame.disable();
+      btnControls.disable();
+      btnAchievements.disable();
+      btnDisplay.disable();
 
-          getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
-        });
+      getContentRoot().getChildren().addAll(controlsBg, controlsContainer);
+    });
 
     // Achievements button action → Opens achievements overlay
-    btnAchievements.setControlAction(
-        () -> {
-          var achievementsBg =
-              new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
+    btnAchievements.setControlAction(() -> {
+      var achievementsBg = new Rectangle(getAppWidth(), getAppHeight(), Color.color(0, 0, 0, 0.85));
 
-          var achievementsBox = new VBox(10);
-          achievementsBox.setAlignment(Pos.CENTER);
-          achievementsBox.setMaxWidth(getAppWidth() * 0.7);
+      var achievementsBox = new VBox(10);
+      achievementsBox.setAlignment(Pos.CENTER);
+      achievementsBox.setMaxWidth(getAppWidth() * 0.7);
 
-          StackPane achievementsContainer = new StackPane(achievementsBox);
-          achievementsContainer.setPrefSize(getAppWidth(), getAppHeight());
-          achievementsContainer.setAlignment(Pos.CENTER);
+      StackPane achievementsContainer = new StackPane(achievementsBox);
+      achievementsContainer.setPrefSize(getAppWidth(), getAppHeight());
+      achievementsContainer.setAlignment(Pos.CENTER);
 
-          PauseButton btnBackFromAchievements =
-              new PauseButton(
-                  languageManager.getTranslation("back"),
-                  () -> {
-                    getContentRoot().getChildren().removeAll(achievementsBg, achievementsContainer);
-                    btnBack.enable();
-                    btnQuitGame.enable();
-                    btnControls.enable();
-                    btnSound.enable();
-                    btnAchievements.enable();
-                    btnDisplay.enable();
-                  });
+      PauseButton btnBackFromAchievements =
+          new PauseButton(
+              languageManager.getTranslation("back"),
+              () -> {
+                getContentRoot().getChildren().removeAll(achievementsBg, achievementsContainer);
+                btnBack.enable();
+                btnQuitGame.enable();
+                btnControls.enable();
+                btnSound.enable();
+                btnAchievements.enable();
+                btnDisplay.enable();
+              });
 
-          VBox.setMargin(btnBackFromAchievements, new Insets(0, 0, 20, 0));
+      VBox.setMargin(btnBackFromAchievements, new Insets(0, 0, 20, 0));
 
-          achievementsBox
-              .getChildren()
-              .addAll(
-                  btnBackFromAchievements,
-                  AchievementsComponent.createContent(AchievementsComponent.loadAchievements()));
+      achievementsBox
+          .getChildren()
+          .addAll(
+              btnBackFromAchievements,
+              AchievementsComponent.createContent(AchievementsComponent.loadAchievements()));
 
-          btnBack.disable();
-          btnQuitGame.disable();
-          btnControls.disable();
-          btnSound.disable();
-          btnAchievements.disable();
-          btnDisplay.disable();
+      btnBack.disable();
+      btnQuitGame.disable();
+      btnControls.disable();
+      btnSound.disable();
+      btnAchievements.disable();
+      btnDisplay.disable();
 
-          getContentRoot().getChildren().addAll(achievementsBg, achievementsContainer);
-        });
+      getContentRoot().getChildren().addAll(achievementsBg, achievementsContainer);
+    });
 
     // --- MISE EN PAGE DU MENU PRINCIPAL ---
 
@@ -419,15 +335,13 @@ public class PauseMenu extends FXGLMenu {
       setAlignment(Pos.CENTER); // ✅ Centré au lieu de CENTER_LEFT
       setFocusTraversable(true);
 
-      setOnKeyPressed(
-          e -> {
-            if (e.getCode() == KeyCode.ENTER && !disabled) action.run();
-          });
+      setOnKeyPressed(e -> {
+        if (e.getCode() == KeyCode.ENTER && !disabled) action.run();
+      });
 
-      setOnMouseClicked(
-          e -> {
-            if (!disabled) action.run();
-          });
+      setOnMouseClicked(e -> {
+        if (!disabled) action.run();
+      });
 
       setOnMouseEntered(e -> text.setFill(Color.RED));
       setOnMouseExited(e -> text.setFill(SELECTED));
@@ -461,10 +375,9 @@ public class PauseMenu extends FXGLMenu {
 
     public void setControlAction(Runnable action) {
       this.action = action;
-      setOnMouseClicked(
-          e -> {
-            if (!super.disabled) action.run();
-          });
+      setOnMouseClicked(e -> {
+        if (!super.disabled) action.run();
+      });
     }
   }
 
@@ -479,16 +392,6 @@ public class PauseMenu extends FXGLMenu {
     btnControls.setText(languageManager.getTranslation("controls").toUpperCase());
     btnAchievements.setText(languageManager.getTranslation("achievements").toUpperCase());
     btnDisplay.setText(languageManager.getTranslation("display").toUpperCase());
-
-    // Update control buttons using GameControlsComponent
-    btnMoveUp.setText(GameControlsComponent.getControlText(ControlType.MOVE_UP));
-    btnMoveDown.setText(GameControlsComponent.getControlText(ControlType.MOVE_DOWN));
-    btnMoveRight.setText(GameControlsComponent.getControlText(ControlType.MOVE_RIGHT));
-    btnMoveLeft.setText(GameControlsComponent.getControlText(ControlType.MOVE_LEFT));
-    btnPauseGame.setText(GameControlsComponent.getControlText(ControlType.PAUSE_GAME));
-    btnShoot.setText(GameControlsComponent.getControlText(ControlType.SHOOT));
-    btnBomb.setText(GameControlsComponent.getControlText(ControlType.BOMB));
-    btnShield.setText(GameControlsComponent.getControlText(ControlType.SHIELD));
   }
 
   // ------------------- QUIT POPUP -----------------------

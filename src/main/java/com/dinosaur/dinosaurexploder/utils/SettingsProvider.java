@@ -5,14 +5,20 @@
 
 package com.dinosaur.dinosaurexploder.utils;
 
+import com.dinosaur.dinosaurexploder.model.ControlAction;
+import com.dinosaur.dinosaurexploder.model.KeyBindings;
 import com.dinosaur.dinosaurexploder.model.Settings;
 import com.dinosaur.dinosaurexploder.persistence.FileSettingsFileProvider;
 import com.dinosaur.dinosaurexploder.persistence.SettingsFileProvider;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.input.KeyCode;
 
 public class SettingsProvider {
 
@@ -57,13 +63,59 @@ public class SettingsProvider {
   }
 
   void save(Settings settings) {
-    fileProvider.save(createPropertiesFromSettings(settings));
+    Properties properties = fileProvider.load();
+    properties.putAll(createPropertiesFromSettings(settings));
+    try {
+      fileProvider.save(properties);
+    } catch (IOException ex) {
+      logger.log(Level.INFO, "Error saving settings {0}", ex.getMessage());
+    }
   }
 
   void updateMute(boolean muted) {
     Settings settings = load();
     settings.setMuted(muted);
     save(settings);
+  }
+
+  public static KeyBindings loadKeyBindings() {
+    return DEFAULT.loadBindings();
+  }
+
+  KeyBindings loadBindings() {
+    Properties properties = fileProvider.load();
+    Map<ControlAction, KeyCode> keys = new EnumMap<>(ControlAction.class);
+    try {
+      for (ControlAction action : ControlAction.values()) {
+        keys.put(
+            action,
+            KeyCode.valueOf(
+                properties.getProperty(keyProperty(action), action.defaultKey().name())));
+      }
+      return new KeyBindings(keys);
+    } catch (IllegalArgumentException ex) {
+      logger.log(Level.WARNING, "Invalid key bindings, using defaults", ex);
+      return KeyBindings.defaults();
+    }
+  }
+
+  public static void saveKeyBindings(KeyBindings bindings) throws IOException {
+    DEFAULT.saveBindings(bindings);
+  }
+
+  void saveBindings(KeyBindings bindings) throws IOException {
+    Properties properties = fileProvider.load();
+    if (properties.isEmpty()) {
+      properties.putAll(createPropertiesFromSettings(generateDefaultSettings()));
+    }
+    for (ControlAction action : ControlAction.values()) {
+      properties.setProperty(keyProperty(action), bindings.keyFor(action).name());
+    }
+    fileProvider.save(properties);
+  }
+
+  private static String keyProperty(ControlAction action) {
+    return "controls." + action.translationKey();
   }
 
   public static void updateMuteState(boolean muted) {

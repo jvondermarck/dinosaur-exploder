@@ -4,7 +4,6 @@
  */
 
 package com.dinosaur.dinosaurexploder.view;
-
 import com.almasb.fxgl.app.scene.IntroScene;
 import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
@@ -20,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class SplashIntroScene extends IntroScene {
@@ -44,6 +44,8 @@ public class SplashIntroScene extends IntroScene {
 
     Text clickHint =
         new Text(languageManager.getTranslation("click_anywhere_to_start").toUpperCase());
+    clickHint.setWrappingWidth(getAppWidth() * 0.8);
+    clickHint.setTextAlignment(TextAlignment.CENTER);
     clickHint.setFont(resolvedHintFont);
     clickHint.setFill(Color.WHITE);
 

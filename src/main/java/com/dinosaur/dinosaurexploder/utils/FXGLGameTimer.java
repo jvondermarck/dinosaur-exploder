@@ -6,54 +6,65 @@
 package com.dinosaur.dinosaurexploder.utils;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.time.LocalTimer;
+import java.util.function.DoubleSupplier;
 import javafx.util.Duration;
 
 public class FXGLGameTimer implements GameTimer {
-  private static final double NANOS_PER_MILLI = 1_000_000.0;
-  private static final long NOT_PAUSED = -1L;
+  private static final double NOT_PAUSED = -1.0;
 
-  private final LocalTimer shootTimer = FXGL.newLocalTimer();
+  // Every reading comes from the same clock. FXGL's game clock stops while the pause menu is open,
+  // so mixing it with a wall clock (System.nanoTime) for the paused intervals removed the menu time
+  // twice when the menu was opened during a pause() (e.g. the level-up message), see issue #526.
+  private final DoubleSupplier nowSeconds;
 
-  // Paused time is tracked separately rather than by re-capturing the LocalTimer: a re-capture
-  // would discard the time already survived. Instead isElapsed() asks the LocalTimer for the
-  // requested duration *plus* everything spent paused, which is equivalent to comparing against
-  // the active-only elapsed time.
-  private long pausedAtNanos = NOT_PAUSED;
-  private long totalPausedNanos = 0L;
+  private double capturedAtSeconds;
+  private double pausedAtSeconds = NOT_PAUSED;
+  private double totalPausedSeconds = 0.0;
+
+  public FXGLGameTimer() {
+    this(() -> FXGL.getGameTimer().getNow());
+  }
+
+  /** Package-private so tests can drive the timer with a simulated game clock. */
+  FXGLGameTimer(DoubleSupplier nowSeconds) {
+    this.nowSeconds = nowSeconds;
+    this.capturedAtSeconds = nowSeconds.getAsDouble();
+  }
 
   @Override
   public void capture() {
-    shootTimer.capture();
-    pausedAtNanos = NOT_PAUSED;
-    totalPausedNanos = 0L;
+    capturedAtSeconds = nowSeconds.getAsDouble();
+    pausedAtSeconds = NOT_PAUSED;
+    totalPausedSeconds = 0.0;
   }
 
   @Override
   public boolean isElapsed(Duration duration) {
-    return shootTimer.elapsed(duration.add(Duration.millis(pausedNanos() / NANOS_PER_MILLI)));
+    double now = nowSeconds.getAsDouble();
+    double activeSeconds = now - capturedAtSeconds - pausedSeconds(now);
+    return activeSeconds >= duration.toSeconds();
   }
 
   @Override
   public void pause() {
-    if (pausedAtNanos == NOT_PAUSED) {
-      pausedAtNanos = System.nanoTime();
+    if (pausedAtSeconds == NOT_PAUSED) {
+      pausedAtSeconds = nowSeconds.getAsDouble();
     }
   }
 
   @Override
   public void resume() {
-    if (pausedAtNanos != NOT_PAUSED) {
-      totalPausedNanos += System.nanoTime() - pausedAtNanos;
-      pausedAtNanos = NOT_PAUSED;
+    if (pausedAtSeconds != NOT_PAUSED) {
+      totalPausedSeconds += nowSeconds.getAsDouble() - pausedAtSeconds;
+      pausedAtSeconds = NOT_PAUSED;
     }
   }
 
   /** Total paused time, including the pause currently in progress (if any). */
-  private long pausedNanos() {
-    if (pausedAtNanos == NOT_PAUSED) {
-      return totalPausedNanos;
+  private double pausedSeconds(double now) {
+    if (pausedAtSeconds == NOT_PAUSED) {
+      return totalPausedSeconds;
     }
-    return totalPausedNanos + (System.nanoTime() - pausedAtNanos);
+    return totalPausedSeconds + (now - pausedAtSeconds);
   }
 }

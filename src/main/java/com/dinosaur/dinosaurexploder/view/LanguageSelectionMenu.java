@@ -71,15 +71,14 @@ public class LanguageSelectionMenu extends FXGLMenu {
     }
 
     // Define what text is drawn, keeping orignal item value (Draws text->"Français" while item
-    languageComboBox.setCellFactory(
-        cb ->
-            new ListCell<>() {
-              @Override
-              protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
-              }
-            });
+    languageComboBox.setCellFactory(cb ->
+        new ListCell<>() {
+          @Override
+          protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(empty || item == null ? null : languageManager.getNativeLanguageName(item));
+          }
+        });
 
     languageComboBox.setButtonCell(
         new ListCell<>() {
@@ -91,12 +90,11 @@ public class LanguageSelectionMenu extends FXGLMenu {
         });
 
     applyStylesheet(languageComboBox);
-    languageComboBox.setOnAction(
-        event -> {
-          changeLanguage(languageComboBox.getValue());
-          updateTexts();
-          languageComboBox.requestLayout();
-        });
+    languageComboBox.setOnAction(event -> {
+      changeLanguage(languageComboBox.getValue());
+      updateTexts();
+      languageComboBox.requestLayout();
+    });
 
     languageLabel.setText(languageManager.getTranslation(LANGUAGE_LABEL).toUpperCase());
     languageLabel.setStyle(

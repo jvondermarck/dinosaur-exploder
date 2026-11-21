@@ -3,6 +3,7 @@
   "quit": "やめる",
   "score": "スコア",
   "language_label" : "言語を選択:",
+  "click_anywhere_to_start": "どこでもクリックして開始",
   "select_ship": "船を選択してください",
   "select_weapon": "武器を選択してください",
   "game_over": "ゲームオーバー。",

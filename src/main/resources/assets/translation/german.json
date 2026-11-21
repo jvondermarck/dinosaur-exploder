@@ -2,6 +2,7 @@
   "start": "Spiel starten",
   "quit": "Beenden",
   "language_label" : "Sprache wählen:",
+  "click_anywhere_to_start": "Klicken Sie irgendwo, um zu starten",
   "select_ship": "Wähle ein Schiff",
   "select_weapon": "Wähle deine Waffe",
   "score": "Punktzahl",

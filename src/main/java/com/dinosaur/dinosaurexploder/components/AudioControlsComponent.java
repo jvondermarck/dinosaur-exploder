@@ -168,15 +168,14 @@ public class AudioControlsComponent {
       Slider slider, Label label, VolumeType type, Settings settings) {
     slider
         .valueProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              double volume = newValue.doubleValue();
+        .addListener((observable, oldValue, newValue) -> {
+          double volume = newValue.doubleValue();
 
-              type.updateVolume(settings, volume);
+          type.updateVolume(settings, volume);
 
-              SettingsProvider.saveSettings(settings);
+          SettingsProvider.saveSettings(settings);
 
-              label.setText(String.format(LABEL_FORMAT, volume * 100));
-            });
+          label.setText(String.format(LABEL_FORMAT, volume * 100));
+        });
   }
 }

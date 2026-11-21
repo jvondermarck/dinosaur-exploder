@@ -2,6 +2,7 @@
   "start": "Εκκίνηση",
   "quit": "Έξοδος",
   "language_label" : "Επιλογή Γλώσσας:",
+  "click_anywhere_to_start": "Κάντε κλικ οπουδήποτε για να ξεκινήσετε",
   "select_ship": "ΕΠΙΛΟΓΗ ΣΚΑΦΟΥΣ",
   "select_weapon": "ΕΠΙΛΟΓΗ ΟΠΛΟΥ",
   "score": "Σκορ",

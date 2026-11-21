@@ -3,6 +3,7 @@
     "quit": "Quitter",
     "score": "Score",
     "language_label" : "Choisir la langue:",
+    "click_anywhere_to_start": "Cliquez n'importe où pour commencer",
     "select_ship": "Sélectionnez votre vaisseau",
     "select_weapon": "Sélectionnez votre arme",
     "game_over": "Jeu terminé.",

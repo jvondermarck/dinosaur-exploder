@@ -95,11 +95,10 @@ public class AudioManager {
       player.setMute(isSfxMuted);
       player.play();
       activePlayers.add(player);
-      player.setOnEndOfMedia(
-          () -> {
-            player.dispose();
-            activePlayers.remove(player);
-          });
+      player.setOnEndOfMedia(() -> {
+        player.dispose();
+        activePlayers.remove(player);
+      });
     } catch (Exception e) {
       logger.log(Level.INFO, "Could not play sound: {0}", soundFile);
       e.printStackTrace();

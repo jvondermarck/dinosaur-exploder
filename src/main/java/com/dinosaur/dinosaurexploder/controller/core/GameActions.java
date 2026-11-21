@@ -205,14 +205,13 @@ public class GameActions {
 
           FXGL.getGameWorld()
               .getEntitiesByType(EntityType.GREEN_DINO)
-              .forEach(
-                  e -> {
-                    if (e.hasComponent(GreenDinoComponent.class)) {
-                      e.getComponent(GreenDinoComponent.class).setPaused(false);
-                    } else if (e.hasComponent(AsteroidsComponent.class)) {
-                      e.getComponent(AsteroidsComponent.class).setPaused(false);
-                    }
-                  });
+              .forEach(e -> {
+                if (e.hasComponent(GreenDinoComponent.class)) {
+                  e.getComponent(GreenDinoComponent.class).setPaused(false);
+                } else if (e.hasComponent(AsteroidsComponent.class)) {
+                  e.getComponent(AsteroidsComponent.class).setPaused(false);
+                }
+              });
 
           enemySpawner.resumeEnemySpawning();
           asteroidsSpawner.resumeAsteroidsSpawning();
@@ -233,14 +232,13 @@ public class GameActions {
   public void pauseElement() {
     FXGL.getGameWorld()
         .getEntitiesByType(EntityType.GREEN_DINO)
-        .forEach(
-            e -> {
-              if (e.hasComponent(GreenDinoComponent.class)) {
-                e.getComponent(GreenDinoComponent.class).setPaused(true);
-              } else if (e.hasComponent(AsteroidsComponent.class)) {
-                e.getComponent(AsteroidsComponent.class).setPaused(true);
-              }
-            });
+        .forEach(e -> {
+          if (e.hasComponent(GreenDinoComponent.class)) {
+            e.getComponent(GreenDinoComponent.class).setPaused(true);
+          } else if (e.hasComponent(AsteroidsComponent.class)) {
+            e.getComponent(AsteroidsComponent.class).setPaused(true);
+          }
+        });
     enemySpawner.pauseEnemySpawning();
     asteroidsSpawner.pauseAsteroidsSpawning();
     // Gameplay is frozen, so the session timer must stop too - otherwise level-up transitions

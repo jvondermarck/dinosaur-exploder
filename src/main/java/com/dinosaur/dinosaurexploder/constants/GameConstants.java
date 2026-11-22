@@ -66,7 +66,18 @@ public class GameConstants {
   /*
    * CONSTANTS FOR SAVED FILES
    */
+  /**
+   * The one human-readable file the debug-editable game state (high scores and coins) lives in
+   * (#543).
+   */
+  public static final String GAME_STATE_FILE = "savegame.json";
+
+  /**
+   * Legacy Java-serialized files, read once for migration into {@link #GAME_STATE_FILE} and then
+   * removed.
+   */
   public static final String HIGH_SCORE_FILE = "highScore.ser";
+
   public static final String TOTAL_COINS_FILE = "totalCoins.ser";
   public static final String ACHIEVEMENTS_FILE = "achievements.ser";
 

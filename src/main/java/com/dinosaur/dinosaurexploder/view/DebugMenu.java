@@ -14,11 +14,12 @@ import com.dinosaur.dinosaurexploder.constants.GameConstants;
 import com.dinosaur.dinosaurexploder.model.GameData;
 import com.dinosaur.dinosaurexploder.model.HighScore;
 import com.dinosaur.dinosaurexploder.model.TotalCoins;
+import com.dinosaur.dinosaurexploder.persistence.FileHighScoreRepository;
+import com.dinosaur.dinosaurexploder.persistence.FileTotalCoinsRepository;
+import com.dinosaur.dinosaurexploder.persistence.HighScoreRepository;
+import com.dinosaur.dinosaurexploder.persistence.TotalCoinsRepository;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -43,12 +44,13 @@ public class DebugMenu extends FXGLMenu {
   private Button setHighScoreButton;
   private Button setCoinsButton;
   private Button backButton;
+  private final HighScoreRepository highScoreRepository = new FileHighScoreRepository();
+  private final TotalCoinsRepository totalCoinsRepository = new FileTotalCoinsRepository();
   private static final double CONTENT_SPACING = 18;
   private static final double BASE_WIDTH = 800.0;
   private static final double MENU_WIDTH_RATIO = 0.95;
   private static final double MAX_MENU_WIDTH = 720;
   private static final double MIN_MENU_WIDTH = 500;
-  private static final Logger logger = Logger.getLogger(DebugMenu.class.getName());
 
   public DebugMenu() {
     super(MenuType.GAME_MENU);
@@ -159,42 +161,22 @@ public class DebugMenu extends FXGLMenu {
     return backButton;
   }
 
-  /** Loads the high score from the save file. */
+  // The debug menu edits the same one human-readable save file (savegame.json) the game itself uses
+  // (#543).
   private HighScore loadHighScore() {
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream(GameConstants.HIGH_SCORE_FILE))) {
-      return (HighScore) in.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      return new HighScore();
-    }
+    return highScoreRepository.load();
   }
 
-  /** Persists the given HighScore object to disk. */
   private void saveHighScore(HighScore hs) {
-    try (ObjectOutputStream out =
-        new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {
-      out.writeObject(hs);
-    } catch (IOException e) {
-      logger.log(Level.SEVERE, "Error saving high score: {0}", e.getMessage());
-    }
+    highScoreRepository.save(hs);
   }
 
   private TotalCoins loadTotalCoins() {
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream(GameConstants.TOTAL_COINS_FILE))) {
-      return (TotalCoins) in.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      return new TotalCoins();
-    }
+    return totalCoinsRepository.load();
   }
 
   private void saveTotalCoins(TotalCoins tc) {
-    try (ObjectOutputStream out =
-        new ObjectOutputStream(new FileOutputStream(GameConstants.TOTAL_COINS_FILE))) {
-      out.writeObject(tc);
-    } catch (IOException e) {
-      logger.log(Level.SEVERE, "Error saving coins: {0}", e.getMessage());
-    }
+    totalCoinsRepository.save(tc);
   }
 
   // Helper funtion for translating into other languages

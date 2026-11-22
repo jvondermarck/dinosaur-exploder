@@ -258,6 +258,7 @@ target/classes
 .idea/*
 !.idea/copyright/
 
+savegame.json
 highScore.ser
 totalCoins.ser
 settings.properties

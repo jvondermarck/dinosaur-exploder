@@ -5,33 +5,35 @@
 
 package com.dinosaur.dinosaurexploder.persistence;
 
-import com.dinosaur.dinosaurexploder.constants.GameConstants;
+import com.dinosaur.dinosaurexploder.model.GameState;
 import com.dinosaur.dinosaurexploder.model.HighScore;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/** Real, file-backed implementation used in production. */
+/**
+ * Real, file-backed implementation used in production. The high scores live in the one
+ * human-readable save file {@code savegame.json} (#543); saves are a read-modify-write of that file
+ * so the coins in it are kept.
+ */
 public class FileHighScoreRepository implements HighScoreRepository {
-  private static final Logger LOGGER = Logger.getLogger(FileHighScoreRepository.class.getName());
+
+  private final FileGameStateRepository gameState;
+
+  public FileHighScoreRepository() {
+    this(new FileGameStateRepository());
+  }
+
+  public FileHighScoreRepository(FileGameStateRepository gameState) {
+    this.gameState = gameState;
+  }
 
   @Override
   public HighScore load() {
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream(GameConstants.HIGH_SCORE_FILE))) {
-      return (HighScore) in.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      return new HighScore();
-    }
+    return gameState.load().toHighScore();
   }
 
   @Override
   public void save(HighScore highScore) {
-    try (ObjectOutputStream out =
-        new ObjectOutputStream(new FileOutputStream(GameConstants.HIGH_SCORE_FILE))) {
-      out.writeObject(highScore);
-    } catch (IOException e) {
-      LOGGER.log(Level.INFO, "Error saving high score: {0}", e.getMessage());
-    }
+    GameState state = gameState.load();
+    state.setHighScores(highScore.getAllScores());
+    gameState.save(state);
   }
 }

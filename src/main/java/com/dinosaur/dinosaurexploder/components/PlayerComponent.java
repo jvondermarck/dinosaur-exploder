@@ -236,10 +236,8 @@ public class PlayerComponent extends Component implements Player {
       logger.info(OUT_OF_BOUNDS);
       return;
     }
-    FXGL.play(getClass().getResource(GameConstants.ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV));
     entity.translateY(-movementSpeed);
     if (ally != null) {
-      FXGL.play(getClass().getResource(GameConstants.ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV));
       ally.moveUp(movementSpeed);
     }
     spawnMovementAnimation();
@@ -250,7 +248,6 @@ public class PlayerComponent extends Component implements Player {
       logger.info(OUT_OF_BOUNDS);
       return;
     }
-    FXGL.play(getClass().getResource(GameConstants.ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV));
     entity.translateY(movementSpeed);
     if (ally != null) {
       ally.moveDown(movementSpeed);
@@ -263,7 +260,6 @@ public class PlayerComponent extends Component implements Player {
       logger.info(OUT_OF_BOUNDS);
       return;
     }
-    FXGL.play(getClass().getResource(GameConstants.ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV));
     entity.translateX(movementSpeed);
     if (ally != null) {
       ally.moveRight(movementSpeed);
@@ -276,7 +272,6 @@ public class PlayerComponent extends Component implements Player {
       logger.info(OUT_OF_BOUNDS);
       return;
     }
-    FXGL.play(getClass().getResource(GameConstants.ASSETS_SOUNDS_SPACECRAFT_WHOOSH_WAV));
     entity.translateX(-movementSpeed);
     if (ally != null) {
       ally.moveLeft(movementSpeed);

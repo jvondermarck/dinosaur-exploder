@@ -17,7 +17,7 @@
   "controls_hint": "Clique numa tecla para alterá-la. O movimento, a pausa e o disparo com o mouse no modo Especialista não mudam.",
   "controls_reserved_key": "Use uma letra, um número ou um sinal sem modificadores. WASD e as teclas de menu e navegação estão reservadas.",
   "controls_duplicate_key": "Essa tecla já está atribuída a outra ação.",
-  "controls_reset": "Restaurar padrões",
+  "controls_reset": "Redefinir",
   "controls_apply": "Aplicar",
   "controls_cancel": "Cancelar",
   "controls_save_error": "Não foi possível salvar os controles. Tente novamente.",

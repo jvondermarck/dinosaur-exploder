@@ -18,7 +18,7 @@
   "controls_hint": "Fai clic su un tasto per cambiarlo. Movimento, pausa e sparo con il mouse in modalità Esperto non cambiano.",
   "controls_reserved_key": "Usa una lettera, un numero o un segno senza modificatori. WASD e i tasti di menu e navigazione sono riservati.",
   "controls_duplicate_key": "Questo tasto è già assegnato a un'altra azione.",
-  "controls_reset": "Ripristina predefiniti",
+  "controls_reset": "Ripristina",
   "controls_apply": "Applica",
   "controls_cancel": "Annulla",
   "controls_save_error": "Impossibile salvare i comandi. Riprova.",

@@ -16,15 +16,11 @@ import com.dinosaur.dinosaurexploder.utils.ControlBindings;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
-import java.io.IOException;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -34,6 +30,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+
+import java.io.IOException;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** The same editor is used above both the home settings and the pause menu. */
 public class ControlsMenu extends FXGLMenu {
@@ -51,7 +53,7 @@ public class ControlsMenu extends FXGLMenu {
         createHeaderZone(),
         createOptionsZone(),
         createBackButton(),
-        50,
+        1.0,
         getAppWidth(),
         getAppHeight());
   }
@@ -101,6 +103,9 @@ public class ControlsMenu extends FXGLMenu {
         refreshKeys();
         getRoot().requestFocus();
       });
+      Tooltip toolTip = new Tooltip(t("controls_reserved_key"));
+      Tooltip.install(key, toolTip);
+
       keyButtons.put(action, key);
       HBox row = new HBox(20, label, key);
       keyBindings.add(label, 0, rowCount);
@@ -145,7 +150,7 @@ public class ControlsMenu extends FXGLMenu {
         MenuHelper.createTitleFlow(
             languageManager.getTranslation("controls").toUpperCase(), getAppWidth() * 0.8);
 
-    VBox headerZone = new VBox(25, titleFlow);
+    VBox headerZone = new VBox(500, titleFlow);
     headerZone.setAlignment(Pos.CENTER);
     return headerZone;
   }

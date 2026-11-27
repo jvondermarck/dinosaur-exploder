@@ -28,6 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -105,7 +106,7 @@ public class ControlsMenu extends FXGLMenu {
         getRoot().requestFocus();
       });
       Tooltip toolTip = new Tooltip(t("controls_reserved_key"));
-      Tooltip.install(key, toolTip);
+      key.setTooltip(toolTip);
 
       keyButtons.put(action, key);
       HBox row = new HBox(20, label, key);

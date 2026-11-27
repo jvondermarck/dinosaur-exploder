@@ -5,8 +5,9 @@
 
 package com.dinosaur.dinosaurexploder.view;
 
+import com.almasb.fxgl.app.scene.FXGLMenu;
+import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.scene.SubScene;
 import com.dinosaur.dinosaurexploder.components.GameControlsComponent;
 import com.dinosaur.dinosaurexploder.components.GameControlsComponent.ControlType;
 import com.dinosaur.dinosaurexploder.model.ControlAction;
@@ -15,42 +16,60 @@ import com.dinosaur.dinosaurexploder.utils.ControlBindings;
 import com.dinosaur.dinosaurexploder.utils.LanguageManager;
 import com.dinosaur.dinosaurexploder.utils.MenuHelper;
 import com.dinosaur.dinosaurexploder.utils.SettingsProvider;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
 import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 /** The same editor is used above both the home settings and the pause menu. */
-public class ControlsMenu extends SubScene {
+public class ControlsMenu extends FXGLMenu {
   private static final Logger LOGGER = Logger.getLogger(ControlsMenu.class.getName());
   private final LanguageManager languageManager = LanguageManager.getInstance();
   private final Map<ControlAction, Button> keyButtons = new EnumMap<>(ControlAction.class);
   private final Text status = new Text();
   private KeyBindings draft = SettingsProvider.loadKeyBindings();
   private ControlAction capturing;
+  private static final int ZONE_SPACING = 50;
 
   public ControlsMenu() {
-    double width = FXGL.getAppWidth();
-    double height = FXGL.getAppHeight();
+    super(MenuType.GAME_MENU);
+    MenuHelper.setupSelectionMenu(
+        this,
+        createHeaderZone(),
+        createOptionsZone(),
+        createBackButton(),
+        ZONE_SPACING,
+        getAppWidth(),
+        getAppHeight());
+  }
+
+  private Node createOptionsZone() {
     VBox content = new VBox(12);
     content.setAlignment(Pos.CENTER);
     content.setPadding(new Insets(20));
-    content.getChildren().add(MenuHelper.createTitleFlow(t("controls"), width * 0.8));
+
+    GridPane gridPane = new GridPane(25, 2);
+    gridPane.setAlignment(Pos.CENTER);
     VBox fixedControls = new VBox(3);
     fixedControls.setAlignment(Pos.CENTER);
+    int rowCount = 0;
     for (ControlType type :
         new ControlType[] {
           ControlType.MOVE_UP,
@@ -59,17 +78,25 @@ public class ControlsMenu extends SubScene {
           ControlType.MOVE_RIGHT,
           ControlType.PAUSE_GAME
         }) {
-      Text fixedControl = new Text(GameControlsComponent.getControlText(type));
-      fixedControl.setFill(Color.LIME);
-      fixedControls.getChildren().add(fixedControl);
+      String[] splitKey = GameControlsComponent.getControlText(type).split(":");
+      Text fixedKey = new Text(splitKey[0]);
+      Text fixedKeyDescr = new Text(splitKey[1]);
+      fixedKey.setFill(Color.LIME);
+      fixedKeyDescr.setFill(Color.LIME);
+      gridPane.add(fixedKey, 0, rowCount);
+      gridPane.add(fixedKeyDescr, 1, rowCount);
+      rowCount++;
     }
-    content.getChildren().add(fixedControls);
+    content.getChildren().add(gridPane);
+
+    GridPane keyBindings = new GridPane(25, 25);
+    keyBindings.setAlignment(Pos.CENTER);
+    rowCount = 0;
     for (ControlAction action : ControlAction.values()) {
       Text label = new Text(GameControlsComponent.getActionLabel(action));
       label.setFill(Color.LIME);
       Button key = MenuHelper.createStyledButton(draft.keyFor(action).getName());
       key.setMinSize(130, 44);
-      key.setMaxWidth(width * 0.4);
       key.setWrapText(true);
       key.setOnAction(event -> {
         capturing = action;
@@ -78,48 +105,59 @@ public class ControlsMenu extends SubScene {
         refreshKeys();
         getRoot().requestFocus();
       });
+      Tooltip toolTip = new Tooltip(t("controls_reserved_key"));
+      key.setTooltip(toolTip);
+
       keyButtons.put(action, key);
       HBox row = new HBox(20, label, key);
+      keyBindings.add(label, 0, rowCount);
+      keyBindings.add(key, 1, rowCount);
+      rowCount++;
       row.setAlignment(Pos.CENTER);
-      content.getChildren().add(row);
     }
+    content.getChildren().add(keyBindings);
+
     Text hint = new Text(t("controls_hint"));
     hint.setFill(Color.LIME);
-    hint.setWrappingWidth(width * 0.8);
-    status.setWrappingWidth(width * 0.8);
     status.setFill(Color.LIME);
 
+    getRoot().setFocusTraversable(true);
+    getRoot().addEventFilter(KeyEvent.KEY_PRESSED, this::captureKey);
+    return content;
+  }
+
+  private Node createBackButton() {
+    Button backButton =
+        MenuHelper.createStyledButton(languageManager.getTranslation("back").toUpperCase());
+    backButton.setOnAction(event -> fireResume());
+
     Button reset = MenuHelper.createStyledButton(t("controls_reset"));
-    reset.setMinHeight(44);
-    reset.setMaxWidth(width * 0.8);
     reset.setWrapText(true);
     reset.setOnAction(event -> {
       draft = KeyBindings.defaults();
       capturing = null;
       status.setText("");
+      apply();
       refreshKeys();
     });
-    Button apply = MenuHelper.createStyledButton(t("controls_apply"));
-    apply.setMinHeight(44);
-    apply.setOnAction(event -> apply());
-    Button cancel = MenuHelper.createStyledButton(t("controls_cancel"));
-    cancel.setMinHeight(44);
-    cancel.setOnAction(event -> close());
-    HBox actions = new HBox(12, apply, cancel);
-    actions.setAlignment(Pos.CENTER);
-    content.getChildren().addAll(hint, status, reset, actions);
+    reset.setMaxWidth(Double.MAX_VALUE);
+    backButton.setMaxWidth(Double.MAX_VALUE);
 
-    ScrollPane scroll = new ScrollPane(content);
-    scroll.setFitToWidth(true);
-    scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-    scroll.setStyle("-fx-background: black; -fx-background-color: transparent;");
-    scroll.setMaxSize(width, height);
-    StackPane container =
-        new StackPane(new Rectangle(width, height, Color.color(0, 0, 0, 0.95)), scroll);
-    container.setPrefSize(width, height);
-    getContentRoot().getChildren().add(container);
-    getRoot().setFocusTraversable(true);
-    getRoot().addEventFilter(KeyEvent.KEY_PRESSED, this::captureKey);
+    TilePane backButtons = new TilePane();
+    backButtons.setAlignment(Pos.CENTER);
+    backButtons.setHgap(12.0);
+    backButtons.getChildren().addAll(backButton, reset);
+
+    return backButtons;
+  }
+
+  private VBox createHeaderZone() {
+    TextFlow titleFlow =
+        MenuHelper.createTitleFlow(
+            languageManager.getTranslation("controls").toUpperCase(), getAppWidth() * 0.8);
+    VBox headerZone = new VBox(50, titleFlow);
+    headerZone.setAlignment(Pos.CENTER);
+    return headerZone;
   }
 
   private void captureKey(KeyEvent event) {
@@ -144,6 +182,7 @@ public class ControlsMenu extends SubScene {
       draft = draft.withKey(capturing, event.getCode());
       capturing = null;
       status.setText("");
+      apply();
     } catch (IllegalArgumentException ex) {
       status.setFill(Color.ORANGERED);
       status.setText(t(ex.getMessage()));
@@ -159,7 +198,6 @@ public class ControlsMenu extends SubScene {
   private void apply() {
     try {
       ControlBindings.save(FXGL.getInput(), draft);
-      close();
     } catch (IOException | IllegalArgumentException | IllegalStateException ex) {
       LOGGER.log(Level.WARNING, "Unable to apply custom controls", ex);
       status.setFill(Color.ORANGERED);

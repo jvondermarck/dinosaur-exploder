@@ -45,6 +45,7 @@ public class ControlsMenu extends FXGLMenu {
   private final Text status = new Text();
   private KeyBindings draft = SettingsProvider.loadKeyBindings();
   private ControlAction capturing;
+  private static final int ZONE_SPACING = 50;
 
   public ControlsMenu() {
     super(MenuType.GAME_MENU);
@@ -53,7 +54,7 @@ public class ControlsMenu extends FXGLMenu {
         createHeaderZone(),
         createOptionsZone(),
         createBackButton(),
-        1.0,
+        ZONE_SPACING,
         getAppWidth(),
         getAppHeight());
   }
@@ -138,8 +139,12 @@ public class ControlsMenu extends FXGLMenu {
       apply();
       refreshKeys();
     });
+    reset.setMaxWidth(Double.MAX_VALUE);
+    backButton.setMaxWidth(Double.MAX_VALUE);
+
     TilePane backButtons = new TilePane();
-    backButton.setAlignment(Pos.BASELINE_CENTER);
+    backButtons.setAlignment(Pos.CENTER);
+    backButtons.setHgap(12.0);
     backButtons.getChildren().addAll(backButton, reset);
 
     return backButtons;
@@ -149,8 +154,7 @@ public class ControlsMenu extends FXGLMenu {
     TextFlow titleFlow =
         MenuHelper.createTitleFlow(
             languageManager.getTranslation("controls").toUpperCase(), getAppWidth() * 0.8);
-
-    VBox headerZone = new VBox(500, titleFlow);
+    VBox headerZone = new VBox(50, titleFlow);
     headerZone.setAlignment(Pos.CENTER);
     return headerZone;
   }
